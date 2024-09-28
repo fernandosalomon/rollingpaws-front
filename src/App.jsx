@@ -1,7 +1,13 @@
-import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router } from "react-router-dom";
+import PageViews from "./routes/PageViews";
 
 const App = () => {
-  return <div>App</div>;
+  return (
+    <Router>
+      <PageViews />
+    </Router>
+  );
 };
 
 export default App;
