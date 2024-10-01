@@ -1,7 +1,7 @@
 .customButton {
   margin: 0 10px;
   align-items: center;
-  background-color: #ffbd89;
+  background-color: var(--main-color);
   border: 0;
   border-radius: 100px;
   box-sizing: border-box;
@@ -29,13 +29,15 @@
 
 .customButton:hover,
 .customButton:focus {
-  background-color: var(--main-color);
-  color: #ffffff;
+  border: 2px solid var(--black-color);
+  background-color: transparent;
+  color: var(--black-color);
 }
 
 .customButton:active {
-  background: var(--main-color-lighter);
-  color: rgb(255, 255, 255, 0.7);
+  border: 2px solid var(--black-color);
+  background: transparent;
+  color: var(--black-color);
 }
 
 .customButton:disabled {
