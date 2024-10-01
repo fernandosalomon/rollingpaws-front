@@ -1,5 +1,13 @@
+import HomePageBanner from "../components/HomePageBanner";
+import "../styles/HomePage.css";
+
 const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <>
+      <div className="page-bg"></div>
+      <HomePageBanner />
+    </>
+  );
 };
 
 export default HomePage;

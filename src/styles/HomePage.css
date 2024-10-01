@@ -1,0 +1,13 @@
+.page-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../assets/img/HomePage-bg-img.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #cccccc;
+  z-index: -1;
+}
