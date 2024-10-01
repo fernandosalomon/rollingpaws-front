@@ -29,12 +29,12 @@
 
 .customButton:hover,
 .customButton:focus {
-  background-color: #f19a56;
+  background-color: var(--main-color);
   color: #ffffff;
 }
 
 .customButton:active {
-  background: #f19a56;
+  background: var(--main-color-lighter);
   color: rgb(255, 255, 255, 0.7);
 }
 

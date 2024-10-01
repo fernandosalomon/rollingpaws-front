@@ -1,5 +1,6 @@
 nav {
-  margin: 0 100px;
+  margin: 20px auto 0 auto;
+  width: 90%;
   padding: 10px 50px !important;
   border-radius: 36px;
   background-color: #fffbf5;
