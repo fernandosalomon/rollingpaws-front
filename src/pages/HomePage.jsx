@@ -1,5 +1,6 @@
 import HomePageBanner from "../components/HomePageBanner";
 import HomePageIntro from "../components/HomePageIntro";
+import Testimonials from "../components/Testimonials";
 import "../styles/HomePage.css";
 
 const HomePage = () => {
@@ -8,6 +9,7 @@ const HomePage = () => {
       <div className="page-bg"></div>
       <HomePageBanner />
       <HomePageIntro />
+      <Testimonials />
     </>
   );
 };

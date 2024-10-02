@@ -16,7 +16,7 @@ const HomePageIntro = () => {
             desde chequeos rutinarios hasta tratamientos especializados,
             asegurando que tu compañero peludo reciba el mejor cuidado posible.
             ¡Confía en nosotros para mantener a tus mascotas felices y
-            saludables."
+            saludables!"
             className={"mb-5"}
           />
 
