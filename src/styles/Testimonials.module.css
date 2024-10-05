@@ -1,0 +1,51 @@
+.testimonialContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonialName {
+  margin-top: 16px;
+}
+
+.testimonialComment {
+  text-align: center;
+  font-style: italic;
+  width: 75%;
+  font-size: 22px;
+  padding: 0 45px;
+}
+
+.testimonialAvatarsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.testimonialAvatar {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--black-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--white-color);
+}
+
+.testimonialAvatar img {
+  height: 150px;
+  margin: 0;
+}
+
+.testimonialAvatarOwner {
+  margin-top: -20px;
+  margin-left: 20px;
+}
+
+.testimonialAvatarPet {
+  margin-top: 40px;
+  margin-left: -40px;
+}

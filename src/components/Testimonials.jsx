@@ -6,6 +6,7 @@ import {
   CustomCarouselCaption,
   CustomCarouselPagination,
 } from "./shared/CustomCarousel";
+import style from "../styles/Testimonials.module.css";
 
 const RatingStars = ({ rating }) => {
   return (
@@ -25,21 +26,23 @@ const Testimonials = () => {
     <>
       <CustomCarousel pagination={true}>
         <CustomCarouselItem>
-          <CustomCarouselHeader>
-            <div className="testimonials-avatars-wrapper">
-              <div className="testimonials-avatars testimonials-avatars-owner">
-                <Image src="./src/assets/img/testimonials/dueño-0002.jfif" />
-              </div>
-              <div className="testimonials-avatars testimonials-avatars-pet">
-                <Image src="./src/assets/img/testimonials/mascota-0002.jpeg" />
-              </div>
-            </div>
-          </CustomCarouselHeader>
           <CustomCarouselCaption>
-            <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
-              <h2 className="mt-3">Juan Perez</h2>
+            <div className={style.testimonialContainer}>
+              <div className={style.testimonialAvatarsWrapper}>
+                <div
+                  className={`${style.testimonialAvatar} ${style.testimonialAvatarOwner}`}
+                >
+                  <Image src="./src/assets/img/testimonials/dueño-0002.jfif" />
+                </div>
+                <div
+                  className={`${style.testimonialAvatar} ${style.testimonialAvatarPet}`}
+                >
+                  <Image src="./src/assets/img/testimonials/mascota-0002.jpeg" />
+                </div>
+              </div>
+              <h2 className={style.testimonialName}>Juan Perez</h2>
               <RatingStars rating={4} />
-              <p className="text-center font-italic testimonials-comment">
+              <p className={style.testimonialComment}>
                 “¡Rolling Paws es increíble! El equipo es súper amable y
                 profesional. Mi perrito siempre sale feliz y saludable después
                 de cada visita. ¡No podría pedir un mejor cuidado para mi
@@ -49,55 +52,55 @@ const Testimonials = () => {
           </CustomCarouselCaption>
         </CustomCarouselItem>
         <CustomCarouselItem>
-          <div className="testimonials-wrapper">
-            <CustomCarouselHeader>
-              <div className="testimonials-avatars-wrapper">
-                <div className="testimonials-avatars testimonials-avatars-owner">
-                  <Image src="./src/assets/img/testimonials/dueño-0003.webp" />
+          <CustomCarouselCaption>
+            <div className={style.testimonialContainer}>
+              <div className={style.testimonialAvatarsWrapper}>
+                <div
+                  className={`${style.testimonialAvatar} ${style.testimonialAvatarOwner}`}
+                >
+                  <Image src="./src/assets/img/testimonials/dueño-0003.png" />
                 </div>
-                <div className="testimonials-avatars testimonials-avatars-pet">
-                  <Image src="./src/assets/img/testimonials/mascota-0004.png" />
+                <div
+                  className={`${style.testimonialAvatar} ${style.testimonialAvatarPet}`}
+                >
+                  <Image src="./src/assets/img/testimonials/mascota-0004.jfif" />
                 </div>
               </div>
-            </CustomCarouselHeader>
-            <CustomCarouselCaption>
-              <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                <h2 className="mt-3">Emiliana Torres</h2>
-                <RatingStars rating={5} />
-                <p className="text-center font-italic testimonials-comment">
-                  “¡Rolling Paws es increíble! El equipo es súper amable y
-                  profesional. Mi perrita siempre sale feliz y saludable después
-                  de cada visita. ¡No podría pedir un mejor cuidado para mi
-                  mascota!“
-                </p>
-              </div>
-            </CustomCarouselCaption>
-          </div>
+              <h2 className={style.testimonialName}>Emiliana Torres</h2>
+              <RatingStars rating={5} />
+              <p className={style.testimonialComment}>
+                “¡Rolling Paws es increíble! El equipo es súper amable y
+                profesional. Mi perrita siempre sale feliz y saludable después
+                de cada visita. ¡No podría pedir un mejor cuidado para mi
+                mascota!“
+              </p>
+            </div>
+          </CustomCarouselCaption>
         </CustomCarouselItem>
         <CustomCarouselItem>
-          <div className="testimonials-wrapper">
-            <CustomCarouselHeader>
-              <div className="testimonials-avatars-wrapper">
-                <div className="testimonials-avatars testimonials-avatars-owner">
+          <CustomCarouselCaption>
+            <div className={style.testimonialContainer}>
+              <div className={style.testimonialAvatarsWrapper}>
+                <div
+                  className={`${style.testimonialAvatar} ${style.testimonialAvatarOwner}`}
+                >
                   <Image src="./src/assets/img/testimonials/dueño-0004.jfif"></Image>
                 </div>
-                <div className="testimonials-avatars testimonials-avatars-pet">
+                <div
+                  className={`${style.testimonialAvatar} ${style.testimonialAvatarPet}`}
+                >
                   <Image src="./src/assets/img/testimonials/mascota-0003.jpeg"></Image>
                 </div>
               </div>
-            </CustomCarouselHeader>
-            <CustomCarouselCaption>
-              <div className="d-flex flex-column align-items-center justify-content-center flex-grow-1">
-                <h2 className="mt-3">Marcos Serrano</h2>
-                <RatingStars rating={4} />
-                <p className="text-center font-italic testimonials-comment">
-                  “Rolling Paws ofrece un buen servicio veterinario. El personal
-                  es competente y mi gato siempre recibe la atención necesaria.
-                  Estoy satisfecho con su trabajo.”
-                </p>
-              </div>
-            </CustomCarouselCaption>
-          </div>
+              <h2 className={style.testimonialName}>Marcos Serrano</h2>
+              <RatingStars rating={4} />
+              <p className={style.testimonialComment}>
+                “Rolling Paws ofrece un buen servicio veterinario. El personal
+                es competente y mi gato siempre recibe la atención necesaria.
+                Estoy satisfecho con su trabajo.”
+              </p>
+            </div>
+          </CustomCarouselCaption>
         </CustomCarouselItem>
       </CustomCarousel>
     </>
