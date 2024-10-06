@@ -1,25 +1,29 @@
-import prev from "../../assets/img/left-arrow.svg";
-import next from "../../assets/img/right-arrow.svg";
-import Image from "react-bootstrap/Image";
-import style from "../../styles/CustomCarousel.module.css";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import style from "../../styles/Slideshow.module.css";
+import { motion } from "framer-motion";
 
-export const CustomCarouselItem = ({ children }) => {
-  return <>{children}</>;
+export const Slide = ({ children }) => {
+  return <div className={style.Slide}>{children}</div>;
 };
 
-export const CustomCarouselHeader = ({ children }) => {
-  return <div className={style.carouselHeader}>{children}</div>;
-};
-
-export const CustomCarouselCaption = ({ children }) => {
-  return <div className={style.carouselCaption}>{children}</div>;
-};
-
-export const CustomCarouselPagination = ({ numberOfSlides, currentSlide }) => {
+const SlideshowSlider = ({ children, currentSlide }) => {
   return (
-    <div className={style.paginationContainer}>
+    <motion.div
+      className={style.SlideshowSlider}
+      animate={{ transform: `translate3d(${-currentSlide * 100}%, 0, 0)` }}
+      transition={{ ease: "easeOut", duration: 1 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const SlideshowPagination = ({ numberOfSlides, currentSlide }) => {
+  return (
+    <div
+      className={style.paginationContainer}
+      style={{ bottom: 0, left: `calc(50% - ${(numberOfSlides - 1) * 14}px)` }}
+    >
       {[...Array(numberOfSlides)].map((_, count) => (
         <div
           className={`${style.pagination} ${
@@ -32,7 +36,7 @@ export const CustomCarouselPagination = ({ numberOfSlides, currentSlide }) => {
   );
 };
 
-export const ControlButton = ({ variant, onClick }) => {
+const ControlButton = ({ variant, onClick }) => {
   return (
     <>
       <button
@@ -56,7 +60,7 @@ export const ControlButton = ({ variant, onClick }) => {
   );
 };
 
-export const CustomCarousel = ({ children, pagination }) => {
+export const Slideshow = ({ children, pagination, backgroundColor }) => {
   const [numberOfSlides, setNumberOfSlides] = useState(children.length);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -76,32 +80,23 @@ export const CustomCarousel = ({ children, pagination }) => {
     }
   };
 
-  const Slide = ({ children, currentSlide }) => {
-    return (
-      <motion.div
-        initial={{ marginLeft: "-100vw" }}
-        animate={{ marginLeft: 0 }}
-        exit={{ marginLeft: "100vw" }}
-        transition={{ duration: 0.7 }}
-      >
-        {children[currentSlide]}
-      </motion.div>
-    );
-  };
-
   return (
     <>
-      <div className={style.carouselContainer}>
-        <AnimatePresence mode="wait" initial={false}>
-          <Slide currentSlide={currentSlide}>{children}</Slide>
-        </AnimatePresence>
-
+      <div
+        className={style.Slideshow}
+        style={{ backgroundColor: backgroundColor }}
+      >
         <ControlButton variant="prevButton" onClick={handlePrev} />
-
         <ControlButton variant="nextButton" onClick={handleNext} />
-
+        <SlideshowSlider
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+          currentSlide={currentSlide}
+        >
+          {children}
+        </SlideshowSlider>
         {pagination && (
-          <CustomCarouselPagination
+          <SlideshowPagination
             numberOfSlides={numberOfSlides}
             currentSlide={currentSlide}
           />
