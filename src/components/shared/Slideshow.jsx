@@ -10,7 +10,7 @@ const SlideshowSlider = ({ children, currentSlide }) => {
   return (
     <motion.div
       className={style.SlideshowSlider}
-      animate={{ transform: `translate3d(${-currentSlide * 100}%, 0, 0)` }}
+      animate={{ transform: `translate(${-currentSlide * 100}%)` }}
       transition={{ ease: "easeOut", duration: 1 }}
     >
       {children}
@@ -22,7 +22,10 @@ const SlideshowPagination = ({ numberOfSlides, currentSlide }) => {
   return (
     <div
       className={style.paginationContainer}
-      style={{ bottom: 0, left: `calc(50% - ${(numberOfSlides - 1) * 14}px)` }}
+      style={{
+        bottom: "10px",
+        left: `calc(50% - ${(numberOfSlides - 1) * 14}px)`,
+      }}
     >
       {[...Array(numberOfSlides)].map((_, count) => (
         <div
@@ -93,7 +96,7 @@ export const Slideshow = ({ children, pagination, backgroundColor }) => {
           handleNext={handleNext}
           currentSlide={currentSlide}
         >
-          {children}
+          <div className={style.SlideshowSliderWrapper}>{children}</div>
         </SlideshowSlider>
         {pagination && (
           <SlideshowPagination

@@ -1,3 +1,7 @@
+.SlideshowSliderWrapper {
+  padding: 20px 0;
+}
+
 .SlideshowSlider {
   white-space: nowrap;
 }
