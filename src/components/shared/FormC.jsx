@@ -45,6 +45,7 @@ const FormC = ({ variant }) => {
               />
               {errors.username && (
                 <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
                   {errors.username.message}
                 </span>
               )}
@@ -68,7 +69,12 @@ const FormC = ({ variant }) => {
                   },
                 })}
               />
-              {errors.email && <span>{errors.email.message}</span>}
+              {errors.email && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.email.message}
+                </span>
+              )}
             </Form.Group>
           </Col>
 
@@ -96,7 +102,12 @@ const FormC = ({ variant }) => {
                   },
                 })}
               />
-              {errors.password && <span>{errors.password.message}</span>}
+              {errors.password && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.password.message}
+                </span>
+              )}
             </Form.Group>
           </Col>
 
@@ -113,7 +124,10 @@ const FormC = ({ variant }) => {
                 })}
               />
               {errors.repeatPassword && (
-                <span>{errors.repeatPassword.message}</span>
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.repeatPassword.message}
+                </span>
               )}
             </Form.Group>
           </Col>
@@ -129,7 +143,10 @@ const FormC = ({ variant }) => {
                 })}
               />
               {errors.termsAndConditions && (
-                <span>{errors.termsAndConditions.message}</span>
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.termsAndConditions.message}
+                </span>
               )}
             </Form.Group>
           </Col>
