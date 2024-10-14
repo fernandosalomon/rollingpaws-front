@@ -1,8 +1,8 @@
 import "../../styles/button.css";
 
-const ButtonC = ({ children, onClick, ...rest }) => {
+const ButtonC = ({ children, onClick, className, ...rest }) => {
   return (
-    <button onClick={onClick} className="customButton">
+    <button onClick={onClick} className={`customButton ${className}`}>
       {children}
     </button>
   );

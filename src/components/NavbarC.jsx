@@ -18,10 +18,22 @@ const SignUpModal = ({ show, handleClose }) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Registrarse</Modal.Title>
-        </Modal.Header>
         <Modal.Body>
+          <div
+            className="d-flex justify-content-end w-100"
+            style={{ marginTop: "-10px" }}
+          >
+            <button
+              style={{
+                border: 0,
+                backgroundColor: "transparent",
+                fontSize: "1.5rem",
+              }}
+              onClick={handleClose}
+            >
+              X
+            </button>
+          </div>
           <FormC variant="sign-up" />
         </Modal.Body>
       </Modal>

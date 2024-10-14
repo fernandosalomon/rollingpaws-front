@@ -1,5 +1,100 @@
+.form {
+  padding: 0 2rem 1rem 2rem;
+}
+
+.formTitle {
+  font-family: var(--font-poppins);
+  font-size: x-large;
+  margin: 1rem 0;
+}
+
+.formInfo {
+  font-family: var(--font-poppins);
+}
+
+.formLabel {
+  font-family: var(--font-poppins);
+  font-weight: 500;
+}
+
+.formInput {
+  width: 98%;
+  border-radius: 14px;
+  justify-self: center;
+  background-color: var(--secondary-color-lighter);
+}
+
+.formInput:active,
+.formInput:focus {
+  outline: 0;
+  box-shadow: none;
+  background-color: var(--secondary-color-lighter);
+  border-color: var(--secondary-color);
+}
+
+.formCheck input:checked {
+  outline: 0;
+  box-shadow: none;
+  background-color: var(--main-color);
+  border-color: var(--secondary-color);
+}
+
+.formCheck input:focus {
+  outline: 0;
+  box-shadow: none;
+  border-color: var(--main-color);
+}
+
+.formSubmitButton {
+  width: calc(100% - 20px);
+}
+
 .errorMessage {
   color: red;
   font-size: small;
   margin-left: 5px;
+}
+
+.changeFormLink {
+  color: var(--main-color);
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 0.2rem;
+}
+
+.dividerBar {
+  position: relative;
+  width: 100%;
+  height: 40px;
+}
+
+.dividerBar div {
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  top: 20px;
+  z-index: 1;
+}
+
+.dividerBar p {
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 5px);
+  margin: 0;
+  z-index: 2;
+  background-color: #fff;
+  padding: 0 5px;
+}
+
+.accessWithGoogleBtn {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 0.5rem 0 !important;
+  background-color: transparent;
+  border-color: var(--main-color);
 }

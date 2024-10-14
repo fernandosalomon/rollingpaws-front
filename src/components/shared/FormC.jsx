@@ -1,11 +1,10 @@
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
+import ButtonC from "./ButtonC";
+import { useState } from "react";
 
-const FormC = ({ variant }) => {
+const SignUpForm = ({ handleChangeForm }) => {
   const {
     register,
     handleSubmit,
@@ -19,145 +18,342 @@ const FormC = ({ variant }) => {
 
   return (
     <>
-      <Form onSubmit={onSubmit}>
-        <Row>
-          <Col sm={12}>
-            <Form.Group className="mb-3" controlId="SignUpName">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Ingrese su Nombre"
-                {...register("username", {
-                  required: { value: true, message: "Campo requerido" },
-                  minLength: {
-                    value: 2,
-                    message: "Mínimo requerido: 2 caracteres",
-                  },
-                  maxLength: {
-                    value: 40,
-                    message: "Máximo permitido: 40 caracteres",
-                  },
-                  pattern: {
-                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                    message: "Formato de nombre inválido.",
-                  },
-                })}
-              />
-              {errors.username && (
-                <span className={style.errorMessage}>
-                  <i className="bi bi-exclamation-circle-fill me-1"></i>
-                  {errors.username.message}
-                </span>
-              )}
-            </Form.Group>
-          </Col>
+      <Form onSubmit={onSubmit} className={style.form}>
+        <h2 className={style.formTitle}>Registrarse</h2>
 
-          <Col sm={12}>
-            <Form.Group className="mb-3" controlId="SignUpEmail">
-              <Form.Label>Correo Electrónico</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Ingrese su Email"
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Campo requerido",
-                  },
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
-                    message: "Formato de email inválido.",
-                  },
-                })}
-              />
-              {errors.email && (
-                <span className={style.errorMessage}>
-                  <i className="bi bi-exclamation-circle-fill me-1"></i>
-                  {errors.email.message}
-                </span>
-              )}
-            </Form.Group>
-          </Col>
+        <p className={style.formInfo}>
+          Registrate para poder reservar citas con nuestros médicos, comprar en
+          la tienda, acceder a nuestros planes de salud y mucho más
+        </p>
 
-          <Col sm={6}>
-            <Form.Group className="mb-3" controlId="SignUpPassword">
-              <Form.Label>Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "Campo requerido",
-                  },
-                  minLength: {
-                    value: 8,
-                    message:
-                      "La contraseña debe contener al menos 8 caracteres",
-                  },
-                  pattern: {
-                    value:
-                      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                    message:
-                      "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
-                  },
-                })}
-              />
-              {errors.password && (
-                <span className={style.errorMessage}>
-                  <i className="bi bi-exclamation-circle-fill me-1"></i>
-                  {errors.password.message}
-                </span>
-              )}
-            </Form.Group>
-          </Col>
+        <Form.Group className="mb-3 d-grid" controlId="SignUpName">
+          <Form.Label className={style.formLabel}>Nombre</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Ingrese su Nombre"
+            className={style.formInput}
+            {...register("username", {
+              required: { value: true, message: "Campo requerido" },
+              minLength: {
+                value: 2,
+                message: "Mínimo requerido: 2 caracteres",
+              },
+              maxLength: {
+                value: 40,
+                message: "Máximo permitido: 40 caracteres",
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                message: "Formato de nombre inválido.",
+              },
+            })}
+          />
+          {errors.username && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.username.message}
+            </span>
+          )}
+        </Form.Group>
 
-          <Col sm={6}>
-            <Form.Group className="mb-3" controlId="SignUpRepeatPassword">
-              <Form.Label>Repetir Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                {...register("repeatPassword", {
-                  validate: (value) =>
-                    watch("password") === value ||
-                    "Las contraseñas deben coincidir",
-                })}
-              />
-              {errors.repeatPassword && (
-                <span className={style.errorMessage}>
-                  <i className="bi bi-exclamation-circle-fill me-1"></i>
-                  {errors.repeatPassword.message}
-                </span>
-              )}
-            </Form.Group>
-          </Col>
+        <Form.Group className="mb-3 d-grid" controlId="SignUpEmail">
+          <Form.Label className={style.formLabel}>
+            Correo Electrónico
+          </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Ingrese su Email"
+            className={style.formInput}
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
+            })}
+          />
+          {errors.email && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.email.message}
+            </span>
+          )}
+        </Form.Group>
 
-          <Col sm={12}>
-            <Form.Group className="mb-3" controlId="SignUpTermsAndConditions">
-              <Form.Check
-                type="checkbox"
-                label="Acepto los terminos y condiciones"
-                {...register("termsAndConditions", {
-                  validate: (value) =>
-                    value || "Debe aceptar los terminos y condiciones",
-                })}
-              />
-              {errors.termsAndConditions && (
-                <span className={style.errorMessage}>
-                  <i className="bi bi-exclamation-circle-fill me-1"></i>
-                  {errors.termsAndConditions.message}
-                </span>
-              )}
-            </Form.Group>
-          </Col>
+        <Form.Group className="mb-3 d-grid" controlId="SignUpPassword">
+          <Form.Label className={style.formLabel}>Contraseña</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            className={style.formInput}
+            {...register("password", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              minLength: {
+                value: 8,
+                message: "La contraseña debe contener al menos 8 caracteres",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                message:
+                  "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
+              },
+            })}
+          />
+          {errors.password && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.password.message}
+            </span>
+          )}
+        </Form.Group>
 
-          <Col sm={12} className="d-flex justify-content-center">
-            <Button variant="primary" type="submit" className="w-75 ">
-              Registrarse
-            </Button>
-          </Col>
-        </Row>
+        <Form.Group className="mb-3 d-grid" controlId="SignUpRepeatPassword">
+          <Form.Label className={style.formLabel}>
+            Repetir Contraseña
+          </Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            className={style.formInput}
+            {...register("repeatPassword", {
+              validate: (value) =>
+                watch("password") === value ||
+                "Las contraseñas deben coincidir",
+            })}
+          />
+          {errors.repeatPassword && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.repeatPassword.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <Form.Group
+          className="mb-3 d-grid"
+          controlId="SignUpTermsAndConditions"
+        >
+          <Form.Check
+            type="checkbox"
+            label="Acepto los terminos y condiciones"
+            className={style.formCheck}
+            {...register("termsAndConditions", {
+              validate: (value) =>
+                value || "Debe aceptar los terminos y condiciones",
+            })}
+          />
+          {errors.termsAndConditions && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.termsAndConditions.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <ButtonC type="submit" className={style.formSubmitButton}>
+          Registrarse
+        </ButtonC>
+        <Form.Text className="d-block text-center mt-3">
+          ¿Ya tienes una cuenta?{" "}
+          <spam
+            className={style.changeFormLink}
+            onClick={() => {
+              handleChangeForm("sign-in");
+            }}
+          >
+            Accede desde aquí
+          </spam>
+        </Form.Text>
       </Form>
+      <div className={style.dividerBar}>
+        <div></div>
+        <p>O</p>
+      </div>
+
+      <button className={style.accessWithGoogleBtn} onClick={() => {}}>
+        <svg
+          width="30px"
+          height="30px"
+          viewBox="-3 0 262 262"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid"
+        >
+          <path
+            d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+            fill="#4285F4"
+          />
+          <path
+            d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+            fill="#34A853"
+          />
+          <path
+            d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+            fill="#FBBC05"
+          />
+          <path
+            d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+            fill="#EB4335"
+          />
+        </svg>
+        <p className="m-0">Acceder con Google</p>
+      </button>
+    </>
+  );
+};
+
+const SignInForm = ({ handleChangeForm }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  return (
+    <>
+      <Form onSubmit={onSubmit} className={style.form}>
+        <h2 className={style.formTitle}>Iniciar Sesión</h2>
+
+        <p className={style.formInfo}>
+          Inicia sesión para poder reservar citas con nuestros médicos, comprar
+          en la tienda, acceder a nuestros planes de salud y mucho más
+        </p>
+
+        <Form.Group className="mb-3 d-grid" controlId="SignUpEmail">
+          <Form.Label className={style.formLabel}>
+            Correo Electrónico
+          </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Ingrese su Email"
+            className={style.formInput}
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
+            })}
+          />
+          {errors.email && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.email.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-3 d-grid" controlId="SignUpPassword">
+          <Form.Label className={style.formLabel}>Contraseña</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            className={style.formInput}
+            {...register("password", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              minLength: {
+                value: 8,
+                message: "La contraseña debe contener al menos 8 caracteres",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                message:
+                  "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
+              },
+            })}
+          />
+          {errors.password && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.password.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <ButtonC type="submit" className={style.formSubmitButton}>
+          Iniciar Sesión
+        </ButtonC>
+        <Form.Text className="d-block text-center mt-3">
+          ¿No tienes una cuenta?
+          <spam
+            className={style.changeFormLink}
+            onClick={() => {
+              handleChangeForm("sign-up");
+            }}
+          >
+            Registrate aquí
+          </spam>
+        </Form.Text>
+      </Form>
+      <div className={style.dividerBar}>
+        <div></div>
+        <p>O</p>
+      </div>
+
+      <button className={style.accessWithGoogleBtn} onClick={() => {}}>
+        <svg
+          width="30px"
+          height="30px"
+          viewBox="-3 0 262 262"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid"
+        >
+          <path
+            d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+            fill="#4285F4"
+          />
+          <path
+            d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+            fill="#34A853"
+          />
+          <path
+            d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+            fill="#FBBC05"
+          />
+          <path
+            d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+            fill="#EB4335"
+          />
+        </svg>
+        <p className="m-0">Acceder con Google</p>
+      </button>
+    </>
+  );
+};
+
+const FormC = ({ variant }) => {
+  const [formType, setFormType] = useState(variant);
+
+  const handleChangeForm = (form) => {
+    setFormType(form);
+  };
+
+  return (
+    <>
+      {formType === "sign-up" && (
+        <SignUpForm handleChangeForm={handleChangeForm} />
+      )}
+      {formType === "sign-in" && (
+        <SignInForm handleChangeForm={handleChangeForm} />
+      )}
     </>
   );
 };
