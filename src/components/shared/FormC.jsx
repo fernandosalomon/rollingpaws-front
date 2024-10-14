@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
+import style from "../../styles/FormC.module.css";
 
 const FormC = ({ variant }) => {
   const {
@@ -42,7 +43,11 @@ const FormC = ({ variant }) => {
                   },
                 })}
               />
-              {errors.username && <span>{errors.username.message}</span>}
+              {errors.username && (
+                <span className={style.errorMessage}>
+                  {errors.username.message}
+                </span>
+              )}
             </Form.Group>
           </Col>
 
