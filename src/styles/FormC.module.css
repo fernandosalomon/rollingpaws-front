@@ -1,19 +1,17 @@
 .form {
-  padding: 0 2rem 1rem 2rem;
+  padding: 0 1rem 1rem 1rem;
 }
 
 .formTitle {
   font-family: var(--font-poppins);
-  font-size: x-large;
-  margin: 1rem 0;
-}
-
-.formInfo {
-  font-family: var(--font-poppins);
+  font-size: clamp(2rem, 10vw, 2.5rem);
+  margin: 2rem 0;
+  text-align: center;
 }
 
 .formLabel {
   font-family: var(--font-poppins);
+  font-size: clamp(16px, 5vw, 24px);
   font-weight: 500;
 }
 
@@ -30,6 +28,10 @@
   box-shadow: none;
   background-color: var(--secondary-color-lighter);
   border-color: var(--secondary-color);
+}
+
+.formCheck {
+  font-size: clamp(12px, 3.5vw, 16px) !important ;
 }
 
 .formCheck input:checked {
@@ -60,6 +62,7 @@
   text-decoration: underline;
   cursor: pointer;
   margin-left: 0.2rem;
+  font-weight: 700;
 }
 
 .dividerBar {
@@ -83,18 +86,22 @@
   left: calc(50% - 5px);
   margin: 0;
   z-index: 2;
-  background-color: #fff;
+  background-color: #fff6e4ff;
   padding: 0 5px;
 }
 
 .accessWithGoogleBtn {
-  margin-top: 1rem;
+  position: relative;
+  margin-top: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   width: 100%;
-  padding: 0.5rem 0 !important;
+  padding: 0.7rem 0 !important;
   background-color: transparent;
-  border-color: var(--main-color);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  font-size: larger;
+  font-family: var(--font-poppins);
 }

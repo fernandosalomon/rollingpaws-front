@@ -18,10 +18,20 @@ const SignUpModal = ({ show, handleClose }) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Body>
+        <Modal.Body
+          style={{
+            position: "relative",
+            padding: "24px 32px",
+            background: "url(./src/assets/img/paws-bg.svg)",
+          }}
+        >
           <div
-            className="d-flex justify-content-end w-100"
-            style={{ marginTop: "-10px" }}
+            className=""
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "calc(100% - 18px - 7px)",
+            }}
           >
             <button
               style={{

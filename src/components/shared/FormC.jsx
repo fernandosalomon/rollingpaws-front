@@ -21,11 +21,6 @@ const SignUpForm = ({ handleChangeForm }) => {
       <Form onSubmit={onSubmit} className={style.form}>
         <h2 className={style.formTitle}>Registrarse</h2>
 
-        <p className={style.formInfo}>
-          Registrate para poder reservar citas con nuestros médicos, comprar en
-          la tienda, acceder a nuestros planes de salud y mucho más
-        </p>
-
         <Form.Group className="mb-3 d-grid" controlId="SignUpName">
           <Form.Label className={style.formLabel}>Nombre</Form.Label>
           <Form.Control
@@ -224,11 +219,6 @@ const SignInForm = ({ handleChangeForm }) => {
     <>
       <Form onSubmit={onSubmit} className={style.form}>
         <h2 className={style.formTitle}>Iniciar Sesión</h2>
-
-        <p className={style.formInfo}>
-          Inicia sesión para poder reservar citas con nuestros médicos, comprar
-          en la tienda, acceder a nuestros planes de salud y mucho más
-        </p>
 
         <Form.Group className="mb-3 d-grid" controlId="SignUpEmail">
           <Form.Label className={style.formLabel}>
