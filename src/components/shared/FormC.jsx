@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
 import ButtonC from "./ButtonC";
 import { useState } from "react";
+import clientAxios from "../../helpers/clientAxios";
+import Swal from "sweetalert2";
 
-const SignUpForm = ({ handleChangeForm }) => {
+const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const {
     register,
     handleSubmit,
@@ -12,8 +14,33 @@ const SignUpForm = ({ handleChangeForm }) => {
     watch,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    const { username, email, password } = data;
+
+    try {
+      const res = await clientAxios.post("/user/register", {
+        fullname: username,
+        email: email,
+        password: password,
+      });
+
+      handleCloseModal();
+      Swal.fire({
+        icon: "success",
+        title: `Felicidades, te has registrado con exito`,
+        text: "En breve te enviaremos un mail con más información.",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: `Algo salio mal`,
+        text: `${error.response.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
   });
 
   return (
@@ -329,7 +356,7 @@ const SignInForm = ({ handleChangeForm }) => {
   );
 };
 
-const FormC = ({ variant }) => {
+const FormC = ({ variant, handleCloseModal }) => {
   const [formType, setFormType] = useState(variant);
 
   const handleChangeForm = (form) => {
@@ -339,10 +366,16 @@ const FormC = ({ variant }) => {
   return (
     <>
       {formType === "sign-up" && (
-        <SignUpForm handleChangeForm={handleChangeForm} />
+        <SignUpForm
+          handleChangeForm={handleChangeForm}
+          handleCloseModal={handleCloseModal}
+        />
       )}
       {formType === "sign-in" && (
-        <SignInForm handleChangeForm={handleChangeForm} />
+        <SignInForm
+          handleChangeForm={handleChangeForm}
+          handleCloseModal={handleCloseModal}
+        />
       )}
     </>
   );

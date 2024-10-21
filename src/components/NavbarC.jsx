@@ -44,7 +44,7 @@ const SignUpModal = ({ show, handleClose }) => {
               X
             </button>
           </div>
-          <FormC variant="sign-up" />
+          <FormC variant="sign-up" handleCloseModal={handleClose} />
         </Modal.Body>
       </Modal>
     </>
