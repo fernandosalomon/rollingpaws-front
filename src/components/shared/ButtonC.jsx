@@ -1,8 +1,12 @@
-import "../../styles/button.css";
+import style from "../../styles/CustomButton.module.css";
 
-const ButtonC = ({ children, onClick, ...rest }) => {
+const ButtonC = ({ children, onClick, isDisabled, className, ...rest }) => {
   return (
-    <button onClick={onClick} className="customButton">
+    <button
+      onClick={onClick}
+      className={`${className} ${style.navbarButton}`}
+      disabled={isDisabled}
+    >
       {children}
     </button>
   );
