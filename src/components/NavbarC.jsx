@@ -34,7 +34,7 @@ const NavbarC = () => {
               <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
             </svg>
           </Navbar.Toggle>
-          <Navbar.Collapse id="navbar-collapse" className="mt-3">
+          <Navbar.Collapse id="navbar-collapse" className="mt-3 mt-md-0">
             <div className="w-100 d-flex flex-column justify-content-center flex-md-row">
               <Nav className={style.NavLinks}>
                 <Link to="/nosotros">Nosotros</Link>
