@@ -1,0 +1,38 @@
+.navbarButton {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 50px;
+  background-color: var(--main-color);
+  text-align: center;
+  font-family: var(--font-poppins);
+  font-weight: 300;
+  font-size: clamp(16px, 3vw, 20px);
+  text-wrap: nowrap;
+  width: auto;
+  transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    filter 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    transform 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    font-weight 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+
+  filter: drop-shadow(0 0 4px #c9c9cb);
+  cursor: pointer;
+  margin: 10px;
+  vertical-align: middle;
+}
+
+.navbarButton:hover,
+.navbarButton:focus {
+  background-color: var(--main-color-lighter);
+}
+
+.navbarButton:active {
+  background-color: var(--main-color);
+  filter: drop-shadow(0 0 4px #919192);
+  font-weight: 500;
+  transform: scale(0.95);
+}
+
+.navbarButton:disabled {
+  cursor: not-allowed;
+}
