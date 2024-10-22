@@ -1,12 +1,129 @@
-.BannerContainer {
-  width: 75%;
-  height: 400px;
-  margin: 0 auto;
+.wrapper {
+  height: calc(100vh - 100px);
+  width: calc(100vw - 20px);
+  display: flex;
+  margin: 50px 10px;
 }
 
-.title {
+.servicesListWrapper {
+  width: 35%;
+}
+
+.servicesDescription {
+  width: 65%;
+  height: 100%;
+  background-color: rgb(235, 232, 231);
+}
+
+.active {
+  background-color: rgb(235, 232, 231);
+}
+
+.servicesList {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+}
+
+.servicesListItem {
+  border: 0;
   font-family: var(--font-poppins);
-  font-weight: 700;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.servicesDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 80%;
+  height: 50%;
+  object-fit: cover;
+  overflow: hidden;
+  margin-top: 50px;
+}
+
+.imageContainer img {
+  width: 100%;
+}
+
+.servicesDescriptionText {
+  font-family: var(--font-poppins);
+  width: 80%;
+}
+
+.servicesReadMoreBtn {
+  width: 80%;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--black-color);
+}
+
+.servicePlansContainer {
+  position: relative;
+  transition: 0.2s ease-in-out;
+  max-height: 33%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.servicePlansHeader::after {
+  content: "Saber más \2192";
   font-size: 36px;
-  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.servicePlansContainer:hover {
+  cursor: pointer;
+}
+
+.servicePlansContainer:hover .servicePlansHeader::after {
+  opacity: 1;
+}
+
+.servicePlansHeader {
+  width: 100%;
+  position: absolute;
+  top: calc(50% - 20px);
+  margin: 0;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  justify-content: space-around;
+}
+
+.planBgContainer {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  width: 100% !important;
+}
+
+.primerosPasos {
+  background-image: url("/src/assets/img/planes/cat-puppy.jpg");
+}
+
+.madurando {
+  background-image: url("/src/assets/img/planes/dog-madurando.jpg");
+}
+
+.adultos {
+  background-image: url("/src/assets/img/planes/dog-adultos.jpg");
 }

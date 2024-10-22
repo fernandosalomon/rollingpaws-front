@@ -1,0 +1,22 @@
+.cardContainer {
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+}
+
+.cardTitle {
+  text-align: center;
+}
+
+.cardImageContainer {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  height: 50%;
+}
+
+.cardImage {
+  width: 200%;
+}
