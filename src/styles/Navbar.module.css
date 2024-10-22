@@ -7,6 +7,7 @@
   background-color: #fffbf5;
   filter: drop-shadow(#00000052 0 4px 4px);
   min-width: 200px;
+  z-index: 1000;
 }
 
 .NavbarToggler {
@@ -43,7 +44,7 @@
   font-size: clamp(16px, 2vw, 24px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .Navbar {
     flex-direction: column !important;
     gap: 1rem;
