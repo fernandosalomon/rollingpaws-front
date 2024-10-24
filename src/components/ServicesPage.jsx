@@ -6,23 +6,42 @@ import Image from "react-bootstrap/Image";
 import style from "../styles/Services.module.css";
 import Container from "react-bootstrap/Container";
 import { useState } from "react";
-import CardC from "./shared/CardC";
+import ButtonC from "./shared/ButtonC";
 
 const ClinicaGeneral = () => {
   return (
     <>
-      <div className={style.imageContainer}>
+      <div className={`${style.clinicaGeneralImageContainer}`}>
         <Image src="./src/assets/img/services/clinica-general-service.jpg" />
       </div>
-      <p className={style.servicesDescriptionText}>
+      <h2 className={style.clinicaGeneralHeader}>
+        Clínica General y Especialidades
+      </h2>
+      <p className={style.clinicaGeneralText}>
         Ofrecemos servicios de clínica general y especializada para cuidar la
         salud de tu mascota en todo momento, desde consultas de rutina hasta
-        diagnósticos y tratamientos avanzados. Nuestro equipo combina
-        experiencia y dedicación para brindarle la mejor atención.
+        diagnósticos y tratamientos avanzados. Contamos con una amplia gama de
+        especialidades:
       </p>
-      <Link className={style.servicesReadMoreBtn} to="/clinica">
-        Leer más
-      </Link>
+
+      <ul className={style.listSpecialities}>
+        <li>Medicina Felina</li>
+        <li>Neurología</li>
+        <li>Traumatología</li>
+        <li>Oftalmología</li>
+        <li>Cardiología</li>
+        <li>Odontología</li>
+        <li>Oncología</li>
+        <li>Fisioterapia y kinesiología</li>
+        <li>Endocrinología</li>
+        <li>Dermatología</li>
+        <li>Colocación de microchip</li>
+        <li>Diagnóstico por imágenes</li>
+      </ul>
+
+      <div className="d-flex justify-content-center align-items-center w-100 my-4">
+        <ButtonC>Saber más</ButtonC>
+      </div>
     </>
   );
 };
@@ -30,37 +49,45 @@ const ClinicaGeneral = () => {
 const Cirugia = () => {
   return (
     <>
-      <div className={style.imageContainer}>
-        <Image src="./src/assets/img/services/clinica-general-service.jpg" />
+      <div className="d-flex h-100">
+        <div className="w-50 d-flex flex-column justify-content-center gap-2">
+          <h2 className={style.cirugiaHeader}>Cirugía</h2>
+          <p className={style.cirugiaText}>
+            Nuestro servicio de cirugía veterinaria garantiza procedimientos
+            seguros y precisos, con un equipo altamente capacitado y tecnología
+            moderna. Nos enfocamos en una recuperación rápida y en el bienestar
+            integral de tu mascota.
+          </p>
+          <div className="d-flex justify-content-center align-items-center">
+            <ButtonC>Saber más</ButtonC>
+          </div>
+        </div>
+        <div className={`${style.imageContainer} w-50 h-100`}>
+          <Image src="./src/assets/img/services/dog-surgery.jpg" />
+        </div>
       </div>
-      <p className={style.servicesDescriptionText}>
-        Nuestro servicio de cirugía veterinaria garantiza procedimientos seguros
-        y precisos, con un equipo altamente capacitado y tecnología moderna. Nos
-        enfocamos en una recuperación rápida y en el bienestar integral de tu
-        mascota.
-      </p>
-      <Link className={style.servicesReadMoreBtn} to="/clinica">
-        Leer más
-      </Link>
     </>
   );
 };
 
-const Vacunas = () => {
+const CorteDePelo = () => {
   return (
     <>
-      <div className={style.imageContainer}>
-        <Image src="./src/assets/img/services/clinica-general-service.jpg" />
+      <div className={style.clinicaGeneralImagePeluqueria}>
+        <Image src="./src/assets/img/services/dog-haircut.jpg" />
       </div>
-      <p className={style.servicesDescriptionText}>
-        Proporcionamos un programa de vacunación completo y personalizado para
-        proteger a tu mascota de enfermedades comunes y prevenir futuros
-        riesgos. Nuestro equipo se asegura de que tu compañero reciba el cuidado
-        preventivo adecuado en cada etapa de su vida.
+      <h2 className={`${style.clinicaGeneralHeader} text-center`}>
+        Peluquería
+      </h2>
+      <p className={`${style.clinicaGeneralText} text-center`}>
+        Ofrecemos un cuidado integral que incluye baño, corte de pelo, limpieza
+        de oídos y corte de uñas, todo adaptado a las necesidades de tu mascota.
+        Nos enfocamos en su higiene, confort y apariencia, brindándole una
+        experiencia completa
       </p>
-      <Link className={style.servicesReadMoreBtn} to="/clinica">
-        Leer más
-      </Link>
+      <div className="d-flex justify-content-center align-items-center w-100 my-4">
+        <ButtonC>Saber más</ButtonC>
+      </div>
     </>
   );
 };
@@ -68,8 +95,8 @@ const Vacunas = () => {
 const PlanesDeSalud = () => {
   return (
     <>
-      <div className="d-flex flex-column h-100 w-100">
-        <div className={`flex-grow-1 ${style.servicePlansContainer} `}>
+      <div className={`d-flex flex-column h-100 w-100`}>
+        <div className={`flex-grow-1 mb-auto ${style.servicePlansContainer} `}>
           <div
             className={` d-flex justify-content-center align-items-center ${style.planBgContainer} ${style.primerosPasos}`}
           ></div>
@@ -77,13 +104,13 @@ const PlanesDeSalud = () => {
             Primeros Pasos (0 a 5 años)
           </h2>
         </div>
-        <div className={`flex-grow-1 ${style.servicePlansContainer} `}>
+        <div className={`flex-grow-1  mb-auto ${style.servicePlansContainer} `}>
           <div
             className={` d-flex justify-content-center align-items-center ${style.planBgContainer} ${style.madurando}`}
           ></div>
           <h2 className={style.servicePlansHeader}>Madurando (5 a 10 años)</h2>
         </div>
-        <div className={`flex-grow-1 ${style.servicePlansContainer} `}>
+        <div className={`flex-grow-1 mb-auto ${style.servicePlansContainer} `}>
           <div
             className={` d-flex justify-content-center align-items-center ${style.planBgContainer} ${style.adultos}`}
           ></div>
@@ -100,17 +127,20 @@ const Tienda = () => {
   return (
     <>
       <div className={style.imageContainer}>
-        <Image src="./src/assets/img/services/clinica-general-service.jpg" />
+        <Image src="./src/assets/img/services/store.jpg" />
       </div>
+      <h2 className={`${style.clinicaGeneralHeader} text-center`}>
+        Tienda de Productos
+      </h2>
       <p className={style.servicesDescriptionText}>
         Nuestra tienda ofrece una selección de productos de alta calidad para el
         cuidado y bienestar de tu mascota, desde alimentos especializados hasta
         accesorios y juguetes. Todo lo que necesitas para mantener a tu
         compañero sano y feliz, en un solo lugar.
       </p>
-      <Link className={style.servicesReadMoreBtn} to="/clinica">
-        Leer más
-      </Link>
+      <div className="d-flex justify-content-center align-items-center w-100 my-4">
+        <ButtonC>Ir a la tienda</ButtonC>
+      </div>
     </>
   );
 };
@@ -130,7 +160,7 @@ const ServicesPage = () => {
               }`}
               onClick={() => setServiceActive(0)}
             >
-              Clinica General y Especializada
+              Clinica General y Especialialidades
             </ListGroup.Item>
             <ListGroup.Item
               as="li"
@@ -148,7 +178,7 @@ const ServicesPage = () => {
               }`}
               onClick={() => setServiceActive(2)}
             >
-              Vacunas
+              Peluqueria
             </ListGroup.Item>
             <ListGroup.Item
               as="li"
@@ -173,7 +203,7 @@ const ServicesPage = () => {
         <div className={style.servicesDescription}>
           {serviceActive === 0 && <ClinicaGeneral />}
           {serviceActive === 1 && <Cirugia />}
-          {serviceActive === 2 && <Vacunas />}
+          {serviceActive === 2 && <CorteDePelo />}
           {serviceActive === 3 && <PlanesDeSalud />}
           {serviceActive === 4 && <Tienda />}
         </div>
