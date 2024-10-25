@@ -1,7 +1,4 @@
 import ListGroup from "react-bootstrap/ListGroup";
-import { Link } from "react-router-dom";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import style from "../styles/Services.module.css";
 import Container from "react-bootstrap/Container";
@@ -40,7 +37,7 @@ const ClinicaGeneral = () => {
       </ul>
 
       <div className="d-flex justify-content-center align-items-center w-100 my-4">
-        <ButtonC>Saber más</ButtonC>
+        <ButtonC variant={"button1"}>Saber más</ButtonC>
       </div>
     </>
   );
@@ -59,7 +56,7 @@ const Cirugia = () => {
             integral de tu mascota.
           </p>
           <div className="d-flex justify-content-center align-items-center">
-            <ButtonC>Saber más</ButtonC>
+            <ButtonC variant={"button1"}>Saber más</ButtonC>
           </div>
         </div>
         <div className={`${style.imageContainer} w-50 h-100`}>
@@ -86,7 +83,7 @@ const CorteDePelo = () => {
         experiencia completa
       </p>
       <div className="d-flex justify-content-center align-items-center w-100 my-4">
-        <ButtonC>Saber más</ButtonC>
+        <ButtonC variant={"button1"}>Saber más</ButtonC>
       </div>
     </>
   );
@@ -139,7 +136,7 @@ const Tienda = () => {
         compañero sano y feliz, en un solo lugar.
       </p>
       <div className="d-flex justify-content-center align-items-center w-100 my-4">
-        <ButtonC>Ir a la tienda</ButtonC>
+        <ButtonC variant={"button1"}>Ir a la tienda</ButtonC>
       </div>
     </>
   );

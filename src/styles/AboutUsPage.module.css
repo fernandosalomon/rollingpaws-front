@@ -1,0 +1,25 @@
+.mainWrapper {
+  background-color: var(--light-color);
+  padding: 1.5rem 0;
+}
+
+.rightContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.title {
+  font-family: var(--font-poppins);
+  font-size: clamp(2rem, 4vw, 4rem);
+  margin-bottom: 1.5rem;
+}
+
+.text {
+  font-family: var(--font-poppins);
+  font-size: clamp(1rem, 2vw, 2rem);
+  padding: 0;
+}
+
+.bgCard {
+  background-color: var(--tertiary-color);
+}

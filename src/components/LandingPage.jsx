@@ -15,7 +15,9 @@ const LandingPage = () => {
             su vida. Nuestro equipo trata a cada paciente como parte de la
             familia, asegurando su bienestar y salud siempre.
           </p>
-          <ButtonC className="w-75 mt-5">Reservar Cita</ButtonC>
+          <ButtonC className="w-75 mt-5" variant={"button1"}>
+            Reservar Cita
+          </ButtonC>
         </div>
       </div>
     </>

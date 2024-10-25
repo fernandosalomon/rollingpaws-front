@@ -1,5 +1,7 @@
+import AboutUsPage from "../components/AboutUsPage";
 import LandingPage from "../components/LandingPage";
 import ServicesPage from "../components/ServicesPage";
+
 import Testimonials from "../components/Testimonials";
 
 const HomePage = () => {
@@ -7,6 +9,7 @@ const HomePage = () => {
     <>
       <LandingPage />
       <ServicesPage />
+      <AboutUsPage />
     </>
   );
 };

@@ -42,7 +42,9 @@ const NavbarC = () => {
                 <Link to="/productos">Productos</Link>
                 <Link to="/Contacto">Contacto</Link>
               </Nav>
-              <ButtonC className="ms-md-auto ms-0 mt-3">Iniciar Sesión</ButtonC>
+              <ButtonC className="ms-md-auto ms-0 mt-3" variant={"button1"}>
+                Iniciar Sesión
+              </ButtonC>
             </div>
           </Navbar.Collapse>
         </Container>

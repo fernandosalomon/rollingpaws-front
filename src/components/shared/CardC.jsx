@@ -1,29 +1,57 @@
 import Card from "react-bootstrap/Card";
-import ButtonC from "./ButtonC";
 import style from "../../styles/CustomCard.module.css";
+import Image from "react-bootstrap/Image";
+import ButtonC from "./ButtonC";
+
+const CardImage = ({ src, alt, className }) => {
+  return (
+    <>
+      <div className={style.imageCardContainer}>
+        <div className={style.imageWrapper}>
+          <Image
+            src={src}
+            alt={alt}
+            className={`${className} ${style.imageCard}`}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
 
 const CardC = ({
   variant,
+  width,
+  height,
+  className,
   pathToImage,
   imagePosition,
   title,
   text,
   button,
+  buttonVariant,
+  buttonLabel,
+  buttonOnClick,
 }) => {
   return (
     <>
-      <Card className={style.cardContainer}>
-        <div className={style.cardImageContainer}>
-          <Card.Img
-            variant={imagePosition}
-            src={pathToImage}
-            className={style.cardImage}
-          />
-        </div>
+      <Card
+        className={`${style.cardContainer} ${className}`}
+        style={{ width: width, height: height }}
+      >
+        <CardImage src={pathToImage} alt={title} />
         <Card.Body>
           <Card.Title className={style.cardTitle}>{title}</Card.Title>
           <Card.Text className={style.cardText}>{text}</Card.Text>
-          {button}
+          {button && (
+            <ButtonC
+              onClick={buttonOnClick}
+              variant={buttonVariant}
+              className="mt-3 w-100"
+            >
+              {buttonLabel}
+            </ButtonC>
+          )}
         </Card.Body>
       </Card>
     </>
