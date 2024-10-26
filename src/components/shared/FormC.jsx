@@ -356,6 +356,46 @@ const SignInForm = ({ handleChangeForm }) => {
   );
 };
 
+const ContactUsForm = () => {
+  return (
+    <>
+      <Form>
+        <Form.Group className="mb-3" controlId="fullname">
+          <Form.Label>Nombre Completo</Form.Label>
+          <Form.Control type="text" placeholder="¿Cuál es su nombre?" />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" placeholder="Email de contacto" />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="phone">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="text" placeholder="Teléfono de contacto" />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="message">
+          <Form.Label>Mensaje</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Escribe tu mensaje"
+            style={{ height: "100px" }}
+          />
+        </Form.Group>
+        <ButtonC
+          variant="button1"
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          Enviar mensaje
+        </ButtonC>
+      </Form>
+    </>
+  );
+};
+
 const FormC = ({ variant, handleCloseModal }) => {
   const [formType, setFormType] = useState(variant);
 
@@ -377,6 +417,7 @@ const FormC = ({ variant, handleCloseModal }) => {
           handleCloseModal={handleCloseModal}
         />
       )}
+      {formType === "contact-us" && <ContactUsForm />}
     </>
   );
 };
