@@ -1,0 +1,107 @@
+.form {
+  padding: 0 1rem 1rem 1rem;
+}
+
+.formTitle {
+  font-family: var(--font-poppins);
+  font-size: clamp(2rem, 10vw, 2.5rem);
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.formLabel {
+  font-family: var(--font-poppins);
+  font-size: clamp(16px, 5vw, 24px);
+  font-weight: 500;
+}
+
+.formInput {
+  width: 98%;
+  border-radius: 14px;
+  justify-self: center;
+  background-color: var(--secondary-color-lighter);
+}
+
+.formInput:active,
+.formInput:focus {
+  outline: 0;
+  box-shadow: none;
+  background-color: var(--secondary-color-lighter);
+  border-color: var(--secondary-color);
+}
+
+.formCheck {
+  font-size: clamp(12px, 3.5vw, 16px) !important ;
+}
+
+.formCheck input:checked {
+  outline: 0;
+  box-shadow: none;
+  background-color: var(--main-color);
+  border-color: var(--secondary-color);
+}
+
+.formCheck input:focus {
+  outline: 0;
+  box-shadow: none;
+  border-color: var(--main-color);
+}
+
+.formSubmitButton {
+  width: calc(100% - 20px);
+}
+
+.errorMessage {
+  color: red;
+  font-size: small;
+  margin-left: 5px;
+}
+
+.changeFormLink {
+  color: var(--main-color);
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 0.2rem;
+  font-weight: 700;
+}
+
+.dividerBar {
+  position: relative;
+  width: 100%;
+  height: 40px;
+}
+
+.dividerBar div {
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  top: 20px;
+  z-index: 1;
+}
+
+.dividerBar p {
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 5px);
+  margin: 0;
+  z-index: 2;
+  background-color: #fff6e4ff;
+  padding: 0 5px;
+}
+
+.accessWithGoogleBtn {
+  position: relative;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 0.7rem 0 !important;
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  font-size: larger;
+  font-family: var(--font-poppins);
+}

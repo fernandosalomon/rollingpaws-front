@@ -5,9 +5,59 @@ import Image from "react-bootstrap/Image";
 import Logo from "../assets/img/simple-logo-nobg.png";
 import { Link } from "react-router-dom";
 import ButtonC from "./shared/ButtonC";
+import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import FormC from "./shared/FormC";
+
+const SignUpModal = ({ show, handleClose }) => {
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Body
+          style={{
+            position: "relative",
+            padding: "24px 32px",
+            background: "url(./src/assets/img/paws-bg.svg)",
+          }}
+        >
+          <div
+            className=""
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "calc(100% - 18px - 7px)",
+            }}
+          >
+            <button
+              style={{
+                border: 0,
+                backgroundColor: "transparent",
+                fontSize: "1.5rem",
+              }}
+              onClick={handleClose}
+            >
+              X
+            </button>
+          </div>
+          <FormC variant="sign-up" handleCloseModal={handleClose} />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
 import style from "../styles/Navbar.module.css";
 
 const NavbarC = () => {
+  const [showSignUp, setShowSignUp] = useState(false);
+
+  const handleShowSignUp = () => setShowSignUp(true);
+  const handleCloseSignUp = () => setShowSignUp(false);
+
   return (
     <>
       <Navbar expand="md" className={style.Navbar}>
@@ -42,13 +92,18 @@ const NavbarC = () => {
                 <Link to="/productos">Productos</Link>
                 <Link to="/Contacto">Contacto</Link>
               </Nav>
-              <ButtonC className="ms-md-auto ms-0 mt-3" variant={"button1"}>
+              <ButtonC
+                className="ms-md-auto ms-0 mt-3"
+                onClick={handleShowSignUp}
+                variant={"button1"}
+              >
                 Iniciar Sesión
               </ButtonC>
             </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <SignUpModal show={showSignUp} handleClose={handleCloseSignUp} />
     </>
   );
 };
