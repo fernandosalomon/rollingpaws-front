@@ -1,10 +1,12 @@
 .card {
   border-radius: 14px;
   background-color: transparent;
+  display: flex;
+  flex-direction: column;
 }
 
 .imageContainer {
-  width: 90%;
+  max-height: 50%;
   overflow: hidden;
   object-fit: cover;
   border-radius: 14px;
@@ -42,14 +44,23 @@
   font-size: small;
   font-weight: 300;
   background-color: transparent;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
 
 .body {
   background-color: transparent;
+  max-height: 30%;
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .footer {
-  width: 100%;
+  vertical-align: bottom;
   text-align: center;
   background-color: transparent;
+  height: auto;
 }

@@ -2,9 +2,10 @@ import style from "../../styles/CustomCard.module.css";
 import Image from "react-bootstrap/Image";
 
 export const CardImage = ({ src, alt, className, position }) => {
+  console.log(className);
   return (
-    <div className={style.imageContainer}>
-      <Image src={src} alt={alt} className={className} />
+    <div className={`${className ? className : ""} ${style.imageContainer}`}>
+      <Image src={src} alt={alt} />
     </div>
   );
 };
