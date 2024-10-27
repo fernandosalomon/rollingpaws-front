@@ -32,3 +32,11 @@ body {
   font-size: 1.6rem;
   font-family: var(--font-poppins);
 }
+
+#root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}

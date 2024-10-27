@@ -6,7 +6,7 @@ import style from "../styles/Footer.module.css";
 const Footer = () => {
   return (
     <>
-      <Row className={`${style.bgLight} pt-5`}>
+      <Row className={`${style.bgLight} pt-5 w-100 m-0`}>
         <Col className="d-flex flex-column align-items-center justify-content-center pb-3">
           <Link className={style.link} to="/">
             <div className={style.brandLogo}></div>
