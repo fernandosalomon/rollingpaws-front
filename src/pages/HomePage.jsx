@@ -3,6 +3,7 @@ import ContactUsPage from "../components/ContactUsPage";
 import LandingPage from "../components/LandingPage";
 import ServicesPage from "../components/ServicesPage";
 import DoctorsPage from "../components/DoctorsPage";
+import Testimonials from "../components/Testimonials";
 
 const HomePage = () => {
   return (
@@ -10,8 +11,9 @@ const HomePage = () => {
       <LandingPage />
       <ServicesPage />
       <AboutUsPage />
-      <ContactUsPage />
+      <Testimonials />
       <DoctorsPage />
+      <ContactUsPage />
     </>
   );
 };
