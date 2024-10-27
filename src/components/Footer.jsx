@@ -6,27 +6,31 @@ import style from "../styles/Footer.module.css";
 const Footer = () => {
   return (
     <>
-      <Row>
-        <Col className="d-flex flex-column align-items-center justify-content-center">
-          <div className={style.brandLogo}></div>
-          <h2 className={style.brandName}>Rolling Paws</h2>
+      <Row className={`${style.bgLight} pt-5`}>
+        <Col className="d-flex flex-column align-items-center justify-content-center pb-3">
+          <Link className={style.link} to="/">
+            <div className={style.brandLogo}></div>
+            <h2 className={style.brandName}>Rolling Paws</h2>
+          </Link>
         </Col>
-        <Col className="d-flex flex-column align-items-start justify-content-center">
-          <h3>Enlaces Útiles</h3>
-          <Link>Acerca de nosotros</Link>
-          <Link>Servicios</Link>
-          <Link>Contacto</Link>
-          <Link>Trabaja con nosotros</Link>
+        <Col className="d-flex flex-column align-items-start justify-content-start pb-3">
+          <h3 className={`${style.text} ${style.title}`}>Enlaces Útiles</h3>
+          <Link className={style.link}>Acerca de nosotros</Link>
+          <Link className={style.link}>Servicios</Link>
+          <Link className={style.link}>Contacto</Link>
+          <Link className={style.link}>Trabaja con nosotros</Link>
         </Col>
-        <Col className="d-flex flex-column align-items-start justify-content-center">
-          <h3>Servicios</h3>
-          <Link>Clínica</Link>
-          <Link>Cirugía</Link>
-          <Link>Peluquería</Link>
-          <Link>Tienda</Link>
+        <Col className="d-flex flex-column align-items-start justify-content-start pb-3">
+          <h3 className={`${style.text} ${style.title}`}>Servicios</h3>
+          <Link className={style.link}>Clínica</Link>
+          <Link className={style.link}>Cirugía</Link>
+          <Link className={style.link}>Peluquería</Link>
+          <Link className={style.link}>Tienda</Link>
         </Col>
-        <Col className="d-flex flex-column align-items-start justify-content-center">
-          <h3>Horarios de Atención</h3>
+        <Col className="d-flex flex-column align-items-start justify-content-start pb-3">
+          <h3 className={`${style.text} ${style.title}`}>
+            Horarios de Atención
+          </h3>
           <p>Lun - Vie: 8:00 - 20:00</p>
           <p>Sab: 8:00 - 15:00</p>
           <p>Dom: 8:00 - 12:00</p>
@@ -35,7 +39,7 @@ const Footer = () => {
           xs={12}
           className={`d-flex justify-content-between align-items-center px-4 ${style.bgTertiary}`}
         >
-          <p>
+          <p className={`${style.text} py-3 fw-bold`}>
             2024 Copyright Clínica Veterinaria Rolling Paws - Todos los derechos
             reservados
           </p>
