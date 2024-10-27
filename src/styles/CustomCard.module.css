@@ -13,23 +13,70 @@
 .imageWrapper {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .imageCard {
-  height: 100%;
+  height: 150%;
+}
+
+.cardBodyContainer {
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .cardTitle {
   font-family: var(--font-poppins);
-  font-size: 24px;
+  font-size: clamp(1.6rem, 1.5vw, 2.8rem);
   font-weight: 600;
   text-align: center;
 }
 
 .cardText {
   font-family: var(--font-poppins);
-  font-size: 20px;
+  font-size: clamp(1.4rem, 1vw, 2.2rem);
   font-weight: 400;
   text-align: center;
-  margin-top: 10px;
+}
+
+.cardButton {
+  font-family: var(--font-poppins);
+  font-size: clamp(1.4rem, 1vw, 2.2rem);
+}
+
+/* --------------------------------------------------------------------*/
+
+.cardLayout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.variantTop {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.variantLeft {
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+}
+
+.imageVariantTop {
+  height: 60%;
+  width: 100%;
+}
+
+.imageVariantLeft {
+  height: 100%;
+  width: 60%;
+}
+
+.cardImage {
+  width: 100%;
 }

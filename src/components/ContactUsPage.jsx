@@ -12,7 +12,9 @@ const ContactUsPage = () => {
         <Container fluid>
           <Row>
             <Col md={8} className={style.columnContainer}>
-              <FormC variant="contact-us" />
+              <Container className={style.formContainer}>
+                <FormC variant="contact-us" />
+              </Container>
             </Col>
             <Col md={4} className={style.columnContainer}>
               <div className={style.asideTextContainer}>

@@ -359,28 +359,41 @@ const SignInForm = ({ handleChangeForm }) => {
 const ContactUsForm = () => {
   return (
     <>
-      <Form>
+      <Form className={style.form}>
         <Form.Group className="mb-3" controlId="fullname">
-          <Form.Label>Nombre Completo</Form.Label>
-          <Form.Control type="text" placeholder="¿Cuál es su nombre?" />
+          <Form.Label className={style.formLabel}>Nombre Completo</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="¿Cuál es su nombre?"
+            className={style.formInput}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Email de contacto" />
+          <Form.Label className={style.formLabel}>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Email de contacto"
+            className={style.formInput}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="phone">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="text" placeholder="Teléfono de contacto" />
+          <Form.Label className={style.formLabel}>Teléfono</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Teléfono de contacto"
+            className={style.formInput}
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="message">
-          <Form.Label>Mensaje</Form.Label>
+          <Form.Label className={style.formLabel}>Mensaje</Form.Label>
           <Form.Control
             as="textarea"
             placeholder="Escribe tu mensaje"
             style={{ height: "100px" }}
+            className={style.formInput}
           />
         </Form.Group>
         <ButtonC

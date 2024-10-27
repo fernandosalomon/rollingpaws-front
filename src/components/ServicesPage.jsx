@@ -8,33 +8,17 @@ import ButtonC from "./shared/ButtonC";
 const ClinicaGeneral = () => {
   return (
     <>
-      <div className={`${style.clinicaGeneralImageContainer}`}>
+      <div className={`${style.imageContainer}`}>
         <Image src="./src/assets/img/services/clinica-general-service.jpg" />
       </div>
       <h2 className={style.clinicaGeneralHeader}>
         Clínica General y Especialidades
       </h2>
-      <p className={style.clinicaGeneralText}>
+      <p className={style.servicesDescriptionText}>
         Ofrecemos servicios de clínica general y especializada para cuidar la
         salud de tu mascota en todo momento, desde consultas de rutina hasta
-        diagnósticos y tratamientos avanzados. Contamos con una amplia gama de
-        especialidades:
+        diagnósticos y tratamientos avanzados.
       </p>
-
-      <ul className={style.listSpecialities}>
-        <li>Medicina Felina</li>
-        <li>Neurología</li>
-        <li>Traumatología</li>
-        <li>Oftalmología</li>
-        <li>Cardiología</li>
-        <li>Odontología</li>
-        <li>Oncología</li>
-        <li>Fisioterapia y kinesiología</li>
-        <li>Endocrinología</li>
-        <li>Dermatología</li>
-        <li>Colocación de microchip</li>
-        <li>Diagnóstico por imágenes</li>
-      </ul>
 
       <div className="d-flex justify-content-center align-items-center w-100 my-4">
         <ButtonC variant={"button1"}>Saber más</ButtonC>
@@ -60,7 +44,10 @@ const Cirugia = () => {
           </div>
         </div>
         <div className={`${style.imageContainer} w-50 h-100`}>
-          <Image src="./src/assets/img/services/dog-surgery.jpg" />
+          <Image
+            src="./src/assets/img/services/dog-surgery.jpg"
+            className="h-100"
+          />
         </div>
       </div>
     </>

@@ -19,16 +19,16 @@
 }
 
 .landingTextHeader {
-  font-size: clamp(24px, 7vw, 64px);
+  font-size: clamp(2.4rem, 7vw, 6.4rem);
   font-family: var(--font-poppins);
   font-weight: 300;
   text-wrap: nowrap;
 }
 
 .landingTextSubHeader {
-  font-size: 24px;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
   font-family: var(--font-roboto);
-  line-height: 2.5rem;
+  line-height: 3.5rem;
 }
 
 @media (max-width: 768px) {

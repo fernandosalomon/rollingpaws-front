@@ -1,100 +1,46 @@
-import style from "../styles/AboutUsPage.module.css";
-import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
-import CardC from "../components/shared/CardC";
-import Testimonials from "./Testimonials";
-import pawIcon from "../assets/img/paw.svg";
-import stetoscopIcon from "../assets/img/stetoscop.svg";
-import { Container } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import style from "../styles/AboutUsPage.module.css";
 
 const AboutUsPage = () => {
   return (
     <>
-      <div className={style.mainWrapper}>
-        <Container fluid className="mb-3">
-          <Row className="justify-content-center">
-            <Col md={5}>
-              <div className={style.leftContainer}>
-                <h2 className={style.title}>
-                  <Image
-                    src={pawIcon}
-                    alt={"paw-icon"}
-                    width={"40px"}
-                    className="me-2"
-                  />
-                  ¿Quiénes somos?
-                </h2>
-                <p className={style.text}>
-                  Rolling Paws, es una clínica veterinaria donde el bienestar de
-                  tus mascotas es la prioridad. Nuestro equipo de veterinarios
-                  apasionados y experimentados está dedicado a proporcionar
-                  atención médica de alta calidad en un ambiente cálido y
-                  acogedor. Ofrecemos una amplia gama de servicios, asegurando
-                  que tu compañero peludo reciba el mejor cuidado posible.
-                </p>
-              </div>
-            </Col>
-            <Col md={1}>
-              <div
-                style={{
-                  width: "2px",
-                  height: "100%",
-                  border: "5px solid #ff8225",
-                  margin: "0 20px 0 20px",
-                }}
-              ></div>
-            </Col>
-            <Col md={5}>
-              <h2 className={style.title}>
-                <Image
-                  src={stetoscopIcon}
-                  alt={"stetoscop-icon"}
-                  width={"60px"}
-                  className="me-2"
-                />
-                Nuestros Médicos
+      <Container className="my-3 h-100">
+        <Row className="h-100">
+          <Col xs={12} md={6} className="position-relative">
+            <div className={style.imageWrapper}></div>
+          </Col>
+          <Col xs={12} md={6} className={style.aboutUsContentWrapper}>
+            <div className={style.aboutUsContent}>
+              <h5 className={style.header}>Sobre Nosotros</h5>
+              <h2 className={style.subheader}>
+                Somos un equipo de{" "}
+                <span className={style.highlightedText}>expertos </span>
+                comprometidos con el
+                <span className={style.highlightedText}>
+                  bienestar y la salud
+                </span>
+                de tu mascota.
               </h2>
-              <div className={style.rightContainer}>
-                <CardC
-                  width={"18rem"}
-                  height={"30rem"}
-                  pathToImage={"src/assets/img/vets/vet1.jpg"}
-                  title={"Dra. Jane Doe"}
-                  text={"Especialista en Endocrinología Animal"}
-                  button={true}
-                  buttonLabel={"Leer más..."}
-                  buttonVariant={"button2"}
-                  className={style.bgCard}
-                />
-                <CardC
-                  width={"18rem"}
-                  height={"30rem"}
-                  pathToImage={"src/assets/img/vets/vet2.jpg"}
-                  title={"Dr. Jonh Doe"}
-                  text={"Cirujano General"}
-                  button={true}
-                  buttonLabel={"Leer más..."}
-                  buttonVariant={"button2"}
-                  className={style.bgCard}
-                />
-                <CardC
-                  width={"18rem"}
-                  height={"30rem"}
-                  pathToImage={"src/assets/img/vets/vet3.jpg"}
-                  title={"Dra. Amy Moore"}
-                  text={"Especialista en Dermatología Animal"}
-                  button={true}
-                  buttonLabel={"Leer más..."}
-                  buttonVariant={"button2"}
-                  className={style.bgCard}
-                />
-              </div>
-            </Col>
-          </Row>
-        </Container>
-        <Testimonials />
-      </div>
+              <p className={style.aboutUsText}>
+                Proporcionamos atención clínica y servicio de hospitalización
+                disponibles las 24 horas del día, todos los días del año.
+                Nuestras instalaciones incluyen un quirófano de tecnología
+                avanzada, una farmacia completa y una amplia variedad de
+                especialidades veterinarias. Nos dedicamos a la excelencia a
+                través del uso de tecnología de punta en medicina veterinaria,
+                permitiéndonos ofrecer diagnósticos precisos y tratamientos
+                innovadores que promueven el bienestar y la salud de las
+                mascotas. Nuestro propósito es brindar un servicio integral y de
+                alta calidad para cubrir las necesidades de nuestros pacientes y
+                sus familias.
+              </p>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

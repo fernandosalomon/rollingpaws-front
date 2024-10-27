@@ -18,6 +18,10 @@ const RatingStars = ({ rating }) => {
 const Testimonials = () => {
   return (
     <>
+      <h2>Opiniones</h2>
+      <h3>
+        Tus opiniones nos alientan a seguir brindando un servicio de calidad
+      </h3>
       <Slideshow pagination backgroundColor="#232323">
         <Slide>
           <div className={style.testimonialContainer}>
