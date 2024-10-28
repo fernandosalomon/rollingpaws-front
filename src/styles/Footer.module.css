@@ -1,0 +1,13 @@
+.brandLogo {
+  background-image: url("src/assets/img/simple-logo-nobg.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: contain;
+  width: 120px;
+  height: 120px;
+}
+
+.brandName {
+  font-family: var(--font-poppins);
+}
