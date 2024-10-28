@@ -11,3 +11,7 @@
 .brandName {
   font-family: var(--font-poppins);
 }
+
+.socials {
+  width: 20px;
+}
