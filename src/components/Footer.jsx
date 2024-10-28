@@ -33,7 +33,7 @@ const Footer = () => {
         </Col>
         <Col
           xs={12}
-          className="d-flex justify-content-between align-items-center px-4"
+          className={`d-flex justify-content-between align-items-center px-4 ${style.bgTertiary}`}
         >
           <p>
             2024 Copyright Clínica Veterinaria Rolling Paws - Todos los derechos

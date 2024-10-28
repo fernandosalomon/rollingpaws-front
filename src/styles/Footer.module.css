@@ -15,3 +15,11 @@
 .socials {
   width: 20px;
 }
+
+.bgTertiary {
+  background-color: var(--tertiary-color);
+}
+
+.bgLight {
+  background-color: var(--light-color);
+}
