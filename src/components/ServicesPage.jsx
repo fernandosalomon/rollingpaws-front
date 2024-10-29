@@ -1,6 +1,4 @@
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import ButtonC from "./shared/ButtonC";
 import { Slide, Slideshow } from "./shared/Slideshow";
 import style from "../styles/Services.module.css";
@@ -11,10 +9,23 @@ import {
   CardTitle,
   CustomCard,
 } from "./shared/CustomCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ServicesPage = () => {
   const [showSlide, setShowSlide] = useState(0);
+
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -25,7 +36,7 @@ const ServicesPage = () => {
         diagnósticos avanzados, cuidados intensivos y cirugía, para ofrecer un
         tratamiento integral a cada mascota
       </h3>
-      <Container>
+      <Container className={dimensions.width < 768 ? "d-none" : "d-flex"}>
         <div className="row justify-content-center">
           <ButtonC
             variant="button1"
@@ -236,9 +247,9 @@ const ServicesPage = () => {
         <Slideshow goToSlide={showSlide} className={style.slider}>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage
@@ -260,9 +271,9 @@ const ServicesPage = () => {
           </Slide>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage
@@ -286,9 +297,9 @@ const ServicesPage = () => {
           </Slide>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage
@@ -311,9 +322,9 @@ const ServicesPage = () => {
           </Slide>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage
@@ -338,9 +349,9 @@ const ServicesPage = () => {
           </Slide>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage
@@ -363,9 +374,9 @@ const ServicesPage = () => {
           </Slide>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage
@@ -388,9 +399,9 @@ const ServicesPage = () => {
           </Slide>
           <Slide>
             <CustomCard
-              variant="horizontal"
+              variant={dimensions.width < 768 ? "vertical" : "horizontal"}
               width={"100%"}
-              height={"53rem"}
+              height={dimensions.width < 768 ? "80vh" : "53rem"}
               className={style.cardContainer}
             >
               <CardImage

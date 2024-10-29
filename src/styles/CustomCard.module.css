@@ -6,7 +6,6 @@
 .vertical {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -29,6 +28,11 @@
 
 .bodyWrapper {
   width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .title,
