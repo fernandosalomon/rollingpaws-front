@@ -63,9 +63,24 @@ const ControlButton = ({ variant, onClick }) => {
   );
 };
 
-export const Slideshow = ({ children, pagination, backgroundColor }) => {
+export const Slideshow = ({
+  children,
+  pagination,
+  backgroundColor,
+  goToSlide,
+}) => {
   const [numberOfSlides, setNumberOfSlides] = useState(children.length);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    if (goToSlide) {
+      if (goToSlide >= 0 && goToSlide <= numberOfSlides) {
+        setCurrentSlide(goToSlide);
+      } else {
+        console.error("Error setting the slide. Slide Number Out of Range");
+      }
+    }
+  }, [goToSlide]);
 
   useEffect(() => {
     const getNumberOfSlides = () => {

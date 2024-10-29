@@ -2,12 +2,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {
   CustomCard,
-  CardImage,
-  CardSubheader,
   CardBody,
-  CardHeader,
+  CardImage,
+  CardTitle,
+  CardSubtitle,
   CardText,
-  CardFooter,
 } from "../components/shared/CustomCard";
 import ButtonC from "../components/shared/ButtonC";
 import style from "../styles/DoctorsPage.module.css";
@@ -27,38 +26,38 @@ const DoctorsPage = () => {
           </h3>
         </Col>
         <Col md={3}>
-          <CustomCard height={"550px"} width={"270px"}>
+          <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet1.jpg"}
               alt={"Dra. Jane Doe Profile Picture"}
-              className={"rounded-pill"}
+              className={style.imagePill}
             />
             <CardBody>
-              <CardHeader>Dra. Jane Doe</CardHeader>
-              <CardSubheader>Endocrinóloga</CardSubheader>
-              <CardText>
+              <CardTitle>Dra. Jane Doe</CardTitle>
+              <CardSubtitle>Endocrinóloga</CardSubtitle>
+              <CardText className={style.text}>
                 La Endocrinología veterinaria se dedica al estudio de las
                 glándulas endocrinas y sus hormonas, esenciales para regular el
                 metabolismo, el crecimiento y otros procesos vitales en los
                 animales.
               </CardText>
+              <ButtonC variant="button2" className="w-100">
+                Leer más...
+              </ButtonC>
             </CardBody>
-            <CardFooter>
-              <ButtonC variant={"button2"}>Leer mas...</ButtonC>
-            </CardFooter>
           </CustomCard>
         </Col>
         <Col md={3}>
-          <CustomCard height={"550px"} width={"270px"}>
+          <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet2.jpg"}
-              alt={"Dra. John Doe Profile Picture"}
-              className={"rounded-pill"}
+              alt={"Dr. John Doe Profile Picture"}
+              className={style.imagePill}
             />
             <CardBody>
-              <CardHeader>Dr. John Doe</CardHeader>
-              <CardSubheader>Cirujano General</CardSubheader>
-              <CardText>
+              <CardTitle>Dr. John Doe</CardTitle>
+              <CardSubtitle>Cirujano general</CardSubtitle>
+              <CardText className={style.text}>
                 La Cirugía Veterinaria se enfoca en la evaluación y tratamiento
                 quirúrgico de condiciones que afectan la salud de los animales.
                 Su objetivo es reparar, mejorar o corregir estructuras
@@ -66,55 +65,55 @@ const DoctorsPage = () => {
                 para restablecer la funcionalidad y calidad de vida de las
                 mascotas.
               </CardText>
+              <ButtonC variant="button2" className="w-100">
+                Leer más...
+              </ButtonC>
             </CardBody>
-            <CardFooter>
-              <ButtonC variant={"button2"}>Leer mas...</ButtonC>
-            </CardFooter>
           </CustomCard>
         </Col>
         <Col md={3}>
-          <CustomCard height={"550px"} width={"270px"}>
+          <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet3.jpg"}
               alt={"Dra. Amy Moore Profile Picture"}
-              className={"rounded-pill"}
+              className={style.imagePill}
             />
             <CardBody>
-              <CardHeader>Dra. Amy Moore</CardHeader>
-              <CardSubheader>Dermatóloga</CardSubheader>
-              <CardText>
+              <CardTitle>Dra. Amy Moore</CardTitle>
+              <CardSubtitle>Dermatóloga</CardSubtitle>
+              <CardText className={style.text}>
                 La dermatología se encarga del diagnóstico y tratamiento de
                 trastornos en la piel, orejas, pelaje y uñas de los animales.
                 Nuestro dermatólogo veterinario cuenta con amplia formación y
                 experiencia en el manejo de enfermedades alérgicas de la piel.
               </CardText>
+              <ButtonC variant="button2" className="w-100">
+                Leer más...
+              </ButtonC>
             </CardBody>
-            <CardFooter>
-              <ButtonC variant={"button2"}>Leer mas...</ButtonC>
-            </CardFooter>
           </CustomCard>
         </Col>
         <Col md={3}>
-          <CustomCard height={"550px"} width={"270px"}>
+          <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet4.jpg"}
               alt={"Dr. Pedro Perez Profile Picture"}
-              className={"rounded-pill"}
+              className={style.imagePill}
             />
             <CardBody>
-              <CardHeader>Dr. Pedro Perez</CardHeader>
-              <CardSubheader>Cardiólogo</CardSubheader>
-              <CardText>
+              <CardTitle>Dr. Pedro Perez</CardTitle>
+              <CardSubtitle>Dermatóloga</CardSubtitle>
+              <CardText className={style.text}>
                 La cardiología se dedica a identificar y tratar afecciones del
                 corazón y los vasos sanguíneos, ofreciendo cuidados específicos
                 como medicación, control nutricional y seguimiento constante,
                 fundamentales para mejorar la calidad de vida y preservar la
                 salud.
               </CardText>
+              <ButtonC variant="button2" className="w-100">
+                Leer más...
+              </ButtonC>
             </CardBody>
-            <CardFooter>
-              <ButtonC variant={"button2"}>Leer mas...</ButtonC>
-            </CardFooter>
           </CustomCard>
         </Col>
       </Row>

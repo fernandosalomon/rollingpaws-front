@@ -1,306 +1,55 @@
-/* .wrapper {
-  height: calc(100vh - 100px);
-  width: calc(100vw - 20px);
-  display: flex;
-  margin: 50px 10px;
+.sliderContainer {
+  filter: drop-shadow(0 0 4px #acacac);
 }
 
-.servicesListWrapper {
-  width: 35%;
-  background-color: #fbf4ea;
-}
-
-.servicesDescription {
-  width: 65%;
-  background-color: #b1bda5;
-}
-
-.active {
-  background-color: #b1bda5 !important;
+.pageTitle {
+  font-family: var(--font-opensans);
+  font-size: clamp(2.4rem, 3vw, 6.4rem);
   font-weight: 600;
-}
-
-.servicesList {
-  height: 100%;
-  width: 100%;
-  border-radius: 0;
-}
-
-.servicesListItem {
-  border: 0;
-  font-family: var(--font-poppins);
-  font-size: clamp(1.6rem, 2vw, 2.4rem);
-  cursor: pointer;
-  padding: 30px 10px;
-  background-color: #fbf4ea;
-}
-
-.servicesDescription {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  height: 100%;
-}
-
-.imageContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  object-fit: cover;
-  overflow: hidden;
-  width: 100%;
-}
-
-.imageContainer img {
-  width: 200%;
-}
-
-.servicesDescriptionText {
-  font-family: var(--font-poppins);
-  font-size: clamp(1.6rem, 2vw, 2.4rem);
-  width: 100%;
-  padding: 20px 16px;
+  margin: 2rem auto;
   text-align: center;
 }
 
-.servicesReadMoreBtn {
-  width: 80%;
-  font-family: var(--font-poppins);
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--black-color);
-}
-
-
-
-.cirugiaHeader {
-  text-align: center;
-  font-family: var(--font-poppins);
-  font-size: clamp(2.4rem, 4vw, 5.4rem);
-  font-weight: 600;
-}
-
-.cirugiaText {
-  text-align: center;
-  font-family: var(--font-poppins);
-  font-size: clamp(1.2rem, 2vw, 2.8rem);
-  padding: 10px 25px;
-}
-
-.clinicaGeneralImageContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  object-fit: cover;
-  overflow: hidden;
-  width: 100%;
-  height: 40%;
-}
-
-.clinicaGeneralImageContainer img {
-  width: 100%;
-}
-
-.clinicaGeneralHeader {
-  margin-top: 20px;
-  width: 100%;
-  text-align: center;
-  font-family: var(--font-poppins);
-  font-size: clamp(2rem, 3vw, 5.6rem);
-  font-weight: 600;
-}
-
-.clinicaGeneralText {
-  font-family: var(--font-poppins);
+.pageSubtitle {
+  font-family: var(--font-opensans);
   font-size: clamp(1.6rem, 2vw, 2.8rem);
-  padding: 10px 25px;
+  font-weight: 300;
+  line-height: 1.6;
+  text-align: center;
+  width: 60%;
+  margin: 2rem auto;
 }
 
-.listSpecialities {
-  margin: 0 auto;
-  width: 100%;
-  column-count: 3;
-  padding: 0 0 0 60px;
+.displayButton {
+  font-size: 80%;
+  width: 22rem;
+  height: 6rem;
 }
 
-.listSpecialities li {
-  font-family: var(--font-poppins);
-  font-size: clamp(1.6rem, 2vw, 2.4rem);
-}
-
-.clinicaGeneralImagePeluqueria {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  object-fit: cover;
+.cardContainer {
+  border-radius: 20px;
+  padding: 0 !important;
   overflow: hidden;
-  width: 100%;
-  height: 60%;
+  background-color: var(--tertiary-color);
 }
 
-.clinicaGeneralImagePeluqueria img {
-  width: 100%;
-}
-
-@media (max-width: 786px) {
-  .wrapper {
-    flex-direction: column;
-  }
-
-  .servicesListWrapper {
-    width: 100%;
-    display: grid;
-  }
-
-  .servicesList {
-    display: flex;
-  }
-
-  .servicesListItem {
-    display: inline-block;
-  }
-} */
-
-.wrapper {
-  width: 100vw;
-  display: flex;
-  margin: 50px 10px;
-  background-color: var(--light-color);
-  border-radius: 14px;
-}
-
-.leftPanelContainer {
+.cardBody {
   display: flex;
   flex-direction: column;
-}
-
-.rightPanelContainer {
-  overflow: hidden;
-}
-
-.buttonLeftPanel {
-  border: 0;
-  background-color: transparent;
-  padding: 2rem 1.5rem;
-  width: 100%;
-  text-align: start;
-  height: 100%;
-}
-
-.active {
-  background-color: #b1bda5 !important;
-  font-weight: 600;
-  border-left: 5px solid var(--black-color);
-}
-
-.imageContainer {
-  display: flex;
   justify-content: center;
   align-items: center;
-  object-fit: cover;
-  overflow: hidden;
-  width: 100%;
-}
-
-.imageContainer img {
-  width: 200%;
+  padding: 0 4rem;
 }
 
 .title {
-  font-size: clamp(2.4rem, 2vw, 6.4rem) !important;
+  font-size: 2.8rem !important;
 }
 
-.descriptionText {
-  font-size: clamp(1.8rem, 1vw, 2.4rem) !important;
-  padding: 0 5%;
+.text {
+  font-size: 2rem !important;
+  text-wrap: wrap;
 }
 
-.servicePlansContainer {
-  position: relative;
-  transition: 0.2s ease-in-out;
-  max-height: 33%;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-}
-
-.servicePlansHeader::after {
-  content: "Saber más \2192";
-  font-size: clamp(1.8rem, 2vw, 4.8rem);
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
-  text-wrap: nowrap;
-}
-.servicePlansContainer:hover {
-  cursor: pointer;
-}
-
-.servicePlansContainer:hover .servicePlansHeader::after {
-  opacity: 1;
-}
-
-.servicePlansHeader {
+.button {
   width: 100%;
-  position: absolute;
-  top: calc(50% - 20px);
-  margin: 0;
-  font-family: var(--font-poppins);
-  font-weight: 600;
-  font-size: clamp(1.8rem, 2vw, 4.8rem);
-  display: flex;
-  justify-content: space-around;
-}
-
-.planBgContainer {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  position: relative;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0.5;
-  width: 100% !important;
-}
-
-.primerosPasos {
-  background-image: url("/src/assets/img/planes/cat-puppy.jpg");
-}
-
-.madurando {
-  background-image: url("/src/assets/img/planes/dog-madurando.jpg");
-}
-
-.adultos {
-  background-image: url("/src/assets/img/planes/dog-adultos.jpg");
-}
-
-.leftPanelList {
-  display: flex;
-}
-
-.servicesList {
-  flex-direction: column;
-}
-
-@media (max-width: 768px) {
-  .servicesList {
-    flex-direction: column;
-    flex-grow: 1;
-    height: fit-content !important;
-  }
-
-  .active {
-    border-left: 0;
-    border-bottom: 5px solid var(--black-color);
-  }
-
-  .buttonLeftPanel {
-    text-align: center;
-    vertical-align: middle;
-    width: 100%;
-    font-size: 1.4rem;
-  }
 }

@@ -8,7 +8,7 @@
   font-family: var(--font-poppins);
   font-weight: 300;
   font-size: clamp(16px, 3vw, 20px);
-  text-wrap: nowrap;
+  text-wrap: wrap;
   width: auto;
   transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
     filter 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
