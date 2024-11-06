@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCalendar, monthArray } from "../helpers/useCalendar";
-import style from "../styles/Calendar.module.css";
+import { useCalendar, monthArray } from "../../helpers/useCalendar";
+import style from "../../styles/Calendar.module.css";
 
 const Calendar = () => {
   const [calendar, setCalendar] = useState([]);
@@ -45,7 +45,7 @@ const Calendar = () => {
             </button>
           </div>
         </div>
-        <table>
+        <table className="w-100">
           <thead>
             <tr className={style.tableHeader}>
               <th>DO</th>
@@ -59,16 +59,22 @@ const Calendar = () => {
           </thead>
           <tbody className={style.tableBody}>
             {calendar.map((week, index) => (
-              <tr key={index}>
+              <tr key={index} className={style.tableRow}>
                 {week.map((day) => (
                   <td
-                    className={`${day.inactive ? style.inactive : ""} ${
+                    key={day.number}
+                    className={`${style.tableCell} ${
+                      day.inactive ? style.inactive : ""
+                    } ${
                       day.number === date.getDate() &&
                       month === date.getMonth() &&
                       year === date.getFullYear()
                         ? style.isToday
                         : ""
                     }`}
+                    onClick={() => {
+                      console.log(day.number);
+                    }}
                   >
                     {day.number}
                   </td>

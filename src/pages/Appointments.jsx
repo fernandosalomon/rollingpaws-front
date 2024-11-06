@@ -1,4 +1,4 @@
-import Calendar from "../components/Calendar";
+import Calendar from "../components/shared/Calendar";
 
 const Appointments = () => {
   return <Calendar />;
