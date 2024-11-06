@@ -40,3 +40,13 @@ export const monthArray = {
   10: "Noviembre",
   11: "Diciembre",
 };
+
+export const dayArray = {
+  0: "Dom",
+  1: "Lun",
+  2: "Mar",
+  3: "Mie",
+  4: "Jue",
+  5: "Vie",
+  6: "Sab",
+};
