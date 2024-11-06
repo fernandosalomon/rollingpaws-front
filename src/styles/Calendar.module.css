@@ -1,0 +1,59 @@
+.calendar {
+  background-color: transparent;
+  padding: 0 1rem;
+  max-width: 250px;
+}
+
+.calendarHeader {
+  padding: 1.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 0.5px solid #ababab;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.month {
+  vertical-align: middle;
+  margin: 0;
+}
+
+.controlButtons {
+  display: inline-flex;
+  gap: 1.5rem;
+  margin-left: 2rem;
+  font-size: 2rem;
+}
+
+.controlButtons button {
+  border: 0;
+  background-color: transparent;
+  vertical-align: middle;
+}
+
+.tableHeader th {
+  text-align: center;
+  vertical-align: middle;
+  padding: 1rem 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.tableBody tr {
+  padding: 1.5rem 0;
+}
+
+.tableBody tr td {
+  padding: 0 0.5rem;
+  text-align: center;
+}
+
+.inactive {
+  color: rgb(196, 196, 196);
+}
+
+.isToday {
+  background-color: #ababab;
+  font-weight: 600;
+  border-radius: 50%;
+}

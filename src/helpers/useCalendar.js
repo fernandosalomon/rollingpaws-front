@@ -1,4 +1,4 @@
-const useCalendar = (year, month) => {
+export const useCalendar = (year, month) => {
   const numberOfDaysInMonth = new Date(year, month, 0).getDate();
   const numberOfDaysInLastMonth = new Date(year, month - 1, 0).getDate();
   const firstDayInMonth = new Date(2024, month - 1, 1).getDay();
@@ -8,15 +8,15 @@ const useCalendar = (year, month) => {
   const monthCalendar = [];
 
   for (let i = firstDayInMonth; i > 0; i--) {
-    tempArray.push(numberOfDaysInLastMonth - i + 1);
+    tempArray.push({ number: numberOfDaysInLastMonth - i + 1, inactive: true });
   }
 
   for (let i = 1; i <= numberOfDaysInMonth; i++) {
-    tempArray.push(i);
+    tempArray.push({ number: i, inactive: false });
   }
 
   for (let i = lastDayInMonth; i < 6; i++) {
-    tempArray.push(i - lastDayInMonth + 1);
+    tempArray.push({ number: i - lastDayInMonth + 1, inactive: true });
   }
 
   for (let i = 0; i < tempArray.length; i = i + 7) {
@@ -26,4 +26,17 @@ const useCalendar = (year, month) => {
   return monthCalendar;
 };
 
-export default useCalendar;
+export const monthArray = {
+  0: "Enero",
+  1: "Febrero",
+  2: "Marzo",
+  3: "Abril",
+  4: "Mayo",
+  5: "Junio",
+  6: "Julio",
+  7: "Agosto",
+  8: "Septiembre",
+  9: "Octubre",
+  10: "Noviembre",
+  11: "Diciembre",
+};
