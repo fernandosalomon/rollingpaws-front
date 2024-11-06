@@ -1,7 +1,13 @@
 import Calendar from "../components/shared/Calendar";
+import TaskView from "../components/shared/TaskView";
 
 const Appointments = () => {
-  return <Calendar />;
+  return (
+    <>
+      <Calendar />
+      <TaskView />
+    </>
+  );
 };
 
 export default Appointments;
