@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCalendar, monthArray } from "../../helpers/useCalendar";
 import style from "../../styles/Calendar.module.css";
+import { getCalendar, numberToMonth } from "../../helpers/DateFunctions";
 
 const Calendar = () => {
   const [calendar, setCalendar] = useState([]);
@@ -10,14 +10,14 @@ const Calendar = () => {
   const [day, setDay] = useState(date.getDate());
 
   useEffect(() => {
-    setCalendar(useCalendar(year, month + 1));
+    setCalendar(getCalendar(month, year));
   }, [year, month]);
 
   return (
     <>
       <div className={style.calendar}>
         <div className={style.calendarHeader}>
-          <h4 className={style.month}>{`${monthArray[month]} ${year}`}</h4>
+          <h4 className={style.month}>{`${numberToMonth[month]} ${year}`}</h4>
           <div className={style.controlButtons}>
             <button
               onClick={() => {
