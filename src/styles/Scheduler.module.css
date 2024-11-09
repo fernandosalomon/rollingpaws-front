@@ -1,0 +1,98 @@
+.container {
+  margin: 0 auto;
+  padding: 0 5rem;
+}
+
+.schedulerHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #f3f3f3;
+}
+
+.schedulerNavButton {
+  border: 0.5px solid #e0e0e0;
+  background-color: transparent;
+  padding: 0.5rem 1.5rem;
+  border-radius: 7px;
+}
+
+.schedulerNavButton:hover {
+  font-weight: 600;
+}
+
+.schedulerNavArrows {
+  border: 0;
+  background-color: transparent;
+  padding: 0.5rem;
+}
+
+.schedulerNavLabel {
+  display: inline;
+  margin: 0;
+}
+
+.schedulerViewButton {
+  background-color: var(--main-color-lighter);
+  border: 0;
+  font-size: 1.6rem;
+  color: var(--black-color);
+  padding: 0.5rem 1.5rem;
+  border-radius: 14px;
+  height: 75%;
+}
+
+.schedulerViewButton:hover,
+.schedulerViewButton:active,
+.schedulerViewButton:focus {
+  background-color: var(--main-color) !important;
+  color: var(--black-color) !important;
+}
+
+.schedulerViewButtonActive {
+  background-color: var(--main-color) !important;
+  font-weight: 600;
+}
+
+.schedulerViewHeaderCells {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-left: 0.5px solid #e0e0e0;
+  height: 100%;
+}
+
+.schedulerViewHeaderCell {
+  text-align: center;
+  padding: 1rem 0;
+  border: 0.5px solid #e0e0e0;
+  border-left: 0;
+  height: 100%;
+}
+
+.schedulerViewCellsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 100%;
+  border-left: 0.5px solid #e0e0e0;
+  height: 143.5px;
+}
+
+.schedulerViewCell {
+  height: 100%;
+  border: 0.5px solid #e0e0e0;
+  border-left: 0;
+}
+
+.schedulerViewCellLabel {
+  width: 100%;
+  text-align: end;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  font-family: var(--font-roboto);
+  font-size: 1.4rem;
+  color: var(--black-color);
+}
+
+.schedulerViewCellLabelFaded {
+  color: #e0e0e0;
+}
