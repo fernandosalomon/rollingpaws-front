@@ -54,9 +54,16 @@
   font-weight: 600;
 }
 
-.schedulerViewHeaderCells {
+.schedulerViewHeaderCellsMonthly {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-left: 0.5px solid #e0e0e0;
+  height: 100%;
+}
+
+.schedulerViewHeaderCellsWeekly {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   border-left: 0.5px solid #e0e0e0;
   height: 100%;
 }
@@ -72,9 +79,31 @@
 .schedulerViewCellsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  height: 100%;
   border-left: 0.5px solid #e0e0e0;
   height: 143.5px;
+}
+
+.schedulerViewCellsContainerWeekly {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-left: 0.5px solid #e0e0e0;
+}
+
+.schedulerViewCellsContainerDaily {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr;
+  border-left: 0.5px solid #e0e0e0;
+}
+
+.schedulerViewCellWeekly {
+  height: 41px;
+}
+
+.schedulerViewCellWeeklyHour {
+  text-align: end;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  font-size: 1.6rem;
 }
 
 .schedulerViewCell {

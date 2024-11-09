@@ -4,7 +4,7 @@ import { getCalendar, numberToMonth } from "../helpers/DateFunctions";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-const SchedulerCell = ({ children, label, fadeDate }) => {
+const SchedulerCell = ({ children, label, fadeDate, year, month, day }) => {
   return (
     <div className={style.schedulerViewCell}>
       <div
@@ -23,6 +23,7 @@ const Scheduler = () => {
   const [today, setToday] = useState(new Date());
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
+  const [day, setDay] = useState(today.getDate());
   const [calendar, setCalendar] = useState([]);
   const [view, setView] = useState("monthly");
 
@@ -107,29 +108,100 @@ const Scheduler = () => {
       </div>
       <div className={style.schedulerViewContainer}>
         <div className={style.schedulerView}>
-          <div className={style.schedulerViewHeaderHorizontal}>
-            <div className={style.schedulerViewHeaderCells}>
-              <div className={style.schedulerViewHeaderCell}>Dom</div>
-              <div className={style.schedulerViewHeaderCell}>Lun</div>
-              <div className={style.schedulerViewHeaderCell}>Mar</div>
-              <div className={style.schedulerViewHeaderCell}>Mie</div>
-              <div className={style.schedulerViewHeaderCell}>Jue</div>
-              <div className={style.schedulerViewHeaderCell}>Vie</div>
-              <div className={style.schedulerViewHeaderCell}>Sab</div>
-            </div>
-          </div>
+          {(view === "monthly" || view === "weekly") && (
+            <>
+              <div className={style.schedulerViewHeaderHorizontal}>
+                <div
+                  className={`${
+                    view === "monthly"
+                      ? style.schedulerViewHeaderCellsMonthly
+                      : view === "weekly"
+                      ? style.schedulerViewHeaderCellsWeekly
+                      : ""
+                  }`}
+                >
+                  {view === "monthly" && (
+                    <>
+                      <div className={style.schedulerViewHeaderCell}>Dom</div>
+                      <div className={style.schedulerViewHeaderCell}>Lun</div>
+                      <div className={style.schedulerViewHeaderCell}>Mar</div>
+                      <div className={style.schedulerViewHeaderCell}>Mie</div>
+                      <div className={style.schedulerViewHeaderCell}>Jue</div>
+                      <div className={style.schedulerViewHeaderCell}>Vie</div>
+                      <div className={style.schedulerViewHeaderCell}>Sab</div>
+                    </>
+                  )}
+                  {view === "weekly" && (
+                    <>
+                      <div className={style.schedulerViewHeaderCell}></div>
+                      <div className={style.schedulerViewHeaderCell}>Dom</div>
+                      <div className={style.schedulerViewHeaderCell}>Lun</div>
+                      <div className={style.schedulerViewHeaderCell}>Mar</div>
+                      <div className={style.schedulerViewHeaderCell}>Mie</div>
+                      <div className={style.schedulerViewHeaderCell}>Jue</div>
+                      <div className={style.schedulerViewHeaderCell}>Vie</div>
+                      <div className={style.schedulerViewHeaderCell}>Sab</div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
           <div className={style.schedulerViewContent}>
-            {calendar.map((week) => (
-              <div key={week} className={style.schedulerViewCellsContainer}>
-                {week.map((day) => (
-                  <SchedulerCell
-                    key={day.number}
-                    label={day.number}
-                    fadeDate={day.inactive}
-                  />
+            {view === "monthly" &&
+              calendar.map((week) => (
+                <div key={week} className={style.schedulerViewCellsContainer}>
+                  {week.map((day) => (
+                    <SchedulerCell
+                      key={day.number}
+                      label={day.number}
+                      fadeDate={day.inactive}
+                      year={year}
+                      month={month}
+                      day={day.number}
+                    />
+                  ))}
+                </div>
+              ))}
+            {view === "weekly" && (
+              <div className={style.schedulerViewCellsContainerWeekly}>
+                {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
+                  <>
+                    <div
+                      className={`${style.schedulerViewCellWeekly} ${style.schedulerViewCellWeeklyHour}`}
+                    >{`${hour}:00`}</div>
+                    {Array.from({ length: 7 }, (_, i) => i + 1).map((day) => (
+                      <SchedulerCell
+                        key={new Date(year, month, day, hour)}
+                        year={year}
+                        month={month}
+                        day={day}
+                        className={style.schedulerViewCellWeekly}
+                      />
+                    ))}
+                  </>
                 ))}
               </div>
-            ))}
+            )}
+            {view === "daily" && (
+              <div className={style.schedulerViewCellsContainerDaily}>
+                {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
+                  <>
+                    <div
+                      className={`${style.schedulerViewCellWeekly} ${style.schedulerViewCellWeeklyHour}`}
+                    >{`${hour}:00`}</div>
+
+                    <SchedulerCell
+                      key={new Date(year, month, day, hour)}
+                      year={year}
+                      month={month}
+                      day={day}
+                      className={style.schedulerViewCellWeekly}
+                    />
+                  </>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
