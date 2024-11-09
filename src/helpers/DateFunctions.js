@@ -1,8 +1,8 @@
 export const getCalendar = (month, year) => {
-  const numberOfDaysInMonth = new Date(year, month, 0).getDate();
-  const numberOfDaysInLastMonth = new Date(year, month - 1, 0).getDate();
-  const firstDayInMonth = new Date(2024, month - 1, 1).getDay();
-  const lastDayInMonth = new Date(year, month, 0).getDay();
+  const numberOfDaysInMonth = new Date(year, month + 1, 0).getDate();
+  const numberOfDaysInLastMonth = new Date(year, month, 0).getDate();
+  const firstDayInMonth = new Date(2024, month, 1).getDay();
+  const lastDayInMonth = new Date(year, month + 1, 0).getDay();
   const tempArray = [];
   const calendar = [];
 

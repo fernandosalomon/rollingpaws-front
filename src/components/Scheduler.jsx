@@ -28,6 +28,7 @@ const Scheduler = () => {
 
   useEffect(() => {
     setCalendar(getCalendar(month, year));
+    console.log(month);
   }, [month]);
 
   return (
@@ -108,13 +109,13 @@ const Scheduler = () => {
         <div className={style.schedulerView}>
           <div className={style.schedulerViewHeaderHorizontal}>
             <div className={style.schedulerViewHeaderCells}>
+              <div className={style.schedulerViewHeaderCell}>Dom</div>
               <div className={style.schedulerViewHeaderCell}>Lun</div>
               <div className={style.schedulerViewHeaderCell}>Mar</div>
               <div className={style.schedulerViewHeaderCell}>Mie</div>
               <div className={style.schedulerViewHeaderCell}>Jue</div>
               <div className={style.schedulerViewHeaderCell}>Vie</div>
               <div className={style.schedulerViewHeaderCell}>Sab</div>
-              <div className={style.schedulerViewHeaderCell}>Dom</div>
             </div>
           </div>
           <div className={style.schedulerViewContent}>
