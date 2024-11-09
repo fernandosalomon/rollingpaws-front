@@ -125,3 +125,13 @@
 .schedulerViewCellLabelFaded {
   color: #e0e0e0;
 }
+
+.spinnerContainer {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

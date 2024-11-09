@@ -10,22 +10,26 @@ export const getCalendar = (month, year) => {
     tempArray.push({
       number: numberOfDaysInLastMonth - i + 1,
       inactive: true,
+      month: month < 0 ? 11 : month - 1,
     });
   }
 
   for (let i = 1; i <= numberOfDaysInMonth; i++) {
-    tempArray.push({ number: i, inactive: false });
+    tempArray.push({ number: i, inactive: false, month: month });
   }
 
   for (let i = lastDayInMonth; i < 6; i++) {
-    tempArray.push({ number: i - lastDayInMonth + 1, inactive: true });
+    tempArray.push({
+      number: i - lastDayInMonth + 1,
+      inactive: true,
+      month: month > 11 ? 0 : month + 1,
+    });
   }
 
   for (let i = 0; i < tempArray.length; i = i + 7) {
     calendar.push(tempArray.slice(i, i + 7));
   }
 
-  console.log(calendar);
   return calendar;
 };
 
