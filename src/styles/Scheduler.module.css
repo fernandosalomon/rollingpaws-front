@@ -80,13 +80,6 @@
   color: rgb(196, 196, 196);
 }
 
-.schedulerViewCellsContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  border-left: 0.5px solid #e0e0e0;
-  height: 143.5px;
-}
-
 .schedulerViewCellsContainerWeekly {
   display: grid;
   grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -112,8 +105,7 @@
 
 .schedulerViewCell {
   height: 100%;
-  border: 0.5px solid #e0e0e0;
-  border-left: 0;
+  border: 0.5px solid #f3f3f3;
 }
 
 .schedulerViewCellLabel {
@@ -138,4 +130,76 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/*MONTH VIEW NEW */
+
+.schedulerViewCellsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 143.5px;
+}
+
+/* WEEK VIEW NEW */
+
+.schedulerViewContentWeeklyContainer {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border: 0;
+}
+
+.schedulerViewVerticalBar {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.schedulerViewVerticalBarCell {
+  height: 40px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.schedulerViewWeeklyCellContainer {
+  border-left: 0.5px solid #f3f3f3;
+  border-bottom: 0.5px solid #f3f3f3;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(24, 1fr);
+}
+
+.schedulerViewWeeklyCell {
+  border-top: 0.5px solid #f3f3f3;
+  border-bottom: 0.5px solid #f3f3f3;
+}
+
+.schedulerViewWeeklyCell:hover {
+  background-color: #f3f3f3;
+  cursor: pointer;
+}
+
+/* DAILY VIEW NEW */
+.schedulerViewContentDailyContainer {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr;
+  border: 0;
+}
+
+.schedulerViewDailyCellContainer {
+  border-left: 0.5px solid #f3f3f3;
+  border-bottom: 0.5px solid #f3f3f3;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(24, 1fr);
+}
+
+.schedulerViewDailyCell {
+  border-top: 0.5px solid #f3f3f3;
+  border-bottom: 0.5px solid #f3f3f3;
+}
+
+.schedulerViewDailyCell:hover {
+  background-color: #f3f3f3;
+  cursor: pointer;
 }

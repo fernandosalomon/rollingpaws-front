@@ -339,47 +339,69 @@ const Scheduler = () => {
                     ))}
                   {view === "weekly" && (
                     <>
-                      {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
-                        <div
-                          key={crypto.randomUUID()}
-                          className={style.schedulerViewCellsContainerWeekly}
-                        >
-                          <div
-                            className={`${style.schedulerViewCellWeekly} ${style.schedulerViewCellWeeklyHour}`}
-                            key={crypto.randomUUID()}
-                          >{`${hour}:00`}</div>
-                          {Array.from({ length: 7 }, (_, i) => i + 1).map(
-                            (day, index) => (
-                              <SchedulerCell
-                                key={crypto.randomUUID()}
-                                date={new Date(year, month, day, hour)}
-                                className={style.schedulerViewCellWeekly}
-                              />
+                      <div
+                        className={style.schedulerViewContentWeeklyContainer}
+                      >
+                        <div className={style.schedulerViewVerticalBar}>
+                          {Array.from({ length: 24 }, (_, i) => i).map(
+                            (hour) => (
+                              <div
+                                className={style.schedulerViewVerticalBarCell}
+                                key={hour}
+                              >
+                                {`${hour}:00`}
+                              </div>
                             )
                           )}
                         </div>
-                      ))}
+                        {Array.from({ length: 7 }, (_, i) => i + 1).map(
+                          (day, index) => (
+                            <div
+                              key={crypto.randomUUID()}
+                              className={style.schedulerViewWeeklyCellContainer}
+                            >
+                              {Array.from({ length: 24 }, (_, i) => i + 1).map(
+                                (hour) => (
+                                  <div
+                                    className={style.schedulerViewWeeklyCell}
+                                    key={crypto.randomUUID()}
+                                  ></div>
+                                )
+                              )}
+                            </div>
+                          )
+                        )}
+                      </div>
                     </>
                   )}
                   {view === "daily" && (
                     <>
-                      {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
-                        <div
-                          key={crypto.randomUUID()}
-                          className={style.schedulerViewCellsContainerDaily}
-                        >
-                          <div
-                            className={`${style.schedulerViewCellWeekly} ${style.schedulerViewCellWeeklyHour}`}
-                            key={crypto.randomUUID()}
-                          >{`${hour}:00`}</div>
-
-                          <SchedulerCell
-                            key={crypto.randomUUID()}
-                            date={new Date(year, month, day, hour)}
-                            className={style.schedulerViewCellWeekly}
-                          />
+                      <div
+                        className={style.schedulerViewContentDailyContainer}
+                      >
+                        <div className={style.schedulerViewVerticalBar}>
+                          {Array.from({ length: 24 }, (_, i) => i).map(
+                            (hour) => (
+                              <div
+                                className={style.schedulerViewVerticalBarCell}
+                                key={hour}
+                              >
+                                {`${hour}:00`}
+                              </div>
+                            )
+                          )}
                         </div>
-                      ))}
+                        <div className={style.schedulerViewDailyCellContainer}>
+                          {Array.from({ length: 24 }, (_, i) => i + 1).map(
+                            (hour) => (
+                              <div
+                                className={style.schedulerViewDailyCell}
+                                key={crypto.randomUUID()}
+                              ></div>
+                            )
+                          )}
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>
