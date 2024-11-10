@@ -4,6 +4,7 @@ import { getCalendar, numberToMonth } from "../helpers/DateFunctions";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Spinner from "react-bootstrap/Spinner";
+import useFetchAppointment from "../helpers/useFetchAppointment";
 
 const SchedulerCell = ({ children, label, fadeDate, date }) => {
   return (
@@ -16,6 +17,46 @@ const SchedulerCell = ({ children, label, fadeDate, date }) => {
         <p className="m-0">{label}</p>
       </div>
       <div>{children}</div>
+    </div>
+  );
+};
+
+const SchedulerCellWD = ({ children, className, date }) => {
+  const appointments = useFetchAppointment();
+
+  const todayAppointments =
+    appointments.filter(
+      (appointment) =>
+        appointment.startDate.getFullYear() === date.getFullYear() &&
+        appointment.startDate.getMonth() === date.getMonth() &&
+        appointment.startDate.getDate() === date.getDate()
+    ) || [];
+
+  console.log(todayAppointments);
+
+  return (
+    <div className={`${style.schedulerCellWDContainer} ${className}`}>
+      <div className={style.gridWrapper}>{children}</div>
+      <div className={style.appointmentWrapper}>
+        <div className={style.appointmentContainer}>
+          {todayAppointments.map((appointment) => (
+            <div
+              style={{
+                position: "absolute",
+                top: `${appointment.startDate.getHours() * 40}px`,
+                height: `${
+                  (appointment.endDate.getHours() -
+                    appointment.startDate.getHours()) *
+                  40
+                }px`,
+              }}
+              className={style.appointmentBox}
+            >
+              <h3 className="pt-2 ps-2">{appointment.owner}</h3>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
@@ -354,31 +395,28 @@ const Scheduler = () => {
                             )
                           )}
                         </div>
-                        {Array.from({ length: 7 }, (_, i) => i + 1).map(
-                          (day, index) => (
-                            <div
-                              key={crypto.randomUUID()}
-                              className={style.schedulerViewWeeklyCellContainer}
-                            >
-                              {Array.from({ length: 24 }, (_, i) => i + 1).map(
-                                (hour) => (
-                                  <div
-                                    className={style.schedulerViewWeeklyCell}
-                                    key={crypto.randomUUID()}
-                                  ></div>
-                                )
-                              )}
-                            </div>
-                          )
-                        )}
+                        {calendar[week].map((day) => (
+                          <SchedulerCellWD
+                            key={crypto.randomUUID()}
+                            className={style.schedulerViewWeeklyCellContainer}
+                            date={new Date(year, month, day.number)}
+                          >
+                            {Array.from({ length: 24 }, (_, i) => i + 1).map(
+                              (hour) => (
+                                <div
+                                  className={style.schedulerViewWeeklyCell}
+                                  key={crypto.randomUUID()}
+                                ></div>
+                              )
+                            )}
+                          </SchedulerCellWD>
+                        ))}
                       </div>
                     </>
                   )}
                   {view === "daily" && (
                     <>
-                      <div
-                        className={style.schedulerViewContentDailyContainer}
-                      >
+                      <div className={style.schedulerViewContentDailyContainer}>
                         <div className={style.schedulerViewVerticalBar}>
                           {Array.from({ length: 24 }, (_, i) => i).map(
                             (hour) => (
