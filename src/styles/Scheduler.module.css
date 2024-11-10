@@ -76,6 +76,10 @@
   height: 100%;
 }
 
+.schedulerViewHeaderCellInactive {
+  color: rgb(196, 196, 196);
+}
+
 .schedulerViewCellsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;

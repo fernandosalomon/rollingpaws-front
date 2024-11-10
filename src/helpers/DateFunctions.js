@@ -6,12 +6,6 @@ export const getCalendar = (month, year) => {
   const tempArray = [];
   const calendar = [];
 
-  console.log(`NumberOfDaysInMonth: ${numberOfDaysInMonth}`);
-  console.log(`NumberOfDaysInLastMonth: ${numberOfDaysInLastMonth}`);
-  console.log(`FirstDayInMonth: ${firstDayInMonth}`);
-  console.log(`LastDayInMonth: ${lastDayInMonth}`);
-  console.log(`Mes: `, month);
-
   for (let i = firstDayInMonth; i > 0; i--) {
     tempArray.push({
       number: numberOfDaysInLastMonth - i + 1,
@@ -36,7 +30,6 @@ export const getCalendar = (month, year) => {
     calendar.push(tempArray.slice(i, i + 7));
   }
 
-  console.log(calendar);
   return calendar;
 };
 

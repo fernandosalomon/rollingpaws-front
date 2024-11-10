@@ -5,15 +5,15 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Spinner from "react-bootstrap/Spinner";
 
-const SchedulerCell = ({ children, label, fadeDate, year, month, day }) => {
+const SchedulerCell = ({ children, label, fadeDate, date }) => {
   return (
     <div className={style.schedulerViewCell}>
       <div
         className={`${style.schedulerViewCellLabel} ${
-          fadeDate && style.schedulerViewCellLabelFaded
+          fadeDate ? style.schedulerViewCellLabelFaded : ""
         }`}
       >
-        {label}
+        <p className="m-0">{label}</p>
       </div>
       <div>{children}</div>
     </div>
@@ -51,6 +51,7 @@ const Scheduler = () => {
                   onClick={() => {
                     setMonth(today.getMonth());
                     setYear(today.getFullYear());
+                    setDay(today.getDate());
                   }}
                 >
                   Hoy
@@ -79,8 +80,29 @@ const Scheduler = () => {
                             setIsLoading(true);
                             setWeek(getCalendar(month - 1, year).length - 1);
                           }
+                          const isDayEndWeek = calendar[week].filter((day) => {
+                            return day.inactive !== true;
+                          });
+
+                          if (isDayEndWeek.length > 0) {
+                            setWeek(getCalendar(month, year).length - 2);
+                          }
                         } else {
                           setWeek(week - 1);
+                        }
+                      }
+                      if (view === "daily") {
+                        if (day - 1 <= 0) {
+                          if (month - 2 < 0) {
+                            setDay(new Date(year, month, 0).getDate());
+                            setMonth(11);
+                            setYear(year - 1);
+                          } else {
+                            setDay(new Date(year, month, 0).getDate());
+                            setMonth(month - 1);
+                          }
+                        } else {
+                          setDay(day - 1);
                         }
                       }
                     }}
@@ -111,8 +133,32 @@ const Scheduler = () => {
                             setIsLoading(true);
                             setWeek(0);
                           }
+
+                          const isDayStartWeek = calendar[week].filter(
+                            (day) => {
+                              return day.inactive !== true;
+                            }
+                          );
+
+                          if (isDayStartWeek.length > 0) {
+                            setWeek(1);
+                          }
                         } else {
                           setWeek(week + 1);
+                        }
+                      }
+                      if (view === "daily") {
+                        if (day + 1 >= new Date(year, month + 2, 0).getDate()) {
+                          if (month + 1 > 11) {
+                            setDay(1);
+                            setMonth(0);
+                            setYear(year + 1);
+                          } else {
+                            setDay(1);
+                            setMonth(month + 1);
+                          }
+                        } else {
+                          setDay(day + 1);
                         }
                       }
                     }}
@@ -136,7 +182,7 @@ const Scheduler = () => {
                           : calendar[week].slice(-1)[0].month
                       ]
                     }`}
-                  {view === "daily" && `${day} ${numberToMonth[month]}`}
+                  {view === "daily" && `${day} de ${numberToMonth[month]}`}
                 </p>
               </div>
               <div>
@@ -212,26 +258,61 @@ const Scheduler = () => {
                             <div
                               className={style.schedulerViewHeaderCell}
                             ></div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Dom
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][0].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Dom ${calendar[week][0].number}`}
                             </div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Lun
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][1].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Lun ${calendar[week][1].number}`}
                             </div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Mar
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][2].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Mar ${calendar[week][2].number}`}
                             </div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Mie
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][3].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Mie ${calendar[week][3].number}`}
                             </div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Jue
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][4].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Jue ${calendar[week][4].number}`}
                             </div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Vie
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][5].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Vie ${calendar[week][5].number}`}
                             </div>
-                            <div className={style.schedulerViewHeaderCell}>
-                              Sab
+                            <div
+                              className={`${style.schedulerViewHeaderCell} ${
+                                calendar[week][6].inactive &&
+                                style.schedulerViewHeaderCellInactive
+                              }`}
+                            >
+                              {`Sab ${calendar[week][6].number}`}
                             </div>
                           </>
                         )}
@@ -241,63 +322,65 @@ const Scheduler = () => {
                 )}
                 <div className={style.schedulerViewContent}>
                   {view === "monthly" &&
-                    calendar.map((week) => (
+                    calendar.map((week, index) => (
                       <div
-                        key={week}
+                        key={crypto.randomUUID()}
                         className={style.schedulerViewCellsContainer}
                       >
                         {week.map((day) => (
                           <SchedulerCell
-                            key={day.number}
+                            key={crypto.randomUUID()}
                             label={day.number}
                             fadeDate={day.inactive}
-                            year={year}
-                            month={month}
-                            day={day.number}
+                            date={new Date(year, month, day)}
                           />
                         ))}
                       </div>
                     ))}
                   {view === "weekly" && (
-                    <div className={style.schedulerViewCellsContainerWeekly}>
+                    <>
                       {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
-                        <>
+                        <div
+                          key={crypto.randomUUID()}
+                          className={style.schedulerViewCellsContainerWeekly}
+                        >
                           <div
                             className={`${style.schedulerViewCellWeekly} ${style.schedulerViewCellWeeklyHour}`}
+                            key={crypto.randomUUID()}
                           >{`${hour}:00`}</div>
                           {Array.from({ length: 7 }, (_, i) => i + 1).map(
-                            (day) => (
+                            (day, index) => (
                               <SchedulerCell
-                                key={new Date(year, month, day, hour)}
-                                year={year}
-                                month={month}
-                                day={day}
+                                key={crypto.randomUUID()}
+                                date={new Date(year, month, day, hour)}
                                 className={style.schedulerViewCellWeekly}
                               />
                             )
                           )}
-                        </>
+                        </div>
                       ))}
-                    </div>
+                    </>
                   )}
                   {view === "daily" && (
-                    <div className={style.schedulerViewCellsContainerDaily}>
+                    <>
                       {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
-                        <>
+                        <div
+                          key={crypto.randomUUID()}
+                          className={style.schedulerViewCellsContainerDaily}
+                        >
                           <div
                             className={`${style.schedulerViewCellWeekly} ${style.schedulerViewCellWeeklyHour}`}
+                            key={crypto.randomUUID()}
                           >{`${hour}:00`}</div>
 
                           <SchedulerCell
-                            key={new Date(year, month, day, hour)}
-                            year={year}
-                            month={month}
-                            day={day}
+                            key={crypto.randomUUID()}
+                            date={new Date(year, month, day, hour)}
                             className={style.schedulerViewCellWeekly}
                           />
-                        </>
+                        </div>
                       ))}
-                    </div>
+                    </>
                   )}
                 </div>
               </div>
