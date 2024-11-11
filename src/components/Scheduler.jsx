@@ -7,6 +7,16 @@ import Spinner from "react-bootstrap/Spinner";
 import useFetchAppointment from "../helpers/useFetchAppointment";
 
 const SchedulerCell = ({ children, label, fadeDate, date }) => {
+  const appointments = useFetchAppointment();
+
+  const todayAppointments =
+    appointments.filter(
+      (appointment) =>
+        appointment.startDate.getFullYear() === date.getFullYear() &&
+        appointment.startDate.getMonth() === date.getMonth() &&
+        appointment.startDate.getDate() === date.getDate()
+    ) || [];
+
   return (
     <div className={style.schedulerViewCell}>
       <div
@@ -14,7 +24,14 @@ const SchedulerCell = ({ children, label, fadeDate, date }) => {
           fadeDate ? style.schedulerViewCellLabelFaded : ""
         }`}
       >
-        <p className="m-0">{label}</p>
+        <p className="m-0 mb-2">{label}</p>
+        {todayAppointments.map((appointment) => (
+          <div className={style.appointmentBoxMonthly}>
+            <h3 className="mb-0 pt-2 ps-2 fs-5 h-100">{`${
+              appointment.owner
+            } - ${appointment.startDate.getHours()}:00 - ${appointment.endDate.getHours()}:00`}</h3>
+          </div>
+        ))}
       </div>
       <div>{children}</div>
     </div>
@@ -32,11 +49,11 @@ const SchedulerCellWD = ({ children, className, date }) => {
         appointment.startDate.getDate() === date.getDate()
     ) || [];
 
-  console.log(todayAppointments);
-
   return (
     <div className={`${style.schedulerCellWDContainer} ${className}`}>
-      <div className={style.gridWrapper}>{children}</div>
+      <div className={style.gridWrapper} onClick={() => console.log(date)}>
+        {children}
+      </div>
       <div className={style.appointmentWrapper}>
         <div className={style.appointmentContainer}>
           {todayAppointments.map((appointment) => (
@@ -361,7 +378,14 @@ const Scheduler = () => {
                     </div>
                   </>
                 )}
-                <div className={style.schedulerViewContent}>
+                <div
+                  className={style.schedulerViewContent}
+                  style={
+                    view !== "monthly"
+                      ? { marginTop: "2rem" }
+                      : { marginTop: "0" }
+                  }
+                >
                   {view === "monthly" &&
                     calendar.map((week, index) => (
                       <div
@@ -373,7 +397,7 @@ const Scheduler = () => {
                             key={crypto.randomUUID()}
                             label={day.number}
                             fadeDate={day.inactive}
-                            date={new Date(year, month, day)}
+                            date={new Date(year, month, day.number)}
                           />
                         ))}
                       </div>
@@ -390,7 +414,11 @@ const Scheduler = () => {
                                 className={style.schedulerViewVerticalBarCell}
                                 key={hour}
                               >
-                                {`${hour}:00`}
+                                <p
+                                  className={
+                                    style.schedulerViewVerticalBarTextContainer
+                                  }
+                                >{`${hour}:00`}</p>
                               </div>
                             )
                           )}
@@ -424,12 +452,21 @@ const Scheduler = () => {
                                 className={style.schedulerViewVerticalBarCell}
                                 key={hour}
                               >
-                                {`${hour}:00`}
+                                <p
+                                  className={
+                                    style.schedulerViewVerticalBarTextContainer
+                                  }
+                                >{`${hour}:00`}</p>
                               </div>
                             )
                           )}
                         </div>
-                        <div className={style.schedulerViewDailyCellContainer}>
+
+                        <SchedulerCellWD
+                          key={crypto.randomUUID()}
+                          className={style.schedulerViewDailyCellContainer}
+                          date={new Date(year, month, day)}
+                        >
                           {Array.from({ length: 24 }, (_, i) => i + 1).map(
                             (hour) => (
                               <div
@@ -438,7 +475,7 @@ const Scheduler = () => {
                               ></div>
                             )
                           )}
-                        </div>
+                        </SchedulerCellWD>
                       </div>
                     </>
                   )}

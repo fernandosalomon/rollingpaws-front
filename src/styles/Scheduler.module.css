@@ -154,15 +154,18 @@
 }
 
 .schedulerViewVerticalBarCell {
+  text-align: end;
   height: 40px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
   padding-right: 1rem;
 }
 
+.schedulerViewVerticalBarTextContainer {
+  margin-top: -10px;
+  margin-bottom: 0;
+}
+
 .schedulerViewWeeklyCellContainer {
-  border-left: 0.5px solid #f3f3f3;
+  border-right: 0.5px solid #f3f3f3;
   border-bottom: 0.5px solid #f3f3f3;
   display: grid;
   grid-template-columns: 1fr;
@@ -188,7 +191,7 @@
 }
 
 .schedulerViewDailyCellContainer {
-  border-left: 0.5px solid #f3f3f3;
+  border-right: 0.5px solid #f3f3f3;
   border-bottom: 0.5px solid #f3f3f3;
   display: grid;
   grid-template-columns: 1fr;
@@ -198,6 +201,7 @@
 .schedulerViewDailyCell {
   border-top: 0.5px solid #f3f3f3;
   border-bottom: 0.5px solid #f3f3f3;
+  height: 40px;
 }
 
 .schedulerViewDailyCell:hover {
@@ -240,4 +244,15 @@
   background-color: rgba(255, 130, 37, 0.5);
   width: 95%;
   border-left: 5px solid var(--black-color);
+}
+
+.appointmentBoxMonthly {
+  height: 35px;
+  width: 95%;
+  border-radius: 0 14px 14px 0;
+  background-color: rgba(255, 130, 37, 0.5);
+  width: 95%;
+  border-left: 5px solid var(--black-color);
+  text-align: start;
+  vertical-align: center;
 }
