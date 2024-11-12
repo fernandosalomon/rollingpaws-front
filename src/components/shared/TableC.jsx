@@ -30,8 +30,23 @@ const SearchBar = () => {
   );
 };
 
+const Pagination = ({ handleChangePage }) => {
+  return (
+    <div className={style.paginationWrapper}>
+      <p className={style.paginationLabel}>Página 1 de 5</p>
+      <div className={style.paginationControlButtons}>
+        <button className={style.paginationControlButton}>&#8810;</button>
+        <button className={style.paginationControlButton}>&#60;</button>
+        <button className={style.paginationControlButton}>&#62;</button>
+        <button className={style.paginationControlButton}>&#8811;</button>
+      </div>
+    </div>
+  );
+};
+
 const TableC = ({ data, columns }) => {
   const [resultsPerPage, setResultsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(0);
 
   return (
     <div className={style.tableContainer}>
@@ -75,6 +90,9 @@ const TableC = ({ data, columns }) => {
           ))}
         </tbody>
       </table>
+      <div>
+        <Pagination />
+      </div>
     </div>
   );
 };

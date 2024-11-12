@@ -79,3 +79,29 @@
   outline: none;
   font-size: 1.5rem;
 }
+
+.paginationWrapper {
+  width: 100%;
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  align-items: center;
+  justify-content: end;
+}
+
+.paginationControlButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.paginationControlButton {
+  border: 0;
+  background-color: transparent;
+}
+
+.paginationLabel {
+  margin: 0;
+  font-size: 1.5rem;
+}
