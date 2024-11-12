@@ -1,0 +1,81 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resultsPerPageSelect {
+  width: 70px;
+  font-size: 1.5rem;
+  border: 1px solid #f0f0f0 !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+.resultsPerPageWrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.resultsPerPageLabel {
+  margin: 0;
+  text-wrap: nowrap;
+}
+
+.tableContainer {
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.table {
+  width: 100%;
+}
+
+.tableHeaderWrapper {
+  border-bottom: 3px solid #f0f0f0;
+}
+
+.tableColumnLabel {
+  padding: 1rem 0.5rem;
+  text-transform: capitalize;
+  font-size: 1.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableContentRow {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tableContentRow:hover {
+  background-color: #f0f0f0;
+}
+
+.tableContentCell {
+  padding: 1rem 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.5rem;
+}
+
+.searchbarWrapper {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.searchbar {
+  max-width: 500px;
+  margin-left: auto;
+}
+
+.searchbarInput {
+  border: 1px solid #f0f0f0 !important;
+  box-shadow: none !important;
+  outline: none;
+  font-size: 1.5rem;
+}
