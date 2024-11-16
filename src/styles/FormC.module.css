@@ -20,6 +20,8 @@
   border-radius: 14px;
   justify-self: center;
   background-color: var(--secondary-color-lighter);
+  font-size: clamp(1.4rem, 3.5vw, 1.6rem) !important ;
+  padding: 0.7rem 1.5rem;
 }
 
 .formInput:active,
@@ -31,7 +33,7 @@
 }
 
 .formCheck {
-  font-size: clamp(14px, 3.5vw, 16px) !important ;
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem) !important ;
 }
 
 .formCheck input:checked {

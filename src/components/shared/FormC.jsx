@@ -5,6 +5,7 @@ import ButtonC from "./ButtonC";
 import { useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const {
@@ -230,7 +231,8 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   );
 };
 
-const SignInForm = ({ handleChangeForm }) => {
+const SignInForm = ({ handleChangeForm, handleCloseModal }) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -238,8 +240,42 @@ const SignInForm = ({ handleChangeForm }) => {
     watch,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    const { email, password } = data;
+
+    try {
+      const res = await clientAxios.post("/user", {
+        email: email,
+        password: password,
+      });
+
+      sessionStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("role", res.data.role);
+
+      Swal.fire({
+        icon: "success",
+        title: `Bienvenido de vuelta`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+
+      handleCloseModal();
+
+      if (res.data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("CHAu");
+      Swal.fire({
+        icon: "error",
+        title: `Algo salio mal`,
+        text: `${error.response.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
   });
 
   return (
@@ -284,16 +320,6 @@ const SignInForm = ({ handleChangeForm }) => {
               required: {
                 value: true,
                 message: "Campo requerido",
-              },
-              minLength: {
-                value: 8,
-                message: "La contraseña debe contener al menos 8 caracteres",
-              },
-              pattern: {
-                value:
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                message:
-                  "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
               },
             })}
           />
