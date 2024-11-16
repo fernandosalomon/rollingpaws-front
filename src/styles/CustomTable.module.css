@@ -105,3 +105,9 @@
   margin: 0;
   font-size: 1.5rem;
 }
+
+.buttonCRUD {
+  border: 0;
+  background-color: transparent;
+  padding: 1rem;
+}
