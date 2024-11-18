@@ -2,9 +2,213 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
 import ButtonC from "./ButtonC";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
+import Spinner from "react-bootstrap/Spinner";
+
+const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
+  const [userData, setUserData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const res = await clientAxios.get(`user/${userID}`);
+        setUserData(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    setError,
+  } = useForm();
+
+  useEffect(() => {
+    setValue("username", userData.fullname);
+    setValue("email", userData.email);
+    setValue("phone", userData.phone);
+    setValue("address", userData.address);
+  }, [userData]);
+
+  const onSubmit = handleSubmit(async (data) => {
+    const { username, email, phone, address } = data;
+    console.log(data);
+
+    try {
+      const res = await clientAxios.put(`/user/${userID}`, {
+        fullname: username,
+        email: email,
+        phone: phone,
+        address: address,
+      });
+      handleUpdateData();
+      handleCloseModal();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Usuario editado con exito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      setError("root", {
+        message: `Sucedio un error al tratar de editar al usuario. Error: ${error}`,
+      });
+    }
+  });
+
+  return isLoading ? (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  ) : (
+    <>
+      <Form onSubmit={onSubmit} className={style.form}>
+        <h2 className={style.formTitle}>Editar Usuario</h2>
+
+        <div className={style.editUserProfileImageContainer}>
+          <img
+            src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
+            alt="User Profile Picture"
+            className={style.editUserProfileImage}
+          />
+          <div className={style.editUserProfileImageButtons}>
+            <button className={style.editUserButton}>Cambiar Imagen</button>
+            <button className={style.cancelButton}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-trash"
+                viewBox="0 0 16 16"
+              >
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+              </svg>
+              <p className="m-0 ms-2 d-inline">Eliminar Imagen</p>
+            </button>
+          </div>
+        </div>
+
+        <Form.Group className="mb-3 d-grid" controlId="userFullName">
+          <Form.Label className={style.formLabelEditUser}>Nombre</Form.Label>
+          <Form.Control
+            type="text"
+            className={style.formInputEditUser}
+            {...register("username", {
+              required: { value: true, message: "Campo requerido" },
+              minLength: {
+                value: 2,
+                message: "Mínimo requerido: 2 caracteres",
+              },
+              maxLength: {
+                value: 40,
+                message: "Máximo permitido: 40 caracteres",
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                message: "Formato de nombre inválido.",
+              },
+            })}
+          />
+          {errors.username && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.username.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-3 d-grid" controlId="userEmail">
+          <Form.Label className={style.formLabelEditUser}>
+            Correo Electrónico
+          </Form.Label>
+          <Form.Control
+            type="text"
+            className={style.formInputEditUser}
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
+            })}
+          />
+          {errors.email && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.email.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-3 d-grid" controlId="userPhone">
+          <Form.Label className={style.formLabelEditUser}>Teléfono</Form.Label>
+          <Form.Control
+            type="text"
+            className={style.formInputEditUser}
+            {...register("phone", {
+              pattern: {
+                value:
+                  /^\+?(\d{1,3})?[-.\s]?(\d{1,4})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+                message: "Formato de teléfono inválido.",
+              },
+            })}
+          />
+          {errors.phone && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.phone.message}
+            </span>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-3 d-grid" controlId="userAddress">
+          <Form.Label className={style.formLabelEditUser}>Dirección</Form.Label>
+          <Form.Control
+            type="text"
+            className={style.formInputEditUser}
+            {...register("address", {
+              pattern: {
+                value: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s']+$/,
+                message: "Formato de dirección inválido.",
+              },
+            })}
+          />
+          {errors.address && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.address.message}
+            </span>
+          )}
+        </Form.Group>
+        <div className={style.editUserFormButtonContainer}>
+          <button className={style.editUserButton} type="submit">
+            Editar Usuario
+          </button>
+          <button className={style.cancelButton} onClick={handleCloseModal}>
+            Cancelar
+          </button>
+        </div>
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
+      </Form>
+    </>
+  );
+};
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const {
@@ -356,7 +560,7 @@ const SignInForm = ({ handleChangeForm }) => {
   );
 };
 
-const FormC = ({ variant, handleCloseModal }) => {
+const FormC = ({ variant, handleCloseModal, userID, handleUpdateData }) => {
   const [formType, setFormType] = useState(variant);
 
   const handleChangeForm = (form) => {
@@ -375,6 +579,13 @@ const FormC = ({ variant, handleCloseModal }) => {
         <SignInForm
           handleChangeForm={handleChangeForm}
           handleCloseModal={handleCloseModal}
+        />
+      )}
+      {formType === "edit-user" && (
+        <EditUserForm
+          handleCloseModal={handleCloseModal}
+          userID={userID}
+          handleUpdateData={handleUpdateData}
         />
       )}
     </>

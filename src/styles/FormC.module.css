@@ -105,3 +105,73 @@
   font-size: larger;
   font-family: var(--font-poppins);
 }
+
+/*EDITAR USUARIO */
+
+.editUserProfileImageContainer {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.editUserProfileImage {
+  width: 120px;
+  height: 120px;
+}
+
+.editUserProfileImageButtons {
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  justify-content: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.formLabelEditUser {
+  font-family: var(--font-poppins);
+  font-size: clamp(1.2rem, 1vw, 1.4rem);
+  color: #8d8d8d;
+}
+
+.formInputEditUser {
+  height: 3.6rem;
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1vw, 1.4rem);
+  padding: 1rem;
+}
+
+.formInputEditUser:focus,
+.formInputEditUser:active {
+  border-color: inherit;
+  box-shadow: none;
+}
+
+.editUserFormButtonContainer {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+  margin-top: 2rem;
+}
+
+.editUserButton {
+  padding: 1rem;
+  background-color: var(--main-color);
+  border: 0;
+  border-radius: 7px;
+  font-weight: 400;
+  font-family: var(--font-poppins);
+  font-size: clamp(1.2rem, 1vw, 1.4rem);
+  color: var(--black-color);
+}
+
+.cancelButton {
+  padding: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--black-color);
+  border-radius: 7px;
+  font-weight: 400;
+  font-family: var(--font-poppins);
+  font-size: clamp(1.2rem, 1vw, 1.4rem);
+  color: var(--black-color);
+}

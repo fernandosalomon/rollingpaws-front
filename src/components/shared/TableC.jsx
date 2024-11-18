@@ -2,11 +2,74 @@ import { Form } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import style from "../../styles/CustomTable.module.css";
 import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import FormC from "./FormC";
+import clientAxios from "../../helpers/clientAxios";
+import Swal from "sweetalert2";
 
-const CRUD = () => {
+const CRUD = ({ entryId, handleUpdateData, isBanned }) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleEditUser = () => {
+    handleShow();
+  };
+
+  const handleBanUser = async () => {
+    try {
+      const res = await clientAxios.put(`/user/ban-user/${entryId}`);
+      Swal.fire({
+        title: `Usuario ${isBanned ? "habilitado" : "deshabilitado"}`,
+        icon: "success",
+      });
+      handleUpdateData();
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Error",
+        text: `El usuario no se pudo deshabilitar. Error: ${error.response.message}`,
+        icon: "success",
+      });
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    const result = await Swal.fire({
+      title: "¿Esta seguro que desea eliminar a este usuario?",
+      text: "Este cambio no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Borrar Usuario",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(`/user/${entryId}`);
+        Swal.fire({
+          title: "Usuario Eliminado",
+          text: "El usuario fue eliminado satisfactoriamente",
+          icon: "success",
+        });
+        handleUpdateData();
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "Error",
+          text: `El usuario no se pudo eliminar. Error: ${error.response.message}`,
+          icon: "success",
+        });
+      }
+    }
+  };
+
   return (
     <>
-      <button className={style.buttonCRUD}>
+      <button className={style.buttonCRUD} onClick={handleEditUser}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -22,19 +85,14 @@ const CRUD = () => {
           />
         </svg>
       </button>
-      <button className={style.buttonCRUD}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="currentColor"
-          class="bi bi-person-slash"
-          viewBox="0 0 16 16"
-        >
-          <path d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465m-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
-        </svg>
+      <button className={style.buttonCRUD} onClick={handleBanUser}>
+        {isBanned ? (
+          <span className={style.unbanUserButton}>Desbloquear</span>
+        ) : (
+          <span className={style.banUserButton}>Bloquear</span>
+        )}
       </button>
-      <button className={style.buttonCRUD}>
+      <button className={style.buttonCRUD} onClick={handleDeleteUser}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -46,6 +104,17 @@ const CRUD = () => {
           <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
         </svg>
       </button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Body>
+          <FormC
+            variant="edit-user"
+            handleCloseModal={handleClose}
+            userID={entryId}
+            handleUpdateData={handleUpdateData}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
@@ -91,7 +160,7 @@ const Pagination = ({ handleChangePage }) => {
   );
 };
 
-const TableC = ({ data, columns, CRUDButtons }) => {
+const TableC = ({ data, columns, CRUDButtons, handleUpdateData }) => {
   const [resultsPerPage, setResultsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -137,7 +206,11 @@ const TableC = ({ data, columns, CRUDButtons }) => {
               {CRUDButtons && (
                 <td>
                   <div>
-                    <CRUD />
+                    <CRUD
+                      entryId={dataRow._id}
+                      handleUpdateData={handleUpdateData}
+                      isBanned={dataRow.banned}
+                    />
                   </div>
                 </td>
               )}

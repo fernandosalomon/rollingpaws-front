@@ -6,6 +6,11 @@ import Spinner from "react-bootstrap/Spinner";
 const AdminPage = () => {
   const [data, setData] = useState([]);
 
+  const handleUpdateData = async () => {
+    const data = await getAllUsers();
+    setData(data);
+  };
+
   useEffect(() => {
     (async function () {
       const data = await getAllUsers();
@@ -13,14 +18,17 @@ const AdminPage = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const columns = ["fullname", "email", "address", "phone"];
 
   if (data) {
-    return <TableC data={data} columns={columns} CRUDButtons={true} />;
+    return (
+      <TableC
+        data={data}
+        columns={columns}
+        CRUDButtons={true}
+        handleUpdateData={handleUpdateData}
+      />
+    );
   } else {
     return <Spinner animation="border" />;
   }

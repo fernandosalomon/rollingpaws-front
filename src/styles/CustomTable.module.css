@@ -111,3 +111,19 @@
   background-color: transparent;
   padding: 1rem;
 }
+
+.banUserButton {
+  padding: 1rem;
+  background-color: #dc3545;
+  font-weight: 600;
+  color: var(--white-color);
+  border-radius: 7px;
+}
+
+.unbanUserButton {
+  padding: 1rem;
+  background-color: #28a745;
+  font-weight: 600;
+  color: var(--white-color);
+  border-radius: 7px;
+}
