@@ -198,7 +198,11 @@ const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
           <button className={style.editUserButton} type="submit">
             Editar Usuario
           </button>
-          <button className={style.cancelButton} onClick={handleCloseModal}>
+          <button
+            className={style.cancelButton}
+            type="button"
+            onClick={handleCloseModal}
+          >
             Cancelar
           </button>
         </div>

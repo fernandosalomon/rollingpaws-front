@@ -21,8 +21,11 @@ const CRUD = ({ entryId, handleUpdateData, isBanned }) => {
     try {
       const res = await clientAxios.put(`/user/ban-user/${entryId}`);
       Swal.fire({
+        position: "top-end",
         title: `Usuario ${isBanned ? "habilitado" : "deshabilitado"}`,
         icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
       });
       handleUpdateData();
     } catch (error) {
@@ -30,7 +33,9 @@ const CRUD = ({ entryId, handleUpdateData, isBanned }) => {
       Swal.fire({
         title: "Error",
         text: `El usuario no se pudo deshabilitar. Error: ${error.response.message}`,
-        icon: "success",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1500,
       });
     }
   };
