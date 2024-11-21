@@ -43,6 +43,16 @@
   font-size: clamp(16px, 2vw, 24px);
 }
 
+.modalHeader {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.modalBody {
+  padding: 0;
+  margin: 0 1.5rem 1rem 1.5rem;
+}
+
 @media (max-width: 768px) {
   .Navbar {
     flex-direction: column !important;
@@ -59,5 +69,12 @@
 
   .NavLinks a {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 425px) {
+  .modalBody {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }

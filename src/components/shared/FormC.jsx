@@ -5,8 +5,11 @@ import ButtonC from "./ButtonC";
 import { useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
+import InputGroup from "react-bootstrap/InputGroup";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -45,14 +48,26 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
 
   return (
     <>
+      <div className="d-flex flex-column align-items-center">
+        <h2>Registro</h2>
+        <div className="d-block text-center mb-3">
+          ¿Ya tienes una cuenta?{" "}
+          <spam
+            className={style.changeFormLink}
+            onClick={() => {
+              handleChangeForm("sign-in");
+            }}
+          >
+            Accede desde aquí
+          </spam>
+        </div>
+      </div>
       <Form onSubmit={onSubmit} className={style.form}>
-        <h2 className={style.formTitle}>Registrarse</h2>
-
         <Form.Group className="mb-3 d-grid" controlId="SignUpName">
           <Form.Label className={style.formLabel}>Nombre</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Ingrese su Nombre"
+            placeholder="Juan Carlos"
             className={style.formInput}
             {...register("username", {
               required: { value: true, message: "Campo requerido" },
@@ -84,7 +99,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           </Form.Label>
           <Form.Control
             type="text"
-            placeholder="Ingrese su Email"
+            placeholder="email@email.com"
             className={style.formInput}
             {...register("email", {
               required: {
@@ -107,27 +122,62 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
 
         <Form.Group className="mb-3 d-grid" controlId="SignUpPassword">
           <Form.Label className={style.formLabel}>Contraseña</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            className={style.formInput}
-            {...register("password", {
-              required: {
-                value: true,
-                message: "Campo requerido",
-              },
-              minLength: {
-                value: 8,
-                message: "La contraseña debe contener al menos 8 caracteres",
-              },
-              pattern: {
-                value:
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                message:
-                  "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
-              },
-            })}
-          />
+          <InputGroup>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="Crea tu contraseña"
+              className={style.formInput}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "Campo requerido",
+                },
+                minLength: {
+                  value: 8,
+                  message: "La contraseña debe contener al menos 8 caracteres",
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                  message:
+                    "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
+                },
+              })}
+            />
+            <InputGroup.Text
+              className={style.passwordEye}
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  class="bi bi-eye-slash"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
+                  <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
+                  <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  class="bi bi-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                </svg>
+              )}
+            </InputGroup.Text>
+          </InputGroup>
           {errors.password && (
             <span className={style.errorMessage}>
               <i className="bi bi-exclamation-circle-fill me-1"></i>
@@ -140,9 +190,10 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           <Form.Label className={style.formLabel}>
             Repetir Contraseña
           </Form.Label>
+
           <Form.Control
-            type="password"
-            placeholder="Password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Confirma tu contraseña"
             className={style.formInput}
             {...register("repeatPassword", {
               validate: (value) =>
@@ -150,6 +201,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
                 "Las contraseñas deben coincidir",
             })}
           />
+
           {errors.repeatPassword && (
             <span className={style.errorMessage}>
               <i className="bi bi-exclamation-circle-fill me-1"></i>
@@ -171,6 +223,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
                 value || "Debe aceptar los terminos y condiciones",
             })}
           />
+
           {errors.termsAndConditions && (
             <span className={style.errorMessage}>
               <i className="bi bi-exclamation-circle-fill me-1"></i>
@@ -182,17 +235,6 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
         <ButtonC type="submit" className={style.formSubmitButton}>
           Registrarse
         </ButtonC>
-        <Form.Text className="d-block text-center mt-3">
-          ¿Ya tienes una cuenta?{" "}
-          <spam
-            className={style.changeFormLink}
-            onClick={() => {
-              handleChangeForm("sign-in");
-            }}
-          >
-            Accede desde aquí
-          </spam>
-        </Form.Text>
       </Form>
       <div className={style.dividerBar}>
         <div></div>
@@ -231,6 +273,8 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
 };
 
 const SignInForm = ({ handleChangeForm }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -244,9 +288,21 @@ const SignInForm = ({ handleChangeForm }) => {
 
   return (
     <>
+      <div className="d-flex flex-column align-items-center">
+        <h2>Iniciar Sesión</h2>
+        <div className="d-block text-center mb-3">
+          ¿No tienes una cuenta?
+          <spam
+            className={style.changeFormLink}
+            onClick={() => {
+              handleChangeForm("sign-up");
+            }}
+          >
+            Registrate aquí
+          </spam>
+        </div>
+      </div>
       <Form onSubmit={onSubmit} className={style.form}>
-        <h2 className={style.formTitle}>Iniciar Sesión</h2>
-
         <Form.Group className="mb-3 d-grid" controlId="SignUpEmail">
           <Form.Label className={style.formLabel}>
             Correo Electrónico
@@ -276,27 +332,64 @@ const SignInForm = ({ handleChangeForm }) => {
 
         <Form.Group className="mb-3 d-grid" controlId="SignUpPassword">
           <Form.Label className={style.formLabel}>Contraseña</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            className={style.formInput}
-            {...register("password", {
-              required: {
-                value: true,
-                message: "Campo requerido",
-              },
-              minLength: {
-                value: 8,
-                message: "La contraseña debe contener al menos 8 caracteres",
-              },
-              pattern: {
-                value:
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                message:
-                  "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
-              },
-            })}
-          />
+          <InputGroup className={`${style.passwordInput} mb-3`}>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className={style.formInput}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "Campo requerido",
+                },
+                minLength: {
+                  value: 8,
+                  message: "La contraseña debe contener al menos 8 caracteres",
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                  message:
+                    "La contraseña debe contener al menos una mayuscula, una minuscula, un número y un caracter especial (@$!%*?&)",
+                },
+              })}
+            />
+
+            <InputGroup.Text
+              className={style.passwordEye}
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  class="bi bi-eye-slash"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
+                  <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
+                  <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  class="bi bi-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                </svg>
+              )}
+            </InputGroup.Text>
+          </InputGroup>
+
           {errors.password && (
             <span className={style.errorMessage}>
               <i className="bi bi-exclamation-circle-fill me-1"></i>
@@ -308,17 +401,6 @@ const SignInForm = ({ handleChangeForm }) => {
         <ButtonC type="submit" className={style.formSubmitButton}>
           Iniciar Sesión
         </ButtonC>
-        <Form.Text className="d-block text-center mt-3">
-          ¿No tienes una cuenta?
-          <spam
-            className={style.changeFormLink}
-            onClick={() => {
-              handleChangeForm("sign-up");
-            }}
-          >
-            Registrate aquí
-          </spam>
-        </Form.Text>
       </Form>
       <div className={style.dividerBar}>
         <div></div>

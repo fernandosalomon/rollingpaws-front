@@ -8,6 +8,7 @@ import ButtonC from "./shared/ButtonC";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormC from "./shared/FormC";
+import style from "../styles/Navbar.module.css";
 
 const SignUpModal = ({ show, handleClose }) => {
   return (
@@ -18,39 +19,16 @@ const SignUpModal = ({ show, handleClose }) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Body
-          style={{
-            position: "relative",
-            padding: "24px 32px",
-            background: "url(./src/assets/img/paws-bg.svg)",
-          }}
-        >
-          <div
-            className=""
-            style={{
-              position: "absolute",
-              top: "0",
-              left: "calc(100% - 18px - 7px)",
-            }}
-          >
-            <button
-              style={{
-                border: 0,
-                backgroundColor: "transparent",
-                fontSize: "1.5rem",
-              }}
-              onClick={handleClose}
-            >
-              X
-            </button>
-          </div>
+        <Modal.Header className={style.modalHeader}>
+          <button className="btn-close" onClick={handleClose}></button>
+        </Modal.Header>
+        <Modal.Body className={style.modalBody}>
           <FormC variant="sign-up" handleCloseModal={handleClose} />
         </Modal.Body>
       </Modal>
     </>
   );
 };
-import style from "../styles/Navbar.module.css";
 
 const NavbarC = () => {
   const [showSignUp, setShowSignUp] = useState(false);

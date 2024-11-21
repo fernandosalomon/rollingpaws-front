@@ -24,11 +24,12 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 62.5%;
+.modal-content {
+  background-color: rgb(255, 251, 245) !important;
+  min-width: 290px;
 }
 
-body {
-  font-size: 1.6rem;
-  font-family: var(--font-poppins);
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
 }
