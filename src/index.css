@@ -24,3 +24,8 @@
   background-color: rgb(255, 251, 245) !important;
   min-width: 290px;
 }
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
