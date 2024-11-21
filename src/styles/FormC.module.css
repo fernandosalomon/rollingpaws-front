@@ -1,37 +1,40 @@
 .form {
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 1rem 0 1rem;
 }
 
 .formTitle {
   font-family: var(--font-poppins);
   font-size: clamp(2rem, 10vw, 2.5rem);
-  margin: 2rem 0;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
 .formLabel {
   font-family: var(--font-poppins);
-  font-size: clamp(16px, 5vw, 24px);
+  font-size: clamp(14px, 1vw, 16px);
   font-weight: 500;
 }
 
 .formInput {
   width: 98%;
-  border-radius: 14px;
+  border-radius: 4px;
   justify-self: center;
-  background-color: var(--secondary-color-lighter);
+  height: 44px;
+  background-color: #f2f2f2;
+  border: 0;
+  font-family: var(--font-poppins);
 }
 
 .formInput:active,
 .formInput:focus {
   outline: 0;
   box-shadow: none;
-  background-color: var(--secondary-color-lighter);
-  border-color: var(--secondary-color);
+  border: 2px solid var(--main-color);
 }
 
 .formCheck {
   font-size: clamp(14px, 3.5vw, 16px) !important ;
+  filter: drop-shadow(1px 1px 1px #ababab);
 }
 
 .formCheck input:checked {
@@ -48,7 +51,9 @@
 }
 
 .formSubmitButton {
-  width: calc(100% - 20px);
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  width: 100%;
 }
 
 .errorMessage {
@@ -86,7 +91,7 @@
   left: calc(50% - 5px);
   margin: 0;
   z-index: 2;
-  background-color: #fff6e4ff;
+  background-color: #fff;
   padding: 0 5px;
 }
 
@@ -99,9 +104,16 @@
   gap: 20px;
   width: 100%;
   padding: 0.7rem 0 !important;
-  background-color: transparent;
+  background-color: #f2f2f2;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px;
-  font-size: larger;
+  font-size: clamp(18px, 2vw, 24px);
   font-family: var(--font-poppins);
+}
+
+@media (max-width: 425px) {
+  .form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }

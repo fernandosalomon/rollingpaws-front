@@ -45,14 +45,26 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
 
   return (
     <>
+      <div className="d-flex flex-column align-items-center">
+        <h2>Registro</h2>
+        <div className="d-block text-center mb-3">
+          ¿Ya tienes una cuenta?{" "}
+          <spam
+            className={style.changeFormLink}
+            onClick={() => {
+              handleChangeForm("sign-in");
+            }}
+          >
+            Accede desde aquí
+          </spam>
+        </div>
+      </div>
       <Form onSubmit={onSubmit} className={style.form}>
-        <h2 className={style.formTitle}>Registrarse</h2>
-
         <Form.Group className="mb-3 d-grid" controlId="SignUpName">
           <Form.Label className={style.formLabel}>Nombre</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Ingrese su Nombre"
+            placeholder="Juan Carlos"
             className={style.formInput}
             {...register("username", {
               required: { value: true, message: "Campo requerido" },
@@ -84,7 +96,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           </Form.Label>
           <Form.Control
             type="text"
-            placeholder="Ingrese su Email"
+            placeholder="email@email.com"
             className={style.formInput}
             {...register("email", {
               required: {
@@ -109,7 +121,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           <Form.Label className={style.formLabel}>Contraseña</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Crea tu contraseña"
             className={style.formInput}
             {...register("password", {
               required: {
@@ -142,7 +154,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           </Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Confirma tu contraseña"
             className={style.formInput}
             {...register("repeatPassword", {
               validate: (value) =>
@@ -182,17 +194,6 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
         <ButtonC type="submit" className={style.formSubmitButton}>
           Registrarse
         </ButtonC>
-        <Form.Text className="d-block text-center mt-3">
-          ¿Ya tienes una cuenta?{" "}
-          <spam
-            className={style.changeFormLink}
-            onClick={() => {
-              handleChangeForm("sign-in");
-            }}
-          >
-            Accede desde aquí
-          </spam>
-        </Form.Text>
       </Form>
       <div className={style.dividerBar}>
         <div></div>
@@ -244,9 +245,21 @@ const SignInForm = ({ handleChangeForm }) => {
 
   return (
     <>
+      <div className="d-flex flex-column align-items-center">
+        <h2>Iniciar Sesión</h2>
+        <div className="d-block text-center mb-3">
+          ¿No tienes una cuenta?
+          <spam
+            className={style.changeFormLink}
+            onClick={() => {
+              handleChangeForm("sign-up");
+            }}
+          >
+            Registrate aquí
+          </spam>
+        </div>
+      </div>
       <Form onSubmit={onSubmit} className={style.form}>
-        <h2 className={style.formTitle}>Iniciar Sesión</h2>
-
         <Form.Group className="mb-3 d-grid" controlId="SignUpEmail">
           <Form.Label className={style.formLabel}>
             Correo Electrónico
@@ -308,17 +321,6 @@ const SignInForm = ({ handleChangeForm }) => {
         <ButtonC type="submit" className={style.formSubmitButton}>
           Iniciar Sesión
         </ButtonC>
-        <Form.Text className="d-block text-center mt-3">
-          ¿No tienes una cuenta?
-          <spam
-            className={style.changeFormLink}
-            onClick={() => {
-              handleChangeForm("sign-up");
-            }}
-          >
-            Registrate aquí
-          </spam>
-        </Form.Text>
       </Form>
       <div className={style.dividerBar}>
         <div></div>

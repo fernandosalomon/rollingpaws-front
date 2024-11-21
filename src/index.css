@@ -19,3 +19,8 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.modal-content {
+  background-color: rgb(255, 251, 245) !important;
+  min-width: 290px;
+}
