@@ -50,16 +50,16 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
     <>
       <div className="d-flex flex-column align-items-center">
         <h2>Registro</h2>
-        <div className="d-block text-center mb-3">
-          ¿Ya tienes una cuenta?{" "}
-          <spam
+        <div className="d-flex flex-column flex-md-row align-items-center mb-3">
+          <p className="m-0">¿Ya tienes una cuenta?</p>
+          <span
             className={style.changeFormLink}
             onClick={() => {
               handleChangeForm("sign-in");
             }}
           >
             Accede desde aquí
-          </spam>
+          </span>
         </div>
       </div>
       <Form onSubmit={onSubmit} className={style.form}>
@@ -290,16 +290,16 @@ const SignInForm = ({ handleChangeForm }) => {
     <>
       <div className="d-flex flex-column align-items-center">
         <h2>Iniciar Sesión</h2>
-        <div className="d-block text-center mb-3">
-          ¿No tienes una cuenta?
-          <spam
+        <div className="d-flex flex-column flex-md-row align-items-center mb-3">
+          <p className="m-0">¿No tienes una cuenta?</p>
+          <span
             className={style.changeFormLink}
             onClick={() => {
               handleChangeForm("sign-up");
             }}
           >
             Registrate aquí
-          </spam>
+          </span>
         </div>
       </div>
       <Form onSubmit={onSubmit} className={style.form}>
