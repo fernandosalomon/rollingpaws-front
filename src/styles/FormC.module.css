@@ -117,6 +117,57 @@
   cursor: pointer;
 }
 
+/* Agregar mascota */
+
+.specieCheck {
+  width: auto;
+  text-wrap: nowrap;
+  border: 1px solid #f2f2f2;
+  padding: 0.5rem;
+  border-radius: 14px;
+  font-family: var(--font-poppins);
+  cursor: pointer;
+}
+
+.specieCheck.active {
+  background-color: var(--main-color);
+  color: #f2f2f2;
+  filter: drop-shadow(1px 1px 2px #f2f2f2);
+}
+
+.sexCheckButtonsContainer {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid #f2f2f2;
+  border-radius: 14px !important;
+  background-color: #f2f2f2 !important;
+}
+
+.sexCheckButton {
+  width: 100%;
+  height: 42px;
+  color: var(--black-color);
+  border: 0;
+  margin: 0.2rem;
+  background-color: transparent;
+  font-family: var(--font-poppins);
+  font-weight: 400;
+}
+
+.sexCheckButton:hover,
+.sexCheckButton:active {
+  background-color: transparent !important;
+  color: var(--black-color);
+}
+
+.sexCheckButton.active {
+  background-color: #fff !important;
+  color: var(--black-color);
+  filter: drop-shadow(0 0 2px #f2f2f2);
+  border-radius: 14px !important;
+  font-weight: 500;
+}
+
 @media (max-width: 425px) {
   .form {
     padding-left: 0.5rem;

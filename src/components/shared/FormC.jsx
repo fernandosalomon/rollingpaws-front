@@ -6,6 +6,7 @@ import { useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import InputGroup from "react-bootstrap/InputGroup";
+import { Button, ButtonGroup } from "react-bootstrap";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -438,6 +439,119 @@ const SignInForm = ({ handleChangeForm }) => {
   );
 };
 
+const NewPetForm = () => {
+  const [petSex, setPetSex] = useState("macho");
+
+  const onSubmit = () => {};
+
+  return (
+    <>
+      <div className="d-flex flex-column align-items-center">
+        <h2>Agregar mascota</h2>
+      </div>
+
+      <Form onSubmit={onSubmit} className={style.form}>
+        <Form.Group className="mb-3 w-100" controlId="newPetPhoto">
+          <Form.Label>Imagen de tu mascota</Form.Label>
+          <Form.Control
+            type="image"
+            placeholder="Agrega una foto de tu mascota"
+          />
+        </Form.Group>
+        <div className="d-flex gap-2">
+          <Form.Group className="mb-3 w-50" controlId="newPetName">
+            <Form.Label>Nombre de tu mascota</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Agregá el nombre de tu mascota"
+            />
+          </Form.Group>
+          <div>
+            <h5>Especie</h5>
+            <div className="d-flex gap-2 w-50">
+              <div className={`${style.specieCheck} ${style.active}`}>
+                Perro
+              </div>
+              <div className={style.specieCheck}>Gato</div>
+              <div className={style.specieCheck}>Pájaro</div>
+              <div className={style.specieCheck}>Roedor</div>
+              <div className={style.specieCheck}>Reptil ó Anfibio</div>
+            </div>
+          </div>
+        </div>
+        <div className="d-flex gap-2">
+          <div className="w-50">
+            <h5>Sexo</h5>
+            <ButtonGroup
+              aria-label="newPetSex"
+              className={style.sexCheckButtonsContainer}
+            >
+              <Button
+                className={`${style.sexCheckButton} ${
+                  petSex === "macho" ? style.active : ""
+                }`}
+                onClick={() => setPetSex("macho")}
+              >
+                Macho
+              </Button>
+              <Button
+                className={`${style.sexCheckButton} ${
+                  petSex === "hembra" ? style.active : ""
+                }`}
+                onClick={() => setPetSex("hembra")}
+              >
+                Hembra
+              </Button>
+            </ButtonGroup>
+          </div>
+          <div className="w-50">
+            <h5>Tamaño</h5>
+            <Form.Select aria-label="newPetSize">
+              <option value="1">Muy pequeño (0 - 1 Kg)</option>
+              <option value="2">Pequeño (1 a 10 Kg)</option>
+              <option value="3">Mediano (10 a 25 Kg)</option>
+              <option value="3">Grande (25 a 50 Kg)</option>
+              <option value="3">Muy Grande (más de 50 Kg)</option>
+            </Form.Select>
+          </div>
+        </div>
+        <div>
+          <div className="d-flex gap-2">
+            <div className="w-50">
+              <h5>Edad</h5>
+              <Form.Select aria-label="newPetAge">
+                <option value="1">Cachorro (0 - 1 Año)</option>
+                <option value="2">Joven (1 a 5 Años)</option>
+                <option value="3">Adulto (5 - 10 Años)</option>
+                <option value="3">Senior (Más de 10 Años)</option>
+              </Form.Select>
+            </div>
+            <div className="w-50">
+              <h5>Salud</h5>
+              <Form.Select aria-label="newPetHealth">
+                <option value="1">Desconocido</option>
+                <option value="2">Mala</option>
+                <option value="3">Buena</option>
+                <option value="3">Exelente</option>
+              </Form.Select>
+            </div>
+          </div>
+        </div>
+        <Form.Group className="mb-3 w-100" controlId="newPetDescription">
+          <Form.Label>Descripción</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Agrega una breve descripción de tu mascota"
+            style={{ height: "100px" }}
+          />
+        </Form.Group>
+        <ButtonC type="submit">Agregar</ButtonC>
+        <ButtonC>Cancelar</ButtonC>
+      </Form>
+    </>
+  );
+};
+
 const FormC = ({ variant, handleCloseModal }) => {
   const [formType, setFormType] = useState(variant);
 
@@ -458,6 +572,11 @@ const FormC = ({ variant, handleCloseModal }) => {
           handleChangeForm={handleChangeForm}
           handleCloseModal={handleCloseModal}
         />
+      )}
+      {formType === "new-pet" && (
+        <>
+          <NewPetForm handleCloseModal={handleCloseModal} />
+        </>
       )}
     </>
   );
