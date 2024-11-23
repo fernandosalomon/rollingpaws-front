@@ -1,0 +1,93 @@
+.UserProfilePageContainer {
+  width: 100vw;
+  height: calc(100vh - 96px);
+  display: flex;
+}
+
+.sideAContainer {
+  width: 35%;
+  height: 100%;
+}
+
+.sideBContainer {
+  width: 65%;
+  height: 100%;
+}
+
+.optionPanel {
+  border-radius: 7px;
+  filter: drop-shadow(0 0 2px #fafafa);
+  background-color: var(--light-color);
+  width: 90%;
+  height: 90%;
+  margin: 2.4rem auto;
+}
+
+.optionListContainer {
+  padding: 1rem 2rem;
+}
+
+.optionListHeader {
+  padding: 1rem 0;
+  font-family: var(--font-poppins);
+  font-size: 1.4rem;
+}
+
+.optionList {
+  padding: 0;
+}
+
+.optionListItem {
+  list-style: none;
+  padding: 1rem 0;
+  font-family: var(--font-poppins);
+  font-size: 1.4rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.optionListActive p {
+  font-weight: 600;
+  color: var(--main-color);
+}
+
+.optionListActive svg {
+  fill: var(--main-color);
+}
+
+.viewPanel {
+  border-radius: 7px;
+  filter: drop-shadow(0 0 2px #fafafa);
+  background-color: var(--light-color);
+  width: 90%;
+  height: 90%;
+  margin: 2.4rem auto 2.4rem 0;
+}
+
+.viewPanelWrapper {
+  padding: 1.5rem;
+}
+
+.viewPanelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-poppins);
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.addPetButton {
+  background-color: transparent;
+  border: 3px solid var(--main-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  color: var(--main-color);
+}

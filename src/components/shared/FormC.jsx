@@ -439,7 +439,7 @@ const SignInForm = ({ handleChangeForm }) => {
   );
 };
 
-const NewPetForm = () => {
+const NewPetForm = ({ handleCloseModal }) => {
   const [petSex, setPetSex] = useState("macho");
   const [petSpecie, setPetSpecie] = useState("");
 
@@ -465,7 +465,7 @@ const NewPetForm = () => {
           />
         </Form.Group>
         <div className="d-flex gap-2">
-          <Form.Group className="mb-3 w-50" controlId="newPetName">
+          <Form.Group className="mb-3 w-100" controlId="newPetName">
             <Form.Label className={style.addPetFormLabel}>
               Nombre de tu mascota
             </Form.Label>
@@ -475,37 +475,33 @@ const NewPetForm = () => {
               className={style.newPetFormInput}
             />
           </Form.Group>
-          <div className="d-flex gap-2 w-50">
-            <div>
-              <h5 className={style.addPetFormLabel}>Especie</h5>
-              <div
-                className={`${style.speciesButtonContainer} d-flex gap-2 w-50`}
-              >
-                <div
-                  className={`${style.specieCheck} ${
-                    petSpecie === "dog" ? style.active : ""
-                  }`}
-                  onClick={() => setPetSpecie("dog")}
-                >
-                  Perro
-                </div>
-                <div
-                  className={`${style.specieCheck} ${
-                    petSpecie === "cat" ? style.active : ""
-                  }`}
-                  onClick={() => setPetSpecie("cat")}
-                >
-                  Gato
-                </div>
-                <div
-                  className={`${style.specieCheck} ${
-                    petSpecie === "other" ? style.active : ""
-                  }`}
-                  onClick={() => setPetSpecie("other")}
-                >
-                  Otro
-                </div>
-              </div>
+        </div>
+        <div>
+          <h5 className={style.addPetFormLabel}>Especie</h5>
+          <div className={`${style.speciesButtonContainer} d-flex gap-2`}>
+            <div
+              className={`${style.specieCheck} ${
+                petSpecie === "dog" ? style.active : ""
+              }`}
+              onClick={() => setPetSpecie("dog")}
+            >
+              Perro
+            </div>
+            <div
+              className={`${style.specieCheck} ${
+                petSpecie === "cat" ? style.active : ""
+              }`}
+              onClick={() => setPetSpecie("cat")}
+            >
+              Gato
+            </div>
+            <div
+              className={`${style.specieCheck} ${
+                petSpecie === "other" ? style.active : ""
+              }`}
+              onClick={() => setPetSpecie("other")}
+            >
+              Otra
             </div>
             {petSpecie === "other" && (
               <Form.Group
@@ -601,7 +597,48 @@ const NewPetForm = () => {
           <button type="submit" className={style.saveChangesButton}>
             Agregar
           </button>
-          <button className={style.discardChangesButton}>Cancelar</button>
+          <button
+            className={style.discardChangesButton}
+            onClick={(e) => {
+              e.preventDefault();
+              handleCloseModal();
+            }}
+          >
+            Cancelar
+          </button>
+        </div>
+      </Form>
+    </>
+  );
+};
+
+const UserProfileForm = () => {
+  return (
+    <>
+      <Form>
+        <Form.Group className="mb-3 w-100 " controlId="userName">
+          <Form.Label>Nombre</Form.Label>
+          <Form.Control type="text" />
+        </Form.Group>
+        <Form.Group className="mb-3 w-100 " controlId="userEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" placeholder="email@email.com" />
+        </Form.Group>
+        <Form.Group className="mb-3 w-100 " controlId="userAddress">
+          <Form.Label>Dirección</Form.Label>
+          <Form.Control type="text" placeholder="Tu dirección" />
+        </Form.Group>
+        <Form.Group className="mb-3 w-100 " controlId="userPhone">
+          <Form.Label>Teléfono</Form.Label>
+          <Form.Control type="phone" placeholder="Tu teléfono" />
+        </Form.Group>
+        <div className="mt-5">
+          <button className={`${style.formButton} ${style.cancelButton}`}>
+            Cancelar
+          </button>
+          <button className={`${style.formButton} ${style.saveButton}`}>
+            Guardar cambios
+          </button>
         </div>
       </Form>
     </>
@@ -632,6 +669,11 @@ const FormC = ({ variant, handleCloseModal }) => {
       {formType === "new-pet" && (
         <>
           <NewPetForm handleCloseModal={handleCloseModal} />
+        </>
+      )}
+      {formType === "user-profile" && (
+        <>
+          <UserProfileForm />
         </>
       )}
     </>
