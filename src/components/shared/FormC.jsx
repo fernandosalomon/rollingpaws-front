@@ -441,18 +441,24 @@ const SignInForm = ({ handleChangeForm }) => {
 
 const NewPetForm = () => {
   const [petSex, setPetSex] = useState("macho");
+  const [petSpecie, setPetSpecie] = useState("");
 
   const onSubmit = () => {};
 
   return (
     <>
-      <div className="d-flex flex-column align-items-center">
-        <h2>Agregar mascota</h2>
+      <div className="d-flex flex-column align-items-start">
+        <h2 className={style.addNewPetFormHeader}>Agregar mascota</h2>
       </div>
 
-      <Form onSubmit={onSubmit} className={style.form}>
-        <Form.Group className="mb-3 w-100" controlId="newPetPhoto">
-          <Form.Label>Imagen de tu mascota</Form.Label>
+      <Form
+        onSubmit={onSubmit}
+        className={`${style.form} d-flex flex-column gap-4`}
+      >
+        <Form.Group className="mb-3 w-100 " controlId="newPetPhoto">
+          <Form.Label className={style.addPetFormLabel}>
+            Imagen de tu mascota
+          </Form.Label>
           <Form.Control
             type="image"
             placeholder="Agrega una foto de tu mascota"
@@ -460,28 +466,64 @@ const NewPetForm = () => {
         </Form.Group>
         <div className="d-flex gap-2">
           <Form.Group className="mb-3 w-50" controlId="newPetName">
-            <Form.Label>Nombre de tu mascota</Form.Label>
+            <Form.Label className={style.addPetFormLabel}>
+              Nombre de tu mascota
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder="Agregá el nombre de tu mascota"
+              placeholder="Agrega el nombre de tu mascota"
+              className={style.newPetFormInput}
             />
           </Form.Group>
-          <div>
-            <h5>Especie</h5>
-            <div className="d-flex gap-2 w-50">
-              <div className={`${style.specieCheck} ${style.active}`}>
-                Perro
+          <div className="d-flex gap-2 w-50">
+            <div>
+              <h5 className={style.addPetFormLabel}>Especie</h5>
+              <div
+                className={`${style.speciesButtonContainer} d-flex gap-2 w-50`}
+              >
+                <div
+                  className={`${style.specieCheck} ${
+                    petSpecie === "dog" ? style.active : ""
+                  }`}
+                  onClick={() => setPetSpecie("dog")}
+                >
+                  Perro
+                </div>
+                <div
+                  className={`${style.specieCheck} ${
+                    petSpecie === "cat" ? style.active : ""
+                  }`}
+                  onClick={() => setPetSpecie("cat")}
+                >
+                  Gato
+                </div>
+                <div
+                  className={`${style.specieCheck} ${
+                    petSpecie === "other" ? style.active : ""
+                  }`}
+                  onClick={() => setPetSpecie("other")}
+                >
+                  Otro
+                </div>
               </div>
-              <div className={style.specieCheck}>Gato</div>
-              <div className={style.specieCheck}>Pájaro</div>
-              <div className={style.specieCheck}>Roedor</div>
-              <div className={style.specieCheck}>Reptil ó Anfibio</div>
             </div>
+            {petSpecie === "other" && (
+              <Form.Group
+                className="mb-3 flex-fill mt-auto"
+                controlId="newPetOtherSpecie"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Especificar la especie de tu mascota"
+                  className={style.newPetFormInput}
+                />
+              </Form.Group>
+            )}
           </div>
         </div>
         <div className="d-flex gap-2">
           <div className="w-50">
-            <h5>Sexo</h5>
+            <h5 className={style.addPetFormLabel}>Sexo</h5>
             <ButtonGroup
               aria-label="newPetSex"
               className={style.sexCheckButtonsContainer}
@@ -505,8 +547,11 @@ const NewPetForm = () => {
             </ButtonGroup>
           </div>
           <div className="w-50">
-            <h5>Tamaño</h5>
-            <Form.Select aria-label="newPetSize">
+            <h5 className={style.addPetFormLabel}>Tamaño</h5>
+            <Form.Select
+              aria-label="newPetSize"
+              className={style.newPetFormInput}
+            >
               <option value="1">Muy pequeño (0 - 1 Kg)</option>
               <option value="2">Pequeño (1 a 10 Kg)</option>
               <option value="3">Mediano (10 a 25 Kg)</option>
@@ -518,8 +563,11 @@ const NewPetForm = () => {
         <div>
           <div className="d-flex gap-2">
             <div className="w-50">
-              <h5>Edad</h5>
-              <Form.Select aria-label="newPetAge">
+              <h5 className={style.addPetFormLabel}>Edad</h5>
+              <Form.Select
+                aria-label="newPetAge"
+                className={style.newPetFormInput}
+              >
                 <option value="1">Cachorro (0 - 1 Año)</option>
                 <option value="2">Joven (1 a 5 Años)</option>
                 <option value="3">Adulto (5 - 10 Años)</option>
@@ -527,8 +575,11 @@ const NewPetForm = () => {
               </Form.Select>
             </div>
             <div className="w-50">
-              <h5>Salud</h5>
-              <Form.Select aria-label="newPetHealth">
+              <h5 className={style.addPetFormLabel}>Salud</h5>
+              <Form.Select
+                aria-label="newPetHealth"
+                className={style.newPetFormInput}
+              >
                 <option value="1">Desconocido</option>
                 <option value="2">Mala</option>
                 <option value="3">Buena</option>
@@ -538,15 +589,20 @@ const NewPetForm = () => {
           </div>
         </div>
         <Form.Group className="mb-3 w-100" controlId="newPetDescription">
-          <Form.Label>Descripción</Form.Label>
+          <Form.Label className={style.addPetFormLabel}>Descripción</Form.Label>
           <Form.Control
             as="textarea"
             placeholder="Agrega una breve descripción de tu mascota"
             style={{ height: "100px" }}
+            className={style.newPetFormInput}
           />
         </Form.Group>
-        <ButtonC type="submit">Agregar</ButtonC>
-        <ButtonC>Cancelar</ButtonC>
+        <div className="w-100">
+          <button type="submit" className={style.saveChangesButton}>
+            Agregar
+          </button>
+          <button className={style.discardChangesButton}>Cancelar</button>
+        </div>
       </Form>
     </>
   );

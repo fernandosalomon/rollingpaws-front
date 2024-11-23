@@ -119,6 +119,15 @@
 
 /* Agregar mascota */
 
+.addNewPetFormHeader {
+  width: 100%;
+  font-family: var(--font-poppins);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-bottom: 0.5px solid #f2f2f2;
+}
+
 .specieCheck {
   width: auto;
   text-wrap: nowrap;
@@ -127,12 +136,16 @@
   border-radius: 14px;
   font-family: var(--font-poppins);
   cursor: pointer;
+  height: 48px;
+  vertical-align: middle;
 }
 
 .specieCheck.active {
-  background-color: var(--main-color);
-  color: #f2f2f2;
+  background-color: rgba(255, 130, 37, 0.6);
+  color: var(--black-color);
+  border: 2px solid var(--main-color);
   filter: drop-shadow(1px 1px 2px #f2f2f2);
+  font-weight: 600;
 }
 
 .sexCheckButtonsContainer {
@@ -152,6 +165,7 @@
   background-color: transparent;
   font-family: var(--font-poppins);
   font-weight: 400;
+  border-radius: 14px !important;
 }
 
 .sexCheckButton:hover,
@@ -161,11 +175,53 @@
 }
 
 .sexCheckButton.active {
-  background-color: #fff !important;
+  background-color: var(--main-color) !important;
   color: var(--black-color);
   filter: drop-shadow(0 0 2px #f2f2f2);
   border-radius: 14px !important;
   font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.addPetFormLabel {
+  font-family: var(--font-roboto) !important;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.newPetFormInput {
+  border: 1px solid #cbcbcb !important;
+  filter: drop-shadow(0 0 1px #999898) !important;
+  height: 48px;
+}
+
+.newPetFormInput:hover,
+.newPetFormInput:focus {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.speciesButtonContainer {
+  height: 48px;
+  margin-top: 15px;
+}
+
+.saveChangesButton,
+.discardChangesButton {
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--main-color);
+  font-family: var(--font-poppins);
+  font-weight: 600;
+}
+
+.saveChangesButton {
+  background-color: var(--main-color);
+
+  color: var(--black-color);
 }
 
 @media (max-width: 425px) {
