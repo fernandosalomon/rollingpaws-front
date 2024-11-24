@@ -19,10 +19,9 @@
   width: 98%;
   border-radius: 4px;
   justify-self: center;
-  height: 44px;
-  background-color: #f2f2f2;
-  border: 0;
-  font-family: var(--font-poppins);
+  background-color: var(--secondary-color-lighter);
+  font-size: clamp(1.4rem, 3.5vw, 1.6rem) !important ;
+  padding: 0.7rem 1.5rem;
 }
 
 .formInput:active,
@@ -33,8 +32,7 @@
 }
 
 .formCheck {
-  font-size: clamp(14px, 3.5vw, 16px) !important ;
-  filter: drop-shadow(1px 1px 1px #ababab);
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem) !important ;
 }
 
 .formCheck input:checked {
