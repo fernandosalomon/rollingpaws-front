@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { InputGroup } from "react-bootstrap";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
