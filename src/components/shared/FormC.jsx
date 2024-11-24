@@ -606,18 +606,20 @@ const UserProfileForm = () => {
 
     const getUserData = async () => {
       try {
-        const userData = await clientAxios.get("/user", {
+        const userData = await clientAxios.get("/user/self", {
           headers: {
             authtoken: userToken,
           },
         });
+        return userData.data;
       } catch (error) {
         console.log(error);
       }
     };
 
-    (function () {
-      setUserData(getUserData());
+    (async function () {
+      const user = await getUserData();
+      setUserData(user);
     })();
   }, []);
 
@@ -625,10 +627,42 @@ const UserProfileForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  useEffect(() => {
+    setValue("email", userData.email);
+    setValue("firstName", userData.firstName);
+    setValue("lastName", userData.lastName);
+    setValue("address", userData.address);
+    setValue("city", userData.city);
+    setValue("province", userData.province);
+    setValue("zipCode", userData.zipCode);
+    setValue("phone", userData.phone);
+  }, [userData]);
+
+  const onSubmit = handleSubmit(async (data) => {
+    const updateData = Object.fromEntries(
+      Object.entries(data).filter(([key, value]) => value !== undefined)
+    );
+    try {
+      const res = await clientAxios.put(`/user/${userData._id}`, updateData);
+      Swal.fire({
+        icon: "success",
+        title: `Datos actualizados con exito`,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: `Hubo un error al tratar de actualizar los datos. Error: ${error}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
   });
 
   return (
@@ -639,7 +673,7 @@ const UserProfileForm = () => {
           <Form.Control
             type="email"
             placeholder="Email"
-            className={`${style.inputField} w-75`}
+            className={`${style.inputField}`}
             {...register("email", {
               required: {
                 value: true,
@@ -737,8 +771,8 @@ const UserProfileForm = () => {
                   message: "Máximo permitido: 40 caracteres",
                 },
                 pattern: {
-                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de nombre inválido.",
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ1-9][a-zA-ZáéíóúÁÉÍÓÚñÑ'1-9 ]*$/,
+                  message: "Formato de dirección inválido.",
                 },
               })}
             />
@@ -766,7 +800,7 @@ const UserProfileForm = () => {
                 },
                 pattern: {
                   value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de nombre inválido.",
+                  message: "Formato de ciudad inválido.",
                 },
               })}
             />
@@ -797,7 +831,7 @@ const UserProfileForm = () => {
                 },
                 pattern: {
                   value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de nombre inválido.",
+                  message: "Formato de provincia inválido.",
                 },
               })}
             />
@@ -816,6 +850,7 @@ const UserProfileForm = () => {
               type="text"
               placeholder="Código Postal"
               className={style.inputField}
+              value={userData.zipCode}
               {...register("zipCode", {
                 minLength: {
                   value: 1,
@@ -845,7 +880,7 @@ const UserProfileForm = () => {
           <Form.Control
             type="text"
             placeholder="Teléfono"
-            className={`${style.inputField} w-50`}
+            className={`${style.inputField}`}
             {...register("phone", {
               pattern: {
                 value:
@@ -861,17 +896,13 @@ const UserProfileForm = () => {
             </span>
           )}
         </Form.Group>
-        <div className="mt-2">
-          <button className={`${style.formButton} ${style.cancelButton}`}>
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className={`${style.formButton} ${style.saveButton}`}
-          >
-            Guardar cambios
-          </button>
-        </div>
+
+        <button
+          type="submit"
+          className={`${style.formButton} ${style.saveButton} mt-2`}
+        >
+          Guardar cambios
+        </button>
       </Form>
     </>
   );

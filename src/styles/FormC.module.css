@@ -227,7 +227,6 @@
 
 .saveChangesButton {
   background-color: var(--main-color);
-
   color: var(--black-color);
 }
 
@@ -241,6 +240,7 @@
   font-weight: 600;
   margin-right: 1rem;
   margin-bottom: 1rem;
+  width: 200px;
 }
 
 .saveButton {
@@ -266,12 +266,14 @@
 .inputField {
   height: 48px;
   filter: drop-shadow(0 0 1px #818181);
+  background-color: #f2f2f2;
 }
 
 .inputField:focus {
   border-color: var(--main-color-lighter);
   box-shadow: 0 0 0 0.25rem rgba(255, 130, 37, 0.4);
   filter: none;
+  background-color: #f2f2f2;
 }
 
 .inputField:-webkit-autofill {
