@@ -273,7 +273,11 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   );
 };
 
-const SignInForm = ({ handleChangeForm, handleCloseModal }) => {
+const SignInForm = ({
+  handleChangeForm,
+  handleCloseModal,
+  handleNavbarRole,
+}) => {
   const navigate = useNavigate();
   const {
     register,
@@ -294,14 +298,20 @@ const SignInForm = ({ handleChangeForm, handleCloseModal }) => {
       sessionStorage.setItem("token", res.data.token);
       sessionStorage.setItem("role", res.data.role);
 
-      Swal.fire({
-        icon: "success",
-        title: `Bienvenido de vuelta`,
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
         showConfirmButton: false,
         timer: 2500,
+        timerProgressBar: true,
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Bienvenido de vuelta!",
       });
 
       handleCloseModal();
+      handleNavbarRole();
 
       if (res.data.role === "admin") {
         navigate("/admin");
@@ -908,7 +918,7 @@ const UserProfileForm = () => {
   );
 };
 
-const FormC = ({ variant, handleCloseModal }) => {
+const FormC = ({ variant, handleCloseModal, handleNavbarRole }) => {
   const [formType, setFormType] = useState(variant);
 
   const handleChangeForm = (form) => {
@@ -927,6 +937,7 @@ const FormC = ({ variant, handleCloseModal }) => {
         <SignInForm
           handleChangeForm={handleChangeForm}
           handleCloseModal={handleCloseModal}
+          handleNavbarRole={handleNavbarRole}
         />
       )}
       {formType === "new-pet" && (

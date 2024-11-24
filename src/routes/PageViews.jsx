@@ -10,7 +10,22 @@ const PageViews = () => {
     <>
       <NavbarC />
       <Routes>
-        <Route path="/user-profile" element={<UserProfilePage />} />
+        <Route
+          path="/user-profile/information"
+          element={<UserProfilePage viewParam="user" />}
+        />
+        <Route
+          path="/user-profile/security"
+          element={<UserProfilePage viewParam="security" />}
+        />
+        <Route
+          path="/user-profile/pets"
+          element={<UserProfilePage viewParam="pets" />}
+        />
+        <Route
+          path="/user-profile/notifications"
+          element={<UserProfilePage viewParam="notification" />}
+        />
         <Route path="/pets" element={<Pets />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Error404 />} />

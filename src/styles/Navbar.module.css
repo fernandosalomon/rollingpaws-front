@@ -53,6 +53,29 @@
   margin: 0 1.5rem 1rem 1.5rem;
 }
 
+.userOptionsDropdownIcon {
+  background-color: transparent !important;
+  border: 0 !important;
+  color: #000 !important;
+  padding: 0 !important;
+  margin-left: 0.5rem;
+}
+
+.userOptionsDropdownMenu {
+  left: -120px !important;
+  background-color: #fffbf5;
+  padding: 0;
+}
+
+.userOptionsDropdownMenuItem {
+  padding: 0.8rem 1rem;
+}
+
+.userOptionsDropdownMenuItem:hover,
+.userOptionsDropdownMenuItem:active {
+  background-color: #ddd8d1;
+}
+
 @media (max-width: 768px) {
   .Navbar {
     flex-direction: column !important;
