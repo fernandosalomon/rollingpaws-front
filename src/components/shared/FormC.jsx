@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
 import ButtonC from "./ButtonC";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -613,30 +613,276 @@ const NewPetForm = ({ handleCloseModal }) => {
 };
 
 const UserProfileForm = () => {
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    const userToken = sessionStorage.getItem("token");
+
+    const getUserData = async () => {
+      try {
+        const userData = await clientAxios.get("/user", {
+          headers: {
+            authtoken: userToken,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    (function () {
+      setUserData(getUserData());
+    })();
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
   return (
     <>
-      <Form>
-        <Form.Group className="mb-3 w-100 " controlId="userName">
-          <Form.Label>Nombre</Form.Label>
-          <Form.Control type="text" />
+      <Form className={style.formContainer} onSubmit={onSubmit}>
+        <Form.Group controlId="userEmail">
+          <Form.Label className={style.inputFieldLabel}>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Email"
+            className={`${style.inputField} w-75`}
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
+            })}
+          />
+          {errors.email && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.email.message}
+            </span>
+          )}
         </Form.Group>
-        <Form.Group className="mb-3 w-100 " controlId="userEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="email@email.com" />
+
+        <div className="d-flex flex-column flex-md-row gap-3">
+          <Form.Group controlId="userFirstName" className="flex-fill">
+            <Form.Label className={style.inputFieldLabel}>Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Nombre"
+              className={style.inputField}
+              {...register("firstName", {
+                required: { value: true, message: "Campo requerido" },
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de nombre inválido.",
+                },
+              })}
+            />
+            {errors.firstName && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.firstName.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group controlId="userLastName" className="flex-fill">
+            <Form.Label className={style.inputFieldLabel}>Apellido</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Apellido"
+              className={style.inputField}
+              {...register("lastName", {
+                required: { value: true, message: "Campo requerido" },
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de nombre inválido.",
+                },
+              })}
+            />
+            {errors.lastName && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.lastName.message}
+              </span>
+            )}
+          </Form.Group>
+        </div>
+
+        <div className="d-flex flex-column flex-md-row gap-3">
+          <Form.Group controlId="userAddress" className="flex-fill">
+            <Form.Label className={style.inputFieldLabel}>Dirección</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Dirección"
+              className={style.inputField}
+              {...register("address", {
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de nombre inválido.",
+                },
+              })}
+            />
+            {errors.address && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.address.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group controlId="userCity" className="flex-fill">
+            <Form.Label className={style.inputFieldLabel}>Ciudad</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ciudad"
+              className={style.inputField}
+              {...register("city", {
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de nombre inválido.",
+                },
+              })}
+            />
+            {errors.city && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.city.message}
+              </span>
+            )}
+          </Form.Group>
+        </div>
+
+        <div className="d-flex flex-column flex-md-row gap-3">
+          <Form.Group controlId="userProvince" className="flex-fill">
+            <Form.Label className={style.inputFieldLabel}>Provincia</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Provincia"
+              className={style.inputField}
+              {...register("province", {
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de nombre inválido.",
+                },
+              })}
+            />
+            {errors.province && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.province.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group controlId="userZipCode">
+            <Form.Label className={style.inputFieldLabel}>
+              Código Postal
+            </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Código Postal"
+              className={style.inputField}
+              {...register("zipCode", {
+                minLength: {
+                  value: 1,
+                  message: "Mínimo requerido: 1 caracteres",
+                },
+                maxLength: {
+                  value: 4,
+                  message: "Máximo permitido: 4 caracteres",
+                },
+                pattern: {
+                  value: /^\d{4}$/,
+                  message: "Formato de código postal incorrecto.",
+                },
+              })}
+            />
+            {errors.zipCode && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.zipCode.message}
+              </span>
+            )}
+          </Form.Group>
+        </div>
+
+        <Form.Group controlId="userPhone">
+          <Form.Label className={style.inputFieldLabel}>Teléfono</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Teléfono"
+            className={`${style.inputField} w-50`}
+            {...register("phone", {
+              pattern: {
+                value:
+                  /^\+?(\d{1,3})?[-.\s]?(\d{1,4})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+                message: "Formato de número de teléfono incorrecto.",
+              },
+            })}
+          />
+          {errors.phone && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.phone.message}
+            </span>
+          )}
         </Form.Group>
-        <Form.Group className="mb-3 w-100 " controlId="userAddress">
-          <Form.Label>Dirección</Form.Label>
-          <Form.Control type="text" placeholder="Tu dirección" />
-        </Form.Group>
-        <Form.Group className="mb-3 w-100 " controlId="userPhone">
-          <Form.Label>Teléfono</Form.Label>
-          <Form.Control type="phone" placeholder="Tu teléfono" />
-        </Form.Group>
-        <div className="mt-5">
+        <div className="mt-2">
           <button className={`${style.formButton} ${style.cancelButton}`}>
             Cancelar
           </button>
-          <button className={`${style.formButton} ${style.saveButton}`}>
+          <button
+            type="submit"
+            className={`${style.formButton} ${style.saveButton}`}
+          >
             Guardar cambios
           </button>
         </div>
