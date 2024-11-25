@@ -84,12 +84,10 @@
   font-weight: 500;
 }
 
-.addPetButton {
+.addNewPetButton {
   background-color: transparent;
   border: 3px solid var(--main-color);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  border-radius: 14px;
   padding: 0.5rem 1rem;
   font-family: var(--font-poppins);
   font-weight: 600;

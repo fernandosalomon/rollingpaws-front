@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = ({ viewParam }) => {
   const [view, setView] = useState(viewParam || "user");
-  const [show, setShow] = useState(false);
+  const [showNewPetModal, setShowNewPetModal] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseNewPetModal = () => setShowNewPetModal(false);
+  const handleShowNewPetModal = () => setShowNewPetModal(true);
 
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ const UserProfilePage = ({ viewParam }) => {
                 >
                   <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
                   />
                 </svg>
@@ -119,6 +119,39 @@ const UserProfilePage = ({ viewParam }) => {
             <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
               <FormC variant="user-profile" />
             </div>
+          </>
+        )}
+        {view === "pets" && (
+          <>
+            <div className={style.viewHeader}>
+              <h2 className={style.viewHeaderLabel}>Mis mascotas</h2>
+              <p className={style.viewSubHeaderLabel}>
+                Agrega toda a tus mascotas así puedas pedir turnos con nuestros
+                profesionales.
+              </p>
+            </div>
+            <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
+              <div className="w-100">
+                <button
+                  className={`${style.addNewPetButton} d-flex gap-2 align-items-center mx-auto`}
+                  onClick={handleShowNewPetModal}
+                >
+                  <p className="fs-1 m-0">+</p>
+                  <p className="m-0">Agregar mascota</p>
+                </button>
+              </div>
+            </div>
+            <Modal show={showNewPetModal} onHide={handleCloseNewPetModal}>
+              <Modal.Header closeButton>
+                <Modal.Title className="fs-2 ">Agregar mascota</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <FormC
+                  variant="new-pet"
+                  handleCloseModal={handleCloseNewPetModal}
+                />
+              </Modal.Body>
+            </Modal>
           </>
         )}
       </div>
