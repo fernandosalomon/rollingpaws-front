@@ -114,3 +114,12 @@
 .viewBody {
   margin-top: 1rem;
 }
+
+.petCardsContainer {
+  width: 100%;
+  margin: 1.5rem auto;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}

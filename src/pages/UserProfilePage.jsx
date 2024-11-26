@@ -1,17 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../styles/UserProfilePage.module.css";
 import FormC from "../components/shared/FormC";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import clientAxios from "../helpers/clientAxios";
+import PetCard from "../components/PetCard";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 const UserProfilePage = ({ viewParam }) => {
   const [view, setView] = useState(viewParam || "user");
   const [showNewPetModal, setShowNewPetModal] = useState(false);
+  const [petList, setPetList] = useState([]);
 
   const handleCloseNewPetModal = () => setShowNewPetModal(false);
   const handleShowNewPetModal = () => setShowNewPetModal(true);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const getUserPets = async () => {
+      const pets = await clientAxios.get("/pet/user", {
+        headers: {
+          authtoken: token,
+        },
+      });
+      return pets.data;
+    };
+
+    (async function () {
+      const userPets = await getUserPets();
+      setPetList(userPets);
+    })();
+  }, []);
 
   return (
     <div className={`${style.UserProfilePageContainer} d-flex gap-2`}>
@@ -139,6 +161,14 @@ const UserProfilePage = ({ viewParam }) => {
                   <p className="fs-1 m-0">+</p>
                   <p className="m-0">Agregar mascota</p>
                 </button>
+              </div>
+              <div className={style.petCardsContainer}>
+                {petList.map((pet) => (
+                  <PetCard
+                    title={pet.name}
+                    imageURL="http://localhost:5173/src/assets/img/default-pet-image.png"
+                  />
+                ))}
               </div>
             </div>
             <Modal show={showNewPetModal} onHide={handleCloseNewPetModal}>
