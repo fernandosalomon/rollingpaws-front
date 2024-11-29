@@ -437,51 +437,32 @@ const SignInForm = ({
   );
 };
 
-const NewPetForm = ({ handleCloseModal }) => {
+const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
   const [petSex, setPetSex] = useState(0);
-  const [petSpecie, setPetSpecie] = useState("");
   const [petImageURL, setPetImageURL] = useState(
     "http://localhost:5173/src/assets/img/default-pet-image.png"
   );
 
-  const petSexDict = {
-    0: "male",
-    1: "female",
-  };
+  const { register, handleSubmit, setValue } = useForm();
 
-  const petSizeDict = {
-    0: "Muy pequeño (0 a 1 Kg)",
-    1: "Pequeño (1 a 10 Kg)",
-    2: "Mediano (10 a 25 Kg)",
-    3: "Grande (25 a 50 Kg)",
-    4: "Muy grande (más de 50 Kg)",
-  };
-
-  const petAgeDict = {
-    0: "Cachorro (0 a 1 año)",
-    1: "Joven (1 a 5 años)",
-    2: "Adulto (5 a 10 años)",
-    3: "Senior (más de 10 años)",
-  };
-
-  const petHealthDict = {
-    0: "Desconocido",
-    1: "Mala",
-    2: "Buena",
-    3: "Exelente",
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
+  useEffect(() => {
+    if (petData) {
+      setPetSex(petData.sex);
+      setValue("petName", petData.name);
+      setValue("petSpecie", petData.specie);
+      setValue("petBreed", petData.breed);
+      setValue("petSize", petData.size);
+      setValue("petAge", petData.age);
+      setValue("petHealth", petData.health);
+      setValue("petDescription", petData.observations);
+    }
+  }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     const petData = {
       name: data.petName,
-      species: petSpecie,
+      specie: data.petSpecie,
+      breed: data.petBreed,
       sex: petSex,
       size: data.petSize,
       age: data.petAge,
@@ -498,6 +479,7 @@ const NewPetForm = ({ handleCloseModal }) => {
         },
       });
       handleCloseModal();
+      await handleRefresh();
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -590,45 +572,30 @@ const NewPetForm = ({ handleCloseModal }) => {
           />
         </Form.Group>
 
-        <div>
-          <h5 className={style.inputFieldLabel}>Especie</h5>
-          <div className={`${style.speciesButtonContainer} d-flex gap-2`}>
-            <div
-              className={`${style.specieCheck} ${
-                petSpecie === "dog" ? style.active : ""
-              }`}
-              onClick={() => setPetSpecie("dog")}
+        <div className="d-flex gap-2">
+          <div className="w-50">
+            <h5 className={style.inputFieldLabel}>Especie</h5>
+            <Form.Select
+              aria-label="PetSpecie"
+              className={style.inputField}
+              {...register("petSpecie")}
             >
-              Perro
-            </div>
-            <div
-              className={`${style.specieCheck} ${
-                petSpecie === "cat" ? style.active : ""
-              }`}
-              onClick={() => setPetSpecie("cat")}
-            >
-              Gato
-            </div>
-            <div
-              className={`${style.specieCheck} ${
-                petSpecie === "other" ? style.active : ""
-              }`}
-              onClick={() => setPetSpecie("other")}
-            >
-              Otra
-            </div>
-            {petSpecie === "other" && (
-              <Form.Group
-                className="mb-3 flex-fill mt-auto"
-                controlId="newPetOtherSpecie"
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Especificar la especie de tu mascota"
-                  className={style.inputField}
-                />
-              </Form.Group>
-            )}
+              <option value="0">Perro</option>
+              <option value="1">Gato</option>
+              <option value="2">Ave</option>
+              <option value="3">Roedor</option>
+              <option value="4">Reptil</option>
+              <option value="5">Pez</option>
+              <option value="6">Anfibio</option>
+            </Form.Select>
+          </div>
+          <div className="w-50">
+            <h5 className={style.inputFieldLabel}>Raza</h5>
+            <Form.Control
+              aria-label="petBreed"
+              className={style.inputField}
+              {...register("petBreed")}
+            />
           </div>
         </div>
 
@@ -667,8 +634,8 @@ const NewPetForm = ({ handleCloseModal }) => {
               <option value="1">Muy pequeño (0 - 1 Kg)</option>
               <option value="2">Pequeño (1 a 10 Kg)</option>
               <option value="3">Mediano (10 a 25 Kg)</option>
-              <option value="3">Grande (25 a 50 Kg)</option>
-              <option value="3">Muy Grande (más de 50 Kg)</option>
+              <option value="4">Grande (25 a 50 Kg)</option>
+              <option value="5">Muy Grande (más de 50 Kg)</option>
             </Form.Select>
           </div>
         </div>
@@ -684,7 +651,7 @@ const NewPetForm = ({ handleCloseModal }) => {
                 <option value="1">Cachorro (0 - 1 Año)</option>
                 <option value="2">Joven (1 a 5 Años)</option>
                 <option value="3">Adulto (5 - 10 Años)</option>
-                <option value="3">Senior (Más de 10 Años)</option>
+                <option value="4">Senior (Más de 10 Años)</option>
               </Form.Select>
             </div>
             <div className="w-50">
@@ -697,7 +664,7 @@ const NewPetForm = ({ handleCloseModal }) => {
                 <option value="1">Desconocido</option>
                 <option value="2">Mala</option>
                 <option value="3">Buena</option>
-                <option value="3">Exelente</option>
+                <option value="4">Exelente</option>
               </Form.Select>
             </div>
           </div>
@@ -1044,7 +1011,13 @@ const UserProfileForm = () => {
   );
 };
 
-const FormC = ({ variant, handleCloseModal, handleNavbarRole }) => {
+const FormC = ({
+  variant,
+  handleCloseModal,
+  handleNavbarRole,
+  data,
+  handleRefresh,
+}) => {
   const [formType, setFormType] = useState(variant);
 
   const handleChangeForm = (form) => {
@@ -1068,7 +1041,11 @@ const FormC = ({ variant, handleCloseModal, handleNavbarRole }) => {
       )}
       {formType === "new-pet" && (
         <>
-          <NewPetForm handleCloseModal={handleCloseModal} />
+          <PetForm
+            handleCloseModal={handleCloseModal}
+            petData={data}
+            handleRefresh={handleRefresh}
+          />
         </>
       )}
       {formType === "user-profile" && (

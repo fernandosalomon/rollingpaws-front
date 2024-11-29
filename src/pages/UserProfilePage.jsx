@@ -5,18 +5,34 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import clientAxios from "../helpers/clientAxios";
 import PetCard from "../components/PetCard";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
-const UserProfilePage = ({ viewParam }) => {
-  const [view, setView] = useState(viewParam || "user");
+const MyPetsView = () => {
   const [showNewPetModal, setShowNewPetModal] = useState(false);
   const [petList, setPetList] = useState([]);
 
   const handleCloseNewPetModal = () => setShowNewPetModal(false);
   const handleShowNewPetModal = () => setShowNewPetModal(true);
 
-  const navigate = useNavigate();
+  const handleRefreshPetList = async () => {
+    const token = sessionStorage.getItem("token");
+    try {
+      const getUserPets = async () => {
+        const pets = await clientAxios.get("/pet/user", {
+          headers: {
+            authtoken: token,
+          },
+        });
+        return pets.data;
+      };
+
+      (async function () {
+        const userPets = await getUserPets();
+        setPetList(userPets);
+      })();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -34,6 +50,74 @@ const UserProfilePage = ({ viewParam }) => {
       setPetList(userPets);
     })();
   }, []);
+  return (
+    <>
+      <div className={style.viewHeader}>
+        <h2 className={style.viewHeaderLabel}>Mis mascotas</h2>
+        <p className={style.viewSubHeaderLabel}>
+          Agrega toda a tus mascotas así puedas pedir turnos con nuestros
+          profesionales.
+        </p>
+      </div>
+      <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
+        <div className="w-100">
+          <button
+            className={`${style.addNewPetButton} d-flex gap-2 align-items-center mx-auto`}
+            onClick={handleShowNewPetModal}
+          >
+            <p className="fs-1 m-0">+</p>
+            <p className="m-0">Agregar mascota</p>
+          </button>
+        </div>
+        <div className={style.petCardsContainer}>
+          {petList.map((pet) => (
+            <PetCard
+              key={pet.name}
+              title={pet.name}
+              imageURL="http://localhost:5173/src/assets/img/default-pet-image.png"
+              petData={pet}
+              handleRefresh={handleRefreshPetList}
+            />
+          ))}
+        </div>
+      </div>
+      <Modal show={showNewPetModal} onHide={handleCloseNewPetModal}>
+        <Modal.Header closeButton>
+          <Modal.Title className="fs-2 ">Agregar mascota</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormC
+            variant="new-pet"
+            handleCloseModal={handleCloseNewPetModal}
+            handleRefresh={handleRefreshPetList}
+          />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
+
+const UserView = () => {
+  return (
+    <>
+      <div className={style.viewHeader}>
+        <h2 className={style.viewHeaderLabel}>Información del usuario</h2>
+        <p className={style.viewSubHeaderLabel}>
+          Completa todos tus datos para que nuestros profesionales puedan estar
+          en contacto contigo. Puedes cambiar la información en cualquier
+          momento.
+        </p>
+      </div>
+      <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
+        <FormC variant="user-profile" />
+      </div>
+    </>
+  );
+};
+
+const UserProfilePage = ({ viewParam }) => {
+  const [view, setView] = useState(viewParam || "user");
+  const navigate = useNavigate();
 
   return (
     <div className={`${style.UserProfilePageContainer} d-flex gap-2`}>
@@ -128,62 +212,8 @@ const UserProfilePage = ({ viewParam }) => {
         </div>
       </div>
       <div className={`${style.sideBContainer} flex-fill`}>
-        {view === "user" && (
-          <>
-            <div className={style.viewHeader}>
-              <h2 className={style.viewHeaderLabel}>Información del usuario</h2>
-              <p className={style.viewSubHeaderLabel}>
-                Completa todos tus datos para que nuestros profesionales puedan
-                estar en contacto contigo. Puedes cambiar la información en
-                cualquier momento.
-              </p>
-            </div>
-            <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
-              <FormC variant="user-profile" />
-            </div>
-          </>
-        )}
-        {view === "pets" && (
-          <>
-            <div className={style.viewHeader}>
-              <h2 className={style.viewHeaderLabel}>Mis mascotas</h2>
-              <p className={style.viewSubHeaderLabel}>
-                Agrega toda a tus mascotas así puedas pedir turnos con nuestros
-                profesionales.
-              </p>
-            </div>
-            <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
-              <div className="w-100">
-                <button
-                  className={`${style.addNewPetButton} d-flex gap-2 align-items-center mx-auto`}
-                  onClick={handleShowNewPetModal}
-                >
-                  <p className="fs-1 m-0">+</p>
-                  <p className="m-0">Agregar mascota</p>
-                </button>
-              </div>
-              <div className={style.petCardsContainer}>
-                {petList.map((pet) => (
-                  <PetCard
-                    title={pet.name}
-                    imageURL="http://localhost:5173/src/assets/img/default-pet-image.png"
-                  />
-                ))}
-              </div>
-            </div>
-            <Modal show={showNewPetModal} onHide={handleCloseNewPetModal}>
-              <Modal.Header closeButton>
-                <Modal.Title className="fs-2 ">Agregar mascota</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <FormC
-                  variant="new-pet"
-                  handleCloseModal={handleCloseNewPetModal}
-                />
-              </Modal.Body>
-            </Modal>
-          </>
-        )}
+        {view === "user" && <UserView />}
+        {view === "pets" && <MyPetsView />}
       </div>
     </div>
   );
