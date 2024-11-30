@@ -3,15 +3,10 @@ import style from "../styles/CustomCalendar.module.css";
 import Container from "react-bootstrap/Container";
 
 const CustomCalendar = () => {
+  const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
-  const [day, setDay] = useState(new Date().getDate());
-  const [numberDaysInMonth, setNumberDaysInMonth] = useState(
-    new Date(year, month + 1, 0).getDate()
-  );
-  const [numberDaysInLastMonth, setNumberDaysInLastMonth] = useState(
-    new Date(year, month, 0).getDate()
-  );
+  const [currentDay, setCurrentDay] = useState(new Date().getDate());
   const [calendarArray, setCalendarArray] = useState([]);
 
   const daysInWeek = [
@@ -115,51 +110,83 @@ const CustomCalendar = () => {
     },
   ];
 
-  const getCalendarArray = () => {
-    const calendarArray = [];
-    const temp = [];
-    const lastDayLastMonth = new Date(year, month, 0).getDay();
-    const lastDayMonth = new Date(year, month + 1, 0).getDay();
-    for (let day = lastDayLastMonth; day >= 0; day--) {
-      const dayNumber = numberDaysInLastMonth - day;
-      calendarArray.push(new Date(year, month - 1, dayNumber));
+  const getCalendarArray = (year, month) => {
+    const lastDayInLastMonth = new Date(year, month, 0);
+    const lastDayInCurrentMonth = new Date(year, month + 1, 0);
+    const numberOfDaysLastMonth = lastDayInLastMonth.getDate();
+    const numberOfDaysCurrentMonth = lastDayInCurrentMonth.getDate();
+    const lastWeekDayInLastMonth = lastDayInLastMonth.getDay();
+    const lastWeekDayInCurrentMonth = lastDayInCurrentMonth.getDay();
+    const tempArray = [];
+    const calendar = [[]];
+
+    for (let i = lastWeekDayInLastMonth; i >= 0; i--) {
+      tempArray.push(new Date(year, month - 1, numberOfDaysLastMonth - i));
     }
-    for (let day = 1; day <= numberDaysInMonth; day++) {
-      calendarArray.push(new Date(year, month, day));
+
+    for (let i = 1; i <= numberOfDaysCurrentMonth; i++) {
+      tempArray.push(new Date(year, month, i));
     }
-    for (let day = lastDayMonth; day > 6; day--) {
-      const dayNumber = lastDayMonth - day + 1;
-      calendarArray.push(new Date(year, month + 1, dayNumber));
+
+    let cont = 1;
+    for (let i = lastWeekDayInCurrentMonth + 1; i <= 6; i++) {
+      tempArray.push(new Date(year, month + 1, cont));
+      cont++;
     }
-    let cont = 0;
-    temp.push([]);
-    calendarArray.forEach((val, index) => {
-      if (temp[cont].length < 7) {
-        temp[cont].push(val);
-      } else {
-        temp.push([]);
-        cont++;
-        temp[cont].push(val);
+    let index = 0;
+    for (let i = 0; i < tempArray.length; i++) {
+      if (i !== 0 && i % 7 === 0) {
+        calendar.push([]);
+        index++;
       }
-    });
-    return temp;
+      calendar[index].push(tempArray[i]);
+    }
+    return calendar;
+  };
+
+  const prevMonth = () => {
+    if (month <= 0) {
+      setMonth(11);
+      setYear(year - 1);
+    } else {
+      setMonth(month - 1);
+    }
+  };
+
+  const nextMonth = () => {
+    if (month >= 11) {
+      setMonth(0);
+      setYear(year + 1);
+    } else {
+      setMonth(month + 1);
+    }
   };
 
   useEffect(() => {
-    const calendar = getCalendarArray();
+    const calendar = getCalendarArray(year, month);
     setCalendarArray(calendar);
-  }, []);
+  }, [year, month]);
 
   return (
-    <Container>
-      <div className={style.header}>
-        <h4>{`${monthInYear[month].monthName} ${year}`}</h4>
+    <Container className={style.calendarContainer}>
+      <div className={style.headerWrapper}>
+        <button className={style.buttonHeader} onClick={prevMonth}>
+          &#11164;
+        </button>
+        <h4
+          className={style.header}
+        >{`${monthInYear[month].monthName} ${year}`}</h4>
+        <button className={style.buttonHeader} onClick={nextMonth}>
+          &#11166;
+        </button>
       </div>
-      <table>
-        <thead>
+      <table className={style.calendarTable}>
+        <thead className={style.calendarTableHeader}>
           <tr>
             {daysInWeek.map((day) => (
-              <th key={day.dayNumber}>{day.dayShortName}</th>
+              <th key={day.dayNumber} className={style.tableCell}>
+                {day.dayShortName}
+              </th>
             ))}
           </tr>
         </thead>
@@ -167,7 +194,20 @@ const CustomCalendar = () => {
           {calendarArray.map((week, weekIndex) => (
             <tr key={weekIndex}>
               {week.map((day, dayIndex) => (
-                <td key={dayIndex} onClick={() => console.log(day)}>
+                <td
+                  key={dayIndex}
+                  onClick={() => {
+                    console.log(day);
+                  }}
+                  className={`${style.tableCell} ${
+                    day.getMonth() !== month ? style.fadeDayNumber : ""
+                  } ${
+                    day.getDate() === new Date().getDate() &&
+                    day.getMonth() === new Date().getMonth()
+                      ? style.currentDate
+                      : ""
+                  }`}
+                >
                   {day.getDate()}
                 </td>
               ))}
