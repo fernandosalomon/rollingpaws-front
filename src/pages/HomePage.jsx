@@ -1,10 +1,9 @@
-import CustomCalendar from "../components/CustomCalendar";
+import FormC from "../components/shared/FormC";
 
 const HomePage = () => {
   return (
     <>
-      <div>HomePage</div>;
-      <CustomCalendar />
+      <FormC variant="get-appointment" />
     </>
   );
 };

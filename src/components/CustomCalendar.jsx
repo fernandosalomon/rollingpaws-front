@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import style from "../styles/CustomCalendar.module.css";
 import Container from "react-bootstrap/Container";
 
-const CustomCalendar = () => {
+const CustomCalendar = ({ border, handleSetDate }) => {
   const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
-  const [currentDay, setCurrentDay] = useState(new Date().getDate());
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [calendarArray, setCalendarArray] = useState([]);
 
   const daysInWeek = [
@@ -168,7 +170,11 @@ const CustomCalendar = () => {
   }, [year, month]);
 
   return (
-    <Container className={style.calendarContainer}>
+    <div
+      className={`${style.calendarContainer} ${
+        border ? style.calendarContainerBorder : ""
+      }`}
+    >
       <div className={style.headerWrapper}>
         <button className={style.buttonHeader} onClick={prevMonth}>
           &#11164;
@@ -180,6 +186,7 @@ const CustomCalendar = () => {
           &#11166;
         </button>
       </div>
+
       <table className={style.calendarTable}>
         <thead className={style.calendarTableHeader}>
           <tr>
@@ -191,13 +198,21 @@ const CustomCalendar = () => {
           </tr>
         </thead>
         <tbody>
+          <tr className={style.horizontalSeparator} colSpan="6"></tr>
           {calendarArray.map((week, weekIndex) => (
             <tr key={weekIndex}>
               {week.map((day, dayIndex) => (
                 <td
                   key={dayIndex}
                   onClick={() => {
-                    console.log(day);
+                    handleSetDate(
+                      day.getFullYear(),
+                      day.getMonth(),
+                      day.getDate()
+                    );
+                    setSelectedDay(day.getDate());
+                    setSelectedMonth(day.getMonth());
+                    setSelectedYear(day.getFullYear());
                   }}
                   className={`${style.tableCell} ${
                     day.getMonth() !== month ? style.fadeDayNumber : ""
@@ -206,6 +221,12 @@ const CustomCalendar = () => {
                     day.getMonth() === new Date().getMonth()
                       ? style.currentDate
                       : ""
+                  } ${
+                    day.getDate() === selectedDay &&
+                    day.getMonth() === selectedMonth &&
+                    day.getFullYear() === selectedYear
+                      ? style.selectedDate
+                      : ""
                   }`}
                 >
                   {day.getDate()}
@@ -213,9 +234,10 @@ const CustomCalendar = () => {
               ))}
             </tr>
           ))}
+          <tr className={style.horizontalSeparator} colSpan="6"></tr>
         </tbody>
       </table>
-    </Container>
+    </div>
   );
 };
 

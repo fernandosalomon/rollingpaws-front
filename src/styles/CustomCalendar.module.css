@@ -1,7 +1,10 @@
 .calendarContainer {
-  max-width: 250px;
-  border: 3px solid #eaeaea;
+  width: 250px;
   padding: 0;
+}
+
+.calendarContainerBorder {
+  border: 3px solid #eaeaea;
   border-radius: 7px;
 }
 
@@ -28,14 +31,16 @@
   border-bottom: 3px solid #eaeaea;
 }
 
-.tableRow {
-  padding: 0 1rem;
-}
-
 .tableCell {
   height: 38px;
   text-align: center;
   vertical-align: middle;
+}
+
+.tableCell:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  border-radius: 7px;
 }
 
 .fadeDayNumber {
@@ -44,11 +49,20 @@
 
 .currentDate {
   background-color: var(--main-color);
-  border-radius: 50%;
+  border-radius: 7px;
   color: var(--black-color);
 }
 
 .buttonHeader {
   border: 0;
   background-color: transparent;
+}
+
+.horizontalSeparator {
+  height: 1rem;
+}
+
+.selectedDate {
+  background-color: #f2f2f2;
+  border-radius: 7px;
 }

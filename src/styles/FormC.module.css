@@ -105,3 +105,42 @@
   font-size: larger;
   font-family: var(--font-poppins);
 }
+
+.datePickerContainer {
+  max-height: 350px;
+  max-width: 350px;
+  display: flex;
+  border: 3px solid #eaeaea;
+  border-radius: 7px;
+}
+
+.timeSelectContainer {
+  height: calc(100% - 40px);
+  width: 100px;
+  overflow-y: scroll;
+  border-left: 3px solid #eaeaea;
+}
+
+.timeSelectContainer p {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.timeSelectContainer p:hover {
+  background-color: #f2f2f2;
+}
+
+.timeSelectHeader {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0;
+  padding: 1rem;
+  background-color: #f2f2f2;
+  border-bottom: 3px solid #eaeaea;
+}
+
+.selectedHour {
+  background-color: #f2f2f2;
+}

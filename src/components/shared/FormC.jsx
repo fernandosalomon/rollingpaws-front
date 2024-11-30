@@ -2,9 +2,11 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
 import ButtonC from "./ButtonC";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
+import Container from "react-bootstrap/Container";
+import CustomCalendar from "../CustomCalendar";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const {
@@ -356,6 +358,107 @@ const SignInForm = ({ handleChangeForm }) => {
   );
 };
 
+const GetAppointmentForm = () => {
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [hour, setHour] = useState("");
+  const [minutes, setMinutes] = useState("");
+
+  const doctorsList = ["Dra. Jane Doe", "Dr. Jonh Doe", "Dra. Alice Pan"];
+  const petList = [];
+  const availableHours = [
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+  ];
+
+  const handleSetDate = (year, month, day) => {
+    setYear(year);
+    setMonth(month);
+    setDay(day);
+  };
+
+  const handleSetHour = (hourString) => {
+    const [hour, minutes] = hourString.split(":");
+    setHour(hour);
+    setMinutes(minutes);
+  };
+
+  useEffect(() => {
+    const appointment = new Date(year, month, day, hour, minutes);
+    console.log(appointment);
+  }, [year, month, day, hour, minutes]);
+
+  return (
+    <Container>
+      <Form>
+        <Form.Group className="mb-3" controlId="selectDoctorInput">
+          <Form.Label>Selecciona el veterinario</Form.Label>
+          <Form.Select aria-label="Select Doctor">
+            {doctorsList.map((doctor) => (
+              <option key={doctor}>{doctor}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="selectDoctorInput">
+          <Form.Label>Selecciona la mascota</Form.Label>
+          <Form.Select aria-label="Select Pet">
+            {petList.map((pet) => (
+              <option key={pet}>{pet}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+      </Form>
+      <div className={style.datePickerContainer}>
+        <CustomCalendar border={false} handleSetDate={handleSetDate} />
+        <div style={{ maxHeight: "344px" }}>
+          <h4 className={style.timeSelectHeader}>Horarios</h4>
+          <div className={style.timeSelectContainer}>
+            {availableHours.map((time) => (
+              <p
+                key={time}
+                className={
+                  time === `${hour}:${minutes}` ? style.selectedHour : ""
+                }
+                onClick={() => {
+                  handleSetHour(time);
+                }}
+              >
+                {time}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
+};
+
 const FormC = ({ variant, handleCloseModal }) => {
   const [formType, setFormType] = useState(variant);
 
@@ -377,6 +480,7 @@ const FormC = ({ variant, handleCloseModal }) => {
           handleCloseModal={handleCloseModal}
         />
       )}
+      {formType === "get-appointment" && <GetAppointmentForm />}
     </>
   );
 };
