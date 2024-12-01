@@ -8,6 +8,8 @@ import ButtonC from "./shared/ButtonC";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormC from "./shared/FormC";
+import style from "../styles/Navbar.module.css";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const SignUpModal = ({ show, handleClose }) => {
   return (
@@ -50,9 +52,6 @@ const SignUpModal = ({ show, handleClose }) => {
     </>
   );
 };
-import style from "../styles/Navbar.module.css";
-import { useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
 
 const NavbarC = () => {
   const [userRole, setUserRole] = useState("not-logged");
@@ -119,12 +118,29 @@ const NavbarC = () => {
                 </Nav>
               )}
               {userRole === "not-logged" && (
-                <ButtonC className="ms-md-auto ms-0 mt-3">
+                <ButtonC
+                  className="ms-md-auto ms-0 mt-3"
+                  onClick={handleShowSignUp}
+                >
                   Iniciar Sesión
                 </ButtonC>
               )}
               {userRole === "user" && (
                 <>
+                  <ButtonC className="ms-md-auto ms-0 mt-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="currentColor"
+                      className="bi bi-calendar-event"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+                      <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                    </svg>
+                    <p className="m-0">Pedir Turno</p>
+                  </ButtonC>
                   <Link to="/store">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
