@@ -1,37 +1,40 @@
 .form {
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 1rem 0 1rem;
 }
 
 .formTitle {
   font-family: var(--font-poppins);
   font-size: clamp(2rem, 10vw, 2.5rem);
-  margin: 2rem 0;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
 .formLabel {
   font-family: var(--font-poppins);
-  font-size: clamp(16px, 5vw, 24px);
+  font-size: clamp(14px, 1vw, 16px);
   font-weight: 500;
 }
 
 .formInput {
   width: 98%;
-  border-radius: 14px;
+  border-radius: 4px;
   justify-self: center;
-  background-color: var(--secondary-color-lighter);
+  height: 44px;
+  background-color: #f2f2f2;
+  border: 0;
+  font-family: var(--font-poppins);
 }
 
 .formInput:active,
 .formInput:focus {
   outline: 0;
   box-shadow: none;
-  background-color: var(--secondary-color-lighter);
-  border-color: var(--secondary-color);
+  background-color: #f2f2f2;
 }
 
 .formCheck {
-  font-size: clamp(12px, 3.5vw, 16px) !important ;
+  font-size: clamp(14px, 3.5vw, 16px) !important ;
+  filter: drop-shadow(1px 1px 1px #ababab);
 }
 
 .formCheck input:checked {
@@ -48,7 +51,9 @@
 }
 
 .formSubmitButton {
-  width: calc(100% - 20px);
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  width: 100%;
 }
 
 .errorMessage {
@@ -86,7 +91,7 @@
   left: calc(50% - 5px);
   margin: 0;
   z-index: 2;
-  background-color: #fff6e4ff;
+  background-color: #fff;
   padding: 0 5px;
 }
 
@@ -99,11 +104,187 @@
   gap: 20px;
   width: 100%;
   padding: 0.7rem 0 !important;
-  background-color: transparent;
+  background-color: #f2f2f2;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px;
-  font-size: larger;
+  font-size: clamp(18px, 2vw, 24px);
   font-family: var(--font-poppins);
+}
+
+.passwordEye {
+  border: 0;
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+@media (max-width: 425px) {
+  .form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Agregar mascota */
+
+.petImageInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.petImageInput {
+  width: 110%;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.specieCheck {
+  width: auto;
+  text-wrap: nowrap;
+  border: 1px solid #f2f2f2;
+  padding: 0.5rem;
+  border-radius: 14px;
+  font-family: var(--font-poppins);
+  cursor: pointer;
+  height: 48px;
+  vertical-align: middle;
+}
+
+.specieCheck.active {
+  background-color: rgba(255, 130, 37, 0.6);
+  color: var(--black-color);
+  border: 2px solid var(--main-color);
+  filter: drop-shadow(1px 1px 2px #f2f2f2);
+  font-weight: 600;
+}
+
+.sexCheckButtonsContainer {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid #f2f2f2;
+  border-radius: 14px !important;
+  background-color: #f2f2f2 !important;
+}
+
+.sexCheckButton {
+  width: 100%;
+  height: 42px;
+  color: var(--black-color);
+  border: 0;
+  margin: 0.2rem;
+  background-color: transparent;
+  font-family: var(--font-poppins);
+  font-weight: 400;
+  border-radius: 14px !important;
+}
+
+.sexCheckButton:hover,
+.sexCheckButton:active {
+  background-color: transparent !important;
+  color: var(--black-color);
+}
+
+.sexCheckButton.active {
+  background-color: var(--main-color) !important;
+  color: var(--black-color);
+  filter: drop-shadow(0 0 2px #f2f2f2);
+  border-radius: 14px !important;
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.speciesButtonContainer {
+  height: 48px;
+  margin-top: 15px;
+}
+
+.saveChangesButton,
+.discardChangesButton {
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--main-color);
+  font-family: var(--font-poppins);
+  font-weight: 600;
+}
+
+.saveChangesButton {
+  background-color: var(--main-color);
+  color: var(--black-color);
+}
+
+.formButton {
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  width: 200px;
+}
+
+.saveButton {
+  color: var(--main-color);
+  background-color: var(--main-color);
+  color: var(--white-color);
+  border: 3px solid var(--main-color);
+}
+
+.cancelButton {
+  color: var(--main-color);
+  border: 3px solid var(--main-color);
+}
+
+.removeImageButton {
+  border: 3px solid #d67b78;
+  color: #fc504a;
+}
+
+/* ------------------------ */
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+}
+
+.inputFieldLabel {
+  margin: 0 0 0.6rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.inputField {
+  height: 48px;
+  filter: drop-shadow(0 0 1px #818181);
+  background-color: #f2f2f2;
+}
+
+.inputField:focus {
+  border-color: var(--main-color-lighter);
+  box-shadow: 0 0 0 0.25rem rgba(255, 130, 37, 0.4);
+  filter: none;
+  background-color: #f2f2f2;
+}
+
+.inputField:-webkit-autofill {
+  background-color: #f2f2f2;
+}
+
+@media (max-width: 425px) {
+  .form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 .datePickerContainer {

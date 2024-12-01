@@ -5,11 +5,11 @@
 
 :root {
   --main-color: #ff8225;
-  --main-color-lighter: #f19a56;
+  --main-color-lighter: #fdb177;
   --secondary-color: #ffeea9;
   --secondary-color-lighter: #feffd2;
   --tertiary-color: #b1bda5;
-  --light-color: #fbf4ea;
+  --light-color: #fffbf5;
   --white-color: #faf4f4;
   --black-color: #232323;
   --font-poppins: "Poppins", sans-serif;
@@ -24,11 +24,17 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 62.5%;
+#root {
+  background-color: #f2f2f2;
+  font-family: var(--font-poppins);
 }
 
-body {
-  font-size: 1.6rem;
-  font-family: var(--font-poppins);
+.modal-content {
+  background-color: #fffbf5 !important;
+  min-width: 290px;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
 }

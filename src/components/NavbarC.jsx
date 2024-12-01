@@ -5,13 +5,15 @@ import Image from "react-bootstrap/Image";
 import Logo from "../assets/img/simple-logo-nobg.png";
 import { Link, useNavigate } from "react-router-dom";
 import ButtonC from "./shared/ButtonC";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormC from "./shared/FormC";
 import style from "../styles/Navbar.module.css";
-import Dropdown from "react-bootstrap/Dropdown";
+import { Dropdown } from "react-bootstrap";
+import clientAxios from "../helpers/clientAxios";
+import Swal from "sweetalert2";
 
-const SignUpModal = ({ show, handleClose }) => {
+const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
   return (
     <>
       <Modal
@@ -20,33 +22,15 @@ const SignUpModal = ({ show, handleClose }) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Body
-          style={{
-            position: "relative",
-            padding: "24px 32px",
-            background: "url(./src/assets/img/paws-bg.svg)",
-          }}
-        >
-          <div
-            className=""
-            style={{
-              position: "absolute",
-              top: "0",
-              left: "calc(100% - 18px - 7px)",
-            }}
-          >
-            <button
-              style={{
-                border: 0,
-                backgroundColor: "transparent",
-                fontSize: "1.5rem",
-              }}
-              onClick={handleClose}
-            >
-              X
-            </button>
-          </div>
-          <FormC variant="sign-up" handleCloseModal={handleClose} />
+        <Modal.Header className={style.modalHeader}>
+          <button className="btn-close" onClick={handleClose}></button>
+        </Modal.Header>
+        <Modal.Body className={style.modalBody}>
+          <FormC
+            variant="sign-in"
+            handleCloseModal={handleClose}
+            handleNavbarRole={handleNavbarRole}
+          />
         </Modal.Body>
       </Modal>
     </>
@@ -56,25 +40,42 @@ const SignUpModal = ({ show, handleClose }) => {
 const NavbarC = () => {
   const [userRole, setUserRole] = useState("not-logged");
   const navigate = useNavigate();
+  const [showSignIn, setShowSignIn] = useState(false);
 
   const handleCloseSession = async () => {
     const token = sessionStorage.getItem("token");
     try {
-      const res = await clientAxios.post("/user/logout", {
-        headers: {
-          authtoken: token,
-        },
-      });
+      const res = await clientAxios.put(
+        "/user/logout",
+        {},
+        {
+          headers: {
+            authtoken: token,
+          },
+        }
+      );
       setUserRole("not-logged");
+      sessionStorage.removeItem("role");
+      sessionStorage.removeItem("token");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const [showSignUp, setShowSignUp] = useState(false);
+  const handleShowSignIn = () => setShowSignIn(true);
+  const handleCloseSignIn = () => setShowSignIn(false);
 
-  const handleShowSignUp = () => setShowSignUp(true);
-  const handleCloseSignUp = () => setShowSignUp(false);
+  const handleNavbarRole = () => {
+    const userRoleSS = sessionStorage.getItem("role");
+    if (userRoleSS) {
+      setUserRole(userRoleSS);
+    }
+  };
+
+  useEffect(() => {
+    handleNavbarRole();
+  }, []);
 
   return (
     <>
@@ -120,7 +121,7 @@ const NavbarC = () => {
               {userRole === "not-logged" && (
                 <ButtonC
                   className="ms-md-auto ms-0 mt-3"
-                  onClick={handleShowSignUp}
+                  onClick={handleShowSignIn}
                 >
                   Iniciar Sesión
                 </ButtonC>
@@ -153,50 +154,105 @@ const NavbarC = () => {
                       <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
                     </svg>
                   </Link>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    className="bi bi-bell-fill"
+                    viewBox="0 0 16 16"
+                    onClick={() => navigate("/user-profile/notifications")}
+                    style={{ cursor: "pointer", marginRight: "1rem" }}
+                  >
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+                  </svg>
                 </>
               )}
-              {userRole === "user" ||
-                (userRole === "admin" && (
-                  <>
-                    <Dropdown>
-                      <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          class="bi bi-person-circle"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                          <path
-                            fill-rule="evenodd"
-                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-                          />
-                        </svg>
-                      </Dropdown.Toggle>
+              {userRole === "user" && (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="#000"
+                    style={{ cursor: "pointer", marginRight: "1rem" }}
+                    className="bi bi-bag"
+                    viewBox="0 0 16 16"
+                    onClick={() => navigate("/store")}
+                  >
+                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                  </svg>
+                </>
+              )}
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={() => {
-                            navigate("/user/profile");
-                          }}
-                        >
-                          Editar Perfil
-                        </Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item onClick={handleCloseSession}>
-                          Cerrar Sesión
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </>
-                ))}
+              {(userRole === "user" || userRole === "admin") && (
+                <>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      id="userOptionsDropdown"
+                      className={style.userOptionsDropdownIcon}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="#000"
+                        className="bi bi-person-circle"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path
+                          fillRule="evenodd"
+                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                        />
+                      </svg>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className={style.userOptionsDropdownMenu}>
+                      <Dropdown.Item
+                        onClick={() => {
+                          navigate("/user-profile/information");
+                        }}
+                        className={style.userOptionsDropdownMenuItem}
+                      >
+                        Editar Perfil
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          navigate("/user-profile/pets");
+                        }}
+                        className={style.userOptionsDropdownMenuItem}
+                      >
+                        Mis Mascotas
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          navigate("/booking");
+                        }}
+                        className={style.userOptionsDropdownMenuItem}
+                      >
+                        Reservar turno
+                      </Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item
+                        onClick={handleCloseSession}
+                        className={style.userOptionsDropdownMenuItem}
+                      >
+                        Cerrar Sesión
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </>
+              )}
             </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <SignUpModal show={showSignUp} handleClose={handleCloseSignUp} />
+      <SignInModal
+        show={showSignIn}
+        handleClose={handleCloseSignIn}
+        handleNavbarRole={handleNavbarRole}
+      />
     </>
   );
 };
