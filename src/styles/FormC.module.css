@@ -280,13 +280,6 @@
   background-color: #f2f2f2;
 }
 
-@media (max-width: 425px) {
-  .form {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-}
-
 .datePickerContainer {
   max-height: 350px;
   max-width: 350px;
@@ -324,4 +317,11 @@
 
 .selectedHour {
   background-color: #f2f2f2;
+}
+
+@media (max-width: 425px) {
+  .form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
