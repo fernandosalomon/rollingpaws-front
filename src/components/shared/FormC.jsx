@@ -9,6 +9,7 @@ import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { InputGroup } from "react-bootstrap";
+import CustomCalendar from "../CustomCalendar";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -1011,6 +1012,14 @@ const UserProfileForm = () => {
   );
 };
 
+const NewAppointmentForm = () => {
+  return (
+    <div>
+      <CustomCalendar />
+    </div>
+  );
+};
+
 const FormC = ({
   variant,
   handleCloseModal,
@@ -1051,6 +1060,12 @@ const FormC = ({
       {formType === "user-profile" && (
         <>
           <UserProfileForm />
+        </>
+      )}
+
+      {formType === "new-appointment" && (
+        <>
+          <NewAppointmentForm />
         </>
       )}
     </>

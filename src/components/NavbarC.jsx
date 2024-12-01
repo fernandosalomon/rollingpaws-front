@@ -37,10 +37,31 @@ const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
   );
 };
 
+const NewAppointmentModal = ({ show, handleClose }) => {
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header className={style.modalHeader}>
+          <button className="btn-close" onClick={handleClose}></button>
+        </Modal.Header>
+        <Modal.Body className={style.modalBody}>
+          <FormC variant="new-appointment" handleCloseModal={handleClose} />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
+
 const NavbarC = () => {
   const [userRole, setUserRole] = useState("not-logged");
   const navigate = useNavigate();
   const [showSignIn, setShowSignIn] = useState(false);
+  const [showNewAppointment, setShowNewAppointment] = useState(false);
 
   const handleCloseSession = async () => {
     const token = sessionStorage.getItem("token");
@@ -72,6 +93,9 @@ const NavbarC = () => {
       setUserRole(userRoleSS);
     }
   };
+
+  const handleShowNewAppointment = () => setShowNewAppointment(true);
+  const handleCloseNewAppointment = () => setShowNewAppointment(false);
 
   useEffect(() => {
     handleNavbarRole();
@@ -127,14 +151,17 @@ const NavbarC = () => {
                 </ButtonC>
               )}
               {userRole === "user" && (
-                <>
-                  <ButtonC className="ms-md-auto ms-0 mt-3">
+                <div className="d-flex align-items-center gap-2">
+                  <ButtonC
+                    className="d-flex align-items-center ms-md-auto ms-0 mt-3"
+                    onClick={handleShowNewAppointment}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="32"
-                      height="32"
+                      width="24"
+                      height="24"
                       fill="currentColor"
-                      className="bi bi-calendar-event"
+                      className="bi bi-calendar-event me-2"
                       viewBox="0 0 16 16"
                     >
                       <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
@@ -145,9 +172,9 @@ const NavbarC = () => {
                   <Link to="/store">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
+                      width="24"
+                      height="24"
+                      fill="#000"
                       class="bi bi-bag"
                       viewBox="0 0 16 16"
                     >
@@ -166,28 +193,12 @@ const NavbarC = () => {
                   >
                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                   </svg>
-                </>
-              )}
-              {userRole === "user" && (
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="#000"
-                    style={{ cursor: "pointer", marginRight: "1rem" }}
-                    className="bi bi-bag"
-                    viewBox="0 0 16 16"
-                    onClick={() => navigate("/store")}
-                  >
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
-                  </svg>
-                </>
+                </div>
               )}
 
               {(userRole === "user" || userRole === "admin") && (
                 <>
-                  <Dropdown>
+                  <Dropdown className="d-flex align-items-center">
                     <Dropdown.Toggle
                       id="userOptionsDropdown"
                       className={style.userOptionsDropdownIcon}
@@ -252,6 +263,10 @@ const NavbarC = () => {
         show={showSignIn}
         handleClose={handleCloseSignIn}
         handleNavbarRole={handleNavbarRole}
+      />
+      <NewAppointmentModal
+        show={showNewAppointment}
+        handleClose={handleCloseNewAppointment}
       />
     </>
   );
