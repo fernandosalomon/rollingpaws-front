@@ -1013,9 +1013,87 @@ const UserProfileForm = () => {
 };
 
 const NewAppointmentForm = () => {
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedHour, setSelectedHour] = useState("");
+  const [selectedMinute, setSelectedMinute] = useState("");
+
+  const handleSetDate = (year, month, date) => {
+    setSelectedDay(date);
+    setSelectedMonth(month);
+    setSelectedYear(year);
+  };
+
+  const handleSetTime = (time) => {
+    const [hour, minutes] = time.split(":");
+    setSelectedHour(hour);
+    setSelectedMinute(minutes);
+  };
+
+  const availableHours = [
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+  ];
+
+  useEffect(() => {
+    console.log(
+      selectedYear,
+      selectedMonth,
+      selectedDay,
+      selectedHour,
+      selectedMinute
+    );
+  }, [selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute]);
+
   return (
-    <div>
-      <CustomCalendar />
+    <div className={style.datePickerContainer}>
+      <CustomCalendar border handleSetDate={handleSetDate} />
+      <div>
+        <h4 className={style.timePickerHeader}>Horarios</h4>
+        <div className={style.timePickerContainer}>
+          {availableHours.map((hour) => (
+            <p
+              className={`${style.timePickerContent} ${
+                hour === `${selectedHour}:${selectedMinute}` ? style.active : ""
+              }`}
+              key={hour}
+              onClick={() => {
+                console.log(hour);
+                console.log(`${selectedHour}:${selectedMinute}`);
+                handleSetTime(hour);
+              }}
+            >
+              {hour}
+            </p>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
