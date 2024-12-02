@@ -322,7 +322,6 @@ const SignInForm = ({
         navigate("/");
       }
     } catch (error) {
-      console.log("CHAu");
       Swal.fire({
         icon: "error",
         title: `Algo salio mal`,
@@ -1012,12 +1011,23 @@ const UserProfileForm = () => {
   );
 };
 
-const NewAppointmentForm = () => {
-  const [selectedDay, setSelectedDay] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedHour, setSelectedHour] = useState("");
-  const [selectedMinute, setSelectedMinute] = useState("");
+const NewAppointmentForm = ({ handleCloseModal }) => {
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedHour, setSelectedHour] = useState(null);
+  const [selectedMinute, setSelectedMinute] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [petList, setPetList] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    watch,
+  } = useForm();
 
   const handleSetDate = (year, month, date) => {
     setSelectedDay(date);
@@ -1061,40 +1071,166 @@ const NewAppointmentForm = () => {
     "21:00",
   ];
 
+  const doctorsList = [
+    {
+      name: "Jonh Doe",
+    },
+    {
+      name: "Jane Doe",
+    },
+    {
+      name: "Alice Doe",
+    },
+  ];
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
   useEffect(() => {
-    console.log(
-      selectedYear,
-      selectedMonth,
-      selectedDay,
-      selectedHour,
-      selectedMinute
-    );
-  }, [selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute]);
+    const getPetList = async () => {
+      const token = sessionStorage.getItem("token");
+      try {
+        const petList = await clientAxios.get("/pet/", {
+          headers: {
+            authtoken: token,
+          },
+        });
+        return petList.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    (async function () {
+      const pets = await getPetList();
+      setPetList(pets);
+    })();
+  }, []);
+
+  const petSelectWatch = watch("pet");
+  const doctorSelectWatch = watch("doctor");
+
+  useEffect(() => {
+    setSelectedPet(petSelectWatch);
+    setSelectedDoctor(doctorSelectWatch);
+  }, [petSelectWatch, doctorSelectWatch]);
 
   return (
-    <div className={style.datePickerContainer}>
-      <CustomCalendar border handleSetDate={handleSetDate} />
-      <div>
-        <h4 className={style.timePickerHeader}>Horarios</h4>
-        <div className={style.timePickerContainer}>
-          {availableHours.map((hour) => (
-            <p
-              className={`${style.timePickerContent} ${
-                hour === `${selectedHour}:${selectedMinute}` ? style.active : ""
-              }`}
-              key={hour}
-              onClick={() => {
-                console.log(hour);
-                console.log(`${selectedHour}:${selectedMinute}`);
-                handleSetTime(hour);
+    <>
+      <h2 className={style.formTitle}>Nuevo turno</h2>
+      <Form className={style.form} onSubmit={onSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label className={style.formLabel}>
+            Seleccione la mascota
+          </Form.Label>
+          <Form.Select
+            aria-label="Select Pet"
+            className={style.formInput}
+            {...register("pet")}
+          >
+            {petList.map((pet, index) => (
+              <option value={pet.name}>{pet.name}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label className={style.formLabel}>
+            Seleccione el veterinario
+          </Form.Label>
+          <Form.Select
+            aria-label="Select Doctor"
+            className={style.formInput}
+            {...register("doctor")}
+          >
+            {doctorsList.map((doctor) => (
+              <option value={doctor.name}>{doctor.name}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label className={style.formLabel}>
+            Motivo de la visita
+          </Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            {...register("observations")}
+            className={style.textArea}
+          />
+        </Form.Group>
+        <div className={style.datePickerContainer}>
+          <CustomCalendar border handleSetDate={handleSetDate} />
+          <div>
+            <h4 className={style.timePickerHeader}>Horarios</h4>
+            <div className={style.timePickerContainer}>
+              {availableHours.map((hour) => (
+                <p
+                  className={`${style.timePickerContent} ${
+                    hour === `${selectedHour}:${selectedMinute}`
+                      ? style.active
+                      : ""
+                  }`}
+                  key={hour}
+                  onClick={() => {
+                    console.log(hour);
+                    console.log(`${selectedHour}:${selectedMinute}`);
+                    handleSetTime(hour);
+                  }}
+                >
+                  {hour}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div
+          className={
+            selectedDay &&
+            selectedMonth &&
+            selectedYear &&
+            selectedHour &&
+            selectedMinute &&
+            selectedPet &&
+            selectedDoctor
+              ? "d-block"
+              : "d-none"
+          }
+        >
+          <p className={style.newAppointmentConfirmText}>
+            ¿Confirma la cita para el día
+            <span className="fw-bold mx-1">
+              {selectedDay}/{selectedMonth + 1}/{selectedYear}
+            </span>
+            a las
+            <span className="fw-bold mx-1">
+              {selectedHour}:{selectedMinute}
+            </span>
+            hs. para su mascota
+            <span className="fw-bold mx-1">{petSelectWatch}</span> con el
+            veterinario
+            <span className="fw-bold mx-1">{doctorSelectWatch}</span>?
+          </p>
+          <div className="d-flex gap-2 w-100 justify-content-center">
+            <button
+              className={`${style.formButton} ${style.saveButton}`}
+              type="submit"
+            >
+              Confirmar
+            </button>
+            <button
+              className={`${style.formButton} ${style.cancelButton}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleCloseModal();
               }}
             >
-              {hour}
-            </p>
-          ))}
+              Cancelar
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
+      </Form>
+    </>
   );
 };
 
@@ -1143,7 +1279,7 @@ const FormC = ({
 
       {formType === "new-appointment" && (
         <>
-          <NewAppointmentForm />
+          <NewAppointmentForm handleCloseModal={handleCloseModal} />
         </>
       )}
     </>
