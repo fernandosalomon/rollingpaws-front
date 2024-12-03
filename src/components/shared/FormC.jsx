@@ -1083,8 +1083,57 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
     },
   ];
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    const newAppointmentData = {
+      date: new Date(
+        selectedYear,
+        selectedMonth,
+        selectedDay,
+        selectedHour,
+        selectedMinute
+      ),
+      pet: petList[data.pet]._id || null,
+      doctor: data.doctor,
+      observations: data.observations,
+    };
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      Swal.fire({
+        title: "Oops! No sabemos como llegaste aquí",
+        text: "Tienes que estar identificado para reservar una cita",
+        icon: "error",
+      });
+      return null;
+    } else {
+      try {
+        const newAppointment = await clientAxios.post(
+          "/appointments",
+          newAppointmentData,
+          { headers: { authtoken: token } }
+        );
+        if (newAppointment) {
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Tu cita fue reservada con exito",
+            text: "Te esperamos",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          handleCloseModal();
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Tu cita no se pudo reservar",
+          text: `Error: ${error.response.data}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    }
   });
 
   useEffect(() => {
@@ -1129,8 +1178,9 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             className={style.formInput}
             {...register("pet")}
           >
+            <option>Seleccione su mascota...</option>
             {petList.map((pet, index) => (
-              <option value={pet.name}>{pet.name}</option>
+              <option value={index}>{pet.name}</option>
             ))}
           </Form.Select>
         </Form.Group>
@@ -1143,6 +1193,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             className={style.formInput}
             {...register("doctor")}
           >
+            <option>Seleccione al veterinario...</option>
             {doctorsList.map((doctor) => (
               <option value={doctor.name}>{doctor.name}</option>
             ))}
@@ -1160,7 +1211,11 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
           />
         </Form.Group>
         <div className={style.datePickerContainer}>
-          <CustomCalendar border handleSetDate={handleSetDate} />
+          <CustomCalendar
+            border
+            handleSetDate={handleSetDate}
+            allowPreviousDates={false}
+          />
           <div>
             <h4 className={style.timePickerHeader}>Horarios</h4>
             <div className={style.timePickerContainer}>
@@ -1173,8 +1228,6 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                   }`}
                   key={hour}
                   onClick={() => {
-                    console.log(hour);
-                    console.log(`${selectedHour}:${selectedMinute}`);
                     handleSetTime(hour);
                   }}
                 >
@@ -1187,7 +1240,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
         <div
           className={
             selectedDay &&
-            selectedMonth &&
+            selectedMonth !== null &&
             selectedYear &&
             selectedHour &&
             selectedMinute &&
@@ -1207,8 +1260,10 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
               {selectedHour}:{selectedMinute}
             </span>
             hs. para su mascota
-            <span className="fw-bold mx-1">{petSelectWatch}</span> con el
-            veterinario
+            <span className="fw-bold mx-1">
+              {petList[petSelectWatch]?.name}
+            </span>
+            con el veterinario
             <span className="fw-bold mx-1">{doctorSelectWatch}</span>?
           </p>
           <div className="d-flex gap-2 w-100 justify-content-center">

@@ -45,6 +45,8 @@ const NewAppointmentModal = ({ show, handleClose }) => {
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        aria-modal="true"
+        closeAfterTransition={false}
       >
         <Modal.Header className={style.modalHeader}>
           <button className="btn-close" onClick={handleClose}></button>

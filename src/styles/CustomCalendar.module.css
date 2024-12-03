@@ -68,3 +68,8 @@
   border-radius: 7px;
   font-weight: 600;
 }
+
+.disabledDate {
+  color: #eaeaea;
+  cursor: not-allowed !important;
+}

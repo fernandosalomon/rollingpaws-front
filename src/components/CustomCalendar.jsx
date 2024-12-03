@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import style from "../styles/CustomCalendar.module.css";
 import Container from "react-bootstrap/Container";
 
-const CustomCalendar = ({ border, handleSetDate }) => {
+const CustomCalendar = ({ border, handleSetDate, allowPreviousDates }) => {
   const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
@@ -176,13 +176,25 @@ const CustomCalendar = ({ border, handleSetDate }) => {
       }`}
     >
       <div className={style.headerWrapper}>
-        <button className={style.buttonHeader} onClick={prevMonth}>
+        <button
+          className={style.buttonHeader}
+          onClick={(e) => {
+            e.preventDefault();
+            prevMonth();
+          }}
+        >
           &#11164;
         </button>
         <h4
           className={style.header}
         >{`${monthInYear[month].monthName} ${year}`}</h4>
-        <button className={style.buttonHeader} onClick={nextMonth}>
+        <button
+          className={style.buttonHeader}
+          onClick={(e) => {
+            e.preventDefault();
+            nextMonth();
+          }}
+        >
           &#11166;
         </button>
       </div>
@@ -205,14 +217,16 @@ const CustomCalendar = ({ border, handleSetDate }) => {
                 <td
                   key={dayIndex}
                   onClick={() => {
-                    handleSetDate(
-                      day.getFullYear(),
-                      day.getMonth(),
-                      day.getDate()
-                    );
-                    setSelectedDay(day.getDate());
-                    setSelectedMonth(day.getMonth());
-                    setSelectedYear(day.getFullYear());
+                    if (!allowPreviousDates && day > today) {
+                      handleSetDate(
+                        day.getFullYear(),
+                        day.getMonth(),
+                        day.getDate()
+                      );
+                      setSelectedDay(day.getDate());
+                      setSelectedMonth(day.getMonth());
+                      setSelectedYear(day.getFullYear());
+                    }
                   }}
                   className={`${style.tableCell} ${
                     day.getMonth() !== month ? style.fadeDayNumber : ""
@@ -227,6 +241,8 @@ const CustomCalendar = ({ border, handleSetDate }) => {
                     day.getFullYear() === selectedYear
                       ? style.selectedDate
                       : ""
+                  } ${
+                    !allowPreviousDates && day < today ? style.disabledDate : ""
                   }`}
                 >
                   {day.getDate()}
