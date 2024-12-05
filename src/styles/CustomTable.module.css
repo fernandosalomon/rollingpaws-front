@@ -4,6 +4,25 @@
   align-items: center;
 }
 
+.tableFit {
+  width: fit-content !important;
+  table-layout: auto !important;
+}
+
+.columnLabel {
+  vertical-align: middle;
+  padding-left: 1rem !important;
+}
+
+.tableCell {
+  vertical-align: middle;
+  padding-left: 1rem !important;
+  font-size: 1.6rem;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  width: 1%;
+}
+
 .resultsPerPageSelect {
   width: 70px;
   font-size: 1.5rem;
@@ -127,4 +146,82 @@
   font-weight: 600;
   color: var(--white-color);
   border-radius: 7px;
+}
+
+.smallTableWrapper {
+  width: 330px;
+  border: 3px solid #f2f2f2;
+  border-radius: 14px;
+}
+
+.smallTableHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 1rem 0.5rem;
+}
+
+.smallTableLabelCell {
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  padding: 1rem 1.5rem 1rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  text-wrap: nowrap;
+}
+
+.smallTableContentCell {
+  font-family: var(--font-poppins);
+  padding: 1rem 1.5rem 1rem 0.5rem;
+  text-wrap: nowrap;
+}
+
+.smallTableHiddenData {
+  display: none;
+}
+
+.smallTableShowData {
+  display: block;
+}
+
+.smallTableShowDataButton {
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #f2f2f2;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.smallTableCrudButtonsContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.smallTableCrudButton {
+  border: 0;
+  padding: 1rem;
+  border-radius: 7px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.deleteButton {
+  background-color: rgb(250, 193, 185);
+  color: #dc3545;
+}
+
+.editButton {
+  background-color: rgb(176, 205, 243);
+  color: #0d6efd;
+}
+
+.CRUDbuttonWrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
 }
