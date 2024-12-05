@@ -14,15 +14,6 @@
   padding-left: 1rem !important;
 }
 
-.tableCell {
-  vertical-align: middle;
-  padding-left: 1rem !important;
-  font-size: 1.6rem;
-  text-wrap: nowrap;
-  white-space: nowrap;
-  width: 1%;
-}
-
 .resultsPerPageSelect {
   width: 70px;
   font-size: 1.5rem;
@@ -131,25 +122,8 @@
   padding: 1rem;
 }
 
-.banUserButton {
-  padding: 1rem;
-  background-color: #dc3545;
-  font-weight: 600;
-  color: var(--white-color);
-  border-radius: 7px;
-  width: 125px;
-}
-
-.unbanUserButton {
-  padding: 1rem;
-  background-color: #28a745;
-  font-weight: 600;
-  color: var(--white-color);
-  border-radius: 7px;
-}
-
 .smallTableWrapper {
-  width: 330px;
+  max-width: 320px;
   border: 3px solid #f2f2f2;
   border-radius: 14px;
 }
@@ -163,6 +137,10 @@
   padding: 1rem 0.5rem;
 }
 
+.smallTableContainer {
+  width: 300px;
+}
+
 .smallTableLabelCell {
   font-family: var(--font-poppins);
   font-weight: 600;
@@ -170,12 +148,14 @@
   display: flex;
   justify-content: space-between;
   text-wrap: nowrap;
+  font-size: clamp(1.2rem, 1vw, 1.6rem);
 }
 
 .smallTableContentCell {
   font-family: var(--font-poppins);
   padding: 1rem 1.5rem 1rem 0.5rem;
   text-wrap: nowrap;
+  font-size: clamp(1.2rem, 1vw, 1.6rem);
 }
 
 .smallTableHiddenData {
@@ -224,4 +204,80 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+}
+
+/* AQUI EMPIEZA DE NUEVO */
+
+.tableWideContainer {
+  display: block;
+}
+.tableSmallContainer {
+  display: none;
+}
+
+.tableRowHeader {
+  border-bottom: 2px solid #eaeaea;
+}
+
+.tableCellHeader {
+  font-weight: 500 !important;
+}
+
+.tableSmall {
+  border: 2px solid #f2f2f2;
+}
+
+.tableRow {
+  border-bottom: 2px solid #f2f2f2;
+}
+
+.tableCell {
+  vertical-align: middle;
+  text-wrap: nowrap;
+  font-family: var(--font-poppins);
+  font-weight: 300;
+  padding: 1.5rem !important;
+}
+
+.customTableButton {
+  border: 0;
+  background-color: transparent;
+  padding: 1rem;
+  border-radius: 7px;
+}
+
+.moreInfoButton {
+  background-color: #9affb1;
+}
+
+.deleteButton {
+  background-color: #f79ca7;
+}
+
+.editButton {
+  background-color: #9fc6ff;
+}
+
+.banUserButton {
+  background-color: #ffe79a;
+}
+
+.hidden {
+  display: none;
+}
+
+.showMoreInfoButton {
+  text-align: center;
+  cursor: pointer;
+}
+
+@media (max-width: 786px) {
+  .tableWideContainer {
+    display: none;
+  }
+  .tableSmallContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }

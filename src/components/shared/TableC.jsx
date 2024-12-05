@@ -210,7 +210,7 @@ const TableSmall = ({ labels, data, handleDelete, handleEdit, handleBan }) => {
           </button>
         </div>
       </div>
-      <table className={style.smallTableContainer}>
+      <Table className={style.smallTableContainer}>
         <tbody className={style.smallTableBody}>
           {labels.map(
             (val) =>
@@ -272,7 +272,7 @@ const TableSmall = ({ labels, data, handleDelete, handleEdit, handleBan }) => {
               )
           )}
         </tbody>
-      </table>
+      </Table>
       <div className={style.smallTableShowDataButton} onClick={handleShowData}>
         {hideData ? (
           <p className="mb-0"> Ver más información &#9660;</p>
@@ -316,7 +316,7 @@ const TableBig = ({
 }) => {
   return (
     <div>
-      <Table striped bordered hover className={style.tableFit}>
+      <Table striped bordered hover>
         <thead>
           <tr>
             {labels.map(
@@ -393,7 +393,7 @@ const TableC = ({ data, labels, CRUDButtons, handleUpdateData }) => {
     <>
       <SearchBar />
       {windowDimensions.width < 425 ? (
-        <div className="d-flex flex-column gap-4">
+        <div className="d-flex flex-column gap-4 w-100">
           {data.map((dataPoint) => (
             <TableSmall labels={labels} data={dataPoint} key={dataPoint._id} />
           ))}

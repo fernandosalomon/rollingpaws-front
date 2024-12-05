@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TableC from "../components/shared/TableC";
 import { getAllUsers } from "../helpers/fetchData";
 import Spinner from "react-bootstrap/Spinner";
-import Container from "react-bootstrap/Container";
+import CustomTable from "../components/shared/CustomTable";
 
 const AdminPage = () => {
   const [data, setData] = useState([]);
@@ -20,29 +20,19 @@ const AdminPage = () => {
   }, []);
 
   const labels = [
-    { value: "firstName", label: "Nombre", hidden: false },
-    { value: "lastName", label: "Apellido", hidden: false },
-    { value: "email", label: "Email", hidden: false },
-    { value: "banned", label: "Estado", hidden: false },
-    { value: "phone", label: "Teléfono", hidden: true },
-    { value: "address", label: "Dirección", hidden: true },
-    { value: "city", label: "Ciudad", hidden: true },
-    { value: "province", label: "Provincia", hidden: true },
-    { value: "zipCode", label: "CP", hidden: true },
+    { name: "firstName", label: "Nombre", hidden: false },
+    { name: "lastName", label: "Apellido", hidden: false },
+    { name: "email", label: "Email", hidden: false },
+    { name: "banned", label: "Estado", hidden: false },
+    { name: "phone", label: "Teléfono", hidden: true },
+    { name: "address", label: "Dirección", hidden: true },
+    { name: "city", label: "Ciudad", hidden: true },
+    { name: "province", label: "Provincia", hidden: true },
+    { name: "zipCode", label: "CP", hidden: true },
   ];
 
   if (data) {
-    return (
-      <Container fluid="md">
-      
-        <TableC
-          data={data}
-          labels={labels}
-          CRUDButtons={true}
-          handleUpdateData={handleUpdateData}
-        />
-      </Container>
-    );
+    return <CustomTable data={data} columns={labels} />;
   } else {
     return <Spinner animation="border" />;
   }
