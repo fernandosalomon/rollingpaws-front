@@ -6,17 +6,17 @@ import CustomTable from "../components/shared/CustomTable";
 
 const AdminPage = () => {
   const [data, setData] = useState([]);
-
-  const handleUpdateData = async () => {
-    const data = await getAllUsers();
-    setData(data);
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    (async function () {
-      const data = await getAllUsers();
-      setData(data);
-    })();
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      const res = await getAllUsers();
+      setData(res);
+      setIsLoading(false);
+    };
+
+    fetchUsers();
   }, []);
 
   const labels = [
@@ -31,10 +31,17 @@ const AdminPage = () => {
     { name: "zipCode", label: "CP", hidden: true },
   ];
 
-  if (data) {
-    return <CustomTable data={data} columns={labels} />;
+  if (!isLoading) {
+    return <CustomTable data={data} columns={labels} isLoading={isLoading} />;
   } else {
-    return <Spinner animation="border" />;
+    return (
+      <div
+        style={{ width: "100vw", height: "100%" }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <Spinner animation="border" variant="warning" />
+      </div>
+    );
   }
 };
 

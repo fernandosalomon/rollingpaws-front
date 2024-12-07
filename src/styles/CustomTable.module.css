@@ -292,6 +292,10 @@
   height: 36px;
 }
 
+.paginationItem {
+  font-size: 1.4rem !important;
+}
+
 @media (max-width: 786px) {
   .tableWideContainer {
     display: none;
