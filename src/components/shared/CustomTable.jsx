@@ -181,7 +181,13 @@ const View = ({ variant, data, handleUpdateData }) => {
                     <h3
                       className={style.userCardName}
                     >{`${data.firstName} ${data.lastName}`}</h3>
-                    <p className={style.userCardRole}>{data.role}</p>
+                    <p className={style.userCardRole}>
+                      {data.role === "user"
+                        ? "Usuario"
+                        : data.role === "vet"
+                        ? "Veterinario"
+                        : "Administrador"}
+                    </p>
 
                     <div className={style.horizontalBar} />
                     <Table className={style.userCardTable}>
