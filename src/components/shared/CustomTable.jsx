@@ -177,7 +177,7 @@ const View = ({ variant, data, handleUpdateData }) => {
                       )}
                     </div>
                   </div>
-                  <div className="pe-3">
+                  <div className="flex-fill">
                     <h3
                       className={style.userCardName}
                     >{`${data.firstName} ${data.lastName}`}</h3>
@@ -225,35 +225,39 @@ const View = ({ variant, data, handleUpdateData }) => {
               )}
               {view === 1 && (
                 <div className={style.petCardsContainer}>
-                  {data.pets.map((pet) => (
-                    <Card style={{ width: "18rem" }} key={pet._id}>
-                      <Card.Img
-                        variant="top"
-                        src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png"
-                        style={{
-                          padding: "1rem",
-                          maxWidth: "150px",
-                          maxHeight: "150px",
-                          margin: "0 auto",
-                        }}
-                      />
-                      <Card.Body>
-                        <Card.Title className={style.petCardTitle}>
-                          {pet.name}
-                        </Card.Title>
-                        <Card.Text className={style.petCardContent}>
-                          <CRUDButtonGroup
-                            variant="pet"
-                            data={pet}
-                            view
-                            edit
-                            remove
-                            handleUpdateData={handleUpdateData}
-                          />
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  ))}
+                  {data.pets.length === 0 ? (
+                    <h2 className="py-5">No hay mascotas para mostrar</h2>
+                  ) : (
+                    data.pets.map((pet) => (
+                      <Card style={{ width: "18rem" }} key={pet._id}>
+                        <Card.Img
+                          variant="top"
+                          src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png"
+                          style={{
+                            padding: "1rem",
+                            maxWidth: "150px",
+                            maxHeight: "150px",
+                            margin: "0 auto",
+                          }}
+                        />
+                        <Card.Body>
+                          <Card.Title className={style.petCardTitle}>
+                            {pet.name}
+                          </Card.Title>
+                          <Card.Text className={style.petCardContent}>
+                            <CRUDButtonGroup
+                              variant="pet"
+                              data={pet}
+                              view
+                              edit
+                              remove
+                              handleUpdateData={handleUpdateData}
+                            />
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    ))
+                  )}
                 </div>
               )}
             </>
