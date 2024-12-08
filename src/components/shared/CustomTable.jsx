@@ -194,7 +194,7 @@ const View = ({ variant, data }) => {
                       >
                         <p>{pet.name}</p>
                         <CRUDButtonGroup
-                          variant="edit-pet"
+                          variant="pet"
                           data={pet}
                           view
                           edit
@@ -269,7 +269,7 @@ const Edit = ({ variant, data, handleUpdateData }) => {
               userID={data._id}
             />
           )}
-          {variant === "edit-pet" && (
+          {variant === "pet" && (
             <FormC
               variant="edit-pet"
               data={data}
@@ -359,7 +359,37 @@ const Delete = ({ variant, data, handleUpdateData }) => {
     }
   };
 
-  const handleDeletePet = () => {};
+  const handleDeletePet = async () => {
+    const result = await Swal.fire({
+      title: "¿Esta seguro que desea eliminar a esta mascota?",
+      text: "Este cambio no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Borrar mascota",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(`/pet/${data._id}`);
+        Swal.fire({
+          title: "Mascota Eliminada",
+          text: "La mascota fue eliminada satisfactoriamente",
+          icon: "success",
+        });
+        handleUpdateData();
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "Error",
+          text: `La mascota no se pudo eliminar. Error: ${error.response.message}`,
+          icon: "success",
+        });
+      }
+    }
+  };
 
   return (
     <button className={`${style.customTableButton} ${style.deleteButton}`}>
