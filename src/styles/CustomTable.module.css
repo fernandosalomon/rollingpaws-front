@@ -296,6 +296,72 @@
   font-size: 1.4rem !important;
 }
 
+.userCardTable > tbody > tr,
+.userCardTable > tbody > tr > td {
+  border: 0 !important;
+}
+
+.userCardName {
+  font-size: 1.8rem;
+  font-weight: 300 !important;
+  margin-bottom: 0 !important;
+  margin-top: 1.5rem;
+}
+
+.horizontalBar {
+  width: 100%;
+  height: 3x;
+  border-bottom: 3px solid #eaeaea;
+  margin: 1rem 0;
+}
+
+.CRUDviewModal {
+  max-width: 600px;
+}
+
+.userCardRole {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--main-color) !important;
+  margin-bottom: 1rem !important;
+}
+
+.userCardLabel {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #a19f9f !important;
+  text-wrap: nowrap;
+}
+
+.userCardData {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-wrap: nowrap;
+}
+
+.petCardsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  margin-top: 1rem;
+  max-height: 300px;
+}
+
+.petCardTitle {
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.petCardContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 786px) {
   .tableWideContainer {
     display: none;

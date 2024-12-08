@@ -11,6 +11,14 @@ import Image from "react-bootstrap/Image";
 import FormC from "./FormC";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
+import Card from "react-bootstrap/Card";
+import {
+  petAge,
+  petHealth,
+  petSex,
+  petSize,
+  petSpecie,
+} from "../../helpers/petFieldsDictionary";
 
 const SearchBar = ({ data, filterColumns, handleData, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -131,7 +139,11 @@ const View = ({ variant, data, handleUpdateData }) => {
           <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
         </svg>
       </button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        dialogClassName={style.CRUDviewModal}
+      >
         <Modal.Header closeButton className="border-0" />
         <Modal.Body>
           {variant === "user" && (
@@ -140,68 +152,102 @@ const View = ({ variant, data, handleUpdateData }) => {
                 <Nav.Item>
                   <Nav.Link onClick={() => setView(0)}>Personal</Nav.Link>
                 </Nav.Item>
+
                 <Nav.Item>
-                  <Nav.Link onClick={() => setView(1)}>Contacto</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link onClick={() => setView(2)}>Mascotas</Nav.Link>
+                  <Nav.Link onClick={() => setView(1)}>Mascotas</Nav.Link>
                 </Nav.Item>
               </Nav>
               {view === 0 && (
-                <div className="d-flex justify-content-center align-items-center">
-                  <Image
-                    src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                    alt="User Image"
-                    style={{ width: "200px" }}
-                  />
-                  <div>
-                    <Stack gap={2}>
-                      <div className="p-2">{`Nombre: ${data.firstName}`}</div>
-                      <div className="p-2">{`Apellido: ${data.lastName}`}</div>
-                      <div className="p-2">{`Rol: ${data.role}`}</div>
-                      <div className="p-2">{`Estado: ${data.banned}`}</div>
-                    </Stack>
+                <div className="d-flex justify-content-center align-items-start mt-4">
+                  <div className="d-flex flex-column justify-content-center align-items-center">
+                    <Image
+                      src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+                      alt="User Image"
+                      style={{ width: "200px" }}
+                    />
+                    <div className="mb-0">
+                      {data.banned ? (
+                        <p className="fw-semibold fs-2 text-danger">
+                          Deshabilitado
+                        </p>
+                      ) : (
+                        <p className="fw-semibold fs-2 text-success">
+                          Habilitado
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="pe-3">
+                    <h3
+                      className={style.userCardName}
+                    >{`${data.firstName} ${data.lastName}`}</h3>
+                    <p className={style.userCardRole}>{data.role}</p>
+
+                    <div className={style.horizontalBar} />
+                    <Table className={style.userCardTable}>
+                      <tbody>
+                        <tr>
+                          <td className={style.userCardLabel}>Email</td>
+                          <td className={style.userCardData}>{data.email}</td>
+                        </tr>
+                        <tr>
+                          <td className={style.userCardLabel}>Dirección</td>
+                          <td className={style.userCardData}>{data.address}</td>
+                        </tr>
+                        <tr>
+                          <td className={style.userCardLabel}>Ciudad</td>
+                          <td className={style.userCardData}>{data.city}</td>
+                        </tr>
+                        <tr>
+                          <td className={style.userCardLabel}>Provincia</td>
+                          <td className={style.userCardData}>
+                            {data.province}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className={style.userCardLabel}>Código Postal</td>
+                          <td className={style.userCardData}>{data.zipCode}</td>
+                        </tr>
+                        <tr>
+                          <td className={style.userCardLabel}>Teléfono</td>
+                          <td className={style.userCardData}>{data.phone}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   </div>
                 </div>
               )}
               {view === 1 && (
-                <div className="d-flex justify-content-center align-items-center">
-                  <Image
-                    src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                    alt="User Image"
-                    style={{ width: "200px" }}
-                  />
-                  <Stack gap={2}>
-                    <div className="p-2">{`Email: ${data.email}`}</div>
-                    <div className="p-2">{`Teléfono: ${data.phone}`}</div>
-                    <div className="p-2">{`Dirección: ${data.address}`}</div>
-                    <div className="p-2">{`Ciudad: ${data.city}`}</div>
-                    <div className="p-2">{`Provincia: ${data.province}`}</div>
-                    <div className="p-2">{`Código Postal: ${data.zipCode}`}</div>
-                  </Stack>
-                </div>
-              )}
-              {view === 2 && (
-                <div className="d-flex justify-content-center align-items-center">
-                  <Stack gap={2}>
-                    {}
-                    {data.pets.map((pet) => (
-                      <div
-                        className="p-2 d-flex align-items-center justify-content-between"
-                        key={pet._id}
-                      >
-                        <p>{pet.name}</p>
-                        <CRUDButtonGroup
-                          variant="pet"
-                          data={pet}
-                          view
-                          edit
-                          remove
-                          handleUpdateData={handleUpdateData}
-                        />
-                      </div>
-                    ))}
-                  </Stack>
+                <div className={style.petCardsContainer}>
+                  {data.pets.map((pet) => (
+                    <Card style={{ width: "18rem" }} key={pet._id}>
+                      <Card.Img
+                        variant="top"
+                        src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png"
+                        style={{
+                          padding: "1rem",
+                          maxWidth: "150px",
+                          maxHeight: "150px",
+                          margin: "0 auto",
+                        }}
+                      />
+                      <Card.Body>
+                        <Card.Title className={style.petCardTitle}>
+                          {pet.name}
+                        </Card.Title>
+                        <Card.Text className={style.petCardContent}>
+                          <CRUDButtonGroup
+                            variant="pet"
+                            data={pet}
+                            view
+                            edit
+                            remove
+                            handleUpdateData={handleUpdateData}
+                          />
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  ))}
                 </div>
               )}
             </>
@@ -213,17 +259,49 @@ const View = ({ variant, data, handleUpdateData }) => {
                 alt="User Image"
                 style={{ width: "200px" }}
               />
-              <div>
-                <Stack gap={2}>
-                  <div className="p-2">{`Nombre: ${data.name}`}</div>
-                  <div className="p-2">{`Especie: ${data.specie}`}</div>
-                  <div className="p-2">{`Raza: ${data.breed}`}</div>
-                  <div className="p-2">{`Sexo: ${data.sex}`}</div>
-                  <div className="p-2">{`Tamaño: ${data.size}`}</div>
-                  <div className="p-2">{`Edad: ${data.age}`}</div>
-                  <div className="p-2">{`Salud: ${data.health}`}</div>
-                  <div className="p-2">{`Observaciones: ${data.observations}`}</div>
-                </Stack>
+              <div className="flex-fill">
+                <h3 className={style.userCardName}>{data.name}</h3>
+                <div className={style.horizontalBar} />
+                <Table className={style.userCardTable}>
+                  <tbody>
+                    <tr>
+                      <td className={style.userCardLabel}>Especie</td>
+                      <td className={style.userCardData}>
+                        {petSpecie[data.specie]}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Raza</td>
+                      <td className={style.userCardData}>{data.breed}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Sexo</td>
+                      <td className={style.userCardData}>{petSex[data.sex]}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Tamaño</td>
+                      <td className={style.userCardData}>
+                        {petSize[data.size]}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Edad</td>
+                      <td className={style.userCardData}>{petAge[data.age]}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Salud</td>
+                      <td className={style.userCardData}>
+                        {petHealth[data.health]}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Observaciones</td>
+                      <td className={style.userCardData}>
+                        {data.observations}
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
               </div>
             </div>
           )}
