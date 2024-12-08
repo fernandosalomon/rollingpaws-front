@@ -90,11 +90,23 @@ const CustomPagination = ({
     pageNumber.push(i);
   }
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      paginate(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(totalElements / elementsPerPage)) {
+      paginate(currentPage + 1);
+    }
+  };
+
   return (
     <div className="d-flex justify-content-center">
       <Pagination size="lg">
-        <Pagination.First />
-        <Pagination.Prev />
+        <Pagination.First onClick={() => paginate(1)} />
+        <Pagination.Prev onClick={handlePrevPage} />
         {pageNumber.map((number) => (
           <Pagination.Item
             key={number}
@@ -104,8 +116,10 @@ const CustomPagination = ({
             {number}
           </Pagination.Item>
         ))}
-        <Pagination.Next />
-        <Pagination.Last />
+        <Pagination.Next onClick={handleNextPage} />
+        <Pagination.Last
+          onClick={() => paginate(Math.ceil(totalElements / elementsPerPage))}
+        />
       </Pagination>
     </div>
   );
