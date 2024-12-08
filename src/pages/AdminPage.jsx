@@ -19,6 +19,13 @@ const AdminPage = () => {
     fetchUsers();
   }, []);
 
+  const handleUpdateData = async () => {
+    setIsLoading(true);
+    const res = await getAllUsers();
+    setData(res);
+    setIsLoading(false);
+  };
+
   const labels = [
     { name: "firstName", label: "Nombre", hidden: false },
     { name: "lastName", label: "Apellido", hidden: false },
@@ -32,7 +39,14 @@ const AdminPage = () => {
   ];
 
   if (!isLoading) {
-    return <CustomTable data={data} columns={labels} isLoading={isLoading} />;
+    return (
+      <CustomTable
+        data={data}
+        columns={labels}
+        isLoading={isLoading}
+        handleUpdateData={handleUpdateData}
+      />
+    );
   } else {
     return (
       <div
