@@ -103,7 +103,7 @@ const CustomPagination = ({
   );
 };
 
-const View = ({ variant, data }) => {
+const View = ({ variant, data, handleUpdateData }) => {
   const [show, setShow] = useState(false);
   const [view, setView] = useState(0);
 
@@ -197,6 +197,7 @@ const View = ({ variant, data }) => {
                           view
                           edit
                           remove
+                          handleUpdateData={handleUpdateData}
                         />
                       </div>
                     ))}
@@ -425,7 +426,13 @@ const CRUDButtonGroup = ({
   return (
     <>
       <div className="d-flex gap-2">
-        {view && <View variant={variant} data={data} />}
+        {view && (
+          <View
+            variant={variant}
+            data={data}
+            handleUpdateData={handleUpdateData}
+          />
+        )}
         {edit && (
           <Edit
             variant={variant}

@@ -438,7 +438,7 @@ const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-trash"
+                className="bi bi-trash"
                 viewBox="0 0 16 16"
               >
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -706,19 +706,40 @@ const EditPetForm = ({ data, handleCloseModal, handleUpdateData }) => {
     setValue("observations", data.observations);
   }, []);
 
-  const onSubmit = handleSubmit();
+  const onSubmit = handleSubmit(async (petData) => {
+    try {
+      const res = await clientAxios.put(`/pet/${data._id}`, petData);
+      handleUpdateData();
+      handleCloseModal();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Mascota editada con exito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      setError("root", {
+        message: `Sucedio un error al tratar de editar la mascota. Error: ${error}`,
+      });
+    }
+  });
 
   return (
     <Form onSubmit={onSubmit} className={style.form}>
       <h2 className={style.formTitle}>Editar Usuario</h2>
 
-      <div className="d-flex gap-5 align-items-center">
+      <div className="d-flex gap-5 align-items-center mb-4">
         <div className={style.petImageInputContainer}>
-          <img src="" alt="petImage" className={style.petImageInput} />
+          <img
+            src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png"
+            alt="petImage"
+            className={style.petImageInput}
+          />
         </div>
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column gap-3">
           <button
-            className={`${style.formButton} d-flex gap-2 align-items-center`}
+            className={`${style.formButton} ${style.editUserButton} d-flex gap-2 align-items-center`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -734,7 +755,7 @@ const EditPetForm = ({ data, handleCloseModal, handleUpdateData }) => {
             <p className="m-0">Cambiar Imagen</p>
           </button>
           <button
-            className={`${style.formButton} ${style.removeImageButton} d-flex gap-2 align-items-center`}
+            className={`${style.cancelButton} d-flex gap-2 align-items-center`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -775,7 +796,7 @@ const EditPetForm = ({ data, handleCloseModal, handleUpdateData }) => {
         />
       </Form.Group>
 
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 mb-3">
         <div className="w-50">
           <h5 className={style.inputFieldLabel}>Especie</h5>
           <Form.Select
@@ -802,7 +823,7 @@ const EditPetForm = ({ data, handleCloseModal, handleUpdateData }) => {
         </div>
       </div>
 
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 mb-3">
         <div className="w-50">
           <h5 className={style.inputFieldLabel}>Sexo</h5>
           <ButtonGroup
@@ -843,7 +864,7 @@ const EditPetForm = ({ data, handleCloseModal, handleUpdateData }) => {
         </div>
       </div>
 
-      <div>
+      <div className="mb-3">
         <div className="d-flex gap-2">
           <div className="w-50">
             <h5 className={style.inputFieldLabel}>Edad</h5>
