@@ -107,7 +107,10 @@ const View = ({ variant, data }) => {
   const [show, setShow] = useState(false);
   const [view, setView] = useState(0);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setView(0);
+  };
   const handleShow = () => setShow(true);
 
   return (
@@ -133,12 +136,7 @@ const View = ({ variant, data }) => {
         <Modal.Body>
           {variant === "user" && (
             <>
-              <Nav
-                fill
-                variant="tabs"
-                onSelect={(e) => setView(e)}
-                defaultActiveKey={0}
-              >
+              <Nav fill variant="tabs">
                 <Nav.Item>
                   <Nav.Link onClick={() => setView(0)}>Personal</Nav.Link>
                 </Nav.Item>
