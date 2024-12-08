@@ -194,7 +194,7 @@ const View = ({ variant, data }) => {
                       >
                         <p>{pet.name}</p>
                         <CRUDButtonGroup
-                          variant="pet"
+                          variant="edit-pet"
                           data={pet}
                           view
                           edit
@@ -267,6 +267,14 @@ const Edit = ({ variant, data, handleUpdateData }) => {
               handleCloseModal={handleClose}
               handleUpdateData={handleUpdateData}
               userID={data._id}
+            />
+          )}
+          {variant === "edit-pet" && (
+            <FormC
+              variant="edit-pet"
+              data={data}
+              handleCloseModal={handleClose}
+              handleUpdateData={handleUpdateData}
             />
           )}
         </Modal.Body>
