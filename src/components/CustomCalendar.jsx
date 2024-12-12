@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import style from "../styles/CustomCalendar.module.css";
-import Container from "react-bootstrap/Container";
 
-const CustomCalendar = ({ border, handleSetDate, allowPreviousDates }) => {
+const CustomCalendar = ({
+  border,
+  handleSetDate,
+  allowPreviousDates,
+  pickedDate,
+}) => {
   const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
@@ -169,6 +173,14 @@ const CustomCalendar = ({ border, handleSetDate, allowPreviousDates }) => {
     setCalendarArray(calendar);
   }, [year, month]);
 
+  useEffect(() => {
+    setSelectedDay(pickedDate.getDate());
+    setSelectedMonth(pickedDate.getMonth());
+    setSelectedYear(pickedDate.getFullYear());
+    setMonth(pickedDate.getMonth());
+    setYear(pickedDate.getFullYear());
+  }, [pickedDate]);
+
   return (
     <div
       className={`${style.calendarContainer} ${
@@ -217,16 +229,14 @@ const CustomCalendar = ({ border, handleSetDate, allowPreviousDates }) => {
                 <td
                   key={dayIndex}
                   onClick={() => {
-                    if (!allowPreviousDates && day > today) {
-                      handleSetDate(
-                        day.getFullYear(),
-                        day.getMonth(),
-                        day.getDate()
-                      );
-                      setSelectedDay(day.getDate());
-                      setSelectedMonth(day.getMonth());
-                      setSelectedYear(day.getFullYear());
-                    }
+                    handleSetDate(
+                      day.getFullYear(),
+                      day.getMonth(),
+                      day.getDate()
+                    );
+                    setSelectedDay(day.getDate());
+                    setSelectedMonth(day.getMonth());
+                    setSelectedYear(day.getFullYear());
                   }}
                   className={`${style.tableCell} ${
                     day.getMonth() !== month ? style.fadeDayNumber : ""

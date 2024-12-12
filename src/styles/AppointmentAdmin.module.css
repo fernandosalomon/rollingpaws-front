@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  background-color: #fff;
+  width: 80%;
+  height: 80vh;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 7px;
+}
+
+.sideA {
+  width: 250px;
+}
+
+.sideB {
+  flex-grow: 1;
+  border-right: 3px solid #f2f2f2;
+  border-top: 3px solid #f2f2f2;
+  border-bottom: 3px solid #f2f2f2;
+  border-left: 2px solid #f2f2f2;
+  border-radius: 0 7px 7px 0;
+  height: 100%;
+  max-width: 1200px;
+  overflow: scroll;
+}
+
+.sideBHeader {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: 64px;
+  border-bottom: 3px solid #f2f2f2;
+  gap: 1rem;
+}
+
+.controlButtons {
+  display: flex;
+}
+
+.button {
+  background-color: transparent;
+  padding: 0.5rem;
+  border: 0;
+}
+
+.todayButton {
+  border: 2px solid var(--main-color);
+  border-radius: 24px;
+  padding: 0.1rem 1.5rem;
+}
+
+.todayButton:hover {
+  background-color: var(--main-color);
+}
+
+.todayButton:active {
+  background-color: #e0721d;
+  border: 2px solid #e0721d;
+}
+
+.tableHeader > tr > th {
+  height: 64px;
+  width: 150px;
+  min-width: 150px;
+  text-align: center;
+}
+
+.tableBody > tr > td {
+  position: relative;
+  height: 128px;
+  width: 150px;
+  min-width: 150px;
+  border: 1px solid #f2f2f2;
+}
+
+.hourCell {
+  position: absolute;
+  top: -64px;
+  left: 45px;
+  border: none !important;
+  width: 100px !important;
+  min-width: 100px !important;
+}
