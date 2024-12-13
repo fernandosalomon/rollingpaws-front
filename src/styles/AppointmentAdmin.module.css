@@ -31,6 +31,11 @@
   height: 64px;
   border-bottom: 3px solid #f2f2f2;
   gap: 1rem;
+  width: 1150px;
+}
+
+.sideBBody {
+  position: relative;
 }
 
 .controlButtons {
@@ -58,6 +63,13 @@
   border: 2px solid #e0721d;
 }
 
+.table {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
 .tableHeader > tr > th {
   height: 64px;
   width: 150px;
@@ -80,4 +92,71 @@
   border: none !important;
   width: 100px !important;
   min-width: 100px !important;
+}
+
+.appointmentBoxContainer {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+}
+
+.appointmentBox {
+  height: 128px;
+  width: 150px;
+  background-color: #fdb177;
+  border: 3px solid var(--main-color);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.appointmentBoxPacient {
+  font-size: 1rem;
+  padding: 0.5rem 1rem 0 1rem;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.appointmentBoxTime {
+  font-size: 0.8rem;
+  padding: 0 1rem;
+  margin-bottom: 0;
+  font-weight: 300;
+}
+
+.toastContainer > div {
+  max-width: 350px !important;
+}
+
+.menuBodyRow {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.menuBodyRow > td {
+  padding: 0.5rem 0 !important;
+}
+
+.menuBodyCellLabel {
+  font-weight: 500;
+}
+
+.editButton {
+  background-color: transparent;
+  border: 3px solid var(--main-color);
+  padding: 0.5rem 1.5rem;
+  border-radius: 7px;
+  font-weight: 500;
+  text-wrap: no-wrap;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.editButton:hover {
+  background-color: var(--main-color);
+}
+
+.editButton:active {
+  background-color: #e77620;
+  border-color: #e77620;
 }
