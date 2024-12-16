@@ -126,37 +126,35 @@
 
 .toastContainer > div {
   max-width: 350px !important;
+  background-color: #fffbf5;
+}
+
+.toastContainer > div > div {
+  background-color: #fffbf5 !important;
+}
+
+.toastContainer > div > div > button:focus {
+  box-shadow: none;
 }
 
 .menuBodyRow {
   border-bottom: 1px solid #f2f2f2;
+  background-color: transparent;
 }
 
 .menuBodyRow > td {
   padding: 0.5rem 0 !important;
+  background-color: transparent;
+  vertical-align: middle;
 }
 
 .menuBodyCellLabel {
   font-weight: 500;
 }
 
-.editButton {
+.button {
+  border: 0;
   background-color: transparent;
-  border: 3px solid var(--main-color);
-  padding: 0.5rem 1.5rem;
-  border-radius: 7px;
-  font-weight: 500;
-  text-wrap: no-wrap;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.editButton:hover {
-  background-color: var(--main-color);
-}
-
-.editButton:active {
-  background-color: #e77620;
-  border-color: #e77620;
+  padding: 3.5px;
+  margin-left: 12px;
 }
