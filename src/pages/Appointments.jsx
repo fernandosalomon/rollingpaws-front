@@ -185,6 +185,7 @@ const Appointments = () => {
         const res = await clientAxios.get("/appointments/");
         setAppointments(res.data);
         setIsLoading(false);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -285,12 +286,12 @@ const Appointments = () => {
                 </tbody>
               </table>
               {appointments.map((appointment) =>
-                new Date(appointment.date) >= week[0] &&
-                new Date(appointment.date) <= week[week.length - 1] ? (
+                new Date(appointment.startDate) >= week[0] &&
+                new Date(appointment.startDate) <= week[week.length - 1] ? (
                   <div key={crypto.randomUUID()}>
                     <div
                       style={positionAppointment(
-                        new Date(appointment.date),
+                        new Date(appointment.startDate),
                         week[0],
                         week[week.length - 1]
                       )}
@@ -298,7 +299,7 @@ const Appointments = () => {
                       onClick={() => {
                         handleClickAppointment(
                           positionAppointment(
-                            new Date(appointment.date),
+                            new Date(appointment.startDate),
                             week[0],
                             week[week.length - 1]
                           ),
@@ -311,11 +312,11 @@ const Appointments = () => {
                           {appointment.pet.name}
                         </p>
                         <p className={style.appointmentBoxTime}>{`${new Date(
-                          appointment.date
-                        ).getHours()}:${new Date(
-                          appointment.date
+                          appointment.startDate
+                        ).getUTCHours()}:${new Date(
+                          appointment.startDate
                         ).getMinutes()} - ${
-                          new Date(appointment.date).getHours() + 1
+                          new Date(appointment.startDate).getUTCHours() + 1
                         }:00`}</p>
                       </div>
                     </div>
@@ -381,24 +382,45 @@ const Appointments = () => {
                                     <td className={style.menuBodyCellLabel}>
                                       Veterinario
                                     </td>
-                                    <td>{toastData.doctor}</td>
+                                    <td>{`Dr/a. ${toastData.doctor.user.firstName} ${toastData.doctor.user.lastName}`}</td>
                                   </tr>
 
                                   <tr className={style.menuBodyRow}>
                                     <td className={style.menuBodyCellLabel}>
                                       Horario
                                     </td>
-                                    <td>{`${new Date(
-                                      toastData.date
-                                    ).getDate()}/${new Date(
-                                      toastData.date
-                                    ).getMonth()}/${new Date(
-                                      toastData.date
-                                    ).getFullYear()} ${new Date(
-                                      toastData.date
-                                    ).getHours()}:${new Date(
-                                      toastData.date
-                                    ).getMinutes()}`}</td>
+                                    <td>
+                                      {`${new Date(
+                                        toastData.startDate
+                                      ).getDate()}/${
+                                        new Date(
+                                          toastData.startDate
+                                        ).getMonth() + 1
+                                      }/${new Date(
+                                        toastData.startDate
+                                      ).getFullYear()} 
+                                      ${new Date(
+                                        toastData.startDate
+                                      ).getUTCHours()}:${
+                                        new Date(
+                                          toastData.startDate
+                                        ).getMinutes() < 10
+                                          ? "0"
+                                          : ""
+                                      }${new Date(
+                                        toastData.startDate
+                                      ).getMinutes()} - ${new Date(
+                                        toastData.endDate
+                                      ).getUTCHours()}:${
+                                        new Date(
+                                          toastData.endDate
+                                        ).getMinutes() < 10
+                                          ? "0"
+                                          : ""
+                                      }${new Date(
+                                        toastData.endDate
+                                      ).getMinutes()} hs.`}
+                                    </td>
                                   </tr>
 
                                   <tr
@@ -422,7 +444,10 @@ const Appointments = () => {
                               </Table>
                             )}
                             {toastType === "edit" && (
-                              <FormC variant="edit-appointment" />
+                              <FormC
+                                variant="edit-appointment"
+                                data={toastData}
+                              />
                             )}
                           </Toast.Body>
                         </Toast>
