@@ -1291,17 +1291,26 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
   );
 };
 
-const EditAppointmentForm = ({ appointmentData }) => {
+const EditAppointmentForm = ({
+  appointmentData,
+  handleCloseModal,
+  handleUpdateCalendar,
+}) => {
+  const { register, handleSubmit, setValue, watch } = useForm();
+
   const [vetList, setVetList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [focusDateTimeInput, setFocusDateTimeInput] = useState(false);
+  const [selectedVet, setSelectedVet] = useState(appointmentData.doctor._id);
   const [availableHours, setAvailableHours] = useState([]);
-  const [pickedDate, setPickedDate] = useState(
-    new Date(
-      new Date(appointmentData.startDate).getFullYear(),
-      new Date(appointmentData.startDate).getMonth(),
-      new Date(appointmentData.startDate).getDate()
-    )
+  const [selectedYear, setSelectedYear] = useState(
+    new Date(appointmentData.startDate).getFullYear()
+  );
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date(appointmentData.startDate).getMonth()
+  );
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(appointmentData.startDate).getDate()
   );
   const [selectedHour, setSelectedHour] = useState(
     new Date(appointmentData.startDate).getUTCHours()
@@ -1311,8 +1320,9 @@ const EditAppointmentForm = ({ appointmentData }) => {
   );
 
   const handleSetDate = (year, month, day) => {
-    const date = new Date(year, month, day);
-    setPickedDate(date);
+    setSelectedYear(year);
+    setSelectedMonth(month);
+    setSelectedDate(day);
   };
 
   const handleSetTime = (time) => {
@@ -1321,14 +1331,62 @@ const EditAppointmentForm = ({ appointmentData }) => {
     setSelectedMinute(minutes);
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-    watch,
-  } = useForm();
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await clientAxios.put(
+        `/appointments/${appointmentData._id}`,
+        {
+          startDate: new Date(
+            selectedYear,
+            selectedMonth,
+            selectedDate,
+            Number(selectedHour) - Number(new Date().getTimezoneOffset()) / 60,
+            selectedMinute
+          ),
+          endDate: new Date(
+            selectedYear,
+            selectedMonth,
+            selectedDate,
+            Number(selectedHour) -
+              Number(new Date().getTimezoneOffset()) / 60 +
+              1,
+            selectedMinute
+          ),
+          doctor: data.veterinary,
+          observations: data.observations,
+        }
+      );
+      if (res.status === 200) {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Tu cita fue modificada con exito",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        handleCloseModal();
+        handleUpdateCalendar();
+      } else {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Hubo un problema tratando de modificar la cita",
+          text: `Error: ${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al intentar modificar la cita",
+        text: `Error: ${error?.response.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  });
 
   useEffect(() => {
     const fetchVets = async () => {
@@ -1345,20 +1403,23 @@ const EditAppointmentForm = ({ appointmentData }) => {
   }, []);
 
   useEffect(() => {
+    setValue("veterinary", selectedVet);
+    setValue("observations", appointmentData.observations);
+  }, [appointmentData]);
+
+  useEffect(() => {
     const appointmentDate = new Date(appointmentData.startDate);
-    setValue("veterinary", appointmentData.doctor._id);
-    setValue(
-      "date",
-      `${pickedDate.getDate()}/${
-        pickedDate.getMonth() + 1
-      }/${pickedDate.getFullYear()}`
-    );
+    setValue("date", `${selectedDate}/${selectedMonth + 1}/${selectedYear}`);
 
     const fetchAvailableHours = async () => {
       try {
         setIsLoading(true);
         const res = await clientAxios.get(
-          `/doctor/clinic-hours/${appointmentData.doctor._id}&${pickedDate}`
+          `/doctor/clinic-hours/${selectedVet}&${new Date(
+            selectedYear,
+            selectedMonth,
+            selectedDate
+          )}`
         );
         setAvailableHours(res.data);
         setIsLoading(false);
@@ -1368,9 +1429,21 @@ const EditAppointmentForm = ({ appointmentData }) => {
     };
     fetchAvailableHours();
 
-    setValue("time", `${selectedHour}:${selectedMinute}`);
-    setValue("observations", appointmentData.observations);
-  }, [appointmentData, pickedDate, selectedHour, selectedMinute]);
+    setValue(
+      "time",
+      `${selectedHour}:${
+        selectedMinute < 10 && selectedMinute > 0 ? "0" : ""
+      }${selectedMinute}`
+    );
+  }, [
+    appointmentData,
+    selectedVet,
+    selectedYear,
+    selectedMonth,
+    selectedDate,
+    selectedHour,
+    selectedMinute,
+  ]);
 
   if (isLoading) {
     return (
@@ -1380,7 +1453,7 @@ const EditAppointmentForm = ({ appointmentData }) => {
     );
   } else {
     return (
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Form.Group as={Row} className="mb-3" controlId="formEditAppointment">
           <Form.Label
             column
@@ -1402,7 +1475,7 @@ const EditAppointmentForm = ({ appointmentData }) => {
           </Form.Label>
           <Col sm={10}>
             <Form.Select
-              aria-label="Default select example"
+              aria-label="Doctor Input"
               className={style.formInput}
               {...register("veterinary")}
             >
@@ -1410,6 +1483,7 @@ const EditAppointmentForm = ({ appointmentData }) => {
                 <option
                   key={crypto.randomUUID()}
                   value={doctor._id}
+                  onClick={() => setSelectedVet(doctor._id)}
                 >{`Dr/a. ${doctor.user.firstName} ${doctor.user.lastName}`}</option>
               ))}
             </Form.Select>
@@ -1454,12 +1528,8 @@ const EditAppointmentForm = ({ appointmentData }) => {
             <div className="mt-4 d-flex">
               <CustomCalendar
                 border
-                pickedDate={
-                  new Date(
-                    new Date(appointmentData.startDate).getFullYear(),
-                    new Date(appointmentData.startDate).getMonth(),
-                    new Date(appointmentData.startDate).getDate()
-                  )
+                selectedDate={
+                  new Date(selectedYear, selectedMonth, selectedDate)
                 }
                 handleSetDate={handleSetDate}
               />
@@ -1532,6 +1602,7 @@ const FormC = ({
   handleNavbarRole,
   data,
   handleRefresh,
+  handleUpdate,
 }) => {
   const [formType, setFormType] = useState(variant);
 
@@ -1577,7 +1648,11 @@ const FormC = ({
 
       {formType === "edit-appointment" && (
         <>
-          <EditAppointmentForm appointmentData={data} />
+          <EditAppointmentForm
+            appointmentData={data}
+            handleCloseModal={handleCloseModal}
+            handleUpdateCalendar={handleUpdate}
+          />
         </>
       )}
     </>

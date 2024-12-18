@@ -6,6 +6,7 @@ import { Spinner, ToastContainer } from "react-bootstrap";
 import Toast from "react-bootstrap/Toast";
 import Table from "react-bootstrap/Table";
 import FormC from "../components/shared/FormC";
+import Swal from "sweetalert2";
 
 const Appointments = () => {
   const today = new Date();
@@ -149,19 +150,31 @@ const Appointments = () => {
     }
   };
 
-  const positionAppointment = (date, startDate, endDate) => {
-    if (date >= startDate && date <= endDate) {
-      const dayIndex = date.getDate() - startDate.getDate();
-      const hour = date.getHours();
-      const minutes = date.getMinutes();
+  const positionAppointment = (
+    startDate,
+    endDate,
+    firstDayWeek,
+    lastDayWeek
+  ) => {
+    if (startDate >= firstDayWeek && startDate <= lastDayWeek) {
+      const dayIndex = startDate.getDate() - firstDayWeek.getDate();
+      const startHour = startDate.getUTCHours();
+      const startMinutes = startDate.getMinutes();
       return {
-        top: `${64 + (hour - openingHour) * 128 + minutes * (128 / 60)}px`,
+        top: `${
+          64 + (startHour - openingHour) * 128 + startMinutes * (128 / 60)
+        }px`,
         left: `${100 + dayIndex * 150}px`,
+        height: `${
+          ((endDate.getUTCHours() - startHour) * 60 +
+            +(endDate.getMinutes() - startMinutes)) *
+          (128 / 60)
+        }px`,
       };
     }
   };
 
-  const handleClickAppointment = ({ top, left }, data) => {
+  const handleClickAppointment = ({ top, left, height }, data) => {
     if (showToast) {
       setShowToast(false);
     } else {
@@ -171,6 +184,58 @@ const Appointments = () => {
       });
       setToastData(data);
       setShowToast(true);
+    }
+  };
+
+  const handleCloseToast = () => {
+    setShowToast(false);
+    setToastType("view");
+  };
+
+  const handleUpdate = async () => {
+    try {
+      setIsLoading(true);
+      const res = await clientAxios.get("/appointments/");
+      setAppointments(res.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteAppointment = async (appointmentID) => {
+    try {
+      const result = await Swal.fire({
+        title: "¿Estas seguro que quieres borrar esta cita?",
+        text: "Estos cambios no se pueden revertir",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Borrar",
+        cancelButtonText: "No",
+      });
+
+      if (result.isConfirmed) {
+        const res = await clientAxios.delete(`/appointments/${appointmentID}`);
+        Swal.fire({
+          icon: "success",
+          title: `La cita fue eliminada satisfactoriamente.`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        handleUpdate();
+        handleCloseToast();
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: `Hubo un error al tratar de eliminar la cita.`,
+        text: `${error.data.message}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
     }
   };
 
@@ -185,7 +250,6 @@ const Appointments = () => {
         const res = await clientAxios.get("/appointments/");
         setAppointments(res.data);
         setIsLoading(false);
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -223,7 +287,7 @@ const Appointments = () => {
             <CustomCalendar
               border
               handleSetDate={handleSetDate}
-              pickedDate={selectedDate}
+              selectedDate={selectedDate}
               allowPreviousDates={true}
             />
           </div>
@@ -292,6 +356,7 @@ const Appointments = () => {
                     <div
                       style={positionAppointment(
                         new Date(appointment.startDate),
+                        new Date(appointment.endDate),
                         week[0],
                         week[week.length - 1]
                       )}
@@ -300,6 +365,7 @@ const Appointments = () => {
                         handleClickAppointment(
                           positionAppointment(
                             new Date(appointment.startDate),
+                            new Date(appointment.endDate),
                             week[0],
                             week[week.length - 1]
                           ),
@@ -313,11 +379,19 @@ const Appointments = () => {
                         </p>
                         <p className={style.appointmentBoxTime}>{`${new Date(
                           appointment.startDate
-                        ).getUTCHours()}:${new Date(
+                        ).getUTCHours()}:${
+                          new Date(appointment.startDate).getMinutes() < 10
+                            ? "0"
+                            : ""
+                        }${new Date(
                           appointment.startDate
-                        ).getMinutes()} - ${
-                          new Date(appointment.startDate).getUTCHours() + 1
-                        }:00`}</p>
+                        ).getMinutes()} - ${new Date(
+                          appointment.endDate
+                        ).getUTCHours()}:${
+                          new Date(appointment.endDate).getMinutes() < 10
+                            ? "0"
+                            : ""
+                        }${new Date(appointment.endDate).getMinutes()}`}</p>
                       </div>
                     </div>
                     {showToast && (
@@ -330,12 +404,7 @@ const Appointments = () => {
                         className={style.toastContainer}
                         ref={toastRef}
                       >
-                        <Toast
-                          onClose={() => {
-                            setShowToast(false);
-                            setToastType("view");
-                          }}
-                        >
+                        <Toast onClose={handleCloseToast}>
                           <Toast.Header className="align-items-center">
                             <strong className="me-auto">Cita Programada</strong>
                             {toastType === "view" && (
@@ -355,7 +424,12 @@ const Appointments = () => {
                                 </svg>
                               </button>
                             )}
-                            <button className={style.button}>
+                            <button
+                              className={style.button}
+                              onClick={() => {
+                                handleDeleteAppointment(toastData._id);
+                              }}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
@@ -447,6 +521,8 @@ const Appointments = () => {
                               <FormC
                                 variant="edit-appointment"
                                 data={toastData}
+                                handleCloseModal={handleCloseToast}
+                                handleUpdate={handleUpdate}
                               />
                             )}
                           </Toast.Body>

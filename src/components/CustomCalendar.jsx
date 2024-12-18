@@ -5,7 +5,7 @@ const CustomCalendar = ({
   border,
   handleSetDate,
   allowPreviousDates,
-  pickedDate,
+  selectedDate,
 }) => {
   const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
@@ -174,12 +174,12 @@ const CustomCalendar = ({
   }, [year, month]);
 
   useEffect(() => {
-    setSelectedDay(pickedDate.getDate());
-    setSelectedMonth(pickedDate.getMonth());
-    setSelectedYear(pickedDate.getFullYear());
-    setMonth(pickedDate.getMonth());
-    setYear(pickedDate.getFullYear());
-  }, [pickedDate]);
+    setSelectedDay(selectedDate.getDate());
+    setSelectedMonth(selectedDate.getMonth());
+    setSelectedYear(selectedDate.getFullYear());
+    setMonth(selectedDate.getMonth());
+    setYear(selectedDate.getFullYear());
+  }, [selectedDate]);
 
   return (
     <div

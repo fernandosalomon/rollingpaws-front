@@ -51,7 +51,8 @@
 .todayButton {
   border: 2px solid var(--main-color);
   border-radius: 24px;
-  padding: 0.1rem 1.5rem;
+  padding: 0.1rem 1.5rem !important;
+  background-color: var(--main-color) !important;
 }
 
 .todayButton:hover {
@@ -59,8 +60,7 @@
 }
 
 .todayButton:active {
-  background-color: #e0721d;
-  border: 2px solid #e0721d;
+  background-color: #c0621b;
 }
 
 .table {
@@ -102,7 +102,6 @@
 }
 
 .appointmentBox {
-  height: 128px;
   width: 150px;
   background-color: #fdb177;
   border: 3px solid var(--main-color);
