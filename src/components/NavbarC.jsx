@@ -4,7 +4,6 @@ import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Logo from "../assets/img/simple-logo-nobg.png";
 import { Link } from "react-router-dom";
-import ButtonC from "./shared/ButtonC";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import FormC from "./shared/FormC";
@@ -51,6 +50,7 @@ const SignUpModal = ({ show, handleClose }) => {
   );
 };
 import style from "../styles/Navbar.module.css";
+import CustomButton from "./shared/CustomButton";
 
 const NavbarC = () => {
   const [showSignUp, setShowSignUp] = useState(false);
@@ -92,13 +92,13 @@ const NavbarC = () => {
                 <Link to="/productos">Productos</Link>
                 <Link to="/Contacto">Contacto</Link>
               </Nav>
-              <ButtonC
+              <CustomButton
                 className="ms-md-auto ms-0 mt-3"
                 onClick={handleShowSignUp}
                 variant={"button1"}
               >
                 Iniciar Sesión
-              </ButtonC>
+              </CustomButton>
             </div>
           </Navbar.Collapse>
         </Container>

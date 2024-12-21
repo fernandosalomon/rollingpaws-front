@@ -1,13 +1,19 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 import style from "../styles/AboutUsPage.module.css";
+import CustomButton from "./shared/CustomButton";
+import CustomIcons from "./shared/CustomIcons";
+import { useNavigate } from "react-router-dom";
+
 
 const AboutUsPage = () => {
+
+  const navigate = useNavigate();
+
   return (
-    <>
-      <Container className="my-3 h-100">
+    <div className={style.aboutUsContainer}>
+      <Container className="mt-5 h-100" fluid="md">
         <Row className="h-100">
           <Col xs={12} md={6} className="position-relative">
             <div className={style.imageWrapper}></div>
@@ -39,9 +45,15 @@ const AboutUsPage = () => {
               </p>
             </div>
           </Col>
+          <Col xs={12} className="mt-auto"> 
+            <div className="d-flex flex-column align-items-center mt-3">
+              <p className="mb-0 fs-3">Lee la opinión de nuestros clientes</p>
+              <CustomButton variant="transparent" className={style.readMoreButton} onClick={() => navigate("/comentarios")}><CustomIcons variant="arrow-down" height="48px" width="96px" color="#70898E" className={style.increaseSizeOnHover}/></CustomButton>
+            </div>
+          </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 

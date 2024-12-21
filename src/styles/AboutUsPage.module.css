@@ -1,3 +1,7 @@
+.aboutUsContainer{
+  height: calc(100vh - 110px);
+}
+
 .imageWrapper {
   width: 100%;
   height: 80vh;
@@ -18,9 +22,9 @@
 .aboutUsContentWrapper {
   display: flex;
   align-items: center;
-  min-height: 80vh;
-  background-color: var(--light-color);
+  background-color: var(--orange-300);
   border-radius: 14px;
+  max-height: 430px;
   padding: 2rem 0;
   filter: drop-shadow(0 0 0.5rem rgb(133, 133, 133));
   z-index: 1;
@@ -39,14 +43,14 @@
 
 .subheader {
   font-family: var(--font-poppins);
-  font-size: clamp(2.4rem, 2vw, 3.6rem);
+  font-size: 2rem;
   font-weight: 300;
   line-height: 1.6;
 }
 
 .highlightedText {
   font-family: var(--font-playfair);
-  font-size: clamp(2.4rem, 2vw, 4.8rem);
+  font-size: 2rem;
   font-weight: 500;
   font-style: italic;
   margin: 0 0.5rem;
@@ -55,8 +59,19 @@
 
 .aboutUsText {
   font-family: var(--font-poppins);
-  font-size: clamp(1.4rem, 1vw, 1.8rem);
+  font-size: 1.2rem;
   padding-right: 2rem;
+}
+
+.increaseSizeOnHover:hover{
+  transform: scale(1.1);
+  transition: 0.5s ease-in-out;
+}
+
+.readMoreButton{
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-top: -15px !important;
 }
 
 @media (max-width: 768px) {

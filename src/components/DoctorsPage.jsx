@@ -8,9 +8,9 @@ import {
   CardSubtitle,
   CardText,
 } from "../components/shared/CustomCard";
-import ButtonC from "../components/shared/ButtonC";
 import style from "../styles/DoctorsPage.module.css";
 import Container from "react-bootstrap/Container";
+import CustomButton from "./shared/CustomButton";
 
 const DoctorsPage = () => {
   return (
@@ -41,9 +41,9 @@ const DoctorsPage = () => {
                 metabolismo, el crecimiento y otros procesos vitales en los
                 animales.
               </CardText>
-              <ButtonC variant="button2" className="w-100">
+              <CustomButton variant="button2" className="w-100">
                 Leer más...
-              </ButtonC>
+              </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>
@@ -65,9 +65,9 @@ const DoctorsPage = () => {
                 para restablecer la funcionalidad y calidad de vida de las
                 mascotas.
               </CardText>
-              <ButtonC variant="button2" className="w-100">
+              <CustomButton variant="button2" className="w-100">
                 Leer más...
-              </ButtonC>
+              </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>
@@ -87,9 +87,9 @@ const DoctorsPage = () => {
                 Nuestro dermatólogo veterinario cuenta con amplia formación y
                 experiencia en el manejo de enfermedades alérgicas de la piel.
               </CardText>
-              <ButtonC variant="button2" className="w-100">
+              <CustomButton variant="button2" className="w-100">
                 Leer más...
-              </ButtonC>
+              </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>
@@ -110,9 +110,9 @@ const DoctorsPage = () => {
                 fundamentales para mejorar la calidad de vida y preservar la
                 salud.
               </CardText>
-              <ButtonC variant="button2" className="w-100">
+              <CustomButton variant="button2" className="w-100">
                 Leer más...
-              </ButtonC>
+              </CustomButton>
             </CardBody>
           </CustomCard>
         </Col> */}

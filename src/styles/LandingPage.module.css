@@ -19,14 +19,14 @@
 }
 
 .landingTextHeader {
-  font-size: clamp(2.4rem, 7vw, 6.4rem);
+  font-size: 5.6rem;
   font-family: var(--font-poppins);
   font-weight: 300;
   text-wrap: nowrap;
 }
 
 .landingTextSubHeader {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: 2rem;
   font-family: var(--font-roboto);
   line-height: 3.5rem;
 }
@@ -38,4 +38,25 @@
     text-align: center;
     padding: 0 25px;
   }
+
+  .landingTextHeader {
+    font-size: 4.8rem;
+  }
+  
+  .landingTextSubHeader {
+    font-size: 1.8rem;
+  }
+
+}
+
+@media (max-width: 450px) {
+  
+  .landingTextHeader {
+    font-size: 3.6rem;
+  }
+  
+  .landingTextSubHeader {
+    font-size: 1.6rem;
+  }
+
 }

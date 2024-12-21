@@ -1,10 +1,10 @@
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
-import ButtonC from "./ButtonC";
 import { useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
+import CustomButton from "./CustomButton";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const {
@@ -179,9 +179,9 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           )}
         </Form.Group>
 
-        <ButtonC type="submit" className={style.formSubmitButton}>
+        <CustomButton type="submit" className={style.formSubmitButton}>
           Registrarse
-        </ButtonC>
+        </CustomButton>
         <Form.Text className="d-block text-center mt-3">
           ¿Ya tienes una cuenta?{" "}
           <spam
@@ -305,9 +305,9 @@ const SignInForm = ({ handleChangeForm }) => {
           )}
         </Form.Group>
 
-        <ButtonC type="submit" className={style.formSubmitButton}>
+        <CustomButton type="submit" className={style.formSubmitButton}>
           Iniciar Sesión
-        </ButtonC>
+        </CustomButton>
         <Form.Text className="d-block text-center mt-3">
           ¿No tienes una cuenta?
           <spam
@@ -396,14 +396,14 @@ const ContactUsForm = () => {
             className={style.formInput}
           />
         </Form.Group>
-        <ButtonC
+        <CustomButton
           variant="button1"
           onClick={(e) => {
             e.preventDefault();
           }}
         >
           Enviar mensaje
-        </ButtonC>
+        </CustomButton>
       </Form>
     </>
   );

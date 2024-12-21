@@ -1,5 +1,4 @@
 import Container from "react-bootstrap/Container";
-import ButtonC from "./shared/ButtonC";
 import { Slide, Slideshow } from "./shared/Slideshow";
 import style from "../styles/Services.module.css";
 import {
@@ -10,8 +9,8 @@ import {
   CustomCard,
 } from "./shared/CustomCard";
 import { useEffect, useState } from "react";
+import CustomButton from "./shared/CustomButton";
 
-import CustomIcons from "./shared/CustomIcons";
 
 const ServicesPage = () => {
   const [showSlide, setShowSlide] = useState(0);
@@ -38,68 +37,7 @@ const ServicesPage = () => {
         diagnósticos avanzados, cuidados intensivos y cirugía, para ofrecer un
         tratamiento integral a cada mascota
       </h3>
-      <Container className={dimensions.width < 768 ? "d-none" : "d-flex"}>
-        <div className="row justify-content-center">
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(0)}
-          >
-           <CustomIcons height="30px" width="30px" variant="hospitalBuilding"/>
-            <p className="ms-2 mb-0">Clínica</p>
-          </ButtonC>
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(1)}
-          >
-            <CustomIcons height="30px" width="30px" variant="hospitalPaw"/>
-            <p className="ms-2 mb-0">Guardia e Internación</p>
-          </ButtonC>
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(2)}
-          >
-            <CustomIcons height="30px" width="30px" variant="surgeryInstruments"/>
-           
-            <p className="ms-2 mb-0"> Cirugía</p>
-          </ButtonC>
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(3)}
-          >
-            <CustomIcons height="30px" width="30px" variant="microscope"/>
-            <p className="ms-1 mb-0">Laboratorio y Diagnóstico por Imagenes</p>
-          </ButtonC>
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(4)}
-          >
-            <CustomIcons height="30px" width="30px" variant="stethoscope"/>
-            <p className="ms-2 mb-0">Especialidades</p>
-          </ButtonC>
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(5)}
-          >
-             <CustomIcons height="30px" width="30px" variant="hairdresser"/>
-            <p className="ms-2 mb-0">Peluquería</p>
-          </ButtonC>
-          <ButtonC
-            variant="button1"
-            className={`${style.displayButton} col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center`}
-            onClick={() => setShowSlide(6)}
-          >
-            <CustomIcons height="30px" width="30px" variant="pill"/>
-            <p className="ms-2 mb-0">Farmacia y Petshop</p>
-          </ButtonC>
-        </div>
-      </Container>
-      <Container className={style.sliderContainer}>
+      <Container  fluid="md" className={style.sliderContainer}>
         <Slideshow goToSlide={showSlide} className={style.slider}>
           <Slide>
             <CustomCard
@@ -119,9 +57,9 @@ const ServicesPage = () => {
                   cuidar la salud de tu mascota en todo momento, desde consultas
                   de rutina hasta diagnósticos y tratamientos avanzados.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -145,9 +83,9 @@ const ServicesPage = () => {
                   horas, incluyendo fines de semana. Diagnóstico rápido con
                   radiografías, ecografías y laboratorio propio.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -170,9 +108,9 @@ const ServicesPage = () => {
                   capacitado y tecnología moderna. Nos enfocamos en una
                   recuperación rápida y en el bienestar integral de tu mascota.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -197,9 +135,9 @@ const ServicesPage = () => {
                   de diagnóstico de manera ágil y precisa, brindando a tu
                   mascota la atención oportuna que necesita.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -222,9 +160,9 @@ const ServicesPage = () => {
                   medicina interna, cirugía, dermatología y oftalmología,
                   respaldadas por un equipo de profesionales comprometidos.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -247,9 +185,9 @@ const ServicesPage = () => {
                   necesidades de tu mascota. Nos enfocamos en su higiene,
                   confort y apariencia, brindándole una experiencia completa.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -275,9 +213,9 @@ const ServicesPage = () => {
                   que necesitas para mantener a tu compañero sano y feliz, en un
                   solo lugar.
                 </CardText>
-                <ButtonC variant="button1" className={style.button}>
+                <CustomButton variant="button1" className={style.button}>
                   Saber más
-                </ButtonC>
+                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>

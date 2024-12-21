@@ -1,5 +1,6 @@
 import style from "../styles/LandingPage.module.css";
-import ButtonC from "./shared/ButtonC";
+import CustomButton from "./shared/CustomButton";
+
 
 const LandingPage = () => {
   return (
@@ -15,9 +16,14 @@ const LandingPage = () => {
             su vida. Nuestro equipo trata a cada paciente como parte de la
             familia, asegurando su bienestar y salud siempre.
           </p>
-          <ButtonC className="w-75 mt-5" variant={"button1"}>
-            Reservar Cita
-          </ButtonC>
+          <div className="w-100 d-flex flex-column flex-sm-row justify-content-center align-items-center mt-4 pe-3">
+          <CustomButton variant="callToAction" size="lg" className="w-50">
+            Saber más
+          </CustomButton>
+          <CustomButton variant="secondary" size="lg" className="w-50">
+            Iniciar Sesión
+          </CustomButton>
+          </div>
         </div>
       </div>
     </>

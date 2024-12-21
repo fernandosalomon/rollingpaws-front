@@ -9,9 +9,9 @@ const HomePage = () => {
   return (
     <>
       <LandingPage />
-      <ServicesPage />
       <AboutUsPage />
       <Testimonials />
+      <ServicesPage />
       <DoctorsPage />
       <ContactUsPage />
     </>
