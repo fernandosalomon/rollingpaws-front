@@ -24,37 +24,38 @@ const DoctorsPage = () => {
           </h3>
         </Col>
         <Col md={6}>
-          <CustomCard height={"250px"} width={"100%"} variant="horizontal" className={style.doctorCard}>
+          <CustomCard width={"100%"} variant="horizontal" className={style.doctorCard}>
             <CardImage
               src={"src/assets/img/vets/vet1.jpg"}
               alt={"Dra. Jane Doe Profile Picture"}
               className={style.doctorImage}
             />
             <CardBody className={style.doctorCardBody}>
-              <CardTitle className={style.doctorCardTitle}>Dra. Jane Doe</CardTitle>
-              <CardSubtitle className={style.doctorCardSubtitle}>Endocrinóloga</CardSubtitle>
+              <div>
+                <CardTitle className={style.doctorCardTitle}>Dra. Jane Doe</CardTitle>
+                <CardSubtitle className={style.doctorCardSubtitle}>Endocrinóloga</CardSubtitle>
+              </div>
               <CardText className={style.doctorCardText}>
                 La Endocrinología veterinaria se dedica al estudio de las
                 glándulas endocrinas y sus hormonas, esenciales para regular el
                 metabolismo, el crecimiento y otros procesos vitales en los
                 animales.
               </CardText>
-              <CustomButton variant="transparent" className={style.doctorCardButton}>
-                Leer más...
-              </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>
         <Col md={6}>
-          <CustomCard height={"250px"} width={"100%"} variant="horizontal" className={style.doctorCard}>
+          <CustomCard width={"100%"} variant="horizontal" className={style.doctorCard}>
             <CardImage
               src={"src/assets/img/vets/vet2.jpg"}
               alt={"Dr. John Doe Profile Picture"}
               className={style.doctorImage}
             />
             <CardBody className={style.doctorCardBody}>
-              <CardTitle className={style.doctorCardTitle}>Dr. John Doe</CardTitle>
-              <CardSubtitle className={style.doctorCardSubtitle}>Cirujano general</CardSubtitle>
+              <div>
+                <CardTitle className={style.doctorCardTitle}>Dr. John Doe</CardTitle>
+                <CardSubtitle className={style.doctorCardSubtitle}>Cirujano general</CardSubtitle>
+              </div>
               <CardText className={style.doctorCardText}>
                 La Cirugía Veterinaria se enfoca en la evaluación y tratamiento
                 quirúrgico de condiciones que afectan la salud de los animales.
@@ -63,9 +64,6 @@ const DoctorsPage = () => {
                 para restablecer la funcionalidad y calidad de vida de las
                 mascotas.
               </CardText>
-              <CustomButton variant="transparent" className={style.doctorCardButton}>
-                Leer más...
-              </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>

@@ -1,18 +1,18 @@
 .SlideshowSliderWrapper {
   padding: 0 0;
-  height: 100%;
+
 }
 
 .SlideshowSlider {
   white-space: nowrap;
-  height: 100%;
+
 }
 
 .Slideshow {
   margin: 0 auto;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+
   position: relative;
 }
 
@@ -20,7 +20,7 @@
   display: inline-flex;
   padding-bottom: 10px;
   width: 100%;
-  height: 100%;
+
   justify-content: center;
 }
 
