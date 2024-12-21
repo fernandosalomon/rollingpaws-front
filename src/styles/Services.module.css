@@ -46,7 +46,7 @@
 }
 
 .text {
-  font-size: clamp(1.4rem, 1vw, 2rem) !important;
+  font-size: 1.6rem !important;
   text-wrap: wrap;
 }
 

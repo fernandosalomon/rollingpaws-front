@@ -25,7 +25,7 @@ const DoctorsPage = () => {
             un tratamiento integral a cada mascota
           </h3>
         </Col>
-        <Col md={3}>
+        <Col md={6}>
           <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet1.jpg"}
@@ -47,7 +47,7 @@ const DoctorsPage = () => {
             </CardBody>
           </CustomCard>
         </Col>
-        <Col md={3}>
+        <Col md={6}>
           <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet2.jpg"}
@@ -71,7 +71,7 @@ const DoctorsPage = () => {
             </CardBody>
           </CustomCard>
         </Col>
-        <Col md={3}>
+        {/* <Col md={3}>
           <CustomCard height={"550px"} width={"270px"} variant="vertical">
             <CardImage
               src={"src/assets/img/vets/vet3.jpg"}
@@ -115,7 +115,7 @@ const DoctorsPage = () => {
               </ButtonC>
             </CardBody>
           </CustomCard>
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );
