@@ -90,7 +90,7 @@ const NavbarC = () => {
                 <Link to="/nosotros">Nosotros</Link>
                 <Link to="/servicios">Servicios</Link>
                 <Link to="/productos">Productos</Link>
-                <Link to="/Contacto">Contacto</Link>
+                <Link to="/contacto">Contacto</Link>
               </Nav>
               <CustomButton
                 className="ms-md-auto ms-0 mt-3"

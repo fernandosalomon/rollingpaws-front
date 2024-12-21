@@ -11,7 +11,7 @@
 
 .horizontal {
   display: grid;
-  grid-template-columns: calc(60% - 1rem) calc(40% - 1rem);
+  grid-template-columns: calc(50% - 1rem) calc(50% - 1rem);
   grid-template-rows: 100%;
   column-gap: 2rem;
 }
@@ -36,12 +36,18 @@
 }
 
 .title,
-.subtitle,
-.text {
+.subtitle
+ {
   margin-bottom: 2rem;
   text-align: center;
   text-wrap: wrap;
 }
+
+.text{
+  padding-right: 50px;
+  text-align: justify;
+}
+
 
 .title {
   font-size: larger;

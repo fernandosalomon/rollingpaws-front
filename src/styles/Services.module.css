@@ -4,15 +4,15 @@
 
 .pageTitle {
   font-family: var(--font-opensans);
-  font-size: clamp(2.4rem, 3vw, 6.4rem);
+  font-size: 2.4rem;
   font-weight: 600;
-  margin: 2rem auto;
+  margin: 1rem auto;
   text-align: center;
 }
 
 .pageSubtitle {
   font-family: var(--font-opensans);
-  font-size: 2.4rem;
+  font-size: 1.6rem;
   font-weight: 300;
   line-height: 1.6;
   text-align: center;
@@ -42,11 +42,15 @@
 }
 
 .title {
-  font-size: clamp(2rem, 2vw, 2.8rem) !important;
+  font-size: 2.4rem !important;
+}
+
+.titleLong {
+  font-size: 2rem !important;
 }
 
 .text {
-  font-size: 1.6rem !important;
+  font-size: 1.2rem !important;
   text-wrap: wrap;
 }
 

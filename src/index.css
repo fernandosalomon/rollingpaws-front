@@ -41,3 +41,7 @@ body {
   font-size: 1.6rem;
   font-family: var(--font-poppins);
 }
+
+#root{
+  height: calc(100vh - 100px);
+}
