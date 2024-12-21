@@ -13,14 +13,13 @@ const AboutUsPage = () => {
 
   return (
     <div className={style.aboutUsContainer}>
-      <Container fluid="md" className={`${style.contentWrapper} mt-2 h-100`}>
-        <Row className="h-100">
+      <Container fluid="lg" className={`mt-2 h-100`}>
+        <Row>
           <Col xs={12} md={6} className="position-relative">
             <div className={style.imageWrapper}></div>
           </Col>
           <Col xs={12} md={6} className={style.aboutUsContentWrapper}>
             <div className={style.aboutUsContent}>
-              <h5 className={style.header}>Sobre Nosotros</h5>
               <h2 className={style.subheader}>
                 Somos un equipo de{" "}
                 <span className={style.highlightedText}>expertos </span>
@@ -46,11 +45,12 @@ const AboutUsPage = () => {
             </div>
           </Col>
         </Row>
-      </Container>
-      <div className={style.goToComment}>
+        <div className={style.goToComment}>
               <p className="mb-0 text-center">Lee la opinión de nuestros clientes</p>
               <CustomButton variant="transparent" className={style.readMoreButton} onClick={() => navigate("/comentarios")}><CustomIcons variant="arrow-down" height="48px" width="96px" color="#70898E" className={style.increaseSizeOnHover}/></CustomButton>
       </div>
+      </Container>
+      
     </div>
   );
 };
