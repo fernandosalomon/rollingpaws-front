@@ -17,47 +17,45 @@ const DoctorsPage = () => {
     <Container>
       <Row className="justify-content-center align-items-center">
         <Col xs={12} className="text-center">
-          <h2 className={style.title}>Especialidades Médicas</h2>
+          <h2 className={style.title}>Nuestro equipo</h2>
           <h3 className={style.subtitle}>
-            En Clínica Veterinaria Rolling Paws brindamos una completa variedad
-            de servicios médicos y quirúrgicos, incluyendo atención preventiva,
-            diagnósticos avanzados, cuidados intensivos y cirugía, para ofrecer
-            un tratamiento integral a cada mascota
+            En Clínica Veterinaria Rolling Paws contamos con el mejor equipo de veterinarios especializados en distintas especialidades, incluyendo atención preventiva,
+            diagnósticos avanzados, cuidados intensivos y cirugía, para ofrecer un tratamiento integral a cada una de tus mascotas
           </h3>
         </Col>
         <Col md={6}>
-          <CustomCard height={"550px"} width={"270px"} variant="vertical">
+          <CustomCard height={"250px"} width={"100%"} variant="horizontal" className={style.doctorCard}>
             <CardImage
               src={"src/assets/img/vets/vet1.jpg"}
               alt={"Dra. Jane Doe Profile Picture"}
-              className={style.imagePill}
+              className={style.doctorImage}
             />
-            <CardBody>
-              <CardTitle>Dra. Jane Doe</CardTitle>
-              <CardSubtitle>Endocrinóloga</CardSubtitle>
-              <CardText className={style.text}>
+            <CardBody className={style.doctorCardBody}>
+              <CardTitle className={style.doctorCardTitle}>Dra. Jane Doe</CardTitle>
+              <CardSubtitle className={style.doctorCardSubtitle}>Endocrinóloga</CardSubtitle>
+              <CardText className={style.doctorCardText}>
                 La Endocrinología veterinaria se dedica al estudio de las
                 glándulas endocrinas y sus hormonas, esenciales para regular el
                 metabolismo, el crecimiento y otros procesos vitales en los
                 animales.
               </CardText>
-              <CustomButton variant="button2" className="w-100">
+              <CustomButton variant="transparent" className={style.doctorCardButton}>
                 Leer más...
               </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>
         <Col md={6}>
-          <CustomCard height={"550px"} width={"270px"} variant="vertical">
+          <CustomCard height={"250px"} width={"100%"} variant="horizontal" className={style.doctorCard}>
             <CardImage
               src={"src/assets/img/vets/vet2.jpg"}
               alt={"Dr. John Doe Profile Picture"}
-              className={style.imagePill}
+              className={style.doctorImage}
             />
-            <CardBody>
-              <CardTitle>Dr. John Doe</CardTitle>
-              <CardSubtitle>Cirujano general</CardSubtitle>
-              <CardText className={style.text}>
+            <CardBody className={style.doctorCardBody}>
+              <CardTitle className={style.doctorCardTitle}>Dr. John Doe</CardTitle>
+              <CardSubtitle className={style.doctorCardSubtitle}>Cirujano general</CardSubtitle>
+              <CardText className={style.doctorCardText}>
                 La Cirugía Veterinaria se enfoca en la evaluación y tratamiento
                 quirúrgico de condiciones que afectan la salud de los animales.
                 Su objetivo es reparar, mejorar o corregir estructuras
@@ -65,57 +63,12 @@ const DoctorsPage = () => {
                 para restablecer la funcionalidad y calidad de vida de las
                 mascotas.
               </CardText>
-              <CustomButton variant="button2" className="w-100">
+              <CustomButton variant="transparent" className={style.doctorCardButton}>
                 Leer más...
               </CustomButton>
             </CardBody>
           </CustomCard>
         </Col>
-        {/* <Col md={3}>
-          <CustomCard height={"550px"} width={"270px"} variant="vertical">
-            <CardImage
-              src={"src/assets/img/vets/vet3.jpg"}
-              alt={"Dra. Amy Moore Profile Picture"}
-              className={style.imagePill}
-            />
-            <CardBody>
-              <CardTitle>Dra. Amy Moore</CardTitle>
-              <CardSubtitle>Dermatóloga</CardSubtitle>
-              <CardText className={style.text}>
-                La dermatología se encarga del diagnóstico y tratamiento de
-                trastornos en la piel, orejas, pelaje y uñas de los animales.
-                Nuestro dermatólogo veterinario cuenta con amplia formación y
-                experiencia en el manejo de enfermedades alérgicas de la piel.
-              </CardText>
-              <CustomButton variant="button2" className="w-100">
-                Leer más...
-              </CustomButton>
-            </CardBody>
-          </CustomCard>
-        </Col>
-        <Col md={3}>
-          <CustomCard height={"550px"} width={"270px"} variant="vertical">
-            <CardImage
-              src={"src/assets/img/vets/vet4.jpg"}
-              alt={"Dr. Pedro Perez Profile Picture"}
-              className={style.imagePill}
-            />
-            <CardBody>
-              <CardTitle>Dr. Pedro Perez</CardTitle>
-              <CardSubtitle>Dermatóloga</CardSubtitle>
-              <CardText className={style.text}>
-                La cardiología se dedica a identificar y tratar afecciones del
-                corazón y los vasos sanguíneos, ofreciendo cuidados específicos
-                como medicación, control nutricional y seguimiento constante,
-                fundamentales para mejorar la calidad de vida y preservar la
-                salud.
-              </CardText>
-              <CustomButton variant="button2" className="w-100">
-                Leer más...
-              </CustomButton>
-            </CardBody>
-          </CustomCard>
-        </Col> */}
       </Row>
     </Container>
   );

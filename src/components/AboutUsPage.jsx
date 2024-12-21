@@ -5,11 +5,11 @@ import style from "../styles/AboutUsPage.module.css";
 import CustomButton from "./shared/CustomButton";
 import CustomIcons from "./shared/CustomIcons";
 import { useNavigate } from "react-router-dom";
+import Testimonials from "./Testimonials";
+import DoctorsPage from "./DoctorsPage";
 
 
 const AboutUsPage = () => {
-
-  const navigate = useNavigate();
 
   return (
     <div className={style.aboutUsContainer}>
@@ -45,12 +45,13 @@ const AboutUsPage = () => {
             </div>
           </Col>
         </Row>
-        <div className={style.goToComment}>
-              <p className="mb-0 text-center">Lee la opinión de nuestros clientes</p>
-              <CustomButton variant="transparent" className={style.readMoreButton} onClick={() => navigate("/comentarios")}><CustomIcons variant="arrow-down" height="48px" width="96px" color="#70898E" className={style.increaseSizeOnHover}/></CustomButton>
-      </div>
       </Container>
-      
+      <Container>
+        <DoctorsPage />
+      </Container>
+      <Container fluid="lg" className={`mt-2 h-75`}>
+        <Testimonials />
+      </Container>
     </div>
   );
 };
