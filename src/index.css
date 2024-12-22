@@ -42,6 +42,7 @@ html {
 body {
   background-color: #f2f2f2;
   font-family: var(--font-poppins);
+  font-size: 1.6rem;
 }
 
 .modal-content {

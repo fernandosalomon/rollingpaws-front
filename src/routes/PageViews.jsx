@@ -14,8 +14,8 @@ import Pets from "../components/Pets";
 import UserProfilePage from "../pages/UserProfilePage";
 import style from "../styles/PageView.module.css"
 
-const PageWrapper = ({ children }) => {
-  return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={style.pageWrapper}>{children}</motion.div>
+const PageWrapper = ({ children, className }) => {
+  return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
 }
 
 const AnimatedRoutes = () => {
@@ -48,7 +48,7 @@ const AnimatedRoutes = () => {
         <Route path="/nosotros/veterinarios" element={<PageWrapper><DoctorsPage /></PageWrapper>} />
         <Route path="/nosotros/comentarios" element={<PageWrapper><Testimonials /></PageWrapper>} />
         <Route path="/nosotros" element={<PageWrapper><AboutUsPage /></PageWrapper>} />
-        <Route path="/" element={<PageWrapper><LandingPage /></PageWrapper>} />
+        <Route path="/" element={<PageWrapper className={style.overflowHidden}><LandingPage /></PageWrapper>} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </AnimatePresence>
@@ -57,10 +57,14 @@ const AnimatedRoutes = () => {
 
 
 const PageViews = () => {
+
+  const location = useLocation();
+
   return (
     <>
       <NavbarC />
       <AnimatedRoutes />
+      {location.pathname !== "/" && <Footer />}
     </>
   );
 };

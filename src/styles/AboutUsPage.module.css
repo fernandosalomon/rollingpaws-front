@@ -1,7 +1,3 @@
-.aboutUsContainer{
-  height: calc(100vh - 110px);
-}
-
 .imageWrapper {
   width: 100%;
   height: 80vh;
@@ -63,25 +59,25 @@
 
 }
 
-.increaseSizeOnHover:hover{
+.increaseSizeOnHover:hover {
   transform: scale(1.1);
   transition: 0.5s ease-in-out;
 }
 
-.readMoreButton{
+.readMoreButton {
   margin: 0 !important;
   padding: 0 !important;
   margin-top: -15px !important;
 }
 
-.goToComment{
+.goToComment {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 1.5rem;
 }
 
-.goToComment > p{
+.goToComment>p {
   font-size: 1.4rem;
 }
 
@@ -114,5 +110,3 @@
     text-align: center;
   }
 }
-
-

@@ -8,6 +8,7 @@ import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { InputGroup } from "react-bootstrap";
+import CustomButton from "./CustomButton";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +52,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   return (
     <>
       <div className="d-flex flex-column align-items-center">
-        <h2>Registro</h2>
+        <h2 className={style.formTitle}>Registro</h2>
         <div className="d-flex flex-column flex-md-row align-items-center mb-3">
           <p className="m-0">¿Ya tienes una cuenta?</p>
           <span
@@ -234,7 +235,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           )}
         </Form.Group>
 
-        <CustomButton type="submit" className={style.formSubmitButton}>
+        <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction">
           Registrarse
         </CustomButton>
       </Form>
@@ -334,7 +335,7 @@ const SignInForm = ({
   return (
     <>
       <div className="d-flex flex-column align-items-center">
-        <h2>Iniciar Sesión</h2>
+        <h2 className={style.formTitle}>Iniciar Sesión</h2>
         <div className="d-flex flex-column flex-md-row align-items-center mb-3">
           <p className="m-0">¿No tienes una cuenta?</p>
           <span
@@ -396,7 +397,7 @@ const SignInForm = ({
           )}
         </Form.Group>
 
-        <CustomButton type="submit" className={style.formSubmitButton}>
+        <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction">
           Iniciar Sesión
         </CustomButton>
       </Form>

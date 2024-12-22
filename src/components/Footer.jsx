@@ -31,9 +31,9 @@ const Footer = () => {
           <h3 className={`${style.text} ${style.title}`}>
             Horarios de Atención
           </h3>
-          <p>Lun - Vie: 8:00 - 20:00</p>
-          <p>Sab: 8:00 - 15:00</p>
-          <p>Dom: 8:00 - 12:00</p>
+          <p className={`${style.text} mb-3`}>Lun - Vie: 8:00 - 20:00</p>
+          <p className={`${style.text} mb-3`}>Sab: 8:00 - 15:00</p>
+          <p className={`${style.text} mb-3`}>Dom: 8:00 - 12:00</p>
         </Col>
         <Col
           xs={12}

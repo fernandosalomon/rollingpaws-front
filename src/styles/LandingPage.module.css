@@ -1,13 +1,14 @@
 .landingWrapper {
   position: relative;
   margin-top: -10px;
-  height: calc(100vh - 85px);
+  height: calc(100vh - 90px);
   width: 100vw;
   background-image: url("../assets/img/Landing-bg.jpg");
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: cover;
   background-color: #cccccc;
+  overflow: hidden;
 }
 
 .introTextWrapper {
@@ -42,7 +43,7 @@
   .landingTextHeader {
     font-size: 4.8rem;
   }
-  
+
   .landingTextSubHeader {
     font-size: 1.8rem;
   }
@@ -50,11 +51,11 @@
 }
 
 @media (max-width: 450px) {
-  
+
   .landingTextHeader {
     font-size: 3.6rem;
   }
-  
+
   .landingTextSubHeader {
     font-size: 1.6rem;
   }

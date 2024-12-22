@@ -4,14 +4,14 @@
 
 .formTitle {
   font-family: var(--font-poppins);
-  font-size: clamp(2rem, 10vw, 2.5rem);
+  font-size: 2.8rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
 .formLabel {
   font-family: var(--font-poppins);
-  font-size: clamp(14px, 1vw, 16px);
+  font-size: 1.6rem;
   font-weight: 500;
 }
 
@@ -23,6 +23,7 @@
   background-color: #f2f2f2;
   border: 0;
   font-family: var(--font-poppins);
+  font-size: 1.6rem;
 }
 
 .formInput:active,
@@ -34,7 +35,6 @@
 
 .formCheck {
   font-size: clamp(14px, 3.5vw, 16px) !important;
-  filter: drop-shadow(1px 1px 1px #ababab);
 }
 
 .formCheck input:checked {

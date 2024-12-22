@@ -23,7 +23,7 @@ const Plan = ({ title, bgImage }) => {
 
 const PlansBanner = () => {
     return (
-        <Stack gap={0}>
+        <Stack gap={0} className='my-3'>
             <div><Plan title="Primeros Pasos" bgImage={catPuppy} /></div>
             <div><Plan title="Madurando" bgImage={dogAdult} /></div>
             <div><Plan title="Adultos" bgImage={dogOld} /></div>
