@@ -1,7 +1,3 @@
-.sliderContainer {
-  filter: drop-shadow(0 0 4px #acacac);
-}
-
 .pageTitle {
   font-family: var(--font-opensans);
   font-size: 2.4rem;
@@ -66,7 +62,7 @@
 }
 
 @media (max-width: 450px) {
-  
+
   .pageSubtitle {
     font-size: 1.6rem;
   }

@@ -1,0 +1,55 @@
+.title {
+    font-family: var(--font-opensans);
+    font-size: clamp(2.4rem, 2vw, 4.8rem);
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.subtitle {
+    font-family: var(--font-opensans);
+    font-size: clamp(1.6rem, 1vw, 2.4rem);
+    font-weight: 300;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+.accordionHeader>button {
+    background-color: var(--color-3) !important;
+}
+
+.accordionHeader>button:focus {
+    box-shadow: none !important;
+}
+
+.accordionHeader>button::before {
+    content: "\25be";
+    float: right;
+    font-size: 2rem;
+}
+
+.accordionHeader>button::after {
+    display: none !important;
+}
+
+.contactFormWrapper {
+    width: 75% !important;
+}
+
+.formCheckInput:focus {
+    background-color: var(--color-complementario-I) !important;
+    box-shadow: 0 0 0 .25rem rgba(206, 29, 73, .25) !important;
+    border-color: var(--color-complementario-I) !important;
+}
+
+.formCheckInput:active,
+.formCheckInput:checked {
+    background-color: var(--color-complementario-I) !important;
+    border-color: var(--color-complementario-I) !important;
+}
+
+@media (max-width: 786px) {
+    .contactFormWrapper {
+        width: 100% !important;
+    }
+
+}
