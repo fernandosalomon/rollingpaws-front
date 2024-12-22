@@ -11,6 +11,7 @@ import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
 import Logo from "../assets/img/simple-logo-nobg.png";
 import style from "../styles/Navbar.module.css";
+import Swal from "sweetalert2";
 
 const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
   return (
@@ -57,6 +58,15 @@ const NavbarC = () => {
       sessionStorage.removeItem("role");
       sessionStorage.removeItem("token");
       navigate("/");
+      Swal.fire({
+        imageUrl: "/src/assets/img/dog-waving-hand.png",
+        imageHeight: 200,
+        imageAlt: "Dog goodbye",
+        title: "Hasta la próxima",
+        text: "¡Te esperamos!",
+        showConfirmButton: false,
+        timer: 2500
+      });
     } catch (error) {
       console.log(error);
     }
@@ -119,12 +129,15 @@ const NavbarC = () => {
               )}
               {userRole === "not-logged" && (
                 <CustomButton
-                  className="ms-md-auto ms-0 mt-3 fs-3"
+                  className="ms-md-auto ms-0 mt-3 fs-3 d-flex gap-3 align-items-center justify-content-center"
                   onClick={handleShowSignIn}
-                  variant="callToAction"
+                  variant="transparent"
                   size="lg"
                 >
-                  Iniciar Sesión
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#FD5602" className="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                  </svg>
+                  <p className={style.signInMessage}><span className="fw-semibold">¡Hola! Inicia sesión</span> <br /> o podes registrarte</p>
                 </CustomButton>
               )}
               {userRole === "user" && (

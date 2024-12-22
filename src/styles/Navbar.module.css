@@ -63,18 +63,25 @@
 }
 
 .userOptionsDropdownMenu {
-  left: -120px !important;
+  left: -90px !important;
   background-color: #fffbf5;
   padding: 0;
 }
 
 .userOptionsDropdownMenuItem {
   padding: 0.8rem 1rem;
+  font-size: 1.4rem;
 }
 
 .userOptionsDropdownMenuItem:hover,
 .userOptionsDropdownMenuItem:active {
   background-color: #ddd8d1;
+}
+
+.signInMessage {
+  font-size: 1.4rem;
+  color: var(--orange-600);
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
