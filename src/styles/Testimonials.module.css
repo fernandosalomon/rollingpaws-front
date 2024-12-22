@@ -1,0 +1,91 @@
+.testimonialHeader{
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.title {
+  font-family: var(--font-opensans);
+  font-size: 2.4rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.subtitle {
+  font-family: var(--font-opensans);
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.testimonialContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  margin: 0 9%;
+}
+
+.testimonialComment {
+  font-style: italic;
+  font-size: 16px;
+  width: 100%;
+  text-wrap: wrap;
+  margin-bottom: 25px;
+  background-color: var(--orange-300);
+  padding: 3rem 2.5rem;
+  filter: drop-shadow(0 0 4px #ababab);
+}
+
+.testimonialFooter {
+  display: flex;
+  align-items: center;
+}
+
+.testimonialAvatarsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.testimonialAvatar {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--gray-300);
+}
+
+.testimonialAvatar img {
+  width: 100%;
+  height: 100%;
+}
+
+.testimonialAvatarPet {
+  margin-left: -15px;
+  z-index: 1;
+}
+
+.testimonialAvatarOwner {
+  z-index: 2;
+}
+
+.testimonialName {
+  font-size: clamp(2rem, 1vw, 2.4rem);
+  margin: 0;
+  vertical-align: middle;
+}
+
+.star {
+  font-size: 2.5rem;
+}
+
+.starFilled {
+  color: #ffe234;
+  filter: drop-shadow(0 0 1px #000);
+}

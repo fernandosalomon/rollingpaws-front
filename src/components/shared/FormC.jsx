@@ -235,16 +235,16 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           )}
         </Form.Group>
 
-        <ButtonC type="submit" className={style.formSubmitButton}>
+        <CustomButton type="submit" className={style.formSubmitButton}>
           Registrarse
-        </ButtonC>
+        </CustomButton>
       </Form>
       <div className={style.dividerBar}>
         <div></div>
         <p>O</p>
       </div>
 
-      <button className={style.accessWithGoogleBtn} onClick={() => {}}>
+      <button className={style.accessWithGoogleBtn} onClick={() => { }}>
         <svg
           width="30px"
           height="30px"
@@ -397,16 +397,16 @@ const SignInForm = ({
           )}
         </Form.Group>
 
-        <ButtonC type="submit" className={style.formSubmitButton}>
+        <CustomButton type="submit" className={style.formSubmitButton}>
           Iniciar Sesión
-        </ButtonC>
+        </CustomButton>
       </Form>
       <div className={style.dividerBar}>
         <div></div>
         <p>O</p>
       </div>
 
-      <button className={style.accessWithGoogleBtn} onClick={() => {}}>
+      <button className={style.accessWithGoogleBtn} onClick={() => { }}>
         <svg
           width="30px"
           height="30px"
@@ -607,17 +607,15 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
               className={style.sexCheckButtonsContainer}
             >
               <Button
-                className={`${style.sexCheckButton} ${
-                  petSex === 0 ? style.active : ""
-                }`}
+                className={`${style.sexCheckButton} ${petSex === 0 ? style.active : ""
+                  }`}
                 onClick={() => setPetSex(0)}
               >
                 Macho
               </Button>
               <Button
-                className={`${style.sexCheckButton} ${
-                  petSex === 1 ? style.active : ""
-                }`}
+                className={`${style.sexCheckButton} ${petSex === 1 ? style.active : ""
+                  }`}
                 onClick={() => setPetSex(1)}
               >
                 Hembra

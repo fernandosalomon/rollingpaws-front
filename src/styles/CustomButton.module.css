@@ -1,38 +1,63 @@
-.navbarButton {
-  display: inline-block;
-  padding: 10px 20px;
+.button{
   border: 0;
-  border-radius: 50px;
-  background-color: var(--main-color);
-  text-align: center;
-  font-family: var(--font-poppins);
-  font-weight: 300;
-  font-size: clamp(16px, 3vw, 20px);
+  background-color: transparent;
+  min-width: 64px;
+  padding: 10px 16px;
+  margin: 8px;
   text-wrap: nowrap;
-  width: auto;
-  transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
-    filter 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
-    transform 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
-    font-weight 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
-
-  filter: drop-shadow(0 0 4px #c9c9cb);
-  cursor: pointer;
-  margin: 10px;
   vertical-align: middle;
 }
 
-.navbarButton:hover,
-.navbarButton:focus {
-  background-color: var(--main-color-lighter);
-}
-
-.navbarButton:active {
-  background-color: var(--main-color);
-  filter: drop-shadow(0 0 4px #919192);
-  font-weight: 500;
-  transform: scale(0.95);
-}
-
-.navbarButton:disabled {
+.button.disabled{
+  background-color: var(--gray-400);
   cursor: not-allowed;
 }
+
+.button.disabled:hover, .button.disabled:active{
+  background-color: var(--gray-400);
+}
+
+.buttonLG{
+  min-height: 44px;
+}
+
+.buttonMD{
+  min-height: 36px;
+}
+
+.buttonSM{
+  min-height: 32px;
+}
+
+.callToActionButton{
+  border: 3px solid var(--orange-500);
+  background-color: var(--orange-500);
+  border-radius: 7px;
+}
+
+.callToActionButton:hover{
+  background-color: var(--orange-600);
+  border-color: var(--orange-600);
+}
+
+.callToActionButton:active{
+  background-color: var(--orange-700);
+  border-color: var(--orange-700);
+}
+
+.secondaryButton{
+  background-color: var(--orange-300);
+  border: 3px solid var(--orange-400);
+  border-radius: 7px;
+}
+
+.secondaryButton:hover{
+  background-color: var(--orange-400);
+  border-color: var(--orange-400);
+}
+
+.secondaryButton:active{
+  background-color: var(--orange-500);
+  border-color: var(--orange-500);
+}
+

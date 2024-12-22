@@ -7,6 +7,7 @@
   background-color: #fffbf5;
   filter: drop-shadow(#00000052 0 4px 4px);
   min-width: 200px;
+  z-index: 1000;
 }
 
 .NavbarToggler {

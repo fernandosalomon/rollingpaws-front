@@ -1,0 +1,68 @@
+.title {
+  font-family: var(--font-opensans);
+  font-size: clamp(2.4rem, 2vw, 4.8rem);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  font-family: var(--font-opensans);
+  font-size: clamp(1.6rem, 1vw, 2.4rem);
+  font-weight: 300;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.doctorCardBody {
+  padding: 0;
+}
+
+.doctorCardTitle {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0 !important;
+  text-align: start !important;
+}
+
+.doctorCardSubtitle {
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  text-align: start !important;
+  margin: 0;
+
+}
+
+.doctorCardText {
+  font-size: 1.2rem;
+  padding: 0;
+  text-align: start !important;
+  max-height: 100px;
+  margin-top: 1rem;
+}
+
+.doctorCardButton {
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: start;
+}
+
+.doctorCard {
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: start !important;
+  margin-top: 1rem !important;
+}
+
+.doctorImage {
+  border-radius: 7px;
+  min-height: 290px;
+}

@@ -33,7 +33,7 @@
 }
 
 .formCheck {
-  font-size: clamp(14px, 3.5vw, 16px) !important ;
+  font-size: clamp(14px, 3.5vw, 16px) !important;
   filter: drop-shadow(1px 1px 1px #ababab);
 }
 
