@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
       </Container>
 
-      <Row className={`${style.footerContainer} pt-5 w-100 m-0`}>
+      <Row className={`${style.footerContainer} pt-5 w-100 m-0 align-items-center`}>
         <Col className="d-flex flex-column align-items-center justify-content-center pb-3" sm={3}>
           <Link className={style.link} to="/">
             <div className={style.brandLogo}></div>
@@ -42,9 +42,19 @@ const Footer = () => {
           <Link className={style.link}>Tienda</Link>
         </Col>
         <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
-          <h3 className={`${style.text} ${style.title}`}>
-            Horarios de Atención
-          </h3>
+          <span className={`${style.text} ${style.title} d-flex gap-2 align-items-center`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+              <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+            </svg>
+            <p className="mb-0">¿Dónde estamos?</p>
+          </span>
+          <p className={`${style.text} mb-5`}>Calle Falsa 123, San Miguel de Tucumán, Tucumán</p>
+          <span className={`${style.text} ${style.title} d-flex gap-2 align-items-center`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+            </svg>
+            <p className="mb-0">Horarios de Atención</p>
+          </span>
           <p className={`${style.text} mb-3`}>Lun - Vie: 8:00 - 20:00</p>
           <p className={`${style.text} mb-3`}>Sab: 8:00 - 15:00</p>
           <p className={`${style.text} mb-3`}>Dom: 8:00 - 12:00</p>
