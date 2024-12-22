@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import NavbarC from "../components/NavbarC";
+import Footer from "../components/Footer";
 import AboutUsPage from "../components/AboutUsPage";
 import LandingPage from "../components/LandingPage";
 import Testimonials from "../components/Testimonials";
