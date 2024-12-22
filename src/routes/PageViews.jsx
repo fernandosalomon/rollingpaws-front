@@ -13,6 +13,7 @@ import Error404 from "../pages/Error404";
 import Pets from "../components/Pets";
 import UserProfilePage from "../pages/UserProfilePage";
 import style from "../styles/PageView.module.css"
+import Store from "../components/Store";
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
@@ -42,6 +43,7 @@ const AnimatedRoutes = () => {
           element={<UserProfilePage viewParam="notification" />}
         />
         <Route path="/pets" element={<Pets />} />
+        <Route path="/tienda" element={<PageWrapper><Store /></PageWrapper>} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />
         <Route path="/contacto" element={<PageWrapper><ContactUsPage /></PageWrapper>} />
         <Route path="/servicios" element={<PageWrapper><ServicesPage /></PageWrapper>} />

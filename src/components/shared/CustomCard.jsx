@@ -1,12 +1,9 @@
 import style from "../../styles/CustomCard.module.css";
 import Image from "react-bootstrap/Image";
 
-export const CardImage = ({ src, className }) => {
+export const CardImage = ({ src, height, width, className }) => {
   return (
-    <div
-      className={`${style.image} ${className}`}
-      style={{ backgroundImage: `url(${src})` }}
-    ></div>
+    <Image src={src} width={width} height={height} className={className} />
   );
 };
 
@@ -29,9 +26,8 @@ export const CardText = ({ children, className }) => {
 export const CustomCard = ({ children, variant, width, height, className }) => {
   return (
     <div
-      className={`${style.card} ${
-        variant === "vertical" ? style.vertical : ""
-      } ${variant === "horizontal" ? style.horizontal : ""} ${className}`}
+      className={`${style.card} ${variant === "vertical" ? style.vertical : ""
+        } ${variant === "horizontal" ? style.horizontal : ""} ${className}`}
       style={{ width: width, height: height }}
     >
       {children}

@@ -1035,7 +1035,7 @@ const ContactUsForm = () => {
           <Form.Control
             as="textarea"
             placeholder="Dejanos tu comentario"
-            style={{ height: "210px" }}
+            style={{ height: "210px", resize: "none", padding: "1rem" }}
             className={style.formInput}
           />
         </Form.Group>
