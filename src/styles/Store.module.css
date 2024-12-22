@@ -25,6 +25,12 @@
     background-color: var(--gray-300);
 }
 
+.productCard:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 8px #8b8b8b);
+}
+
+
 .productCardTitle {
     text-align: start;
     font-size: 1.4rem;

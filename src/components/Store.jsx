@@ -6,15 +6,16 @@ import { CardBody, CardTitle, CardImage, CustomCard, CardSubtitle } from "./shar
 import CustomButton from "./shared/CustomButton"
 import style from "../styles/Store.module.css"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-const ProductCard = ({ image, title, description }) => {
+const ProductCard = ({ image, title, description, handleClick }) => {
     return (
         <CustomCard className={style.productCard}>
             <CardImage src={image} width={"60%"} />
             <CardBody>
                 <CardTitle className={style.productCardTitle}>{title}</CardTitle>
                 <CardSubtitle className={style.productCardSubtitle}>{description}</CardSubtitle>
-                <CustomButton variant="callToAction" className={style.productCardButton} size="sm">Comprar ahora</CustomButton>
+                <CustomButton variant="callToAction" className={style.productCardButton} size="sm" onClick={handleClick}>Comprar ahora</CustomButton>
             </CardBody>
         </CustomCard>
     )
@@ -23,6 +24,8 @@ const ProductCard = ({ image, title, description }) => {
 const Store = () => {
 
     const [view, setView] = useState(0)
+
+    const navigate = useNavigate();
 
     const productList = [];
 
@@ -65,42 +68,42 @@ const Store = () => {
                 <Container fluid="md">
                     <h2>Alimento Para perros</h2>
                     <Row>
-                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Alimento_para_Perro_4.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Perro Giant Adulto" key={index} /></Col>)}
+                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Alimento_para_Perro_4.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Perro Giant Adulto" key={index} handleClick={() => navigate(`/tienda/1`)} /></Col>)}
                     </Row>
                 </Container>}
             {view === 1 &&
                 <Container fluid="md">
                     <h2>Alimento Para gatos</h2>
                     <Row>
-                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Alimento_para_Gato_4.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Gato Fit" key={index} /></Col>)}
+                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Alimento_para_Gato_4.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Gato Fit" key={index} handleClick={() => navigate(`/tienda/2`)} /></Col>)}
                     </Row>
                 </Container>}
             {view === 2 &&
                 <Container fluid="md">
                     <h2>Accesorios para perros</h2>
                     <Row>
-                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Accesorios_para_Perro.png" title="K9 by Zeus" description="K9 Fitness Soga Trenzada con Pelota | 30.5 cm" key={index} /></Col>)}
+                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Accesorios_para_Perro.png" title="K9 by Zeus" description="K9 Fitness Soga Trenzada con Pelota | 30.5 cm" key={index} handleClick={() => navigate(`/tienda/3`)} /></Col>)}
                     </Row>
                 </Container>}
             {view === 3 &&
                 <Container fluid="md">
                     <h2>Piedras y arena</h2>
                     <Row>
-                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Piedras_y_Arena_4.png" title="CANCAT" description="CanCat Piedras Silica Gel Family Pack x 7.6L" key={index} /></Col>)}
+                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Piedras_y_Arena_4.png" title="CANCAT" description="CanCat Piedras Silica Gel Family Pack x 7.6L" key={index} handleClick={() => navigate(`/tienda/4`)} /></Col>)}
                     </Row>
                 </Container>}
             {view === 4 &&
                 <Container fluid="md">
                     <h2>Cachorros</h2>
                     <Row>
-                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Cachorros.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Perro Hypoallergenic Puppy Canine" key={index} /></Col>)}
+                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Cachorros.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Perro Hypoallergenic Puppy Canine" key={index} handleClick={() => navigate(`/tienda/5`)} /></Col>)}
                     </Row>
                 </Container>}
             {view === 5 &&
                 <Container fluid="md">
                     <h2>Gatitos</h2>
                     <Row>
-                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Gatitos.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Gato Mother & Babycat" key={index} /></Col>)}
+                        {productList.map((_, index) => <Col sm={12} md={4} lg={3}><ProductCard image="/src/assets/img/store/Gatitos.png" title="ROYAL CANIN" description="Royal Canin Alimento Seco para Gato Mother & Babycat" key={index} handleClick={() => navigate("/tienda/${1}")} /></Col>)}
                     </Row>
                 </Container>}
         </>
