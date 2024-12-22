@@ -113,7 +113,7 @@ const NavbarC = () => {
                 <Nav className={style.NavLinks}>
                   <Link to="/nosotros">Nosotros</Link>
                   <Link to="/servicios">Servicios</Link>
-                  <Link to="/productos">Productos</Link>
+                  <Link to="/tienda">Productos</Link>
                   <Link to="/Contacto">Contacto</Link>
                 </Nav>
               )}
