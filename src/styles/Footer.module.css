@@ -24,11 +24,11 @@
 }
 
 .bgTertiary {
-  background-color: var(--tertiary-color);
+  background-color: var(--gray-400);
 }
 
-.bgLight {
-  background-color: var(--light-color);
+.footerContainer {
+  background-color: var(--orange-300);
 }
 
 .link {
@@ -48,4 +48,13 @@
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 2rem;
+}
+
+.brandPublicityContainer {
+  padding: 1.5rem 2.5rem;
+  background-color: var(--gray-300);
+  border-radius: 14px;
+  margin-bottom: -15px;
+  z-index: 1000;
+  position: relative;
 }

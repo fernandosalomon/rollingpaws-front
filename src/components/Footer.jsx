@@ -1,12 +1,27 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container"
 import { Link } from "react-router-dom";
 import style from "../styles/Footer.module.css";
+import { Image } from "react-bootstrap";
 
 const Footer = () => {
   return (
     <>
-      <Row className={`${style.bgLight} pt-5 w-100 m-0`}>
+      <Container className={style.brandPublicityContainer}>
+        <h2 className="text-center mb-3 fs-2">Las marcas en las que confiamos</h2>
+        <div className="d-flex flex-nowrap gap-2 justify-content-between align-items-center">
+          <Image src="/src/assets/img/brands/marca-1.png" width="15%" height="100%" />
+          <Image src="/src/assets/img/brands/marca-2.png" width="15%" height="100%" />
+          <Image src="/src/assets/img/brands/marca-3.png" width="15%" height="100%" />
+          <Image src="/src/assets/img/brands/marca-4.png" width="15%" height="100%" />
+          <Image src="/src/assets/img/brands/marca-5.png" width="15%" height="100%" />
+          <Image src="/src/assets/img/brands/marca-6.png" width="8%" height="100%" />
+
+        </div>
+      </Container>
+
+      <Row className={`${style.footerContainer} pt-5 w-100 m-0`}>
         <Col className="d-flex flex-column align-items-center justify-content-center pb-3">
           <Link className={style.link} to="/">
             <div className={style.brandLogo}></div>
