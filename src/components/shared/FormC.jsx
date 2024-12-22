@@ -9,6 +9,9 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { InputGroup } from "react-bootstrap";
 import CustomButton from "./CustomButton";
+import Container from "react-bootstrap/Container"
+import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -1009,6 +1012,41 @@ const UserProfileForm = () => {
   );
 };
 
+const ContactUsForm = () => {
+  return (
+    <Row>
+      <Col sm={12} md={6}>
+        <Form.Group className="mb-3" controlId="contactUsName">
+          <Form.Label className={style.formLabel}>Nombre</Form.Label>
+          <Form.Control type="text" placeholder="Ingresa tu nombre" className={style.formInput} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="contactUsEmail">
+          <Form.Label className={style.formLabel}>Email</Form.Label>
+          <Form.Control type="email" placeholder="Ingresa tu email" className={style.formInput} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="contactUsPhone">
+          <Form.Label className={style.formLabel}>Teléfono</Form.Label>
+          <Form.Control type="phone" placeholder="Ingresa tu número de teléfono" className={style.formInput} />
+        </Form.Group>
+      </Col>
+      <Col sm={12} md={6}>
+        <Form.Group className="mb-3 w-100" controlId="contactUsComment">
+          <Form.Label className={style.formLabel}>Comentario</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Dejanos tu comentario"
+            style={{ height: "210px" }}
+            className={style.formInput}
+          />
+        </Form.Group>
+      </Col>
+      <Col sm={12} className="d-flex justify-content-center">
+        <CustomButton variant="callToAction" className="w-100 mt-5">Enviar comentario</CustomButton>
+      </Col>
+    </Row>
+  );
+}
+
 const FormC = ({
   variant,
   handleCloseModal,
@@ -1049,6 +1087,11 @@ const FormC = ({
       {formType === "user-profile" && (
         <>
           <UserProfileForm />
+        </>
+      )}
+      {formType === "contact-us" && (
+        <>
+          <ContactUsForm />
         </>
       )}
     </>

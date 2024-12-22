@@ -9,7 +9,7 @@ const ContactUsPage = () => {
     <>
       <div className={style.pageWrapper}>
         <h2 className={style.pageHeader}>Contáctanos</h2>
-        <Container fluid>
+        <Container fluid="lg">
           <Row>
             <Col md={8} className={style.columnContainer}>
               <Container className={style.formContainer}>
