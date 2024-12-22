@@ -1,9 +1,18 @@
 import style from "../../styles/CustomCard.module.css";
 import Image from "react-bootstrap/Image";
 
-export const CardImage = ({ src, height, width, className }) => {
+// export const CardImage = ({ src, height, width, className }) => {
+//   return (
+//     <Image src={src} width={width} height={height} className={className} />
+//   );
+// };
+
+export const CardImage = ({ src, width, height, className }) => {
   return (
-    <Image src={src} width={width} height={height} className={className} />
+    <div
+      className={`${style.image} ${className}`}
+      style={{ backgroundImage: `url(${src})`, width: `${width}`, height: `${height}` }}
+    ></div>
   );
 };
 

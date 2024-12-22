@@ -1,9 +1,13 @@
-import { Accordion, Container } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import style from "../styles/AboutPlans.module.css"
 import { useForm } from "react-hook-form";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import CustomButton from "./shared/CustomButton";
 
 const AboutPlans = () => {
 
@@ -27,11 +31,11 @@ const AboutPlans = () => {
                     <Accordion.Item eventKey="0">
                         <Accordion.Header className={style.accordionHeader}>
                             <div className="d-flex align-items-center justify-content-between w-100">
-                                <h3 className="ms-1 mb-0">Primeros pasos</h3>
-                                <p className="mb-0 me-3">Desde $30000</p>
+                                <h3 className={style.accordionHeaderTitle}>Primeros pasos</h3>
+                                <p className={style.accordionHeaderPrice}>Desde $30000</p>
                             </div>
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body className={style.accordionBody}>
                             <p>
                                 "Primeros Pasos" es un plan veterinario diseñado para mascotas de 0 a 5 años, enfocado en garantizar un crecimiento saludable y una vida plena desde los primeros días. Incluye chequeos veterinarios regulares para monitorear su desarrollo y detectar tempranamente posibles problemas de salud. El plan cubre vacunación completa para proteger a tu mascota de enfermedades comunes, además de desparasitaciones periódicas para mantenerla libre de parásitos.
                             </p>
@@ -46,11 +50,11 @@ const AboutPlans = () => {
                     <Accordion.Item eventKey="1">
                         <Accordion.Header className={style.accordionHeader}>
                             <div className="d-flex align-items-center justify-content-between w-100">
-                                <h3 className="ms-1 mb-0">Madurando</h3>
-                                <p className="mb-0 me-3">Desde $60000</p>
+                                <h3 className={style.accordionHeaderTitle}>Madurando</h3>
+                                <p className={style.accordionHeaderPrice}>Desde $60000</p>
                             </div>
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body className={style.accordionBody}>
                             <p>
                                 "Madurando" es un plan veterinario dirigido a mascotas de 5 a 10 años, una etapa crucial donde comienzan a mostrar signos de envejecimiento. Este plan ofrece chequeos regulares para monitorear su salud general, ayudando a detectar a tiempo cualquier problema relacionado con el envejecimiento, como enfermedades cardíacas, articulares o metabólicas.
                             </p>
@@ -68,11 +72,11 @@ const AboutPlans = () => {
                     <Accordion.Item eventKey="2">
                         <Accordion.Header className={style.accordionHeader}>
                             <div className="d-flex align-items-center justify-content-between w-100">
-                                <h3 className="ms-1 mb-0">Adultos</h3>
-                                <p className="mb-0 me-3">Desde $70000</p>
+                                <h3 className={style.accordionHeaderTitle}>Adultos</h3>
+                                <p className={style.accordionHeaderPrice}>Desde $70000</p>
                             </div>
                         </Accordion.Header>
-                        <Accordion.Body>
+                        <Accordion.Body className={style.accordionBody}>
                             <p>
                                 "Adultos" es un plan veterinario creado para mascotas mayores de 10 años, diseñado para garantizar su bienestar y calidad de vida en su etapa senior. Incluye chequeos geriátricos detallados, con un enfoque en la detección temprana de enfermedades comunes en mascotas mayores, como problemas cardíacos, renales y articulares. También se ofrece manejo del dolor para mejorar su confort y movilidad, así como el control y seguimiento de enfermedades crónicas.
                             </p>
@@ -88,77 +92,80 @@ const AboutPlans = () => {
                     </Accordion.Item>
                 </Accordion>
 
-                <Container className="my-5" fluid="lg">
-                    <h3 className="mb-3">Completa el formulario para que nos pongamos en contacto contigo</h3>
-                    <Form className="d-flex flex-column gap-3" onSubmit={handleSubmit(onSubmit)}>
-                        <div className="d-flex flex-column flex-md-row gap-3 w-100 justify-content-between">
-                            <FloatingLabel className="mb-3 w-100" controlId="contactFormName" label="Nombre">
-                                <Form.Control type="text" name="nombre" {...register("nombre")} />
-                                {errors.nombre && <div className="text-danger pt-1">{errors.nombre.message}</div>}
-                            </FloatingLabel>
+                <Container className="my-5" fluid="md">
+                    <h3 className={style.title}>Completa el formulario para que nos pongamos en contacto contigo</h3>
+                    <Container fluid="lg">
+                        <Form className={style.form}>
 
-                            <FloatingLabel className="mb-3 w-100" controlId="contactFormLastName" label="Apellido">
-                                <Form.Control type="text" name="apellido" {...register("apellido")} />
-                                {errors.apellido && <div className="text-danger pt-1">{errors.apellido.message}</div>}
-                            </FloatingLabel>
-                        </div>
+                            <Row>
+                                <Col xs={12} md={6}>
+                                    <Form.Group className="mb-4" controlId="plansFormName">
+                                        <Form.Label className={style.formLabel}>Nombre</Form.Label>
+                                        <Form.Control type="text" placeholder="Ingresa tu nombre" className={style.formInput} />
+                                    </Form.Group>
+                                    <Form.Group className="mb-4" controlId="plansFormEmail">
+                                        <Form.Label className={style.formLabel}>Email</Form.Label>
+                                        <Form.Control type="email" placeholder="Ingresa tu dirección de correo" className={style.formInput} />
+                                    </Form.Group>
+                                    <Form.Group className="mb-4" controlId="plansFormPhone">
+                                        <Form.Label className={style.formLabel}>Teléfono</Form.Label>
+                                        <Form.Control type="phone" placeholder="Ingresa tu teléfono" className={style.formInput} />
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={12} md={6}>
+                                    <Form.Group className="mb-3 w-100 " controlId="contactFormLastName">
+                                        <Form.Label className={style.formLabel}>Plan que te interesa</Form.Label>
 
+                                        <div className="d-flex gap-1 flex-column">
+                                            <Form.Check
+                                                inline
+                                                type="radio"
+                                                label="Primeros Pasos"
+                                                name="planes"
+                                                value="primeros-pasos"
+                                                id="radioBtnPrimerosPasos"
+                                                className={style.formCheck}
 
-                        <FloatingLabel className="mb-3" controlId="contactFormEmail" label="Email">
-                            <Form.Control type="email" name="email" {...register("email")} />
-                            {errors.email && <div className="text-danger pt-1">{errors.email.message}</div>}
-                        </FloatingLabel>
+                                            />
+                                            <Form.Check
+                                                inline
+                                                type="radio"
+                                                label="Madurando"
+                                                name="planes"
+                                                value="madurando"
+                                                id="radioBtnMadurando"
+                                                className={style.formCheck}
 
-                        <Form.Group className="mb-3 w-100 " controlId="contactFormLastName">
-                            <Form.Label className="fs-4 mb-3">Plan que te interesa</Form.Label>
+                                            />
+                                            <Form.Check
+                                                inline
+                                                type="radio"
+                                                label="Adultos"
+                                                name="planes"
+                                                value="adultos"
+                                                id="radioBtnAdultos"
+                                                className={style.formCheck}
 
-                            <div className="d-flex gap-3 flex-column flex-md-row">
-                                <Form.Check
-                                    inline
-                                    type="radio"
-                                    label="Primeros Pasos"
-                                    name="primeros-pasos"
-                                    value="primeros-pasos"
-                                    id="radioBtnPrimerosPasos"
-                                    {...register("plan")}
-                                />
-                                <Form.Check
-                                    inline
-                                    type="radio"
-                                    label="Madurando"
-                                    name="madurando"
-                                    value="madurando"
-                                    id="radioBtnMadurando"
-                                    {...register("plan")}
-                                />
-                                <Form.Check
-                                    inline
-                                    type="radio"
-                                    label="Adultos"
-                                    name="adultos"
-                                    value="adultos"
-                                    id="radioBtnAdultos"
-                                    {...register("plan")}
-                                />
-                            </div>
-                            {errors.plan && <div className="text-danger pt-2">{errors.plan.message}</div>}
-                        </Form.Group>
+                                            />
+                                        </div>
 
-                        <FloatingLabel controlId="contactFormMessage" label="Enviar mensaje">
-                            <Form.Control
-                                as="textarea"
-                                style={{ height: '100px' }}
-                                name="mensaje"
-                                {...register("mensaje")}
-                            />
-                            {errors.mensaje && <div className="text-danger pt-1">{errors.mensaje.message}</div>}
-                        </FloatingLabel>
-
-                        <div className="d-flex align-items-center justify-content-between">
-                            <Button variant="primary" className="btnPersonalized1" type="submit" disabled={isSubmitting}>{isSubmitting ? "Enviando mensaje..." : "Enviar mensaje"}</Button>
-                            <p className="d-none d-md-block">¡Gracias por contactarnos!</p>
-                        </div>
-                    </Form>
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="plansFormMessage">
+                                        <Form.Label className={style.formLabel}>Dejanos un mensaje</Form.Label>
+                                        <Form.Control
+                                            as="textarea"
+                                            style={{ height: '105px', resize: "none" }}
+                                            name="message"
+                                            className={`${style.formInput} p-3`}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={12}>
+                                    <CustomButton variant="callToAction" className="w-100 mx-auto mt-5">Enviar mensaje</CustomButton>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </Container>
                 </Container>
             </Container>
         </>

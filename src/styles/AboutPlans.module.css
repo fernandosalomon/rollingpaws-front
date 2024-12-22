@@ -3,6 +3,7 @@
     font-size: clamp(2.4rem, 2vw, 4.8rem);
     font-weight: 600;
     margin-bottom: 2rem;
+    text-align: center;
 }
 
 .subtitle {
@@ -11,14 +12,16 @@
     font-weight: 300;
     margin-bottom: 3rem;
     line-height: 1.6;
+    text-align: center;
 }
 
 .accordionHeader>button {
-    background-color: var(--color-3) !important;
+    background-color: var(--orange-300) !important;
 }
 
 .accordionHeader>button:focus {
     box-shadow: none !important;
+    color: #000 !important;
 }
 
 .accordionHeader>button::before {
@@ -31,4 +34,75 @@
     display: none !important;
 }
 
+.accordionHeaderTitle {
+    font-size: 2rem;
+    margin-bottom: 0 !important;
+    margin-left: 1rem;
+}
 
+.accordionHeaderPrice {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 0 !important;
+    margin-right: 1rem;
+}
+
+
+.accordionBody {
+    background-color: var(--gray-300);
+    padding: 1.5rem 2rem;
+    font-size: 1.6rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+    background-color: var(--orange-300);
+    padding: 2rem;
+    border-radius: 14px;
+}
+
+.formLabel {
+    font-family: var(--font-poppins);
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.formInput {
+    width: 98%;
+    border-radius: 4px;
+    justify-self: center;
+    height: 44px;
+    background-color: #f2f2f2;
+    border: 0;
+    font-family: var(--font-poppins);
+    font-size: 1.4rem;
+}
+
+.formInput:active,
+.formInput:focus {
+    outline: 0;
+    box-shadow: none;
+    background-color: #f2f2f2;
+}
+
+.formCheck {
+    font-size: clamp(14px, 3.5vw, 16px) !important;
+    text-wrap: nowrap;
+}
+
+.formCheck input:checked {
+    outline: 0;
+    box-shadow: none;
+    background-color: var(--main-color);
+    border-color: var(--secondary-color);
+}
+
+.formCheck input:focus {
+    outline: 0;
+    box-shadow: none;
+    border-color: var(--main-color);
+}
