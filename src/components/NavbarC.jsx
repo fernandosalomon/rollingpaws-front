@@ -1,17 +1,16 @@
+import { useEffect, useState } from "react";
+import clientAxios from "../helpers/clientAxios";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
-import Logo from "../assets/img/simple-logo-nobg.png";
-import { Link, useNavigate } from "react-router-dom";
-import ButtonC from "./shared/ButtonC";
-import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import FormC from "./shared/FormC";
-import style from "../styles/Navbar.module.css";
 import { Dropdown } from "react-bootstrap";
-import clientAxios from "../helpers/clientAxios";
-import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
+import CustomButton from "./shared/CustomButton";
+import FormC from "./shared/FormC";
+import Logo from "../assets/img/simple-logo-nobg.png";
+import style from "../styles/Navbar.module.css";
 
 const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
   return (
@@ -119,12 +118,14 @@ const NavbarC = () => {
                 </Nav>
               )}
               {userRole === "not-logged" && (
-                <ButtonC
-                  className="ms-md-auto ms-0 mt-3"
+                <CustomButton
+                  className="ms-md-auto ms-0 mt-3 fs-3"
                   onClick={handleShowSignIn}
+                  variant="callToAction"
+                  size="lg"
                 >
                   Iniciar Sesión
-                </ButtonC>
+                </CustomButton>
               )}
               {userRole === "user" && (
                 <>

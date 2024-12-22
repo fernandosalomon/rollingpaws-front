@@ -1,7 +1,6 @@
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
-import ButtonC from "./ButtonC";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-.button{
+.button {
   border: 0;
   background-color: transparent;
   min-width: 64px;
@@ -6,58 +6,59 @@
   margin: 8px;
   text-wrap: nowrap;
   vertical-align: middle;
+  font-size: 1.6rem;
 }
 
-.button.disabled{
+.button.disabled {
   background-color: var(--gray-400);
   cursor: not-allowed;
 }
 
-.button.disabled:hover, .button.disabled:active{
+.button.disabled:hover,
+.button.disabled:active {
   background-color: var(--gray-400);
 }
 
-.buttonLG{
+.buttonLG {
   min-height: 44px;
 }
 
-.buttonMD{
+.buttonMD {
   min-height: 36px;
 }
 
-.buttonSM{
+.buttonSM {
   min-height: 32px;
 }
 
-.callToActionButton{
+.callToActionButton {
   border: 3px solid var(--orange-500);
   background-color: var(--orange-500);
   border-radius: 7px;
 }
 
-.callToActionButton:hover{
+.callToActionButton:hover {
   background-color: var(--orange-600);
   border-color: var(--orange-600);
 }
 
-.callToActionButton:active{
+.callToActionButton:active {
   background-color: var(--orange-700);
   border-color: var(--orange-700);
 }
 
-.secondaryButton{
+.secondaryButton {
   background-color: var(--orange-300);
   border: 3px solid var(--orange-400);
   border-radius: 7px;
 }
 
-.secondaryButton:hover{
+.secondaryButton:hover {
   background-color: var(--orange-400);
   border-color: var(--orange-400);
 }
 
-.secondaryButton:active{
+.secondaryButton:active {
   background-color: var(--orange-500);
   border-color: var(--orange-500);
 }
-
