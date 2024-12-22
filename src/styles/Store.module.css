@@ -10,7 +10,7 @@
 
 .storeMenuBar:hover {
     background-color: var(--gray-400);
-    border-radius: 25%;
+    border-radius: 14px;
 }
 
 .productCard {

@@ -17,32 +17,31 @@ const Footer = () => {
           <Image src="/src/assets/img/brands/marca-4.png" width="15%" height="100%" />
           <Image src="/src/assets/img/brands/marca-5.png" width="15%" height="100%" />
           <Image src="/src/assets/img/brands/marca-6.png" width="8%" height="100%" />
-
         </div>
       </Container>
 
       <Row className={`${style.footerContainer} pt-5 w-100 m-0`}>
-        <Col className="d-flex flex-column align-items-center justify-content-center pb-3">
+        <Col className="d-flex flex-column align-items-center justify-content-center pb-3" sm={3}>
           <Link className={style.link} to="/">
             <div className={style.brandLogo}></div>
             <h2 className={style.brandName}>Rolling Paws</h2>
           </Link>
         </Col>
-        <Col className="d-flex flex-column align-items-start justify-content-start pb-3">
+        <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <h3 className={`${style.text} ${style.title}`}>Enlaces Útiles</h3>
           <Link className={style.link}>Acerca de nosotros</Link>
           <Link className={style.link}>Servicios</Link>
           <Link className={style.link}>Contacto</Link>
           <Link className={style.link}>Trabaja con nosotros</Link>
         </Col>
-        <Col className="d-flex flex-column align-items-start justify-content-start pb-3">
+        <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <h3 className={`${style.text} ${style.title}`}>Servicios</h3>
           <Link className={style.link}>Clínica</Link>
           <Link className={style.link}>Cirugía</Link>
           <Link className={style.link}>Peluquería</Link>
           <Link className={style.link}>Tienda</Link>
         </Col>
-        <Col className="d-flex flex-column align-items-start justify-content-start pb-3">
+        <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <h3 className={`${style.text} ${style.title}`}>
             Horarios de Atención
           </h3>

@@ -6,7 +6,7 @@
 }
 
 .brandLogo {
-  background-image: url("src/assets/img/simple-logo-nobg.png");
+  background-image: url(../assets/img/simple-logo-nobg.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: scroll;
