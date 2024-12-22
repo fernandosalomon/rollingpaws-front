@@ -31,25 +31,4 @@
     display: none !important;
 }
 
-.contactFormWrapper {
-    width: 75% !important;
-}
 
-.formCheckInput:focus {
-    background-color: var(--color-complementario-I) !important;
-    box-shadow: 0 0 0 .25rem rgba(206, 29, 73, .25) !important;
-    border-color: var(--color-complementario-I) !important;
-}
-
-.formCheckInput:active,
-.formCheckInput:checked {
-    background-color: var(--color-complementario-I) !important;
-    border-color: var(--color-complementario-I) !important;
-}
-
-@media (max-width: 786px) {
-    .contactFormWrapper {
-        width: 100% !important;
-    }
-
-}
