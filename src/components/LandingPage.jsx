@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import style from "../styles/LandingPage.module.css";
 import CustomButton from "./shared/CustomButton";
 
 
 const LandingPage = () => {
+
+  const navigate = useNavigate()
+
   return (
     <>
       <div className={style.landingWrapper}>
@@ -17,12 +21,12 @@ const LandingPage = () => {
             familia, asegurando su bienestar y salud siempre.
           </p>
           <div className="w-100 d-flex flex-column flex-sm-row justify-content-center align-items-center mt-4 pe-3">
-          <CustomButton variant="callToAction" size="lg" className="w-50">
-            Saber más
-          </CustomButton>
-          <CustomButton variant="secondary" size="lg" className="w-50">
-            Iniciar Sesión
-          </CustomButton>
+            <CustomButton variant="callToAction" size="lg" className="w-50" onClick={() => navigate("/nosotros")}>
+              Saber más
+            </CustomButton>
+            <CustomButton variant="secondary" size="lg" className="w-50">
+              Iniciar Sesión
+            </CustomButton>
           </div>
         </div>
       </div>

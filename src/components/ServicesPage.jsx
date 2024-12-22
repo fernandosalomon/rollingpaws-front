@@ -59,9 +59,6 @@ const ServicesPage = () => {
                   cuidar la salud de tu mascota en todo momento, desde consultas
                   de rutina hasta diagnósticos y tratamientos avanzados.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -85,9 +82,6 @@ const ServicesPage = () => {
                   horas, incluyendo fines de semana. Diagnóstico rápido con
                   radiografías, ecografías y laboratorio propio.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -110,9 +104,6 @@ const ServicesPage = () => {
                   capacitado y tecnología moderna. Nos enfocamos en una
                   recuperación rápida y en el bienestar integral de tu mascota.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -137,9 +128,6 @@ const ServicesPage = () => {
                   de diagnóstico de manera ágil y precisa, brindando a tu
                   mascota la atención oportuna que necesita.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -162,9 +150,6 @@ const ServicesPage = () => {
                   medicina interna, cirugía, dermatología y oftalmología,
                   respaldadas por un equipo de profesionales comprometidos.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -187,9 +172,6 @@ const ServicesPage = () => {
                   necesidades de tu mascota. Nos enfocamos en su higiene,
                   confort y apariencia, brindándole una experiencia completa.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>
@@ -215,9 +197,6 @@ const ServicesPage = () => {
                   que necesitas para mantener a tu compañero sano y feliz, en un
                   solo lugar.
                 </CardText>
-                <CustomButton variant="callToAction" className={style.button}>
-                  Saber más
-                </CustomButton>
               </CardBody>
             </CustomCard>
           </Slide>

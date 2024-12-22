@@ -32,7 +32,7 @@ const AboutPlans = () => {
                         <Accordion.Header className={style.accordionHeader}>
                             <div className="d-flex align-items-center justify-content-between w-100">
                                 <h3 className={style.accordionHeaderTitle}>Primeros pasos</h3>
-                                <p className={style.accordionHeaderPrice}>Desde $30000</p>
+                                <p className={style.accordionHeaderPrice}>Desde $30000/mes</p>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body className={style.accordionBody}>
@@ -51,7 +51,7 @@ const AboutPlans = () => {
                         <Accordion.Header className={style.accordionHeader}>
                             <div className="d-flex align-items-center justify-content-between w-100">
                                 <h3 className={style.accordionHeaderTitle}>Madurando</h3>
-                                <p className={style.accordionHeaderPrice}>Desde $60000</p>
+                                <p className={style.accordionHeaderPrice}>Desde $60000/mes</p>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body className={style.accordionBody}>
@@ -73,7 +73,7 @@ const AboutPlans = () => {
                         <Accordion.Header className={style.accordionHeader}>
                             <div className="d-flex align-items-center justify-content-between w-100">
                                 <h3 className={style.accordionHeaderTitle}>Adultos</h3>
-                                <p className={style.accordionHeaderPrice}>Desde $70000</p>
+                                <p className={style.accordionHeaderPrice}>Desde $70000/mes</p>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body className={style.accordionBody}>
