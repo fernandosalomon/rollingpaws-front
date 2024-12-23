@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import CustomButton from "./shared/CustomButton";
+import FormC from "./shared/FormC";
 
 const AboutPlans = () => {
 
@@ -94,77 +95,8 @@ const AboutPlans = () => {
 
                 <Container className="my-5" fluid="md">
                     <h3 className={style.title}>Completa el formulario para que nos pongamos en contacto contigo</h3>
-                    <Container fluid="lg">
-                        <Form className={style.form}>
-
-                            <Row>
-                                <Col xs={12} md={6}>
-                                    <Form.Group className="mb-4" controlId="plansFormName">
-                                        <Form.Label className={style.formLabel}>Nombre</Form.Label>
-                                        <Form.Control type="text" placeholder="Ingresa tu nombre" className={style.formInput} />
-                                    </Form.Group>
-                                    <Form.Group className="mb-4" controlId="plansFormEmail">
-                                        <Form.Label className={style.formLabel}>Email</Form.Label>
-                                        <Form.Control type="email" placeholder="Ingresa tu dirección de correo" className={style.formInput} />
-                                    </Form.Group>
-                                    <Form.Group className="mb-4" controlId="plansFormPhone">
-                                        <Form.Label className={style.formLabel}>Teléfono</Form.Label>
-                                        <Form.Control type="phone" placeholder="Ingresa tu teléfono" className={style.formInput} />
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3 w-100 " controlId="contactFormLastName">
-                                        <Form.Label className={style.formLabel}>Plan que te interesa</Form.Label>
-
-                                        <div className="d-flex gap-1 flex-column">
-                                            <Form.Check
-                                                inline
-                                                type="radio"
-                                                label="Primeros Pasos"
-                                                name="planes"
-                                                value="primeros-pasos"
-                                                id="radioBtnPrimerosPasos"
-                                                className={style.formCheck}
-
-                                            />
-                                            <Form.Check
-                                                inline
-                                                type="radio"
-                                                label="Madurando"
-                                                name="planes"
-                                                value="madurando"
-                                                id="radioBtnMadurando"
-                                                className={style.formCheck}
-
-                                            />
-                                            <Form.Check
-                                                inline
-                                                type="radio"
-                                                label="Adultos"
-                                                name="planes"
-                                                value="adultos"
-                                                id="radioBtnAdultos"
-                                                className={style.formCheck}
-
-                                            />
-                                        </div>
-
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="plansFormMessage">
-                                        <Form.Label className={style.formLabel}>Dejanos un mensaje</Form.Label>
-                                        <Form.Control
-                                            as="textarea"
-                                            style={{ height: '105px', resize: "none" }}
-                                            name="message"
-                                            className={`${style.formInput} p-3`}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12}>
-                                    <CustomButton variant="callToAction" className="w-100 mx-auto mt-5">Enviar mensaje</CustomButton>
-                                </Col>
-                            </Row>
-                        </Form>
+                    <Container fluid="lg" className={style.formContainer}>
+                        <FormC variant="plans-information" />
                     </Container>
                 </Container>
             </Container>

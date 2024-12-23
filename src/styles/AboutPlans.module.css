@@ -54,6 +54,12 @@
     font-size: 1.6rem;
 }
 
+.formContainer {
+    background-color: var(--orange-300);
+    padding: 2.5rem;
+    border-radius: 14px;
+}
+
 .form {
     display: flex;
     flex-direction: column;

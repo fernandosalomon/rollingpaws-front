@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { InputGroup } from "react-bootstrap";
 import CustomButton from "./CustomButton";
-import Container from "react-bootstrap/Container"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
 
@@ -1076,37 +1075,328 @@ const UserProfileForm = () => {
 };
 
 const ContactUsForm = () => {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const result = await clientAxios.post("/messages/", { ...data, type: "contact" })
+
+      if (result.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: `Tu mensaje fue enviado con exito`,
+          text: `En breve nos pondremos en contacto contigo`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: `Algo salio mal`,
+          text: `Codigo ${result.status}: ${result.message}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        icon: "error",
+        title: `Algo salio mal`,
+        text: `Codigo ${error?.response?.status}: ${error?.response?.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  })
+
   return (
-    <Row>
-      <Col sm={12} md={6}>
-        <Form.Group className="mb-3" controlId="contactUsName">
-          <Form.Label className={style.formLabel}>Nombre</Form.Label>
-          <Form.Control type="text" placeholder="Ingresa tu nombre" className={style.formInput} />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="contactUsEmail">
-          <Form.Label className={style.formLabel}>Email</Form.Label>
-          <Form.Control type="email" placeholder="Ingresa tu email" className={style.formInput} />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="contactUsPhone">
-          <Form.Label className={style.formLabel}>Teléfono</Form.Label>
-          <Form.Control type="phone" placeholder="Ingresa tu número de teléfono" className={style.formInput} />
-        </Form.Group>
-      </Col>
-      <Col sm={12} md={6}>
-        <Form.Group className="mb-3 w-100" controlId="contactUsComment">
-          <Form.Label className={style.formLabel}>Comentario</Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder="Dejanos tu comentario"
-            style={{ height: "210px", resize: "none", padding: "1rem" }}
-            className={style.formInput}
-          />
-        </Form.Group>
-      </Col>
-      <Col sm={12} className="d-flex justify-content-center">
-        <CustomButton variant="callToAction" className="w-100 mt-5">Enviar comentario</CustomButton>
-      </Col>
-    </Row>
+    <Form onSubmit={onSubmit}>
+      <Row>
+        <Col sm={12} md={6}>
+          <Form.Group className="mb-3" controlId="contactUsName">
+            <Form.Label className={style.formLabel}>Nombre</Form.Label>
+            <Form.Control type="text" placeholder="Ingresa tu nombre" className={style.formInput} {...register("contactName", {
+              required: { value: true, message: "Campo requerido" },
+              minLength: {
+                value: 2,
+                message: "Mínimo requerido: 2 caracteres",
+              },
+              maxLength: {
+                value: 40,
+                message: "Máximo permitido: 40 caracteres",
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                message: "Formato de nombre inválido.",
+              },
+            })} />
+            {errors.contactName && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactName.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="contactUsEmail">
+            <Form.Label className={style.formLabel}>Email</Form.Label>
+            <Form.Control type="email" placeholder="Ingresa tu email" className={style.formInput} {...register("contactEmail", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
+            })} />
+            {errors.contactEmail && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactEmail.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="contactUsPhone">
+            <Form.Label className={style.formLabel}>Teléfono</Form.Label>
+            <Form.Control type="text" placeholder="Ingresa tu número de teléfono" className={style.formInput} {...register("contactPhone", {
+              pattern: {
+                value:
+                  /^\+?(\d{1,3})?[-.\s]?(\d{1,4})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+                message: "Formato de número de teléfono incorrecto.",
+              },
+            })} />
+            {errors.contactPhone && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactPhone.message}
+              </span>
+            )}
+          </Form.Group>
+        </Col>
+        <Col sm={12} md={6}>
+          <Form.Group className="mb-3 w-100" controlId="contactUsMessage">
+            <Form.Label className={style.formLabel}>Mensaje</Form.Label>
+            <Form.Control
+              as="textarea"
+              placeholder="Dejanos un mensaje"
+              style={{ height: "210px", resize: "none", padding: "1rem" }}
+              className={style.formInput}
+              {...register("contactMessage", {
+                required: {
+                  value: true,
+                  message: "Campo obligatorio."
+                },
+                min: 1,
+                max: {
+                  value: 200,
+                  message: "El mensaje no puede contener más de 200 caracteres."
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+                  message: "El mensaje contiene caracteres no válidos.",
+                }
+              })}
+            />
+            {errors.contactMessage && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactMessage.message}
+              </span>
+            )}
+          </Form.Group>
+        </Col>
+        <Col sm={12} className="d-flex justify-content-center">
+          <CustomButton variant="callToAction" className="w-100 mt-5">Enviar mensaje</CustomButton>
+        </Col>
+      </Row>
+    </Form>
+  );
+}
+
+const PlansInformationForm = () => {
+  const [selectedPlan, SetSelectedPlan] = useState(0);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit(async (data) => {
+
+    const messageData = {
+      type: "plans",
+      ...data,
+      selectedPlan: selectedPlan,
+    }
+
+    try {
+      const result = await clientAxios.post("/messages/", messageData)
+
+      if (result.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: `Tu mensaje fue enviado con exito`,
+          text: `En breve nos pondremos en contacto contigo`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: `Algo salio mal`,
+          text: `Codigo ${result.status}: ${result.message}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        icon: "error",
+        title: `Algo salio mal`,
+        text: `Codigo ${error?.response?.status}: ${error?.response?.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  })
+
+  return (
+    <Form className={style.form} onSubmit={onSubmit}>
+      <Row>
+        <Col xs={12} md={6}>
+          <Form.Group className="mb-3" controlId="PlansInformationName">
+            <Form.Label className={style.formLabel}>Nombre</Form.Label>
+            <Form.Control type="text" placeholder="Ingresa tu nombre" className={style.formInput} {...register("contactName", {
+              required: { value: true, message: "Campo requerido" },
+              minLength: {
+                value: 2,
+                message: "Mínimo requerido: 2 caracteres",
+              },
+              maxLength: {
+                value: 40,
+                message: "Máximo permitido: 40 caracteres",
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                message: "Formato de nombre inválido.",
+              },
+            })} />
+            {errors.contactName && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactName.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="PlansInformationEmail">
+            <Form.Label className={style.formLabel}>Email</Form.Label>
+            <Form.Control type="email" placeholder="Ingresa tu email" className={style.formInput} {...register("contactEmail", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
+            })} />
+            {errors.contactEmail && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactEmail.message}
+              </span>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="PlansInformationPhone">
+            <Form.Label className={style.formLabel}>Teléfono</Form.Label>
+            <Form.Control type="text" placeholder="Ingresa tu número de teléfono" className={style.formInput} {...register("contactPhone", {
+              pattern: {
+                value:
+                  /^\+?(\d{1,3})?[-.\s]?(\d{1,4})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+                message: "Formato de número de teléfono incorrecto.",
+              },
+            })} />
+            {errors.contactPhone && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactPhone.message}
+              </span>
+            )}
+          </Form.Group>
+        </Col>
+        <Col xs={12} md={6}>
+          <Form.Group className="mb-3 w-100 " controlId="selectedPlan">
+            <Form.Label className={style.formLabel}>Plan que te interesa</Form.Label>
+
+            <div className="d-flex gap-1 flex-column">
+              <Form.Check
+                inline
+                type="radio"
+                label="Primeros Pasos"
+                name="planes"
+                value="primeros-pasos"
+                id="radioBtnPrimerosPasos"
+                className={style.formCheck}
+                onClick={() => SetSelectedPlan(0)}
+              />
+              <Form.Check
+                inline
+                type="radio"
+                label="Madurando"
+                name="planes"
+                value="madurando"
+                id="radioBtnMadurando"
+                className={style.formCheck}
+                onClick={() => SetSelectedPlan(1)}
+              />
+              <Form.Check
+                inline
+                type="radio"
+                label="Adultos"
+                name="planes"
+                value="adultos"
+                id="radioBtnAdultos"
+                className={style.formCheck}
+                onClick={() => SetSelectedPlan(2)}
+              />
+            </div>
+
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="plansInformationMessage">
+            <Form.Label className={style.formLabel}>Dejanos un mensaje</Form.Label>
+            <Form.Control
+              as="textarea"
+              style={{ height: '105px', resize: "none" }}
+              name="message"
+              className={`${style.formInput} p-3`}
+              {...register("contactMessage", {
+                min: 1,
+                max: {
+                  value: 200,
+                  message: "El mensaje no puede contener más de 200 caracteres."
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+                  message: "El mensaje contiene caracteres no válidos.",
+                }
+              })}
+            />
+          </Form.Group>
+        </Col>
+        <Col xs={12}>
+          <CustomButton variant="callToAction" className="w-100 mx-auto mt-5">Enviar mensaje</CustomButton>
+        </Col>
+      </Row>
+    </Form>
   );
 }
 
@@ -1155,6 +1445,11 @@ const FormC = ({
       {formType === "contact-us" && (
         <>
           <ContactUsForm />
+        </>
+      )}
+      {formType === "plans-information" && (
+        <>
+          <PlansInformationForm />
         </>
       )}
     </>
