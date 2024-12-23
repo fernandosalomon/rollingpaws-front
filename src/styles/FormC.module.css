@@ -280,6 +280,41 @@
   background-color: #f2f2f2;
 }
 
+.profileImageContainer {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.profileImageContainer img {
+  width: 110%;
+}
+
+.changeImageButton {
+  border: 3px solid var(--orange-500);
+  border-radius: 7px;
+  color: var(--orange-500);
+  width: 200px;
+}
+
+.changeImageButton:hover {
+  transform: rotateZ(-2deg);
+  transition: 0.3s ease-in-out;
+}
+
+.changeImageButton:active {
+  background-color: var(--orange-500);
+  color: #000;
+}
+
+.removeImageButtonSize {
+  width: 200px;
+}
+
 @media (max-width: 425px) {
   .form {
     padding-left: 0.5rem;

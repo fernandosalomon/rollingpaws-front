@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import style from "../../styles/FormC.module.css";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ import { InputGroup } from "react-bootstrap";
 import CustomButton from "./CustomButton";
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
+import Image from "react-bootstrap/Image"
+import Spinner from 'react-bootstrap/Spinner';
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -766,35 +768,60 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
 
 const UserProfileForm = () => {
   const [userData, setUserData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const profilePicRef = useRef(null)
 
   useEffect(() => {
-    const userToken = sessionStorage.getItem("token");
-
     const getUserData = async () => {
+      const userToken = sessionStorage.getItem("token");
       try {
+        setIsLoading(true);
         const userData = await clientAxios.get("/user/self", {
           headers: {
             authtoken: userToken,
           },
         });
-        return userData.data;
+        setUserData(userData.data);
+        setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     };
 
-    (async function () {
-      const user = await getUserData();
-      setUserData(user);
-    })();
+    getUserData();
   }, []);
+
+  const handleClickChangeProfilePic = () => {
+    const fileInput = document.getElementById("inputFileProfilePic");
+    fileInput.click();
+  }
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm();
+
+  const handleRefreshUserData = async () => {
+    try {
+      const userToken = sessionStorage.getItem("token");
+      setIsLoading(true);
+      const userData = await clientAxios.get("/user/self", {
+        headers: {
+          authtoken: userToken,
+        },
+      });
+      setUserData(userData.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const profilePicWatch = watch("profilePic");
 
   useEffect(() => {
     setValue("email", userData.email);
@@ -807,12 +834,37 @@ const UserProfileForm = () => {
     setValue("phone", userData.phone);
   }, [userData]);
 
+  useEffect(() => {
+    if (profilePicRef.current !== null && profilePicWatch.length > 0) {
+      profilePicRef.current.src = URL.createObjectURL(profilePicWatch[0]);
+    }
+    console.log(profilePicWatch.length)
+  }, [profilePicWatch])
+
   const onSubmit = handleSubmit(async (data) => {
-    const updateData = Object.fromEntries(
+    const filteredData = Object.fromEntries(
       Object.entries(data).filter(([key, value]) => value !== undefined)
     );
+
+    const { profilePic, ...updatedData } = { ...filteredData };
+
     try {
-      const res = await clientAxios.put(`/user/${userData._id}`, updateData);
+
+      setIsUploading(true);
+      const res = await clientAxios.put(`/user/${userData._id}`, updatedData);
+
+      const formData = new FormData()
+      formData.append("profilePic", profilePic[0]);
+
+      const imageRes = await clientAxios.post(`/user/profile-pic/${userData._id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      handleRefreshUserData();
+      setIsUploading(false);
+
       Swal.fire({
         icon: "success",
         title: `Datos actualizados con exito`,
@@ -831,247 +883,331 @@ const UserProfileForm = () => {
     }
   });
 
-  return (
-    <>
-      <Form className={style.formContainer} onSubmit={onSubmit}>
-        <Form.Group controlId="userEmail">
-          <Form.Label className={style.inputFieldLabel}>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Email"
-            className={`${style.inputField}`}
-            {...register("email", {
-              required: {
-                value: true,
-                message: "Campo requerido",
-              },
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
-                message: "Formato de email inválido.",
-              },
-            })}
-          />
-          {errors.email && (
-            <span className={style.errorMessage}>
-              <i className="bi bi-exclamation-circle-fill me-1"></i>
-              {errors.email.message}
+  const handleDeleteProfilePic = async (e) => {
+    e.preventDefault();
+    const confirm = await Swal.fire({
+      title: "¿Seguro que quieres eliminar la imagen de perfil?",
+      text: "Esta acción no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "No",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminarla"
+    })
+
+    if (confirm.isConfirmed) {
+      try {
+        const result = await clientAxios.put(`/user/${userData._id}`, { profilePic: "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734977722/user-default-pic_y72gar.png" })
+        Swal.fire({
+          icon: "success",
+          title: `Imagen de perfil eliminada`,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        handleRefreshUserData();
+      } catch (error) {
+        console.log(error)
+        Swal.fire({
+          icon: "error",
+          title: `Hubo un error al tratar de eliminar la imagen de perfil. Error: ${error}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    }
+  }
+
+
+  if (isLoading) {
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    )
+  } else {
+    return (
+      <>
+        <Form className={style.formContainer} onSubmit={onSubmit}>
+
+          <div className="d-flex align-items-center gap-4">
+            <div className={style.profileImageContainer}>
+              <Image src={userData.profilePic} alt="User Profile Picture" ref={profilePicRef} />
+            </div>
+            <div className="d-flex flex-column align-items-center justify-content-start">
+              <Form.Control
+                type="file"
+                placeholder="Imagen de perfil"
+                hidden
+                {...register("profilePic")}
+                id="inputFileProfilePic"
+              />
+              <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={(e) => { e.preventDefault(); handleClickChangeProfilePic() }}>
+                <span className="d-flex justify-content-center align-items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                    <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+                  </svg>
+                  <p className="mb-0">Cambiar Imagen</p>
+                </span>
+              </CustomButton>
+              <CustomButton variant="remove" className={style.removeImageButtonSize} size="lg" onClick={handleDeleteProfilePic}>
+                <span className="d-flex justify-content-center align-items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                  </svg>
+                  <p className="mb-0">Borrar Imagen</p>
+                </span>
+              </CustomButton>
+            </div>
+          </div>
+
+          <Form.Group controlId="userEmail">
+            <Form.Label className={style.formLabel}>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Email"
+              className={`${style.formInput}`}
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Campo requerido",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                  message: "Formato de email inválido.",
+                },
+              })}
+            />
+            {errors.email && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.email.message}
+              </span>
+            )}
+          </Form.Group>
+
+          <div className="d-flex flex-column flex-md-row gap-3">
+            <Form.Group controlId="userFirstName" className="flex-fill">
+              <Form.Label className={style.formLabel}>Nombre</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nombre"
+                className={style.formInput}
+                {...register("firstName", {
+                  required: { value: true, message: "Campo requerido" },
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                    message: "Formato de nombre inválido.",
+                  },
+                })}
+              />
+              {errors.firstName && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.firstName.message}
+                </span>
+              )}
+            </Form.Group>
+            <Form.Group controlId="userLastName" className="flex-fill">
+              <Form.Label className={style.formLabel}>Apellido</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Apellido"
+                className={style.formInput}
+                {...register("lastName", {
+                  required: { value: true, message: "Campo requerido" },
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                    message: "Formato de nombre inválido.",
+                  },
+                })}
+              />
+              {errors.lastName && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.lastName.message}
+                </span>
+              )}
+            </Form.Group>
+          </div>
+
+          <div className="d-flex flex-column flex-md-row gap-3">
+            <Form.Group controlId="userAddress" className="flex-fill">
+              <Form.Label className={style.formLabel}>Dirección</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Dirección"
+                className={style.formInput}
+                {...register("address", {
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ1-9][a-zA-ZáéíóúÁÉÍÓÚñÑ'1-9 ]*$/,
+                    message: "Formato de dirección inválido.",
+                  },
+                })}
+              />
+              {errors.address && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.address.message}
+                </span>
+              )}
+            </Form.Group>
+            <Form.Group controlId="userCity" className="flex-fill">
+              <Form.Label className={style.formLabel}>Ciudad</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ciudad"
+                className={style.formInput}
+                {...register("city", {
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                    message: "Formato de ciudad inválido.",
+                  },
+                })}
+              />
+              {errors.city && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.city.message}
+                </span>
+              )}
+            </Form.Group>
+          </div>
+
+          <div className="d-flex flex-column flex-md-row gap-3">
+            <Form.Group controlId="userProvince" className="flex-fill">
+              <Form.Label className={style.formLabel}>Provincia</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Provincia"
+                className={style.formInput}
+                {...register("province", {
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                    message: "Formato de provincia inválido.",
+                  },
+                })}
+              />
+              {errors.province && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.province.message}
+                </span>
+              )}
+            </Form.Group>
+            <Form.Group controlId="userZipCode">
+              <Form.Label className={style.formLabel}>
+                Código Postal
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Código Postal"
+                className={style.formInput}
+                value={userData.zipCode}
+                {...register("zipCode", {
+                  minLength: {
+                    value: 1,
+                    message: "Mínimo requerido: 1 caracteres",
+                  },
+                  maxLength: {
+                    value: 4,
+                    message: "Máximo permitido: 4 caracteres",
+                  },
+                  pattern: {
+                    value: /^\d{4}$/,
+                    message: "Formato de código postal incorrecto.",
+                  },
+                })}
+              />
+              {errors.zipCode && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.zipCode.message}
+                </span>
+              )}
+            </Form.Group>
+          </div>
+
+          <Form.Group controlId="userPhone">
+            <Form.Label className={style.formLabel}>Teléfono</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Teléfono"
+              className={`${style.formInput}`}
+              {...register("phone", {
+                pattern: {
+                  value:
+                    /^\+?(\d{1,3})?[-.\s]?(\d{1,4})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+                  message: "Formato de número de teléfono incorrecto.",
+                },
+              })}
+            />
+            {errors.phone && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.phone.message}
+              </span>
+            )}
+          </Form.Group>
+
+          <CustomButton
+            variant="callToAction"
+            type="submit"
+            disabled={isUploading}
+          >
+            <span className="d-flex align-items-center justify-content-center">
+              {isUploading && <Spinner animation="border" role="status" className="me-2">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>}
+              <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
             </span>
-          )}
-        </Form.Group>
-
-        <div className="d-flex flex-column flex-md-row gap-3">
-          <Form.Group controlId="userFirstName" className="flex-fill">
-            <Form.Label className={style.inputFieldLabel}>Nombre</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Nombre"
-              className={style.inputField}
-              {...register("firstName", {
-                required: { value: true, message: "Campo requerido" },
-                minLength: {
-                  value: 2,
-                  message: "Mínimo requerido: 2 caracteres",
-                },
-                maxLength: {
-                  value: 40,
-                  message: "Máximo permitido: 40 caracteres",
-                },
-                pattern: {
-                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de nombre inválido.",
-                },
-              })}
-            />
-            {errors.firstName && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.firstName.message}
-              </span>
-            )}
-          </Form.Group>
-          <Form.Group controlId="userLastName" className="flex-fill">
-            <Form.Label className={style.inputFieldLabel}>Apellido</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Apellido"
-              className={style.inputField}
-              {...register("lastName", {
-                required: { value: true, message: "Campo requerido" },
-                minLength: {
-                  value: 2,
-                  message: "Mínimo requerido: 2 caracteres",
-                },
-                maxLength: {
-                  value: 40,
-                  message: "Máximo permitido: 40 caracteres",
-                },
-                pattern: {
-                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de nombre inválido.",
-                },
-              })}
-            />
-            {errors.lastName && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.lastName.message}
-              </span>
-            )}
-          </Form.Group>
-        </div>
-
-        <div className="d-flex flex-column flex-md-row gap-3">
-          <Form.Group controlId="userAddress" className="flex-fill">
-            <Form.Label className={style.inputFieldLabel}>Dirección</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Dirección"
-              className={style.inputField}
-              {...register("address", {
-                minLength: {
-                  value: 2,
-                  message: "Mínimo requerido: 2 caracteres",
-                },
-                maxLength: {
-                  value: 40,
-                  message: "Máximo permitido: 40 caracteres",
-                },
-                pattern: {
-                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ1-9][a-zA-ZáéíóúÁÉÍÓÚñÑ'1-9 ]*$/,
-                  message: "Formato de dirección inválido.",
-                },
-              })}
-            />
-            {errors.address && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.address.message}
-              </span>
-            )}
-          </Form.Group>
-          <Form.Group controlId="userCity" className="flex-fill">
-            <Form.Label className={style.inputFieldLabel}>Ciudad</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Ciudad"
-              className={style.inputField}
-              {...register("city", {
-                minLength: {
-                  value: 2,
-                  message: "Mínimo requerido: 2 caracteres",
-                },
-                maxLength: {
-                  value: 40,
-                  message: "Máximo permitido: 40 caracteres",
-                },
-                pattern: {
-                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de ciudad inválido.",
-                },
-              })}
-            />
-            {errors.city && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.city.message}
-              </span>
-            )}
-          </Form.Group>
-        </div>
-
-        <div className="d-flex flex-column flex-md-row gap-3">
-          <Form.Group controlId="userProvince" className="flex-fill">
-            <Form.Label className={style.inputFieldLabel}>Provincia</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Provincia"
-              className={style.inputField}
-              {...register("province", {
-                minLength: {
-                  value: 2,
-                  message: "Mínimo requerido: 2 caracteres",
-                },
-                maxLength: {
-                  value: 40,
-                  message: "Máximo permitido: 40 caracteres",
-                },
-                pattern: {
-                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                  message: "Formato de provincia inválido.",
-                },
-              })}
-            />
-            {errors.province && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.province.message}
-              </span>
-            )}
-          </Form.Group>
-          <Form.Group controlId="userZipCode">
-            <Form.Label className={style.inputFieldLabel}>
-              Código Postal
-            </Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Código Postal"
-              className={style.inputField}
-              value={userData.zipCode}
-              {...register("zipCode", {
-                minLength: {
-                  value: 1,
-                  message: "Mínimo requerido: 1 caracteres",
-                },
-                maxLength: {
-                  value: 4,
-                  message: "Máximo permitido: 4 caracteres",
-                },
-                pattern: {
-                  value: /^\d{4}$/,
-                  message: "Formato de código postal incorrecto.",
-                },
-              })}
-            />
-            {errors.zipCode && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.zipCode.message}
-              </span>
-            )}
-          </Form.Group>
-        </div>
-
-        <Form.Group controlId="userPhone">
-          <Form.Label className={style.inputFieldLabel}>Teléfono</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Teléfono"
-            className={`${style.inputField}`}
-            {...register("phone", {
-              pattern: {
-                value:
-                  /^\+?(\d{1,3})?[-.\s]?(\d{1,4})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
-                message: "Formato de número de teléfono incorrecto.",
-              },
-            })}
-          />
-          {errors.phone && (
-            <span className={style.errorMessage}>
-              <i className="bi bi-exclamation-circle-fill me-1"></i>
-              {errors.phone.message}
-            </span>
-          )}
-        </Form.Group>
-
-        <button
-          type="submit"
-          className={`${style.formButton} ${style.saveButton} mt-2`}
-        >
-          Guardar cambios
-        </button>
-      </Form>
-    </>
-  );
+          </CustomButton>
+        </Form>
+      </>
+    );
+  }
 };
 
 const ContactUsForm = () => {

@@ -10,13 +10,14 @@
 }
 
 .button.disabled {
-  background-color: var(--gray-400);
+  filter: opacity(0.5);
   cursor: not-allowed;
 }
 
 .button.disabled:hover,
 .button.disabled:active {
-  background-color: var(--gray-400);
+  filter: opacity(0.5);
+  cursor: not-allowed;
 }
 
 .buttonLG {
@@ -61,4 +62,21 @@
 .secondaryButton:active {
   background-color: var(--orange-500);
   border-color: var(--orange-500);
+}
+
+.removeButton {
+  background-color: var(--gray-300);
+  border: 3px solid #DC3545;
+  color: #DC3545;
+  border-radius: 7px;
+}
+
+.removeButton:hover {
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
+}
+
+.removeButton:active {
+  background-color: #DC3545;
+  color: #FFF;
 }

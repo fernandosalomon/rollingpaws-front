@@ -7,13 +7,16 @@ const CustomButton = ({
   disabled,
   onClick,
   className,
+  type,
   ...rest
 }) => {
   return (
     <button
       onClick={onClick}
       className={`${className} ${style.button} ${size === "lg" ? style.buttonLG : ""} ${size === "md" ? style.buttonMD : ""} ${size === "sm" ? style.buttonSM : ""} ${variant === "callToAction" ? style.callToActionButton : ""
-        } ${variant === "secondary" ? style.secondaryButton : ""} ${variant === "transparent" ? "" : ""} ${disabled ? style.disabled : ""}`}
+        } ${variant === "secondary" ? style.secondaryButton : ""} ${variant === "transparent" ? "" : ""} ${variant === "remove" ? style.removeButton : ""
+        } ${disabled ? style.disabled : ""}`}
+      type={type ? type : "button"}
     >
       {children}
     </button>
