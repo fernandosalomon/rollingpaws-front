@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import style from "../styles/CustomCard.module.css";
 import Modal from "react-bootstrap/Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormC from "./shared/FormC";
 import clientAxios from "../helpers/clientAxios";
 import Swal from "sweetalert2";
@@ -97,8 +97,9 @@ const PetCard = ({ title, imageURL, petData, handleRefresh }) => {
         </Modal.Header>
         <Modal.Body>
           <FormC
-            variant="new-pet"
+            variant="edit-pet"
             handleCloseModal={handleCloseEditPetModal}
+            handleRefresh={handleRefresh}
             data={petData}
           />
         </Modal.Body>

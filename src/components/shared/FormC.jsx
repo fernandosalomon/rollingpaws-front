@@ -504,28 +504,12 @@ const SignInForm = ({
   );
 };
 
-const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
+const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
   const [petSex, setPetSex] = useState(0);
-  const [petImageURL, setPetImageURL] = useState(
-    "http://localhost:5173/src/assets/img/default-pet-image.png"
-  );
   const [isUploading, setIsUploading] = useState(false);
   const petImageRef = useRef(null)
 
-  const { register, handleSubmit, setValue, watch } = useForm();
-
-  useEffect(() => {
-    if (petData) {
-      setPetSex(petData.sex);
-      setValue("petName", petData.name);
-      setValue("petSpecie", petData.specie);
-      setValue("petBreed", petData.breed);
-      setValue("petSize", petData.size);
-      setValue("petAge", petData.age);
-      setValue("petHealth", petData.health);
-      setValue("petDescription", petData.observations);
-    }
-  }, []);
+  const { register, handleSubmit, watch } = useForm();
 
   const handleClickChangePetPic = () => {
     const fileInput = document.getElementById("inputFilePetImage");
@@ -535,10 +519,9 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
   const profilePicWatch = watch("petImage");
 
   useEffect(() => {
-    if (petImageRef.current !== null && profilePicWatch) {
+    if (petImageRef.current !== null && profilePicWatch > 0) {
       petImageRef.current.src = URL.createObjectURL(profilePicWatch[0]);
     }
-    console.log(profilePicWatch)
   }, [profilePicWatch])
 
   const onSubmit = handleSubmit(async (data) => {
@@ -563,13 +546,15 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
         },
       });
 
-      const formData = new FormData()
-      formData.append("image", data.petImage[0]);
-      const imageRes = await clientAxios.post(`/pet/image/${res.data._id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      if (data.petImage[0]) {
+        const formData = new FormData()
+        formData.append("image", data.petImage[0]);
+        const imageRes = await clientAxios.post(`/pet/image/${res.data._id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+      }
 
       handleCloseModal();
       await handleRefresh();
@@ -599,7 +584,7 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
         <div className="d-flex gap-5 align-items-center">
           <div className={style.petImageInputContainer}>
             <img
-              src={petImageURL}
+              src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1734985899/default-pet-image_abs6xm.png"
               alt="newPetImage"
               className={style.petImageInput}
               ref={petImageRef}
@@ -687,16 +672,283 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
               className={style.sexCheckButtonsContainer}
             >
               <Button
-                className={`${style.sexCheckButton} ${petSex === 0 ? style.active : ""
+                className={`${style.sexCheckButton} ${petSex === "0" ? style.active : ""
                   }`}
-                onClick={() => setPetSex(0)}
+                onClick={() => setPetSex("0")}
               >
                 Macho
               </Button>
               <Button
-                className={`${style.sexCheckButton} ${petSex === 1 ? style.active : ""
+                className={`${style.sexCheckButton} ${petSex === "1" ? style.active : ""
                   }`}
-                onClick={() => setPetSex(1)}
+                onClick={() => setPetSex("1")}
+              >
+                Hembra
+              </Button>
+            </ButtonGroup>
+          </div>
+          <div className="w-50">
+            <h5 className={style.inputFieldLabel}>Tamaño</h5>
+            <Form.Select
+              aria-label="newPetSize"
+              className={style.inputField}
+              {...register("petSize")}
+            >
+              <option value="1">Muy pequeño (0 - 1 Kg)</option>
+              <option value="2">Pequeño (1 a 10 Kg)</option>
+              <option value="3">Mediano (10 a 25 Kg)</option>
+              <option value="4">Grande (25 a 50 Kg)</option>
+              <option value="5">Muy Grande (más de 50 Kg)</option>
+            </Form.Select>
+          </div>
+        </div>
+        <div>
+          <div className="d-flex gap-2">
+            <div className="w-50">
+              <h5 className={style.inputFieldLabel}>Edad</h5>
+              <Form.Select
+                aria-label="newPetAge"
+                className={style.inputField}
+                {...register("petAge")}
+              >
+                <option value="1">Cachorro (0 - 1 Año)</option>
+                <option value="2">Joven (1 a 5 Años)</option>
+                <option value="3">Adulto (5 - 10 Años)</option>
+                <option value="4">Senior (Más de 10 Años)</option>
+              </Form.Select>
+            </div>
+            <div className="w-50">
+              <h5 className={style.inputFieldLabel}>Salud</h5>
+              <Form.Select
+                aria-label="newPetHealth"
+                className={style.inputField}
+                {...register("petHealth")}
+              >
+                <option value="1">Desconocido</option>
+                <option value="2">Mala</option>
+                <option value="3">Buena</option>
+                <option value="4">Exelente</option>
+              </Form.Select>
+            </div>
+          </div>
+        </div>
+        <Form.Group className="mb-3 w-100" controlId="newPetDescription">
+          <Form.Label className={style.inputFieldLabel}>Descripción</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Agrega una breve descripción de tu mascota"
+            style={{ height: "100px" }}
+            className={style.inputField}
+            {...register("petDescription")}
+          />
+        </Form.Group>
+        <CustomButton
+          variant="callToAction"
+          type="submit"
+          disabled={isUploading}
+        >
+          <span className="d-flex align-items-center justify-content-center">
+            {isUploading && <Spinner animation="border" role="status" className="me-2">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>}
+            <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
+          </span>
+        </CustomButton>
+
+      </Form>
+    </>
+  );
+};
+
+const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
+  const [petSex, setPetSex] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const petImageRef = useRef(null)
+
+  const { register, handleSubmit, setValue, watch } = useForm();
+
+  useEffect(() => {
+    if (petData) {
+      setPetSex(petData.sex);
+      setValue("petName", petData.name);
+      setValue("petSpecie", petData.specie);
+      setValue("petBreed", petData.breed);
+      setValue("petSize", petData.size);
+      setValue("petAge", petData.age);
+      setValue("petHealth", petData.health);
+      setValue("petDescription", petData.observations);
+    }
+  }, []);
+
+  const handleClickChangePetPic = () => {
+    const fileInput = document.getElementById("inputFilePetImage");
+    fileInput.click();
+  }
+
+  const profilePicWatch = watch("petImage");
+
+  useEffect(() => {
+    if (petImageRef.current !== null && profilePicWatch?.length > 0) {
+      petImageRef.current.src = URL.createObjectURL(profilePicWatch[0]);
+    }
+    console.log(profilePicWatch)
+  }, [profilePicWatch])
+
+  const onSubmit = handleSubmit(async (data) => {
+
+    setIsUploading(true);
+    const petUpdatedData = {
+      name: data.petName,
+      specie: data.petSpecie,
+      breed: data.petBreed,
+      sex: petSex,
+      size: data.petSize,
+      age: data.petAge,
+      health: data.petHealth,
+      observations: data.petDescription,
+    };
+
+    const token = sessionStorage.getItem("token");
+
+    try {
+      const res = await clientAxios.put(`/pet/${petData._id}`, petUpdatedData);
+
+      if (data.petImage[0]) {
+        const formData = new FormData()
+        formData.append("image", data.petImage[0]);
+        const imageRes = await clientAxios.post(`/pet/image/${petData._id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+      }
+
+      handleCloseModal();
+      await handleRefresh();
+      setIsUploading(false);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Mascota modificada con exito",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  return (
+    <>
+      <Form
+        onSubmit={onSubmit}
+        className={`${style.form} d-flex flex-column gap-2`}
+      >
+        <div className="d-flex gap-5 align-items-center">
+          <div className={style.petImageInputContainer}>
+            <img
+              src={petData.image || "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734985899/default-pet-image_abs6xm.png"}
+              alt="newPetImage"
+              className={style.petImageInput}
+              ref={petImageRef}
+            />
+          </div>
+          <div className="d-flex flex-column align-items-center justify-content-start">
+            <Form.Control
+              type="file"
+              placeholder="Imagen de mascota"
+              hidden
+              {...register("petImage")}
+              id="inputFilePetImage"
+            />
+            <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleClickChangePetPic}>
+              <span className="d-flex justify-content-center align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                  <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+                </svg>
+                <p className="mb-0">Subir una imagen</p>
+              </span>
+            </CustomButton>
+          </div>
+
+        </div>
+
+        <Form.Group className="mb-3 w-100" controlId="newPetName">
+          <Form.Label className={style.inputFieldLabel}>
+            Nombre de tu mascota
+          </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Agrega el nombre de tu mascota"
+            className={style.inputField}
+            {...register("petName", {
+              required: { value: true, message: "Campo requerido" },
+              minLength: {
+                value: 2,
+                message: "Mínimo requerido: 2 caracteres",
+              },
+              maxLength: {
+                value: 40,
+                message: "Máximo permitido: 40 caracteres",
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                message: "Formato de nombre inválido.",
+              },
+            })}
+          />
+        </Form.Group>
+
+        <div className="d-flex gap-2">
+          <div className="w-50">
+            <h5 className={style.inputFieldLabel}>Especie</h5>
+            <Form.Select
+              aria-label="PetSpecie"
+              className={style.inputField}
+              {...register("petSpecie")}
+            >
+              <option value="0">Perro</option>
+              <option value="1">Gato</option>
+              <option value="2">Ave</option>
+              <option value="3">Roedor</option>
+              <option value="4">Reptil</option>
+              <option value="5">Pez</option>
+              <option value="6">Anfibio</option>
+            </Form.Select>
+          </div>
+          <div className="w-50">
+            <h5 className={style.inputFieldLabel}>Raza</h5>
+            <Form.Control
+              aria-label="petBreed"
+              className={style.inputField}
+              {...register("petBreed")}
+            />
+          </div>
+        </div>
+
+        <div className="d-flex gap-2">
+          <div className="w-50">
+            <h5 className={style.inputFieldLabel}>Sexo</h5>
+            <ButtonGroup
+              aria-label="newPetSex"
+              className={style.sexCheckButtonsContainer}
+            >
+              <Button
+                className={`${style.sexCheckButton} ${petSex === "0" ? style.active : ""
+                  }`}
+                onClick={() => setPetSex("0")}
+              >
+                Macho
+              </Button>
+              <Button
+                className={`${style.sexCheckButton} ${petSex === "1" ? style.active : ""
+                  }`}
+                onClick={() => setPetSex("1")}
               >
                 Hembra
               </Button>
@@ -1574,7 +1826,15 @@ const FormC = ({
       )}
       {formType === "new-pet" && (
         <>
-          <PetForm
+          <NewPetForm
+            handleCloseModal={handleCloseModal}
+            handleRefresh={handleRefresh}
+          />
+        </>
+      )}
+      {formType === "edit-pet" && (
+        <>
+          <EditPetForm
             handleCloseModal={handleCloseModal}
             petData={data}
             handleRefresh={handleRefresh}
