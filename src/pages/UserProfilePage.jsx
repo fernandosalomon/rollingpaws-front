@@ -74,7 +74,7 @@ const MyPetsView = () => {
             <PetCard
               key={pet.name}
               title={pet.name}
-              imageURL="http://localhost:5173/src/assets/img/default-pet-image.png"
+              imageURL={pet.image}
               petData={pet}
               handleRefresh={handleRefreshPetList}
             />
@@ -127,9 +127,8 @@ const UserProfilePage = ({ viewParam }) => {
             <h4 className={style.optionListHeader}>Opciones</h4>
             <ul className={style.optionList}>
               <li
-                className={`${style.optionListItem} ${
-                  view === "user" ? style.optionListActive : ""
-                }`}
+                className={`${style.optionListItem} ${view === "user" ? style.optionListActive : ""
+                  }`}
                 onClick={() => {
                   setView("user");
                   navigate("/user-profile/information");
@@ -152,9 +151,8 @@ const UserProfilePage = ({ viewParam }) => {
                 <p className="m-0">Cuenta</p>
               </li>
               <li
-                className={`${style.optionListItem} ${
-                  view === "security" ? style.optionListActive : ""
-                }`}
+                className={`${style.optionListItem} ${view === "security" ? style.optionListActive : ""
+                  }`}
                 onClick={() => {
                   setView("security");
                   navigate("/user-profile/security");
@@ -173,9 +171,8 @@ const UserProfilePage = ({ viewParam }) => {
                 <p className="m-0">Seguridad</p>
               </li>
               <li
-                className={`${style.optionListItem} ${
-                  view === "pets" ? style.optionListActive : ""
-                }`}
+                className={`${style.optionListItem} ${view === "pets" ? style.optionListActive : ""
+                  }`}
                 onClick={() => {
                   setView("pets");
                   navigate("/user-profile/pets");
@@ -187,9 +184,8 @@ const UserProfilePage = ({ viewParam }) => {
                 <p className="m-0">Mis mascotas</p>
               </li>
               <li
-                className={`${style.optionListItem} ${
-                  view === "notifications" ? style.optionListActive : ""
-                }`}
+                className={`${style.optionListItem} ${view === "notifications" ? style.optionListActive : ""
+                  }`}
                 onClick={() => {
                   setView("notifications");
                   navigate("/user-profile/notifications");

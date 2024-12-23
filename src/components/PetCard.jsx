@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import FormC from "./shared/FormC";
 import clientAxios from "../helpers/clientAxios";
 import Swal from "sweetalert2";
+import Image from "react-bootstrap/Image"
 
 const PetCard = ({ title, imageURL, petData, handleRefresh }) => {
   const [showEditPetModal, setShowEditPetModal] = useState(false);
@@ -45,7 +46,7 @@ const PetCard = ({ title, imageURL, petData, handleRefresh }) => {
     <>
       <Card className={style.cardContainer}>
         <div className={style.cardImageContainer}>
-          <img src={imageURL} alt={title} className={style.cardImage} />
+          <Image src={imageURL} alt={title} className={style.cardImage} />
         </div>
         <Card.Body className="px-0">
           <Card.Title className={style.cardTitle}>{title}</Card.Title>

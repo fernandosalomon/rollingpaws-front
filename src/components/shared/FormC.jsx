@@ -509,8 +509,10 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
   const [petImageURL, setPetImageURL] = useState(
     "http://localhost:5173/src/assets/img/default-pet-image.png"
   );
+  const [isUploading, setIsUploading] = useState(false);
+  const petImageRef = useRef(null)
 
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
 
   useEffect(() => {
     if (petData) {
@@ -525,7 +527,22 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
     }
   }, []);
 
+  const handleClickChangePetPic = () => {
+    const fileInput = document.getElementById("inputFilePetImage");
+    fileInput.click();
+  }
+
+  const profilePicWatch = watch("petImage");
+
+  useEffect(() => {
+    if (petImageRef.current !== null && profilePicWatch) {
+      petImageRef.current.src = URL.createObjectURL(profilePicWatch[0]);
+    }
+    console.log(profilePicWatch)
+  }, [profilePicWatch])
+
   const onSubmit = handleSubmit(async (data) => {
+    setIsUploading(true);
     const petData = {
       name: data.petName,
       specie: data.petSpecie,
@@ -545,8 +562,18 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
           authtoken: token,
         },
       });
+
+      const formData = new FormData()
+      formData.append("image", data.petImage[0]);
+      const imageRes = await clientAxios.post(`/pet/image/${res.data._id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
       handleCloseModal();
       await handleRefresh();
+      setIsUploading(false);
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -575,42 +602,28 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
               src={petImageURL}
               alt="newPetImage"
               className={style.petImageInput}
+              ref={petImageRef}
             />
           </div>
-          <div className="d-flex flex-column">
-            <button
-              className={`${style.formButton} d-flex gap-2 align-items-center`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-image"
-                viewBox="0 0 16 16"
-              >
-                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
-              </svg>
-              <p className="m-0">Cambiar Imagen</p>
-            </button>
-            <button
-              className={`${style.formButton} ${style.removeImageButton} d-flex gap-2 align-items-center`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-trash"
-                viewBox="0 0 16 16"
-              >
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-              </svg>
-              <p className="m-0">Eliminar Imagen</p>
-            </button>
+          <div className="d-flex flex-column align-items-center justify-content-start">
+            <Form.Control
+              type="file"
+              placeholder="Imagen de mascota"
+              hidden
+              {...register("petImage")}
+              id="inputFilePetImage"
+            />
+            <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleClickChangePetPic}>
+              <span className="d-flex justify-content-center align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                  <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+                </svg>
+                <p className="mb-0">Subir una imagen</p>
+              </span>
+            </CustomButton>
           </div>
+
         </div>
 
         <Form.Group className="mb-3 w-100" controlId="newPetName">
@@ -744,23 +757,19 @@ const PetForm = ({ handleCloseModal, petData, handleRefresh }) => {
             {...register("petDescription")}
           />
         </Form.Group>
-        <div className="w-100">
-          <button
-            type="submit"
-            className={`${style.formButton} ${style.saveButton}`}
-          >
-            Agregar
-          </button>
-          <button
-            className={`${style.formButton} ${style.cancelButton}`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleCloseModal();
-            }}
-          >
-            Cancelar
-          </button>
-        </div>
+        <CustomButton
+          variant="callToAction"
+          type="submit"
+          disabled={isUploading}
+        >
+          <span className="d-flex align-items-center justify-content-center">
+            {isUploading && <Spinner animation="border" role="status" className="me-2">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>}
+            <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
+          </span>
+        </CustomButton>
+
       </Form>
     </>
   );
@@ -835,10 +844,9 @@ const UserProfileForm = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (profilePicRef.current !== null && profilePicWatch.length > 0) {
+    if (profilePicRef.current !== null && profilePicWatch) {
       profilePicRef.current.src = URL.createObjectURL(profilePicWatch[0]);
     }
-    console.log(profilePicWatch.length)
   }, [profilePicWatch])
 
   const onSubmit = handleSubmit(async (data) => {

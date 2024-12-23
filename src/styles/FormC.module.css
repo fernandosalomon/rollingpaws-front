@@ -134,12 +134,11 @@
   height: 200px;
   object-fit: cover;
   overflow: hidden;
+  border-radius: 50%;
 }
 
 .petImageInput {
   width: 110%;
-  border-radius: 50%;
-  margin: 0 auto;
 }
 
 .specieCheck {
