@@ -7,13 +7,11 @@ import { useEffect, useRef, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { InputGroup, Spinner } from "react-bootstrap";
+import { InputGroup } from "react-bootstrap";
 import CustomCalendar from "../CustomCalendar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CustomButton from "./CustomButton";
-import Col from "react-bootstrap/Col"
-import Row from "react-bootstrap/Row"
 import Image from "react-bootstrap/Image"
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -2249,11 +2247,10 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             <div className={style.timePickerContainer}>
               {availableHours.map((hour) => (
                 <p
-                  className={`${style.timePickerContent} ${
-                    hour === `${selectedHour}:${selectedMinute}`
-                      ? style.active
-                      : ""
-                  }`}
+                  className={`${style.timePickerContent} ${hour === `${selectedHour}:${selectedMinute}`
+                    ? style.active
+                    : ""
+                    }`}
                   key={hour}
                   onClick={() => {
                     handleSetTime(hour);
@@ -2268,12 +2265,12 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
         <div
           className={
             selectedDay &&
-            selectedMonth !== null &&
-            selectedYear &&
-            selectedHour &&
-            selectedMinute &&
-            selectedPet &&
-            selectedDoctor
+              selectedMonth !== null &&
+              selectedYear &&
+              selectedHour &&
+              selectedMinute &&
+              selectedPet &&
+              selectedDoctor
               ? "d-block"
               : "d-none"
           }
@@ -2374,8 +2371,8 @@ const EditAppointmentForm = ({
             selectedMonth,
             selectedDate,
             Number(selectedHour) -
-              Number(new Date().getTimezoneOffset()) / 60 +
-              1,
+            Number(new Date().getTimezoneOffset()) / 60 +
+            1,
             selectedMinute
           ),
           doctor: data.veterinary,
@@ -2457,8 +2454,7 @@ const EditAppointmentForm = ({
 
     setValue(
       "time",
-      `${selectedHour}:${
-        selectedMinute < 10 && selectedMinute > 0 ? "0" : ""
+      `${selectedHour}:${selectedMinute < 10 && selectedMinute > 0 ? "0" : ""
       }${selectedMinute}`
     );
   }, [
@@ -2562,11 +2558,10 @@ const EditAppointmentForm = ({
               <div className={style.timePickerContainer}>
                 {availableHours.map((hour) => (
                   <p
-                    className={`${style.timePickerContent} ${
-                      hour === `${selectedHour}:${selectedMinute}`
-                        ? style.active
-                        : ""
-                    }`}
+                    className={`${style.timePickerContent} ${hour === `${selectedHour}:${selectedMinute}`
+                      ? style.active
+                      : ""
+                      }`}
                     key={hour}
                     onClick={() => {
                       handleSetTime(hour);

@@ -12,7 +12,7 @@ import AboutPlans from "../components/AboutPlans";
 import Error404 from "../pages/Error404";
 import Pets from "../components/Pets";
 import UserProfilePage from "../pages/UserProfilePage";
-import Appointments from "../pages/Appointments";
+import AdminAppointments from "../components/AdminAppointments";
 import style from "../styles/PageView.module.css"
 import Store from "../components/Store";
 import ProductDescription from "../components/ProductDescription";
@@ -31,7 +31,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
 
-        <Route path="/admin/appointment" element={<AdminPage />} />
+        <Route path="/admin/appointment" element={<AdminAppointments />} />
         <Route path="/admin/users" element={<AdminUser />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route
