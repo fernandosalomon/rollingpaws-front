@@ -16,6 +16,7 @@ import style from "../styles/PageView.module.css"
 import Store from "../components/Store";
 import ProductDescription from "../components/ProductDescription";
 import AdminPage from "../pages/AdminPage";
+import AdminUser from "../components/AdminUser";
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
@@ -28,6 +29,9 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+
+        <Route path="/admin/appointment" element={<AdminPage />} />
+        <Route path="/admin/users" element={<AdminUser />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route
           path="/user-profile/information"
@@ -45,7 +49,7 @@ const AnimatedRoutes = () => {
           path="/user-profile/notifications"
           element={<UserProfilePage viewParam="notification" />}
         />
-        <Route path="/pets" element={<Pets />} />
+        <Route path="/mascotas" element={<Pets />} />
         <Route path="/tienda/:idProducto" element={<PageWrapper><ProductDescription /></PageWrapper>} />
         <Route path="/tienda" element={<PageWrapper><Store /></PageWrapper>} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />

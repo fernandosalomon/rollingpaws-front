@@ -13,7 +13,6 @@ import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
 import Image from "react-bootstrap/Image"
 import Spinner from 'react-bootstrap/Spinner';
-import { Button, ButtonGroup } from "react-bootstrap";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
