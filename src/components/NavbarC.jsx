@@ -143,7 +143,7 @@ const NavbarC = () => {
               {userRole === "admin" ? (
                 <Nav className={style.NavLinks}>
                   <Link to="/admin/users">Usuarios</Link>
-                  <Link to="/admin/appointments">Turnos</Link>
+                  <Link to="/admin/appointment">Turnos</Link>
                 </Nav>
               ) : (
                 <Nav className={style.NavLinks}>
@@ -168,9 +168,10 @@ const NavbarC = () => {
               )}
               {userRole === "user" && (
                 <div className="d-flex align-items-center gap-2">
-                  <ButtonC
+                  <CustomButton
                     className="d-flex align-items-center ms-md-auto ms-0 mt-3"
                     onClick={handleShowNewAppointment}
+                    variant="transparent"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -184,8 +185,8 @@ const NavbarC = () => {
                       <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
                     </svg>
                     <p className="m-0">Pedir Turno</p>
-                  </ButtonC>
-                  <Link to="/store">
+                  </CustomButton>
+                  <Link to="/tienda">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -202,7 +203,7 @@ const NavbarC = () => {
                     width="24"
                     height="24"
                     fill="currentColor"
-                    className="bi bi-bell-fill"
+                    className="bi bi-bell-fill ms-3"
                     viewBox="0 0 16 16"
                     onClick={() => navigate("/user-profile/notifications")}
                     style={{ cursor: "pointer", marginRight: "1rem" }}
