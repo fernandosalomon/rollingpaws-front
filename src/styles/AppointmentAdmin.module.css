@@ -1,7 +1,7 @@
 .container {
   display: flex;
   background-color: #fff;
-  width: 80%;
+  width: 90%;
   height: 80vh;
   margin: 0 auto;
   padding: 1rem;
@@ -70,14 +70,14 @@
   z-index: 1;
 }
 
-.tableHeader > tr > th {
+.tableHeader>tr>th {
   height: 64px;
   width: 150px;
   min-width: 150px;
   text-align: center;
 }
 
-.tableBody > tr > td {
+.tableBody>tr>td {
   position: relative;
   height: 128px;
   width: 150px;
@@ -123,16 +123,16 @@
   font-weight: 300;
 }
 
-.toastContainer > div {
+.toastContainer>div {
   max-width: 350px !important;
   background-color: #fffbf5;
 }
 
-.toastContainer > div > div {
+.toastContainer>div>div {
   background-color: #fffbf5 !important;
 }
 
-.toastContainer > div > div > button:focus {
+.toastContainer>div>div>button:focus {
   box-shadow: none;
 }
 
@@ -141,7 +141,7 @@
   background-color: transparent;
 }
 
-.menuBodyRow > td {
+.menuBodyRow>td {
   padding: 0.5rem 0 !important;
   background-color: transparent;
   vertical-align: middle;
@@ -156,4 +156,14 @@
   background-color: transparent;
   padding: 3.5px;
   margin-left: 12px;
+}
+
+@media (max-width: 576px) {
+  .sideA {
+    display: none;
+  }
+
+  .container {
+    width: 100%;
+  }
 }
