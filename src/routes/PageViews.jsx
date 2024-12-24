@@ -15,6 +15,7 @@ import UserProfilePage from "../pages/UserProfilePage";
 import style from "../styles/PageView.module.css"
 import Store from "../components/Store";
 import ProductDescription from "../components/ProductDescription";
+import AdminPage from "../pages/AdminPage";
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
@@ -27,6 +28,7 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        <Route path="/admin" element={<AdminPage />} />
         <Route
           path="/user-profile/information"
           element={<UserProfilePage viewParam="user" />}
@@ -58,6 +60,7 @@ const AnimatedRoutes = () => {
     </AnimatePresence>
   )
 }
+
 
 
 const PageViews = () => {

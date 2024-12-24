@@ -1,0 +1,374 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tableFit {
+  width: fit-content !important;
+  table-layout: auto !important;
+}
+
+.columnLabel {
+  vertical-align: middle;
+  padding-left: 1rem !important;
+}
+
+.resultsPerPageSelect {
+  width: 70px;
+  font-size: 1.5rem;
+  border: 1px solid #f0f0f0 !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+.resultsPerPageWrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.resultsPerPageLabel {
+  margin: 0;
+  text-wrap: nowrap;
+}
+
+.tableContainer {
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.table {
+  width: 100%;
+}
+
+.tableHeaderWrapper {
+  border-bottom: 3px solid #f0f0f0;
+}
+
+.tableColumnLabel {
+  padding: 1rem 0.5rem;
+  text-transform: capitalize;
+  font-size: 1.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableContentRow {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tableContentRow:hover {
+  background-color: #f0f0f0;
+}
+
+.tableContentCell {
+  padding: 1rem 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.5rem;
+}
+
+.searchbarWrapper {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.searchbar {
+  max-width: 500px;
+  margin-left: auto;
+}
+
+.searchbarInput {
+  border: 1px solid #f0f0f0 !important;
+  box-shadow: none !important;
+  outline: none;
+  font-size: 1.5rem;
+}
+
+.paginationWrapper {
+  width: 100%;
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  align-items: center;
+  justify-content: end;
+}
+
+.paginationControlButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.paginationControlButton {
+  border: 0;
+  background-color: transparent;
+}
+
+.paginationLabel {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.buttonCRUD {
+  border: 0;
+  background-color: transparent;
+  padding: 1rem;
+}
+
+.smallTableWrapper {
+  max-width: 320px;
+  border: 3px solid #f2f2f2;
+  border-radius: 14px;
+}
+
+.smallTableHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 1rem 0.5rem;
+}
+
+.smallTableContainer {
+  width: 300px;
+}
+
+.smallTableLabelCell {
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  padding: 1rem 1.5rem 1rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  text-wrap: nowrap;
+  font-size: clamp(1.2rem, 1vw, 1.6rem);
+}
+
+.smallTableContentCell {
+  font-family: var(--font-poppins);
+  padding: 1rem 1.5rem 1rem 0.5rem;
+  text-wrap: nowrap;
+  font-size: clamp(1.2rem, 1vw, 1.6rem);
+}
+
+.smallTableHiddenData {
+  display: none;
+}
+
+.smallTableShowData {
+  display: block;
+}
+
+.smallTableShowDataButton {
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #f2f2f2;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.smallTableCrudButtonsContainer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.smallTableCrudButton {
+  border: 0;
+  padding: 1rem;
+  border-radius: 7px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.deleteButton {
+  background-color: rgb(250, 193, 185);
+  color: #dc3545;
+}
+
+.editButton {
+  background-color: rgb(176, 205, 243);
+  color: #0d6efd;
+}
+
+.CRUDbuttonWrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+/* AQUI EMPIEZA DE NUEVO */
+
+.tableWideContainer {
+  display: block;
+}
+.tableSmallContainer {
+  display: none;
+}
+
+.tableRowHeader {
+  border-bottom: 2px solid #eaeaea;
+}
+
+.tableCellHeader {
+  font-weight: 500 !important;
+}
+
+.tableSmall {
+  border: 2px solid #f2f2f2;
+}
+
+.tableRow {
+  border-bottom: 2px solid #f2f2f2;
+}
+
+.tableCell {
+  vertical-align: middle;
+  text-wrap: nowrap;
+  font-family: var(--font-poppins);
+  font-weight: 300;
+  padding: 1.5rem !important;
+}
+
+.customTableButton {
+  border: 0;
+  background-color: transparent;
+  padding: 1rem;
+  border-radius: 7px;
+}
+
+.moreInfoButton {
+  background-color: #9affb1;
+}
+
+.deleteButton {
+  background-color: #f79ca7;
+}
+
+.editButton {
+  background-color: #9fc6ff;
+}
+
+.banUserButton {
+  background-color: #ffe79a;
+}
+
+.hidden {
+  display: none;
+}
+
+.showMoreInfoButton {
+  text-align: center;
+  cursor: pointer;
+}
+
+.querySelect {
+  text-wrap: nowrap;
+  width: auto;
+  height: 36px;
+}
+
+.queryInput {
+  height: 36px;
+}
+
+.queryInput:active,
+.queryInput:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #eaeaea !important;
+}
+
+.searchIcon {
+  height: 36px;
+}
+
+.paginationItem {
+  font-size: 1.4rem !important;
+}
+
+.userCardTable > tbody > tr,
+.userCardTable > tbody > tr > td {
+  border: 0 !important;
+}
+
+.userCardName {
+  font-size: 1.8rem;
+  font-weight: 300 !important;
+  margin-bottom: 0 !important;
+  margin-top: 1.5rem;
+}
+
+.horizontalBar {
+  width: 100%;
+  height: 3x;
+  border-bottom: 3px solid #eaeaea;
+  margin: 1rem 0;
+}
+
+.CRUDviewModal {
+  max-width: 600px;
+}
+
+.userCardRole {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--main-color) !important;
+  margin-bottom: 1rem !important;
+}
+
+.userCardLabel {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #a19f9f !important;
+  text-wrap: nowrap;
+}
+
+.userCardData {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-wrap: nowrap;
+}
+
+.petCardsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  margin-top: 1rem;
+  max-height: 300px;
+}
+
+.petCardTitle {
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.petCardContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 786px) {
+  .tableWideContainer {
+    display: none;
+  }
+  .tableSmallContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
