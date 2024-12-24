@@ -6,7 +6,8 @@
   font-family: var(--font-poppins);
   font-size: 2.8rem;
   margin-bottom: 1rem;
-  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f2f2f2;
 }
 
 .formLabel {
@@ -51,9 +52,9 @@
 }
 
 .formSubmitButton {
-  border-radius: 4px;
-  margin: 0.5rem 0;
-  width: 100%;
+  border-radius: 4px !important;
+  margin: 0.5rem 0 !important;
+  width: 100% !important;
 }
 
 .errorMessage {
@@ -378,7 +379,13 @@
   background-color: #f2f2f2;
 }
 
-.inputField:focus {
+.textArea {
+  filter: drop-shadow(0 0 1px #818181);
+  background-color: #f2f2f2;
+}
+
+.inputField:focus,
+.textArea:focus {
   border-color: var(--main-color-lighter);
   box-shadow: 0 0 0 0.25rem rgba(255, 130, 37, 0.4);
   filter: none;
@@ -429,4 +436,52 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
+}
+
+.datePickerContainer {
+  display: flex;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.timePickerContainer {
+  height: 350px;
+  width: 150px;
+  overflow-y: scroll;
+  border-right: 3px solid #eaeaea;
+  border-bottom: 3px solid #eaeaea;
+}
+
+.timePickerHeader {
+  text-align: center;
+  background-color: #f2f2f2;
+  padding: 1rem 0;
+  margin: 0;
+  border-bottom: 3px solid #eaeaea;
+  border-top: 3px solid #eaeaea;
+  border-right: 3px solid #eaeaea;
+}
+
+.timePickerContent {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+}
+
+.timePickerContent:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+.newAppointmentConfirmText {
+  text-align: center;
+  margin: 2rem 0;
+  font-size: 1.2rem;
+  font-family: var(--font-poppins);
 }

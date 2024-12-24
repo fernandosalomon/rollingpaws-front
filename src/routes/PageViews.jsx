@@ -12,6 +12,7 @@ import AboutPlans from "../components/AboutPlans";
 import Error404 from "../pages/Error404";
 import Pets from "../components/Pets";
 import UserProfilePage from "../pages/UserProfilePage";
+import Appointments from "../pages/Appointments";
 import style from "../styles/PageView.module.css"
 import Store from "../components/Store";
 import ProductDescription from "../components/ProductDescription";

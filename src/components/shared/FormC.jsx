@@ -7,7 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import clientAxios from "../../helpers/clientAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { InputGroup } from "react-bootstrap";
+import { InputGroup, Spinner } from "react-bootstrap";
+import CustomCalendar from "../CustomCalendar";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import CustomButton from "./CustomButton";
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
@@ -2036,6 +2039,589 @@ const UserProfileForm = () => {
   }
 };
 
+const NewAppointmentForm = ({ handleCloseModal }) => {
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedHour, setSelectedHour] = useState(null);
+  const [selectedMinute, setSelectedMinute] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [petList, setPetList] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    watch,
+  } = useForm();
+
+  const handleSetDate = (year, month, date) => {
+    setSelectedDay(date);
+    setSelectedMonth(month);
+    setSelectedYear(year);
+  };
+
+  const handleSetTime = (time) => {
+    const [hour, minutes] = time.split(":");
+    setSelectedHour(hour);
+    setSelectedMinute(minutes);
+  };
+
+  const availableHours = [
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+  ];
+
+  const doctorsList = [
+    {
+      name: "Jonh Doe",
+    },
+    {
+      name: "Jane Doe",
+    },
+    {
+      name: "Alice Doe",
+    },
+  ];
+
+  const onSubmit = handleSubmit(async (data) => {
+    const newAppointmentData = {
+      date: new Date(
+        selectedYear,
+        selectedMonth,
+        selectedDay,
+        selectedHour,
+        selectedMinute
+      ),
+      pet: petList[data.pet]._id || null,
+      doctor: data.doctor,
+      observations: data.observations,
+    };
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      Swal.fire({
+        title: "Oops! No sabemos como llegaste aquí",
+        text: "Tienes que estar identificado para reservar una cita",
+        icon: "error",
+      });
+      return null;
+    } else {
+      try {
+        const newAppointment = await clientAxios.post(
+          "/appointments",
+          newAppointmentData,
+          { headers: { authtoken: token } }
+        );
+        if (newAppointment) {
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Tu cita fue reservada con exito",
+            text: "Te esperamos",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          handleCloseModal();
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Tu cita no se pudo reservar",
+          text: `Error: ${error.response.data}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    }
+  });
+
+  useEffect(() => {
+    const getPetList = async () => {
+      const token = sessionStorage.getItem("token");
+      try {
+        const petList = await clientAxios.get("/pet/", {
+          headers: {
+            authtoken: token,
+          },
+        });
+        return petList.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    (async function () {
+      const pets = await getPetList();
+      setPetList(pets);
+    })();
+  }, []);
+
+  const petSelectWatch = watch("pet");
+  const doctorSelectWatch = watch("doctor");
+
+  useEffect(() => {
+    setSelectedPet(petSelectWatch);
+    setSelectedDoctor(doctorSelectWatch);
+  }, [petSelectWatch, doctorSelectWatch]);
+
+  return (
+    <>
+      <h2 className={style.formTitle}>Nuevo turno</h2>
+      <Form className={style.form} onSubmit={onSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label className={style.formLabel}>
+            Seleccione la mascota
+          </Form.Label>
+          <Form.Select
+            aria-label="Select Pet"
+            className={style.formInput}
+            {...register("pet")}
+          >
+            <option>Seleccione su mascota...</option>
+            {petList.map((pet, index) => (
+              <option value={index}>{pet.name}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label className={style.formLabel}>
+            Seleccione el veterinario
+          </Form.Label>
+          <Form.Select
+            aria-label="Select Doctor"
+            className={style.formInput}
+            {...register("doctor")}
+          >
+            <option>Seleccione al veterinario...</option>
+            {doctorsList.map((doctor) => (
+              <option value={doctor.name}>{doctor.name}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label className={style.formLabel}>
+            Motivo de la visita
+          </Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            {...register("observations")}
+            className={style.textArea}
+          />
+        </Form.Group>
+        <div className={style.datePickerContainer}>
+          <CustomCalendar
+            border
+            handleSetDate={handleSetDate}
+            allowPreviousDates={false}
+          />
+          <div>
+            <h4 className={style.timePickerHeader}>Horarios</h4>
+            <div className={style.timePickerContainer}>
+              {availableHours.map((hour) => (
+                <p
+                  className={`${style.timePickerContent} ${
+                    hour === `${selectedHour}:${selectedMinute}`
+                      ? style.active
+                      : ""
+                  }`}
+                  key={hour}
+                  onClick={() => {
+                    handleSetTime(hour);
+                  }}
+                >
+                  {hour}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div
+          className={
+            selectedDay &&
+            selectedMonth !== null &&
+            selectedYear &&
+            selectedHour &&
+            selectedMinute &&
+            selectedPet &&
+            selectedDoctor
+              ? "d-block"
+              : "d-none"
+          }
+        >
+          <p className={style.newAppointmentConfirmText}>
+            ¿Confirma la cita para el día
+            <span className="fw-bold mx-1">
+              {selectedDay}/{selectedMonth + 1}/{selectedYear}
+            </span>
+            a las
+            <span className="fw-bold mx-1">
+              {selectedHour}:{selectedMinute}
+            </span>
+            hs. para su mascota
+            <span className="fw-bold mx-1">
+              {petList[petSelectWatch]?.name}
+            </span>
+            con el veterinario
+            <span className="fw-bold mx-1">{doctorSelectWatch}</span>?
+          </p>
+          <div className="d-flex gap-2 w-100 justify-content-center">
+            <button
+              className={`${style.formButton} ${style.saveButton}`}
+              type="submit"
+            >
+              Confirmar
+            </button>
+            <button
+              className={`${style.formButton} ${style.cancelButton}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleCloseModal();
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </Form>
+    </>
+  );
+};
+
+const EditAppointmentForm = ({
+  appointmentData,
+  handleCloseModal,
+  handleUpdateCalendar,
+}) => {
+  const { register, handleSubmit, setValue, watch } = useForm();
+
+  const [vetList, setVetList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [focusDateTimeInput, setFocusDateTimeInput] = useState(false);
+  const [selectedVet, setSelectedVet] = useState(appointmentData.doctor._id);
+  const [availableHours, setAvailableHours] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(
+    new Date(appointmentData.startDate).getFullYear()
+  );
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date(appointmentData.startDate).getMonth()
+  );
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(appointmentData.startDate).getDate()
+  );
+  const [selectedHour, setSelectedHour] = useState(
+    new Date(appointmentData.startDate).getUTCHours()
+  );
+  const [selectedMinute, setSelectedMinute] = useState(
+    new Date(appointmentData.startDate).getMinutes()
+  );
+
+  const handleSetDate = (year, month, day) => {
+    setSelectedYear(year);
+    setSelectedMonth(month);
+    setSelectedDate(day);
+  };
+
+  const handleSetTime = (time) => {
+    const [hour, minutes] = time.split(":");
+    setSelectedHour(hour);
+    setSelectedMinute(minutes);
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await clientAxios.put(
+        `/appointments/${appointmentData._id}`,
+        {
+          startDate: new Date(
+            selectedYear,
+            selectedMonth,
+            selectedDate,
+            Number(selectedHour) - Number(new Date().getTimezoneOffset()) / 60,
+            selectedMinute
+          ),
+          endDate: new Date(
+            selectedYear,
+            selectedMonth,
+            selectedDate,
+            Number(selectedHour) -
+              Number(new Date().getTimezoneOffset()) / 60 +
+              1,
+            selectedMinute
+          ),
+          doctor: data.veterinary,
+          observations: data.observations,
+        }
+      );
+      if (res.status === 200) {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Tu cita fue modificada con exito",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        handleCloseModal();
+        handleUpdateCalendar();
+      } else {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Hubo un problema tratando de modificar la cita",
+          text: `Error: ${res.data.message}`,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al intentar modificar la cita",
+        text: `Error: ${error?.response.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  });
+
+  useEffect(() => {
+    const fetchVets = async () => {
+      try {
+        setIsLoading(true);
+        const res = await clientAxios.get("/doctor/");
+        setVetList(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchVets();
+  }, []);
+
+  useEffect(() => {
+    setValue("veterinary", selectedVet);
+    setValue("observations", appointmentData.observations);
+  }, [appointmentData]);
+
+  useEffect(() => {
+    const appointmentDate = new Date(appointmentData.startDate);
+    setValue("date", `${selectedDate}/${selectedMonth + 1}/${selectedYear}`);
+
+    const fetchAvailableHours = async () => {
+      try {
+        setIsLoading(true);
+        const res = await clientAxios.get(
+          `/doctor/clinic-hours/${selectedVet}&${new Date(
+            selectedYear,
+            selectedMonth,
+            selectedDate
+          )}`
+        );
+        setAvailableHours(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAvailableHours();
+
+    setValue(
+      "time",
+      `${selectedHour}:${
+        selectedMinute < 10 && selectedMinute > 0 ? "0" : ""
+      }${selectedMinute}`
+    );
+  }, [
+    appointmentData,
+    selectedVet,
+    selectedYear,
+    selectedMonth,
+    selectedDate,
+    selectedHour,
+    selectedMinute,
+  ]);
+
+  if (isLoading) {
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
+  } else {
+    return (
+      <Form onSubmit={onSubmit}>
+        <Form.Group as={Row} className="mb-3" controlId="formEditAppointment">
+          <Form.Label
+            column
+            sm={2}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
+              id="stethoscope"
+            >
+              <path
+                fill="#444"
+                d="M5.7 15.2c.3.3 1 .8 1.8.8 2.7 0 3.3-2 3.4-3.6.2-2.3.8-2.2 1.1-2.2.7 0 .9.4.9 1.1-.6.4-1 1-1 1.7 0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2h-.2c-.2-.9-.7-1.8-1.8-1.8-1.6 0-2 1.4-2.1 2.9C9.7 14.2 9 15 7.5 15c-.4 0-.8-.2-1-.4-.6-.5-.5-2.3-.5-2.3 2 0 4-1.8 4.7-4.8l-.2-.1c.3-1.2.5-2.6.5-3.6 0-1.1-.3-1.9-1-2.5S8.5.5 7.9.5C7.7.2 7.4 0 7 0c-.5 0-1 .4-1 1s.4 1 1 1c.4 0 .7-.2.8-.5.5 0 1 .2 1.5.6s.7.9.7 1.7c0 .9-.2 2.2-.5 3.5l-.2-.1C9 8.3 8 10.8 6 10.8H5c-2 0-3-2.5-3.3-3.6l-.2.1C1.2 6 1 4.7 1 3.8c0-.8.2-1.3.7-1.7.4-.4 1-.5 1.5-.6.1.3.4.5.8.5.6 0 1-.4 1-1s-.4-1-1-1c-.4 0-.7.2-.9.5-.6 0-1.4.2-2.1.8S0 2.7 0 3.8c0 1 .2 2.4.5 3.7l-.2.1C1 10.5 3 12.3 5 12.3c0 0-.1 2.2.7 2.9zM14 14c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.5 1-1 1z"
+              ></path>
+            </svg>
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Select
+              aria-label="Doctor Input"
+              className={style.formInput}
+              {...register("veterinary")}
+            >
+              {vetList.map((doctor) => (
+                <option
+                  key={crypto.randomUUID()}
+                  value={doctor._id}
+                  onClick={() => setSelectedVet(doctor._id)}
+                >{`Dr/a. ${doctor.user.firstName} ${doctor.user.lastName}`}</option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="formEditAppointment">
+          <Form.Label
+            column
+            sm={2}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              className="bi bi-clock"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+            </svg>
+          </Form.Label>
+          <Col sm={6}>
+            <Form.Control
+              type="text"
+              className={style.inputField}
+              {...register("date")}
+              onFocus={() => setFocusDateTimeInput(true)}
+            />
+          </Col>
+          <Col sm={4}>
+            <Form.Control
+              type="text"
+              className={style.inputField}
+              {...register("time")}
+              onFocus={() => setFocusDateTimeInput(true)}
+            />
+          </Col>
+          {focusDateTimeInput && (
+            <div className="mt-4 d-flex">
+              <CustomCalendar
+                border
+                selectedDate={
+                  new Date(selectedYear, selectedMonth, selectedDate)
+                }
+                handleSetDate={handleSetDate}
+              />
+              <div className={style.timePickerContainer}>
+                {availableHours.map((hour) => (
+                  <p
+                    className={`${style.timePickerContent} ${
+                      hour === `${selectedHour}:${selectedMinute}`
+                        ? style.active
+                        : ""
+                    }`}
+                    key={hour}
+                    onClick={() => {
+                      handleSetTime(hour);
+                    }}
+                  >
+                    {hour}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="formEditAppointment">
+          <Form.Label
+            column
+            sm={2}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              className="bi bi-justify-left"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"
+              />
+            </svg>
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              className={style.textArea}
+              {...register("observations")}
+            />
+          </Col>
+        </Form.Group>
+        <div className="d-flex justify-content-end">
+          <button
+            className={`${style.formButton} ${style.saveButton} me-0 w-50`}
+            type="submit"
+          >
+            Guardar
+          </button>
+        </div>
+      </Form>
+    );
+  }
+};
+
 const ContactUsForm = () => {
 
   const {
@@ -2368,6 +2954,7 @@ const FormC = ({
   handleNavbarRole,
   data,
   handleRefresh,
+  handleUpdate,
 }) => {
   const [formType, setFormType] = useState(variant);
 
@@ -2439,6 +3026,22 @@ const FormC = ({
           data={data}
           handleUpdateData={handleUpdateData}
         />
+      )}
+
+      {formType === "new-appointment" && (
+        <>
+          <NewAppointmentForm handleCloseModal={handleCloseModal} />
+        </>
+      )}
+
+      {formType === "edit-appointment" && (
+        <>
+          <EditAppointmentForm
+            appointmentData={data}
+            handleCloseModal={handleCloseModal}
+            handleUpdateCalendar={handleUpdate}
+          />
+        </>
       )}
     </>
   );
