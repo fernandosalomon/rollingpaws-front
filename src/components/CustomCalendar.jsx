@@ -10,9 +10,9 @@ const CustomCalendar = ({
   const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
-  const [selectedDay, setSelectedDay] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedDay, setSelectedDay] = useState(new Date().getDate());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [calendarArray, setCalendarArray] = useState([]);
 
   const daysInWeek = [
@@ -181,11 +181,12 @@ const CustomCalendar = ({
     setYear(selectedDate.getFullYear());
   }, [selectedDate]);
 
+
+
   return (
     <div
-      className={`${style.calendarContainer} ${
-        border ? style.calendarContainerBorder : ""
-      }`}
+      className={`${style.calendarContainer} ${border ? style.calendarContainerBorder : ""
+        }`}
     >
       <div className={style.headerWrapper}>
         <button
@@ -238,22 +239,18 @@ const CustomCalendar = ({
                     setSelectedMonth(day.getMonth());
                     setSelectedYear(day.getFullYear());
                   }}
-                  className={`${style.tableCell} ${
-                    day.getMonth() !== month ? style.fadeDayNumber : ""
-                  } ${
-                    day.getDate() === new Date().getDate() &&
-                    day.getMonth() === new Date().getMonth()
+                  className={`${style.tableCell} ${day.getMonth() !== month ? style.fadeDayNumber : ""
+                    } ${day.getDate() === new Date().getDate() &&
+                      day.getMonth() === new Date().getMonth()
                       ? style.currentDate
                       : ""
-                  } ${
-                    day.getDate() === selectedDay &&
-                    day.getMonth() === selectedMonth &&
-                    day.getFullYear() === selectedYear
+                    } ${day.getDate() === selectedDay &&
+                      day.getMonth() === selectedMonth &&
+                      day.getFullYear() === selectedYear
                       ? style.selectedDate
                       : ""
-                  } ${
-                    !allowPreviousDates && day < today ? style.disabledDate : ""
-                  }`}
+                    } ${!allowPreviousDates && day.getDate() < today.getDate() ? style.disabledDate : ""
+                    }`}
                 >
                   {day.getDate()}
                 </td>
