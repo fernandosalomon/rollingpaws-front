@@ -46,6 +46,7 @@ const AdminUser = () => {
                     columns={labels}
                     isLoading={isLoading}
                     handleUpdateData={handleUpdateData}
+                    variant="user"
                 />
             </Container>
         );

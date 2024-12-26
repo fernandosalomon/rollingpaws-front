@@ -2,6 +2,7 @@ import { useState } from "react";
 import AdminUser from "../components/AdminUser";
 import style from "../styles/AdminPage.module.css"
 import AdminAppointments from "../components/AdminAppointments";
+import AdminMessages from "../components/AdminMessages";
 
 
 const AdminPage = () => {
@@ -28,12 +29,19 @@ const AdminPage = () => {
                 </svg>
                 <p className="mb-0">Citas</p>
               </li>
+              <li className={`${style.sideMenuItem} ${view === 2 ? style.selected : ""}`} onClick={() => setView(2)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-fill" viewBox="0 0 16 16">
+                  <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15" />
+                </svg>
+                <p className="mb-0">Mensajes</p>
+              </li>
             </ul>
           </div>
         </div >
         <div className={style.sideB}>
           {view === 0 && <AdminUser />}
           {view === 1 && <AdminAppointments />}
+          {view === 2 && <AdminMessages />}
         </div>
       </div>
     </>

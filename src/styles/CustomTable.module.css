@@ -211,6 +211,7 @@
 .tableWideContainer {
   display: block;
 }
+
 .tableSmallContainer {
   display: none;
 }
@@ -296,9 +297,10 @@
   font-size: 1.4rem !important;
 }
 
-.userCardTable > tbody > tr,
-.userCardTable > tbody > tr > td {
+.userCardTable>tbody>tr,
+.userCardTable>tbody>tr>td {
   border: 0 !important;
+  background-color: transparent !important;
 }
 
 .userCardName {
@@ -362,10 +364,36 @@
   align-items: center;
 }
 
+.unreadMessage {
+  background-color: #fdedc1 !important;
+}
+
+.paginationItem {
+  color: var(--orange-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginationItem>a {
+  text-decoration: none;
+  color: #000;
+}
+
+.paginationItem>a:hover {
+  background-color: var(--orange-300);
+  color: #000;
+}
+
+.paginationButton>a {
+  color: var(--orange-400) !important;
+}
+
 @media (max-width: 786px) {
   .tableWideContainer {
     display: none;
   }
+
   .tableSmallContainer {
     display: flex;
     flex-direction: column;

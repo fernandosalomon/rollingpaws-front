@@ -2,11 +2,10 @@ import Table from "react-bootstrap/Table";
 import style from "../../styles/CustomTable.module.css";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
-import Stack from "react-bootstrap/Stack";
 import Image from "react-bootstrap/Image";
 import FormC from "./FormC";
 import clientAxios from "../../helpers/clientAxios";
@@ -19,19 +18,31 @@ import {
   petSize,
   petSpecie,
 } from "../../helpers/petFieldsDictionary";
+import Container from "react-bootstrap/Container";
+import { Spinner } from "react-bootstrap";
 
 const SearchBar = ({ data, filterColumns, handleData, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchColumnIndex, setSearchColumnIndex] = useState(0);
 
   const handleChange = (e) => {
-    setSearchQuery(e.target.value);
+    setSearchQuery(e.target.value.trim().toLowerCase());
   };
 
   const filterData = (data) => {
-    const result = data.filter((element) =>
-      element[filterColumns[searchColumnIndex].name].includes(searchQuery)
-    );
+    let value = "";
+
+    const result = data.filter((element) => {
+      if (typeof element[filterColumns[searchColumnIndex].name] === String) {
+        value = element[filterColumns[searchColumnIndex].name].trim().toLowerCase();
+      }
+      if (value) {
+        return value.includes(searchQuery)
+      } else {
+        return [];
+      }
+    });
+
     handleData(result);
   };
 
@@ -78,10 +89,11 @@ const SearchBar = ({ data, filterColumns, handleData, className }) => {
 };
 
 const CustomPagination = ({
-  elementsPerPage,
   totalElements,
   currentPage,
   paginate,
+  elementsPerPage,
+  handleElementsPerPage,
 }) => {
   const pageNumber = [];
   const active = currentPage;
@@ -102,24 +114,38 @@ const CustomPagination = ({
     }
   };
 
+  const handleSetElementsPerPage = (e) => {
+    handleElementsPerPage(e.target.value);
+  }
+
   return (
-    <div className="d-flex justify-content-center">
-      <Pagination size="lg">
-        <Pagination.First onClick={() => paginate(1)} />
-        <Pagination.Prev onClick={handlePrevPage} />
+    <div className="d-flex justify-content-between px-3">
+      <Form.Group className="d-flex align-items-center justify-content-center gap-3">
+        <Form.Label className="fs-5 text-nowrap">Elementos por página</Form.Label>
+        <Form.Select aria-label="Elements per page" onChange={handleSetElementsPerPage}>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </Form.Select>
+      </Form.Group>
+      <Pagination size="lg" className={style.paginationContainer}>
+        <Pagination.First onClick={() => paginate(1)} className={style.paginationButton} />
+        <Pagination.Prev onClick={handlePrevPage} className={style.paginationButton} />
         {pageNumber.map((number) => (
           <Pagination.Item
             key={number}
             active={number === active}
             onClick={() => paginate(number)}
+            className={style.paginationItem}
           >
             {number}
           </Pagination.Item>
         ))}
-        <Pagination.Next onClick={handleNextPage} />
+        <Pagination.Next onClick={handleNextPage} className={style.paginationButton} />
         <Pagination.Last
           onClick={() => paginate(Math.ceil(totalElements / elementsPerPage))}
-        />
+          className={style.paginationButton} />
       </Pagination>
     </div>
   );
@@ -129,17 +155,35 @@ const View = ({ variant, data, handleUpdateData }) => {
   const [show, setShow] = useState(false);
   const [view, setView] = useState(0);
 
+  const availablePlans = {
+    0: "Primeros Pasos",
+    1: "Madurando",
+    2: "Adultos"
+  }
+
   const handleClose = () => {
     setShow(false);
     setView(0);
   };
   const handleShow = () => setShow(true);
 
+  const handleReadMessage = () => {
+    const readMessage = async () => {
+      try {
+        const res = clientAxios.put(`/messages/${data._id}`);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    readMessage();
+  }
+
   return (
     <>
       <button
         className={`${style.customTableButton} ${style.moreInfoButton}`}
-        onClick={handleShow}
+        onClick={() => { handleShow(); handleReadMessage(); }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -199,8 +243,8 @@ const View = ({ variant, data, handleUpdateData }) => {
                       {data.role === "user"
                         ? "Usuario"
                         : data.role === "vet"
-                        ? "Veterinario"
-                        : "Administrador"}
+                          ? "Veterinario"
+                          : "Administrador"}
                     </p>
 
                     <div className={style.horizontalBar} />
@@ -329,6 +373,45 @@ const View = ({ variant, data, handleUpdateData }) => {
               </div>
             </div>
           )}
+          {
+            variant === "messages" && (
+              <Container>
+                <Table className={style.userCardTable}>
+                  <tbody>
+                    <tr>
+                      <td className={style.userCardLabel}>Tipo</td>
+                      <td className={style.userCardData}>{data.type === "contact" ? "Mensaje" : "Planes"}</td>
+                    </tr>
+                    {
+                      data.type === "plans" &&
+                      <tr>
+                        <td className={style.userCardLabel}>Plan de Interes</td>
+                        <td className={style.userCardData}>{availablePlans[data.selectedPlan]}</td>
+                      </tr>
+                    }
+                    <tr>
+                      <td className={style.userCardLabel}>Nombre</td>
+                      <td className={style.userCardData}>{data.contactName}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Email</td>
+                      <td className={style.userCardData}>{data.contactEmail}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Teléfono</td>
+                      <td className={style.userCardData}>{data.contactPhone}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Mensaje</td>
+                      <td className={style.userCardData}>
+                        {data.contactMessage}
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Container>
+            )
+          }
         </Modal.Body>
       </Modal>
     </>
@@ -505,8 +588,8 @@ const Delete = ({ variant, data, handleUpdateData }) => {
           variant === "user"
             ? handleDeleteUser
             : variant === "pet"
-            ? handleDeletePet
-            : () => {}
+              ? handleDeletePet
+              : () => { }
         }
       >
         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -519,39 +602,39 @@ const Delete = ({ variant, data, handleUpdateData }) => {
 const CRUDButtonGroup = ({
   variant,
   data,
-  view,
-  edit,
-  banUser,
-  remove,
   handleUpdateData,
 }) => {
+
   return (
     <>
       <div className="d-flex gap-2">
-        {view && (
+        {variant === "user" &&
+          <>
+            <View
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdateData}
+            />
+            <Edit
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdateData}
+            />
+            <BanUser data={data} handleUpdateData={handleUpdateData} />
+            <Delete
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdateData}
+            />
+          </>}
+        {
+          variant === "messages" &&
           <View
             variant={variant}
             data={data}
             handleUpdateData={handleUpdateData}
           />
-        )}
-        {edit && (
-          <Edit
-            variant={variant}
-            data={data}
-            handleUpdateData={handleUpdateData}
-          />
-        )}
-        {banUser && variant === "user" && (
-          <BanUser data={data} handleUpdateData={handleUpdateData} />
-        )}
-        {remove && (
-          <Delete
-            variant={variant}
-            data={data}
-            handleUpdateData={handleUpdateData}
-          />
-        )}
+        }
       </div>
     </>
   );
@@ -564,13 +647,16 @@ const TableWide = ({
   searchbar,
   pagination,
   handleUpdateData,
+  variant,
 }) => {
   const [tableData, setTableData] = useState([]);
+  const [elementsPerPage, setElementsPerPage] = useState(5);
+
+  const handleSetElementsPerPage = (value) => setElementsPerPage(value)
 
   useEffect(() => setTableData(data), []);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [elementsPerPage, setElementsPerPage] = useState(2);
 
   const indexOfLastElement = currentPage * elementsPerPage;
   const indexOfFirstElement = indexOfLastElement - elementsPerPage;
@@ -584,6 +670,7 @@ const TableWide = ({
   const handleData = (newData) => {
     setTableData(newData);
   };
+
 
   return (
     <div className={className}>
@@ -614,59 +701,105 @@ const TableWide = ({
           </tr>
         </thead>
         <tbody>
-          {currentElements.map((dataPoint) => (
-            <tr className={style.tableRow} key={crypto.randomUUID()}>
-              {columns.map(
-                (column) =>
-                  !column.hidden &&
-                  (column.name === "banned" ? (
-                    dataPoint[column.name] ? (
-                      <td className={style.tableCell} key={crypto.randomUUID()}>
-                        <p className="mb-0 text-danger fw-semibold">
-                          Deshabilitado
-                        </p>
-                      </td>
-                    ) : (
-                      <td className={style.tableCell} key={crypto.randomUUID()}>
-                        <p className="mb-0 text-success fw-semibold">
-                          Habilitado
-                        </p>
-                      </td>
-                    )
-                  ) : (
-                    <td className={style.tableCell} key={crypto.randomUUID()}>
-                      {dataPoint[column.name]}
-                    </td>
-                  ))
-              )}
-              <td>
-                <CRUDButtonGroup
-                  variant="user"
-                  data={dataPoint}
-                  view
-                  edit
-                  banUser
-                  remove
-                  handleUpdateData={handleUpdateData}
-                />
-              </td>
-            </tr>
-          ))}
+          {
+            variant === "user" &&
+            (
+              currentElements.map((dataPoint) => (
+                <tr className={`${style.tableRow}`} key={crypto.randomUUID()}>
+                  {columns.map(
+                    (column) =>
+                      !column.hidden &&
+                      (column.name === "banned" ? (
+                        dataPoint[column.name] ? (
+                          <td className={style.tableCell} key={crypto.randomUUID()}>
+                            <p className="mb-0 text-danger fw-semibold">
+                              Deshabilitado
+                            </p>
+                          </td>
+                        ) : (
+                          <td className={style.tableCell} key={crypto.randomUUID()}>
+                            <p className="mb-0 text-success fw-semibold">
+                              Habilitado
+                            </p>
+                          </td>
+                        )
+                      ) : (
+                        <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                          {dataPoint[column.name]}
+                        </td>
+                      ))
+                  )}
+
+                  <td>
+                    <CRUDButtonGroup
+                      variant={variant}
+                      data={dataPoint}
+                      handleUpdateData={handleUpdateData}
+                    />
+                  </td>
+
+                </tr>
+              ))
+
+            )
+          }
+          {
+            variant === "messages" &&
+            (
+              currentElements.map((dataPoint) => (
+                <tr className={`${style.tableRow}`} key={crypto.randomUUID()}>
+                  {columns.map(
+                    (column) =>
+                      !column.hidden &&
+                      (column.name === "read" ? (
+                        dataPoint[column.name] ? (
+                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()} >
+                            <p className="mb-0 text-success fw-semibold">
+                              Leido
+                            </p>
+                          </td>
+                        ) : (
+                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                            <p className="mb-0 text-danger fw-semibold">
+                              No Leido
+                            </p>
+                          </td>
+                        )
+                      ) : (
+                        <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                          {dataPoint[column.name]}
+                        </td>
+                      ))
+                  )}
+
+                  <td className={`${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`}>
+                    <CRUDButtonGroup
+                      variant={variant}
+                      data={dataPoint}
+                      handleUpdateData={handleUpdateData}
+                    />
+                  </td>
+
+                </tr>
+              ))
+            )
+          }
         </tbody>
       </Table>
       {pagination && (
         <CustomPagination
-          elementsPerPage={elementsPerPage}
           totalElements={tableData.length}
           currentPage={currentPage}
           paginate={paginate}
+          elementsPerPage={elementsPerPage}
+          handleElementsPerPage={handleSetElementsPerPage}
         />
       )}
     </div>
   );
 };
 
-const TableSmallElement = ({ dataPoint, columns }) => {
+const TableSmallElement = ({ dataPoint, columns, variant }) => {
   const [hideData, setHideData] = useState(true);
 
   return (
@@ -678,8 +811,10 @@ const TableSmallElement = ({ dataPoint, columns }) => {
               className="d-flex align-items-center justify-content-between gap-4 p-3"
               style={{ backgroundColor: "#fffbf5" }}
             >
-              <p className="mb-0 fw-normal fs-5 text-nowrap">{`ID: ${dataPoint._id}`}</p>
-              <CRUDButtonGroup />
+              <CRUDButtonGroup
+                variant={variant}
+                data={dataPoint}
+              />
             </div>
           </th>
         </tr>
@@ -712,7 +847,7 @@ const TableSmallElement = ({ dataPoint, columns }) => {
   );
 };
 
-const TableSmall = ({ data, columns, className, searchbar }) => {
+const TableSmall = ({ data, columns, className, searchbar, variant }) => {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => setTableData(data), []);
@@ -735,14 +870,15 @@ const TableSmall = ({ data, columns, className, searchbar }) => {
           dataPoint={dataPoint}
           columns={columns}
           key={crypto.randomUUID()}
+          variant={variant}
         />
       ))}
     </div>
   );
 };
 
-const CustomTable = ({ data, columns, isLoading, handleUpdateData }) => {
-  const [tableData, setTableData] = useState([]);
+const CustomTable = ({ data, columns, handleUpdateData, variant }) => {
+
 
   return (
     <div className="mx-auto">
@@ -754,6 +890,7 @@ const CustomTable = ({ data, columns, isLoading, handleUpdateData }) => {
           searchbar
           pagination
           handleUpdateData={handleUpdateData}
+          variant={variant}
         />
       </div>
       <div className="mx-4">
@@ -761,11 +898,13 @@ const CustomTable = ({ data, columns, isLoading, handleUpdateData }) => {
           data={data}
           columns={columns}
           className={style.tableSmallContainer}
-          searchbar={true}
+          searchbar
+          variant={variant}
         />
       </div>
     </div>
   );
-};
+}
+
 
 export default CustomTable;

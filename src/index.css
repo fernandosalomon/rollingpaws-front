@@ -74,6 +74,11 @@ input[type="password"]::-ms-clear {
   background: #555;
 }
 
+.active>.page-link {
+  background-color: var(--orange-400);
+  border: 0;
+}
+
 @-moz-document url-prefix() {
   * {
     scrollbar-width: thin;
