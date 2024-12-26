@@ -505,25 +505,7 @@ const SignInForm = ({
   );
 };
 
-const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
-  const [userData, setUserData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setIsLoading(true);
-        const res = await clientAxios.get(`user/${userID}`);
-        setUserData(res.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
+const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
   const {
     register,
     handleSubmit,
@@ -541,11 +523,11 @@ const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
     setValue("city", userData.city);
     setValue("province", userData.province);
     setValue("zipCode", userData.zipCode);
-  }, [userData]);
+  }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const res = await clientAxios.put(`/user/${userID}`, data);
+      const res = await clientAxios.put(`/user/${userData._id}`, data);
       handleUpdateData();
       handleCloseModal();
       Swal.fire({
@@ -562,11 +544,7 @@ const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
     }
   });
 
-  return isLoading ? (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
-  ) : (
+  return (
     <>
       <Form onSubmit={onSubmit} className={style.form}>
         <h2 className={style.formTitle}>Editar Usuario</h2>
@@ -704,112 +682,124 @@ const EditUserForm = ({ handleCloseModal, userID, handleUpdateData }) => {
           )}
         </Form.Group>
 
-        <Form.Group className="mb-3 d-grid" controlId="userAddress">
-          <Form.Label className={style.formLabelEditUser}>Dirección</Form.Label>
-          <Form.Control
-            type="text"
-            className={style.formInputEditUser}
-            {...register("address", {
-              pattern: {
-                value: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s']+$/,
-                message: "Formato de dirección inválido.",
-              },
-            })}
-          />
-          {errors.address && (
-            <span className={style.errorMessage}>
-              <i className="bi bi-exclamation-circle-fill me-1"></i>
-              {errors.address.message}
-            </span>
-          )}
-        </Form.Group>
+        <Row>
+          <Col sm={12} md={6}>
+            <Form.Group className="mb-3 d-grid" controlId="userAddress">
+              <Form.Label className={style.formLabelEditUser}>Dirección</Form.Label>
+              <Form.Control
+                type="text"
+                className={style.formInputEditUser}
+                {...register("address", {
+                  pattern: {
+                    value: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s']+$/,
+                    message: "Formato de dirección inválido.",
+                  },
+                })}
+              />
+              {errors.address && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.address.message}
+                </span>
+              )}
+            </Form.Group>
+          </Col>
 
-        <Form.Group className="mb-3 d-grid" controlId="userCity">
-          <Form.Label className={style.formLabelEditUser}>Ciudad</Form.Label>
-          <Form.Control
-            type="text"
-            className={style.formInputEditUser}
-            {...register("city", {
-              minLength: {
-                value: 2,
-                message: "Mínimo requerido: 2 caracteres",
-              },
-              maxLength: {
-                value: 40,
-                message: "Máximo permitido: 40 caracteres",
-              },
-              pattern: {
-                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                message: "Formato de ciudad inválido.",
-              },
-            })}
-          />
-          {errors.userCity && (
-            <span className={style.errorMessage}>
-              <i className="bi bi-exclamation-circle-fill me-1"></i>
-              {errors.userCity.message}
-            </span>
-          )}
-        </Form.Group>
+          <Col sm={12} md={6}>
+            <Form.Group className="mb-3 d-grid" controlId="userCity">
+              <Form.Label className={style.formLabelEditUser}>Ciudad</Form.Label>
+              <Form.Control
+                type="text"
+                className={style.formInputEditUser}
+                {...register("city", {
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                    message: "Formato de ciudad inválido.",
+                  },
+                })}
+              />
+              {errors.userCity && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.userCity.message}
+                </span>
+              )}
+            </Form.Group>
+          </Col>
+        </Row>
 
-        <Form.Group className="mb-3 d-grid" controlId="userProvince">
-          <Form.Label className={style.formLabelEditUser}>Provincia</Form.Label>
-          <Form.Control
-            type="text"
-            className={style.formInputEditUser}
-            {...register("province", {
-              minLength: {
-                value: 2,
-                message: "Mínimo requerido: 2 caracteres",
-              },
-              maxLength: {
-                value: 40,
-                message: "Máximo permitido: 40 caracteres",
-              },
-              pattern: {
-                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
-                message: "Formato de provincia inválido.",
-              },
-            })}
-          />
-          {errors.userProvince && (
-            <span className={style.errorMessage}>
-              <i className="bi bi-exclamation-circle-fill me-1"></i>
-              {errors.userProvince.message}
-            </span>
-          )}
-        </Form.Group>
 
-        <Form.Group className="mb-3 d-grid" controlId="userZipCode">
-          <Form.Label className={style.formLabelEditUser}>
-            Código Postal
-          </Form.Label>
-          <Form.Control
-            type="text"
-            className={style.formInputEditUser}
-            {...register("zipCode", {
-              minLength: {
-                value: 4,
-                message: "Mínimo requerido: 4 caracteres",
-              },
-              maxLength: {
-                value: 6,
-                message: "Máximo permitido: 6 caracteres",
-              },
-              pattern: {
-                value:
-                  /^\d{5}(?:[-\s]\d{4})?$|^(?:[A-Z0-9]{2,4}\s*[A-Z0-9]{2,4})?$|^\d{4,6}$/,
-                message: "Formato de código postal inválido.",
-              },
-            })}
-          />
-          {errors.userProvince && (
-            <span className={style.errorMessage}>
-              <i className="bi bi-exclamation-circle-fill me-1"></i>
-              {errors.userProvince.message}
-            </span>
-          )}
-        </Form.Group>
+        <Row>
+          <Col sm={12} md={6}>
+            <Form.Group className="mb-3 d-grid" controlId="userProvince">
+              <Form.Label className={style.formLabelEditUser}>Provincia</Form.Label>
+              <Form.Control
+                type="text"
+                className={style.formInputEditUser}
+                {...register("province", {
+                  minLength: {
+                    value: 2,
+                    message: "Mínimo requerido: 2 caracteres",
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Máximo permitido: 40 caracteres",
+                  },
+                  pattern: {
+                    value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                    message: "Formato de provincia inválido.",
+                  },
+                })}
+              />
+              {errors.userProvince && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.userProvince.message}
+                </span>
+              )}
+            </Form.Group>
+          </Col>
+          <Col sm={12} md={6}>
+            <Form.Group className="mb-3 d-grid" controlId="userZipCode">
+              <Form.Label className={style.formLabelEditUser}>
+                Código Postal
+              </Form.Label>
+              <Form.Control
+                type="text"
+                className={style.formInputEditUser}
+                {...register("zipCode", {
+                  minLength: {
+                    value: 4,
+                    message: "Mínimo requerido: 4 caracteres",
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: "Máximo permitido: 6 caracteres",
+                  },
+                  pattern: {
+                    value:
+                      /^\d{5}(?:[-\s]\d{4})?$|^(?:[A-Z0-9]{2,4}\s*[A-Z0-9]{2,4})?$|^\d{4,6}$/,
+                    message: "Formato de código postal inválido.",
+                  },
+                })}
+              />
+              {errors.userProvince && (
+                <span className={style.errorMessage}>
+                  <i className="bi bi-exclamation-circle-fill me-1"></i>
+                  {errors.userProvince.message}
+                </span>
+              )}
+            </Form.Group>
+          </Col>
+        </Row>
 
         <div className={style.editUserFormButtonContainer}>
           <button className={style.editUserButton} type="submit">
@@ -2797,8 +2787,8 @@ const FormC = ({
       {formType === "edit-user" && (
         <EditUserForm
           handleCloseModal={handleCloseModal}
-          userID={userID}
-          handleUpdateData={handleRefresh}
+          userData={data}
+          handleUpdateData={handleUpdate}
         />
       )}
       {formType === "new-appointment" && (

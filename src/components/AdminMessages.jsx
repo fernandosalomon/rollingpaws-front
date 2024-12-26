@@ -24,6 +24,7 @@ const AdminMessages = () => {
     }, [])
 
     const labels = [
+        { name: "createdAt", label: "Fecha", hidden: false },
         { name: "read", label: "Leido", hidden: false },
         { name: "type", label: "Motivo", hidden: false },
         { name: "contactName", label: "Nombre", hidden: false },

@@ -19,7 +19,6 @@ import {
   petSpecie,
 } from "../../helpers/petFieldsDictionary";
 import Container from "react-bootstrap/Container";
-import { Spinner } from "react-bootstrap";
 
 const SearchBar = ({ data, filterColumns, handleData, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -309,7 +308,7 @@ const View = ({ variant, data, handleUpdateData }) => {
                               view
                               edit
                               remove
-                              handleUpdateData={handleUpdateData}
+                              handleUpdate={handleUpdateData}
                             />
                           </Card.Text>
                         </Card.Body>
@@ -449,8 +448,8 @@ const Edit = ({ variant, data, handleUpdateData }) => {
             <FormC
               variant="edit-user"
               handleCloseModal={handleClose}
-              handleUpdateData={handleUpdateData}
-              userID={data._id}
+              handleUpdate={handleUpdateData}
+              data={data}
             />
           )}
           {variant === "pet" && (
@@ -458,7 +457,7 @@ const Edit = ({ variant, data, handleUpdateData }) => {
               variant="edit-pet"
               data={data}
               handleCloseModal={handleClose}
-              handleUpdateData={handleUpdateData}
+              handleUpdate={handleUpdateData}
             />
           )}
         </Modal.Body>
@@ -602,7 +601,7 @@ const Delete = ({ variant, data, handleUpdateData }) => {
 const CRUDButtonGroup = ({
   variant,
   data,
-  handleUpdateData,
+  handleUpdate,
 }) => {
 
   return (
@@ -613,18 +612,18 @@ const CRUDButtonGroup = ({
             <View
               variant={variant}
               data={data}
-              handleUpdateData={handleUpdateData}
+              handleUpdateData={handleUpdate}
             />
             <Edit
               variant={variant}
               data={data}
-              handleUpdateData={handleUpdateData}
+              handleUpdateData={handleUpdate}
             />
-            <BanUser data={data} handleUpdateData={handleUpdateData} />
+            <BanUser data={data} handleUpdateData={handleUpdate} />
             <Delete
               variant={variant}
               data={data}
-              handleUpdateData={handleUpdateData}
+              handleUpdateData={handleUpdate}
             />
           </>}
         {
@@ -632,7 +631,7 @@ const CRUDButtonGroup = ({
           <View
             variant={variant}
             data={data}
-            handleUpdateData={handleUpdateData}
+            handleUpdateData={handleUpdate}
           />
         }
       </div>
@@ -651,6 +650,7 @@ const TableWide = ({
 }) => {
   const [tableData, setTableData] = useState([]);
   const [elementsPerPage, setElementsPerPage] = useState(5);
+
 
   const handleSetElementsPerPage = (value) => setElementsPerPage(value)
 
@@ -671,7 +671,7 @@ const TableWide = ({
     setTableData(newData);
   };
 
-
+  useEffect(() => { handleUpdateData(); }, []);
   return (
     <div className={className}>
       {searchbar && (
@@ -724,7 +724,7 @@ const TableWide = ({
                           </td>
                         )
                       ) : (
-                        <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                        <td className={`${style.tableCell}`} key={crypto.randomUUID()}>
                           {dataPoint[column.name]}
                         </td>
                       ))
@@ -734,7 +734,7 @@ const TableWide = ({
                     <CRUDButtonGroup
                       variant={variant}
                       data={dataPoint}
-                      handleUpdateData={handleUpdateData}
+                      handleUpdate={handleUpdateData}
                     />
                   </td>
 
@@ -765,18 +765,25 @@ const TableWide = ({
                             </p>
                           </td>
                         )
-                      ) : (
-                        <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
-                          {dataPoint[column.name]}
-                        </td>
-                      ))
+                      ) : column.name === "createdAt" ?
+                        (
+                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                            <p>{`${new Date(dataPoint[column.name]).getDate()}/${new Date(dataPoint[column.name]).getMonth()}/${new Date(dataPoint[column.name]).getFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}</p>
+                          </td>
+                        )
+                        :
+                        (
+                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                            {dataPoint[column.name]}
+                          </td>
+                        ))
                   )}
 
                   <td className={`${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`}>
                     <CRUDButtonGroup
                       variant={variant}
                       data={dataPoint}
-                      handleUpdateData={handleUpdateData}
+                      handleUpdate={handleUpdateData}
                     />
                   </td>
 
@@ -786,20 +793,22 @@ const TableWide = ({
           }
         </tbody>
       </Table>
-      {pagination && (
-        <CustomPagination
-          totalElements={tableData.length}
-          currentPage={currentPage}
-          paginate={paginate}
-          elementsPerPage={elementsPerPage}
-          handleElementsPerPage={handleSetElementsPerPage}
-        />
-      )}
-    </div>
+      {
+        pagination && (
+          <CustomPagination
+            totalElements={tableData.length}
+            currentPage={currentPage}
+            paginate={paginate}
+            elementsPerPage={elementsPerPage}
+            handleElementsPerPage={handleSetElementsPerPage}
+          />
+        )
+      }
+    </div >
   );
 };
 
-const TableSmallElement = ({ dataPoint, columns, variant }) => {
+const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
   const [hideData, setHideData] = useState(true);
 
   return (
@@ -814,6 +823,7 @@ const TableSmallElement = ({ dataPoint, columns, variant }) => {
               <CRUDButtonGroup
                 variant={variant}
                 data={dataPoint}
+                handleUpdate={handleUpdate}
               />
             </div>
           </th>
@@ -847,7 +857,7 @@ const TableSmallElement = ({ dataPoint, columns, variant }) => {
   );
 };
 
-const TableSmall = ({ data, columns, className, searchbar, variant }) => {
+const TableSmall = ({ data, columns, className, searchbar, variant, handleUpdate }) => {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => setTableData(data), []);
@@ -871,6 +881,7 @@ const TableSmall = ({ data, columns, className, searchbar, variant }) => {
           columns={columns}
           key={crypto.randomUUID()}
           variant={variant}
+          handleUpdate={handleUpdate}
         />
       ))}
     </div>
@@ -900,6 +911,7 @@ const CustomTable = ({ data, columns, handleUpdateData, variant }) => {
           className={style.tableSmallContainer}
           searchbar
           variant={variant}
+          handleUpdate={handleUpdateData}
         />
       </div>
     </div>
