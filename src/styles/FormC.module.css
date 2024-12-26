@@ -382,6 +382,7 @@
 .textArea {
   filter: drop-shadow(0 0 1px #818181);
   background-color: #f2f2f2;
+  font-size: 1.6rem;
 }
 
 .inputField:focus,

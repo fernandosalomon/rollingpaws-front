@@ -1,0 +1,160 @@
+.container {
+    border-radius: 7px;
+    padding: 16px 8px;
+    background-color: var(--gray-300);
+}
+
+.header {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 16px 32px;
+    position: relative;
+}
+
+.headerDateBoxesContainer {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: nowrap;
+    gap: 16px;
+    overflow: hidden;
+    width: 100% !important;
+    margin: 0 32px;
+}
+
+.headerDateBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 64px;
+    height: 64px;
+    background-color: var(--gray-300);
+    border-radius: 7px;
+    cursor: pointer;
+    border: 2px solid var(--orange-400);
+}
+
+.headerDateBox:hover {
+    background-color: var(--orange-400);
+    font-weight: 500;
+}
+
+.controlButton {
+    font-size: 2.4rem;
+    border: 0;
+    background-color: var(--gray-300);
+    padding: 16px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    width: 48px;
+    height: 48px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.prevButton {
+    position: absolute;
+    top: calc(50% - 24px);
+    left: 10px;
+}
+
+.nextButton {
+    position: absolute;
+    top: calc(50% - 24px);
+    right: 10px;
+}
+
+.selected {
+    background-color: var(--orange-600);
+    border: 2px solid var(--orange-600);
+}
+
+.body {
+    position: relative;
+}
+
+.table {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.table>thead>tr>th {
+    height: 50px;
+    width: 200px;
+    min-width: 200px;
+    text-align: center;
+    font-weight: 300;
+}
+
+.table>tbody>tr>td {
+    position: relative;
+    height: 128px;
+    width: 200px;
+    min-width: 200px;
+    border: 1px solid #f2f2f2;
+}
+
+.hourCell {
+    border: none !important;
+    width: 100px !important;
+    min-width: 100px !important;
+}
+
+.hourContainer {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    text-wrap: nowrap;
+}
+
+.appointmentBox {
+    position: absolute;
+    height: 128px;
+    background-color: rgba(254, 110, 0, 0.6);
+    z-index: 2;
+    border-radius: 7px;
+    width: 200px;
+    cursor: pointer;
+}
+
+.appointmentBoxPacient {
+    font-size: 1.4rem;
+    padding: 0.5rem 1rem 0 1rem;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.appointmentBoxTime {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+    margin-bottom: 0;
+    font-weight: 300;
+}
+
+.deleteButton {
+    width: 100%;
+    border: 2px solid #DC3545;
+    color: #DC3545;
+    font-weight: 500;
+    margin: 16px auto;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.deleteButton:hover {
+    background-color: #DC3545;
+    color: #FFF;
+}
+
+.deleteButton:active {
+    filter: drop-shadow(0 0 4px #9c9c9c);
+}

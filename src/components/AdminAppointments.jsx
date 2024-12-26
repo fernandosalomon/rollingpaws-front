@@ -1,43 +1,68 @@
-import { useEffect, useState, useRef } from "react";
-import CustomCalendar from "../components/CustomCalendar";
-import style from "../styles/AppointmentAdmin.module.css";
+import { useEffect, useRef, useState } from "react";
+import style from "../styles/AdminAppointments.module.css";
+import { Modal, Spinner } from "react-bootstrap";
 import clientAxios from "../helpers/clientAxios";
-import { Spinner, ToastContainer } from "react-bootstrap";
-import Toast from "react-bootstrap/Toast";
-import Table from "react-bootstrap/Table";
-import FormC from "../components/shared/FormC";
+import CustomButton from "./shared/CustomButton";
+import FormC from "./shared/FormC";
 import Swal from "sweetalert2";
+import Container from "react-bootstrap/Container";
 
 const AdminAppointments = () => {
-    const today = new Date();
-    const openingHour = 8;
-    const closingHour = 21;
-    const hours = [];
-    const week = [];
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [currentDate, setCurrentDate] = useState(new Date().getDate());
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+    const [headerYear, setHeaderYear] = useState(new Date().getFullYear());
+    const [headerMonth, setHeaderMonth] = useState(new Date().getUTCMonth());
+    const [headerDate, setHeaderDate] = useState(new Date().getUTCDate());
+
+    const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getUTCMonth());
+    const [selectedDate, setSelectedDate] = useState(new Date().getUTCDate());
+    const [doctorList, setDoctorList] = useState([]);
+    const [headerBoxWidth, setHeaderBoxWidth] = useState(0);
+
+    const [elementsPerPage, setElementsPerPage] = useState(0);
+    const [numberOfPages, setNumberOfPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const headerBoxesContainerRef = useRef(null);
     const [appointments, setAppointments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [showToast, setShowToast] = useState(false);
-    const [position, setPosition] = useState({});
-    const [toastData, setToastData] = useState([]);
-    const toastRef = useRef(null);
-    const containerRef = useRef(null);
-
-    const [toastType, setToastType] = useState("view");
-
-    const dayDictionary = {
-        0: "Dom",
-        1: "Lun",
-        2: "Mar",
-        3: "Mie",
-        4: "Jue",
-        5: "Vie",
-        6: "Sab",
-    };
+    const daysInWeek = [
+        {
+            dayName: "Domingo",
+            dayShortName: "Do",
+            dayNumber: 0,
+        },
+        {
+            dayName: "Lunes",
+            dayShortName: "Lu",
+            dayNumber: 1,
+        },
+        {
+            dayName: "Martes",
+            dayShortName: "Ma",
+            dayNumber: 2,
+        },
+        {
+            dayName: "Miércoles",
+            dayShortName: "Mi",
+            dayNumber: 3,
+        },
+        {
+            dayName: "Jueves",
+            dayShortName: "Ju",
+            dayNumber: 4,
+        },
+        {
+            dayName: "Viernes",
+            dayShortName: "Vi",
+            dayNumber: 5,
+        },
+        {
+            dayName: "Sábado",
+            dayShortName: "Sa",
+            dayNumber: 6,
+        },
+    ];
 
     const monthInYear = [
         {
@@ -102,104 +127,131 @@ const AdminAppointments = () => {
         },
     ];
 
-    const handleSetDate = (fullYear, month, date) => {
-        const newDate = new Date(fullYear, month, date);
-        setSelectedDate(newDate);
-    };
+    useEffect(() => {
+        const getDoctorsList = async () => {
+            try {
+                setIsLoading(true);
+                const res = await clientAxios("/doctor/");
+                setDoctorList(res.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error)
+            }
+        }
 
+        getDoctorsList();
+    }, [])
+
+    const hours = [];
+    const openingHour = 8;
+    const closingHour = 21;
     for (let i = openingHour; i <= closingHour; i++) {
-        hours.push(`${i >= 10 ? "" : "0"}${i} ${i > 12 ? "AM" : "PM"}`);
+        hours.push(`${i >= 10 ? "" : "0"}${i} ${i > 12 ? "PM" : "AM"}`);
     }
 
-    for (let i = 0; i < 7; i++) {
-        const nextDay = new Date(
-            selectedDate.getFullYear(),
-            selectedDate.getMonth(),
-            selectedDate.getDate() + i
-        );
+    const headerCalendar = [];
 
-        week.push(nextDay);
+    for (let i = 1; i <= new Date(headerYear, headerMonth + 1, 0).getDate(); i++) {
+        headerCalendar.push(new Date(selectedYear, headerMonth, i));
     }
 
-    const handlePrevDay = () => {
-        if (currentDate - 1 < 1) {
-            if (currentMonth - 1 < 0) {
-                setCurrentMonth(11);
-                setCurrentDate(new Date(currentYear, currentMonth + 1, -1).getDate());
+    useEffect(() => {
+        setIsLoading(true);
+        const headerWidth = 78 * (headerCalendar.length + 1);
+        setHeaderBoxWidth(headerWidth);
+        const viewBox = headerBoxesContainerRef.current.getBoundingClientRect().width;
+        setElementsPerPage(Math.floor(viewBox / 78));
+        setNumberOfPages(Math.ceil(headerCalendar.length / Math.floor(viewBox / 78)) - 1)
+
+        if (selectedYear === new Date().getFullYear() && selectedMonth === new Date().getMonth() && selectedDate === new Date().getDate()) {
+            const page = Math.floor(selectedDate / Math.floor(viewBox / 78));
+            setCurrentPage(page);
+        }
+
+        setIsLoading(false)
+    }, [headerYear, headerMonth, headerDate])
+
+
+    const handleSetDate = (year, month, date) => {
+        setSelectedYear(year);
+        setSelectedMonth(month);
+        setSelectedDate(date);
+    }
+
+    const handlePrev = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1)
+        } else {
+            if (headerMonth === 0) {
+                setHeaderYear(headerYear - 1);
+                setHeaderMonth(11);
+                setHeaderDate(1);
+                setCurrentPage(numberOfPages);
             } else {
-                setCurrentMonth(currentMonth - 1);
-                setCurrentDate(new Date(currentYear, currentMonth + 1, -1).getDate());
+                setHeaderMonth(headerMonth - 1)
+                setHeaderDate(1);
+                setCurrentPage(numberOfPages);
             }
-        } else {
-            setCurrentDate(currentDate - 1);
         }
-    };
+    }
 
-    const handleNextDay = () => {
-        if (currentDate >= new Date(currentYear, currentMonth + 1, -1)) {
-            if (currentMonth >= 11) {
-                setCurrentYear(currentYear + 1);
-                setCurrentMonth(0);
-                setCurrentDate(1);
+    const handleNext = () => {
+        if (currentPage < numberOfPages) {
+            setCurrentPage(currentPage + 1)
+        } else {
+            if (headerMonth === 11) {
+                setHeaderYear(headerYear + 1);
+                setHeaderMonth(0);
+                setHeaderDate(1);
+                setCurrentPage(0)
             } else {
-                setCurrentMonth(month + 1);
-                setCurrentDate(1);
+                setHeaderMonth(headerMonth + 1)
+                setHeaderDate(1);
+                setCurrentPage(0)
             }
-        } else {
-            setCurrentDate(currentDate + 1);
         }
-    };
+    }
 
-    const positionAppointment = (
-        startDate,
-        endDate,
-        firstDayWeek,
-        lastDayWeek
-    ) => {
-        if (startDate >= firstDayWeek && startDate <= lastDayWeek) {
-            const dayIndex = startDate.getDate() - firstDayWeek.getDate();
-            const startHour = startDate.getUTCHours();
-            const startMinutes = startDate.getMinutes();
-            return {
-                top: `${64 + (startHour - openingHour) * 128 + startMinutes * (128 / 60)
-                    }px`,
-                left: `${100 + dayIndex * 150}px`,
-                height: `${((endDate.getUTCHours() - startHour) * 60 +
-                    +(endDate.getMinutes() - startMinutes)) *
-                    (128 / 60)
-                    }px`,
-            };
+    const positionAppointment = (startTime, endTime, openingHour, doctorID) => {
+        const opening = (openingHour.hour * 60 + openingHour.minutes);
+        const timeStart = (startTime.hour * 60 + startTime.minutes) - opening;
+        const timeEnd = (endTime.hour * 60 + endTime.minutes) - opening;
+
+        const top = 50 + (128 * (timeStart / 60));
+        const left = (200 * doctorID) + 100;
+        const height = ((timeEnd - timeStart) * 128) / 60
+
+        return { top: `${top}px`, left: `${left}px`, height: `${height}px` }
+    }
+
+    useEffect(() => {
+        const getAppointments = async () => {
+            try {
+                setIsLoading(true);
+                const res = await clientAxios("/appointments/");
+                setAppointments(res.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error)
+            }
         }
-    };
 
-    const handleClickAppointment = ({ top, left, height }, data) => {
-        if (showToast) {
-            setShowToast(false);
-        } else {
-            setPosition({
-                top: `calc(${top} - 36px)`,
-                left: `calc(${left} + 160px)`,
-            });
-            setToastData(data);
-            setShowToast(true);
-        }
-    };
+        getAppointments();
 
-    const handleCloseToast = () => {
-        setShowToast(false);
-        setToastType("view");
-    };
+
+
+    }, [])
 
     const handleUpdate = async () => {
         try {
             setIsLoading(true);
-            const res = await clientAxios.get("/appointments/");
+            const res = await clientAxios("/appointments/");
             setAppointments(res.data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    };
+    }
 
     const handleDeleteAppointment = async (appointmentID) => {
         try {
@@ -223,7 +275,6 @@ const AdminAppointments = () => {
                     timer: 2500,
                 });
                 handleUpdate();
-                handleCloseToast();
             }
         } catch (error) {
             console.log(error);
@@ -235,302 +286,110 @@ const AdminAppointments = () => {
                 timer: 2500,
             });
         }
-    };
+    }
 
-    useEffect(() => {
-        setSelectedDate(new Date(currentYear, currentMonth, currentDate));
-    }, [currentYear, currentMonth, currentDate]);
+    const [show, setShow] = useState(false);
 
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                setIsLoading(true);
-                const res = await clientAxios.get("/appointments/");
-                setAppointments(res.data);
-                setIsLoading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchAppointments();
-    }, []);
-
-    useEffect(() => {
-        if (showToast && toastRef.current && containerRef.current) {
-            const { top, left, width, height } =
-                toastRef.current.getBoundingClientRect();
-            const containerRect = containerRef.current.getBoundingClientRect();
-            const scrollTop = containerRef.current.scrollTop;
-            const scrollLeft = containerRef.current.scrollLeft;
-            containerRef.current.scrollTo({
-                top: scrollTop + top - containerRect.height / 2 + height / 2,
-                left: scrollLeft + left - containerRect.width / 2 + width / 2,
-                behavior: "smooth",
-            });
-        }
-    }, [showToast]);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     if (isLoading) {
-        return (
-            <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
-        );
+        return (<Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>)
     } else {
         return (
-            <div>
+            <>
                 <div className={style.container}>
-                    <div className={style.sideA}>
-                        <CustomCalendar
-                            border
-                            handleSetDate={handleSetDate}
-                            selectedDate={selectedDate}
-                            allowPreviousDates={true}
-                        />
-                    </div>
-                    <div className={style.sideB} ref={containerRef}>
-                        <div className={style.sideBHeader}>
-                            <h4 className="mb-0">{`${monthInYear[selectedDate.getMonth()].monthName
-                                } ${selectedDate.getFullYear()}`}</h4>
-                            <button
-                                className={`${style.button} ${style.todayButton}`}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setSelectedDate(today);
-                                }}
-                            >
-                                Hoy
-                            </button>
-                            <div className={style.controlButtons}>
-                                <button
-                                    className={style.button}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handlePrevDay();
-                                    }}
-                                >
-                                    &lt;
-                                </button>
-                                <button
-                                    className={style.button}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleNextDay();
-                                    }}
-                                >
-                                    &gt;
-                                </button>
-                            </div>
+                    <h3>{`${monthInYear[headerMonth].monthName} ${headerYear}`}</h3>
+                    <Container className={style.header}>
+                        <div className={style.headerDateBoxesContainer} ref={headerBoxesContainerRef}>
+
+                            {headerCalendar.slice(elementsPerPage * currentPage, (elementsPerPage * (currentPage + 1))).map((date) =>
+                                <div className={`${style.headerDateBox} ${selectedDate === date.getUTCDate() && selectedMonth === date.getUTCMonth() && selectedYear === date.getUTCFullYear() ? style.selected : ""}`} onClick={() => handleSetDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())}>
+                                    <p className="mb-0">{date.getDate()}</p>
+                                    <p className="mb-0">{daysInWeek[date.getDay()].dayShortName}</p>
+                                </div>
+                            )}
+
                         </div>
-                        <div className={style.sideBBody}>
-                            <table className={style.table}>
-                                <thead className={style.tableHeader}>
-                                    <tr>
-                                        <th className={style.hourCell}></th>
-                                        {week.map((weekDay) => (
-                                            <th key={crypto.randomUUID()}>{`${dayDictionary[weekDay.getDay()]
-                                                } ${weekDay.getDate()}`}</th>
-                                        ))}
+
+                        <button className={`${style.controlButton} ${style.prevButton}`} onClick={handlePrev}>&lt;</button>
+                        <button className={`${style.controlButton} ${style.nextButton}`} onClick={handleNext}>&gt;</button>
+
+                    </Container>
+                    <div className={style.body}>
+                        <table className={style.table}>
+                            <thead>
+                                <tr>
+                                    <th className={style.hourCell}></th>
+                                    <th>Dr. John Doe</th>
+                                    <th>Dra. Jane Doe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {hours.map((hour) => (
+                                    <tr key={crypto.randomUUID()}>
+                                        <td className={style.hourCell} ><p className={style.hourContainer}>{hour}</p></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                </thead>
-                                <tbody className={style.tableBody}>
-                                    {hours.map((hour) => (
-                                        <tr key={crypto.randomUUID()}>
-                                            <td className={style.hourCell}>{hour}</td>
-                                            {week.map((weekDay) => (
-                                                <td key={crypto.randomUUID()}></td>
-                                            ))}
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            {appointments.map((appointment) =>
-                                new Date(appointment.startDate) >= week[0] &&
-                                    new Date(appointment.startDate) <= week[week.length - 1] ? (
-                                    <div key={crypto.randomUUID()}>
-                                        <div
-                                            style={positionAppointment(
-                                                new Date(appointment.startDate),
-                                                new Date(appointment.endDate),
-                                                week[0],
-                                                week[week.length - 1]
-                                            )}
-                                            className={style.appointmentBoxContainer}
-                                            onClick={() => {
-                                                handleClickAppointment(
-                                                    positionAppointment(
-                                                        new Date(appointment.startDate),
-                                                        new Date(appointment.endDate),
-                                                        week[0],
-                                                        week[week.length - 1]
-                                                    ),
-                                                    appointment
-                                                );
-                                            }}
-                                        >
-                                            <div className={style.appointmentBox}>
-                                                <p className={style.appointmentBoxPacient}>
+                                ))}
+                            </tbody>
+                        </table>
+                        {
+                            appointments.map((appointment) => {
+                                const startDate = new Date(appointment.startDate);
+                                const endDate = new Date(appointment.endDate);
+                                const doctorID = doctorList.findIndex((doctor) => doctor._id === appointment.doctor._id);
+                                if (startDate.getFullYear() === selectedYear && startDate.getMonth() === selectedMonth && startDate.getDate() === selectedDate) {
+                                    return (
+                                        <>
+                                            <div className={style.appointmentBox} style={positionAppointment({ hour: startDate.getHours(), minutes: startDate.getMinutes() }, { hour: endDate.getHours(), minutes: endDate.getMinutes() }, { hour: 8, minutes: 0 }, doctorID)} onClick={handleShow}>
+                                                <p><p className={style.appointmentBoxPacient}>
                                                     {appointment.pet.name}
                                                 </p>
-                                                <p className={style.appointmentBoxTime}>{`${new Date(
-                                                    appointment.startDate
-                                                ).getUTCHours()}:${new Date(appointment.startDate).getMinutes() < 10
-                                                    ? "0"
-                                                    : ""
-                                                    }${new Date(
+                                                    <p className={style.appointmentBoxTime}>{`${new Date(
                                                         appointment.startDate
-                                                    ).getMinutes()} - ${new Date(
-                                                        appointment.endDate
-                                                    ).getUTCHours()}:${new Date(appointment.endDate).getMinutes() < 10
+                                                    ).getHours()}:${new Date(appointment.startDate).getMinutes() < 10
                                                         ? "0"
                                                         : ""
-                                                    }${new Date(appointment.endDate).getMinutes()}`}</p>
+                                                        }${new Date(
+                                                            appointment.startDate
+                                                        ).getMinutes()} - ${new Date(
+                                                            appointment.endDate
+                                                        ).getHours()}:${new Date(appointment.endDate).getMinutes() < 10
+                                                            ? "0"
+                                                            : ""
+                                                        }${new Date(appointment.endDate).getMinutes()}`}</p></p>
                                             </div>
-                                        </div>
-                                        {showToast && (
-                                            <ToastContainer
-                                                style={{
-                                                    position: "absolute",
-                                                    top: position.top,
-                                                    left: position.left,
-                                                }}
-                                                className={style.toastContainer}
-                                                ref={toastRef}
-                                            >
-                                                <Toast onClose={handleCloseToast}>
-                                                    <Toast.Header className="align-items-center">
-                                                        <strong className="me-auto">Cita Programada</strong>
-                                                        {toastType === "view" && (
-                                                            <button
-                                                                className={style.button}
-                                                                onClick={() => setToastType("edit")}
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width="16"
-                                                                    height="16"
-                                                                    fill="currentColor"
-                                                                    className="bi bi-pencil"
-                                                                    viewBox="0 0 16 16"
-                                                                >
-                                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                                </svg>
-                                                            </button>
-                                                        )}
-                                                        <button
-                                                            className={style.button}
-                                                            onClick={() => {
-                                                                handleDeleteAppointment(toastData._id);
-                                                            }}
-                                                        >
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="16"
-                                                                height="16"
-                                                                fill="currentColor"
-                                                                className="bi bi-trash3"
-                                                                viewBox="0 0 16 16"
-                                                            >
+                                            < Modal show={show} onHide={handleClose} >
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title className="fs-2">Editar cita</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                    <FormC variant="edit-appointment" handleCloseModal={handleClose} handleUpdate={handleUpdate} data={appointment} />
+                                                    <div className="w-100">
+                                                        <CustomButton variant="transparent" className={style.deleteButton} type="button" onClick={(e) => { e.preventDefault(); handleDeleteAppointment(appointment._id) }}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
                                                                 <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
                                                             </svg>
-                                                        </button>
-                                                    </Toast.Header>
-                                                    <Toast.Body>
-                                                        {toastType === "view" && (
-                                                            <Table>
-                                                                <tbody className="bg-transparent">
-                                                                    <tr className={style.menuBodyRow}>
-                                                                        <td className={style.menuBodyCellLabel}>
-                                                                            Paciente
-                                                                        </td>
-                                                                        <td>{toastData.pet.name}</td>
-                                                                    </tr>
-                                                                    <tr className={style.menuBodyRow}>
-                                                                        <td className={style.menuBodyCellLabel}>
-                                                                            Veterinario
-                                                                        </td>
-                                                                        <td>{`Dr/a. ${toastData.doctor.user.firstName} ${toastData.doctor.user.lastName}`}</td>
-                                                                    </tr>
-
-                                                                    <tr className={style.menuBodyRow}>
-                                                                        <td className={style.menuBodyCellLabel}>
-                                                                            Horario
-                                                                        </td>
-                                                                        <td>
-                                                                            {`${new Date(
-                                                                                toastData.startDate
-                                                                            ).getDate()}/${new Date(
-                                                                                toastData.startDate
-                                                                            ).getMonth() + 1
-                                                                                }/${new Date(
-                                                                                    toastData.startDate
-                                                                                ).getFullYear()} 
-                                      ${new Date(
-                                                                                    toastData.startDate
-                                                                                ).getUTCHours()}:${new Date(
-                                                                                    toastData.startDate
-                                                                                ).getMinutes() < 10
-                                                                                    ? "0"
-                                                                                    : ""
-                                                                                }${new Date(
-                                                                                    toastData.startDate
-                                                                                ).getMinutes()} - ${new Date(
-                                                                                    toastData.endDate
-                                                                                ).getUTCHours()}:${new Date(
-                                                                                    toastData.endDate
-                                                                                ).getMinutes() < 10
-                                                                                    ? "0"
-                                                                                    : ""
-                                                                                }${new Date(
-                                                                                    toastData.endDate
-                                                                                ).getMinutes()} hs.`}
-                                                                        </td>
-                                                                    </tr>
-
-                                                                    <tr
-                                                                        className={`${style.menuBodyRow} border-0`}
-                                                                    >
-                                                                        <td
-                                                                            className={`${style.menuBodyCellLabel} border-0`}
-                                                                            colSpan={2}
-                                                                        >
-                                                                            Observaciones:
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr
-                                                                        className={`${style.menuBodyRow} border-0`}
-                                                                    >
-                                                                        <td colSpan={2} className="border-0">
-                                                                            {toastData.observations}
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </Table>
-                                                        )}
-                                                        {toastType === "edit" && (
-                                                            <FormC
-                                                                variant="edit-appointment"
-                                                                data={toastData}
-                                                                handleCloseModal={handleCloseToast}
-                                                                handleUpdate={handleUpdate}
-                                                            />
-                                                        )}
-                                                    </Toast.Body>
-                                                </Toast>
-                                            </ToastContainer>
-                                        )}
-                                    </div>
-                                ) : (
-                                    ""
-                                )
-                            )}
-                        </div>
+                                                            <p className="mb-0">Eliminar Cita</p></CustomButton>
+                                                    </div>
+                                                </Modal.Body>
+                                            </Modal >
+                                        </>
+                                    )
+                                }
+                            })
+                        }
                     </div>
                 </div>
-            </div>
-        );
-    }
-};
 
-export default AdminAppointments;
+            </>
+        )
+
+    }
+}
+
+export default AdminAppointments
