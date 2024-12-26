@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import clientAxios from "../helpers/clientAxios";
 import PetCard from "../components/PetCard";
+import Container from "react-bootstrap/Container";
 
 const MyPetsView = () => {
   const [showNewPetModal, setShowNewPetModal] = useState(false);
@@ -210,6 +211,14 @@ const UserProfilePage = ({ viewParam }) => {
       <div className={`${style.sideBContainer} flex-fill`}>
         {view === "user" && <UserView />}
         {view === "pets" && <MyPetsView />}
+        {view === "security" &&
+          (
+            <Container fluid="md" className="mt-5 px-5">
+              <h2 className="fs-2">Cambiar Contraseña</h2>
+              <p className="fs-4 mb-4">Para cambiar su contraseña, por favor ingrese su contraseña actual y a continuación la nueva contraseña</p>
+              <FormC variant="change-password" />
+            </Container>
+          )}
       </div>
     </div>
   );

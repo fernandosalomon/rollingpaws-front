@@ -217,11 +217,13 @@ const View = ({ variant, data, handleUpdateData }) => {
               {view === 0 && (
                 <div className="d-flex justify-content-center align-items-start mt-4">
                   <div className="d-flex flex-column justify-content-center align-items-center">
-                    <Image
-                      src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                      alt="User Image"
-                      style={{ width: "200px" }}
-                    />
+                    <div className="d-flex justify-content-center align-items-center rouded overflow-hidden mx-3" style={{ width: "150px", height: "150px", borderRadius: "50%" }}>
+                      <Image
+                        src={data.profilePic}
+                        alt="User Image"
+                        style={{ width: "200px" }}
+                      />
+                    </div>
                     <div className="mb-0">
                       {data.banned ? (
                         <p className="fw-semibold fs-2 text-danger">
@@ -286,14 +288,14 @@ const View = ({ variant, data, handleUpdateData }) => {
                     <h2 className="py-5">No hay mascotas para mostrar</h2>
                   ) : (
                     data.pets.map((pet) => (
-                      <Card style={{ width: "18rem" }} key={pet._id}>
+                      <Card style={{ width: "18rem", height: "26rem" }} key={pet._id}>
                         <Card.Img
                           variant="top"
-                          src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png"
+                          src={pet.image}
                           style={{
                             padding: "1rem",
-                            maxWidth: "150px",
-                            maxHeight: "150px",
+                            minWidth: "150px",
+                            minHeight: "150px",
                             margin: "0 auto",
                           }}
                         />
@@ -305,9 +307,6 @@ const View = ({ variant, data, handleUpdateData }) => {
                             <CRUDButtonGroup
                               variant="pet"
                               data={pet}
-                              view
-                              edit
-                              remove
                               handleUpdate={handleUpdateData}
                             />
                           </Card.Text>
@@ -321,11 +320,13 @@ const View = ({ variant, data, handleUpdateData }) => {
           )}
           {variant === "pet" && (
             <div className="d-flex justify-content-center align-items-center">
-              <Image
-                src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                alt="User Image"
-                style={{ width: "200px" }}
-              />
+              <div className="d-flex justify-content-center align-items-center rouded overflow-hidden  mx-3" style={{ width: "150px", height: "150px", borderRadius: "50%" }}>
+                <Image
+                  src={data.image}
+                  alt="User Image"
+                  style={{ width: "200px" }}
+                />
+              </div>
               <div className="flex-fill">
                 <h3 className={style.userCardName}>{data.name}</h3>
                 <div className={style.horizontalBar} />
@@ -607,7 +608,8 @@ const CRUDButtonGroup = ({
   return (
     <>
       <div className="d-flex gap-2">
-        {variant === "user" &&
+        {
+          variant === "user" &&
           <>
             <View
               variant={variant}
@@ -625,7 +627,28 @@ const CRUDButtonGroup = ({
               data={data}
               handleUpdateData={handleUpdate}
             />
-          </>}
+          </>
+        }
+        {
+          variant === "pet" &&
+          <>
+            <View
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+            <Edit
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+            <Delete
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+          </>
+        }
         {
           variant === "messages" &&
           <View
