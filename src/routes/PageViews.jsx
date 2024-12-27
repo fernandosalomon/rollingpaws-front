@@ -10,16 +10,13 @@ import ContactUsPage from "../components/ContactUsPage";
 import DoctorsPage from "../components/DoctorsPage";
 import AboutPlans from "../components/AboutPlans";
 import Error404 from "../pages/Error404";
-import Pets from "../components/Pets";
 import UserProfilePage from "../pages/UserProfilePage";
 import AdminAppointments from "../components/AdminAppointments";
-import style from "../styles/PageView.module.css"
-import Store from "../components/Store";
-import ProductDescription from "../components/ProductDescription";
+import style from "../styles/PageView.module.css";
 import AdminPage from "../pages/AdminPage";
 import AdminUser from "../components/AdminUser";
 import ForgotPassword from "../pages/ForgotPassword";
-import OurProducts from "../components/OurProducts";
+
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
@@ -57,8 +54,6 @@ const AnimatedRoutes = () => {
           path="/user-profile/notifications"
           element={<UserProfilePage viewParam="notification" />}
         />
-        <Route path="/mascotas" element={<Pets />} />
-        <Route path="/tienda" element={<PageWrapper><OurProducts /></PageWrapper>} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />
         <Route path="/contacto" element={<PageWrapper><ContactUsPage /></PageWrapper>} />
         <Route path="/servicios" element={<PageWrapper><ServicesPage /></PageWrapper>} />
