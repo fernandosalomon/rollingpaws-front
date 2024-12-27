@@ -2059,7 +2059,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             >
               <option value="" defaultValue="" disabled hidden>Seleccione al veterinario...</option>
               {doctorList.map((doctor, index) => (
-                <option value={index} onClick={() => setSelectedDoctor(doctor._id)}>{`Dr/a. ${doctor.user.firstName} ${doctor.user.lastName}`}</option>
+                <option value={index} onClick={() => setSelectedDoctor(doctor._id)}>{doctor.name}</option>
               ))}
             </Form.Select>
           </Form.Group>
@@ -2136,7 +2136,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                 {petList[petSelectWatch]?.name}
               </span>
               con el veterinario
-              <span className="fw-bold mx-1">{`Dr/Dra. ${doctorList[doctorSelectWatch] ? doctorList[doctorSelectWatch].user.firstName : ""} ${doctorList[doctorSelectWatch] ? doctorList[doctorSelectWatch].user.lastName : ""}`}</span>?
+              <span className="fw-bold mx-1">{`${doctorList[doctorSelectWatch].name}`}</span>?
             </p>
             <div className="d-flex gap-2 w-100 justify-content-center">
               <button
@@ -2343,7 +2343,7 @@ const EditAppointmentForm = ({
             <option value="" defaultValue="" disabled hidden>Seleccione al veterinario...</option>
             {
               doctorList.map((doctor, index) =>
-                <option value={index} onClick={() => setSelectedDoctor(index)}>{`Dr/a. ${doctor.user.firstName} ${doctor.user.lastName}`}</option>
+                <option value={index} onClick={() => setSelectedDoctor(index)}>{`${doctor.name}`}</option>
               )
             }
           </Form.Select>

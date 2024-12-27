@@ -19,6 +19,7 @@ import {
   petSpecie,
 } from "../../helpers/petFieldsDictionary";
 import Container from "react-bootstrap/Container";
+import { ModalHeader } from "react-bootstrap";
 
 const SearchBar = ({ data, filterColumns, handleData, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -412,6 +413,36 @@ const View = ({ variant, data, handleUpdateData }) => {
               </Container>
             )
           }
+          {
+            variant === "appointments" && (
+              <Container>
+                <h2 className="fs-2 mb-3">Datos del turno</h2>
+                <Table className={style.userCardTable}>
+                  <tbody>
+                    <tr>
+                      <td className={style.userCardLabel}>Fecha</td>
+                      <td className={style.userCardData}>
+                        <p className="mb-0">{`${new Date(data.startDate).getUTCDate()} / ${new Date(data.startDate).getUTCMonth() + 1}/${new Date(data.startDate).getUTCFullYear()} ${new Date(data.startDate).getHours()}:${new Date(data.startDate).getMinutes()}`}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Veterinario</td>
+                      <td className={style.userCardData}>{data.doctor.name}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Mascota</td>
+                      <td className={style.userCardData}>{data.pet.name}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Observaciones</td>
+                      <td className={style.userCardData}>{data.observations}</td>
+                    </tr>
+
+                  </tbody>
+                </Table>
+              </Container>
+            )
+          }
         </Modal.Body>
       </Modal>
     </>
@@ -444,6 +475,7 @@ const Edit = ({ variant, data, handleUpdateData }) => {
         </svg>
       </button>
       <Modal show={show} onHide={handleClose}>
+        <ModalHeader closeButton className="fs-1">Editar Turno</ModalHeader>
         <Modal.Body>
           {variant === "user" && (
             <FormC
@@ -461,6 +493,15 @@ const Edit = ({ variant, data, handleUpdateData }) => {
               handleUpdate={handleUpdateData}
             />
           )}
+          {
+            variant === "appointments" && (
+
+
+              <FormC variant="edit-appointment" data={data} handleCloseModal={handleClose}
+                handleUpdate={handleUpdateData} />
+
+            )
+          }
         </Modal.Body>
       </Modal>
     </>
@@ -537,7 +578,7 @@ const Delete = ({ variant, data, handleUpdateData }) => {
         Swal.fire({
           title: "Error",
           text: `El usuario no se pudo eliminar. Error: ${error.response.message}`,
-          icon: "success",
+          icon: "error",
         });
       }
     }
@@ -559,7 +600,7 @@ const Delete = ({ variant, data, handleUpdateData }) => {
       try {
         const res = await clientAxios.delete(`/pet/${data._id}`);
         Swal.fire({
-          title: "Mascota Eliminada",
+          title: "Turno eliminado",
           text: "La mascota fue eliminada satisfactoriamente",
           icon: "success",
         });
@@ -569,11 +610,43 @@ const Delete = ({ variant, data, handleUpdateData }) => {
         Swal.fire({
           title: "Error",
           text: `La mascota no se pudo eliminar. Error: ${error.response.message}`,
-          icon: "success",
+          icon: "error",
         });
       }
     }
   };
+
+  const handleDeleteAppointment = async () => {
+    const result = await Swal.fire({
+      title: "¿Esta seguro que desea cancelar este turno?",
+      text: "Este cambio no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, cancelar turno",
+      cancelButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(`/appointments/${data._id}`);
+        Swal.fire({
+          title: "Turno cancelado",
+          text: "El turno fue cancelado satisfactoriamente",
+          icon: "success",
+        });
+        handleUpdateData();
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "Error",
+          text: `El turno no se pudo cancelar. Contacte con el administrador. Error: ${error.response.message}`,
+          icon: "error",
+        });
+      }
+    }
+  }
 
   return (
     <button className={`${style.customTableButton} ${style.deleteButton}`}>
@@ -589,7 +662,7 @@ const Delete = ({ variant, data, handleUpdateData }) => {
             ? handleDeleteUser
             : variant === "pet"
               ? handleDeletePet
-              : () => { }
+              : variant === "appointments" ? handleDeleteAppointment : () => { }
         }
       >
         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -656,6 +729,26 @@ const CRUDButtonGroup = ({
             data={data}
             handleUpdateData={handleUpdate}
           />
+        }
+        {
+          variant === "appointments" &&
+          <>
+            <View
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+            <Edit
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+            <Delete
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+          </>
         }
       </div>
     </>
@@ -814,6 +907,39 @@ const TableWide = ({
               ))
             )
           }
+          {
+            variant === "appointments" &&
+            (
+              currentElements.map((dataPoint) => (
+                <tr className={`${style.tableRow}`} key={crypto.randomUUID()}>
+                  {columns.map(
+                    (column) =>
+                      !column.hidden &&
+                      (column.name === "pet" || column.name === "doctor" ?
+                        < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                          {dataPoint[column.name].name}
+                        </td> :
+                        column.name === "startDate" ?
+                          < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                            {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
+                          </td> :
+                          < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                            {dataPoint[column.name]}
+                          </td>)
+                  )}
+
+                  <td className={`${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`}>
+                    <CRUDButtonGroup
+                      variant={variant}
+                      data={dataPoint}
+                      handleUpdate={handleUpdateData}
+                    />
+                  </td>
+
+                </tr>
+              ))
+            )
+          }
         </tbody>
       </Table>
       {
@@ -862,7 +988,15 @@ const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
             <td className={`${style.tableCell} ${style.tableCellHeader}`}>
               {column.label}
             </td>
-            <td className={style.tableCell}>{dataPoint[column.name]}</td>
+            {column.name === "doctor" || column.name === "pet" ?
+              <td className={style.tableCell}>{dataPoint[column.name].name}</td> :
+              column.name === "startDate" ?
+                < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                  {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
+                </td>
+                :
+                <td className={style.tableCell}>{dataPoint[column.name]}</td>
+            }
           </tr>
         ))}
         <tr>
@@ -911,9 +1045,7 @@ const TableSmall = ({ data, columns, className, searchbar, variant, handleUpdate
   );
 };
 
-const CustomTable = ({ data, columns, handleUpdateData, variant }) => {
-
-
+const CustomTable = ({ data, columns, handleUpdateData, variant, searchbar }) => {
   return (
     <div className="mx-auto">
       <div>
@@ -921,7 +1053,7 @@ const CustomTable = ({ data, columns, handleUpdateData, variant }) => {
           data={data}
           columns={columns}
           className={style.tableWideContainer}
-          searchbar
+          searchbar={searchbar}
           pagination
           handleUpdateData={handleUpdateData}
           variant={variant}
@@ -932,7 +1064,7 @@ const CustomTable = ({ data, columns, handleUpdateData, variant }) => {
           data={data}
           columns={columns}
           className={style.tableSmallContainer}
-          searchbar
+          searchbar={searchbar}
           variant={variant}
           handleUpdate={handleUpdateData}
         />

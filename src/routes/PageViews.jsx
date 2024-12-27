@@ -49,6 +49,10 @@ const AnimatedRoutes = () => {
           element={<UserProfilePage viewParam="pets" />}
         />
         <Route
+          path="/user-profile/appointments"
+          element={<UserProfilePage viewParam="appointments" />}
+        />
+        <Route
           path="/user-profile/notifications"
           element={<UserProfilePage viewParam="notification" />}
         />

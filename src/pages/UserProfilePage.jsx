@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import clientAxios from "../helpers/clientAxios";
 import PetCard from "../components/PetCard";
 import Container from "react-bootstrap/Container";
+import CustomTable from "../components/shared/CustomTable";
+import { Spinner, Table } from "react-bootstrap";
 
 const MyPetsView = () => {
   const [showNewPetModal, setShowNewPetModal] = useState(false);
@@ -116,6 +118,66 @@ const UserView = () => {
   );
 };
 
+const UserAppointments = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    const getAppointments = async () => {
+      setIsLoading(true);
+      const token = sessionStorage.getItem("token");
+      const res = await clientAxios.get("/appointments/user", {
+        headers: {
+          authtoken: token,
+        }
+      })
+      setAppointments(res.data);
+      setIsLoading(false);
+    }
+
+    getAppointments();
+  }, [])
+
+  const handleUpdate = async () => {
+    setIsLoading(true);
+    const token = sessionStorage.getItem("token");
+    const res = await clientAxios.get("/appointments/user", {
+      headers: {
+        authtoken: token,
+      }
+    })
+    setAppointments(res.data);
+    setIsLoading(false);
+  }
+
+  useEffect(() => console.log(appointments), [appointments])
+
+  const labels = [
+    { name: "startDate", label: "Fecha", hidden: false },
+    { name: "doctor", label: "Veterinario", hidden: false },
+    { name: "pet", label: "Mascota", hidden: false },
+    { name: "observations", label: "Observaciones", hidden: true },
+  ];
+
+  if (isLoading) {
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  } else {
+    return (
+      <>
+        <div className={style.viewHeader}>
+          <h2 className={style.viewHeaderLabel}>Mis Turnos</h2>
+        </div>
+        <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
+          <CustomTable data={appointments} columns={labels} handleUpdateData={handleUpdate} variant="appointments" />
+        </div>
+      </>
+    );
+  }
+}
+
 const UserProfilePage = ({ viewParam }) => {
   const [view, setView] = useState(viewParam || "user");
   const navigate = useNavigate();
@@ -184,6 +246,18 @@ const UserProfilePage = ({ viewParam }) => {
                 </svg>
                 <p className="m-0">Mis mascotas</p>
               </li>
+              <li className={`${style.optionListItem} ${view === "appointments" ? style.optionListActive : ""
+                }`}
+                onClick={() => {
+                  setView("appointments");
+                  navigate("/user-profile/appointments");
+                }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-calendar-event" viewBox="0 0 16 16">
+                  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                </svg>
+                <p className="mb-0">Mis turnos</p>
+              </li>
               <li
                 className={`${style.optionListItem} ${view === "notifications" ? style.optionListActive : ""
                   }`}
@@ -219,6 +293,7 @@ const UserProfilePage = ({ viewParam }) => {
               <FormC variant="change-password" />
             </Container>
           )}
+        {view === "appointments" && <UserAppointments />}
       </div>
     </div>
   );

@@ -255,11 +255,11 @@ const NavbarC = () => {
                       </Dropdown.Item>
                       <Dropdown.Item
                         onClick={() => {
-                          navigate("/booking");
+                          navigate("/user-profile/appointments");
                         }}
                         className={style.userOptionsDropdownMenuItem}
                       >
-                        Reservar turno
+                        Mis turnos
                       </Dropdown.Item>
                       <Dropdown.Divider />
                       <Dropdown.Item
