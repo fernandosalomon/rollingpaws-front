@@ -2734,7 +2734,10 @@ const PlansInformationForm = () => {
 }
 
 const ChangePasswordForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showRepeatNewPassword, setShowRepeatNewPassword] = useState(false);
+
 
   const {
     register,
@@ -2743,7 +2746,54 @@ const ChangePasswordForm = () => {
     getValues,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => console.log(data))
+  const onSubmit = handleSubmit(async (data) => {
+    if (data.newPassword === data.repeatNewPassword) {
+      try {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+          const res = await clientAxios.put("/user/change-password", { oldPassword: data.oldPassword, newPassword: data.newPassword }, {
+            headers: {
+              authtoken: token,
+            }
+          });
+
+          Swal.fire({
+            icon: "success",
+            title: `La contraseña se modificó con exito`,
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: `Acceso denegado`,
+            text: `Token de acceso no autorizado`,
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        }
+      }
+      catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: `Algo salio mal`,
+          text: `${error?.response?.data}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: `Las contraseñas no coinciden`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+
+
+  })
 
   return (
     <Form onSubmit={onSubmit}>
@@ -2752,7 +2802,7 @@ const ChangePasswordForm = () => {
         <Form.Label className={style.formLabel}>Contraseña Actual</Form.Label>
         <InputGroup>
           <Form.Control
-            type={showPassword ? "text" : "password"}
+            type={showOldPassword ? "text" : "password"}
             className={style.formInput}
             {...register("oldPassword", {
               required: {
@@ -2764,10 +2814,10 @@ const ChangePasswordForm = () => {
           <InputGroup.Text
             className={style.passwordEye}
             onClick={() => {
-              setShowPassword(!showPassword);
+              setShowOldPassword(!showOldPassword);
             }}
           >
-            {showPassword ? (
+            {showOldPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -2807,7 +2857,7 @@ const ChangePasswordForm = () => {
         <Form.Label className={style.formLabel}>Nueva Contraseña</Form.Label>
         <InputGroup>
           <Form.Control
-            type={showPassword ? "text" : "password"}
+            type={showNewPassword ? "text" : "password"}
             className={style.formInput}
             {...register("newPassword", {
               required: {
@@ -2829,10 +2879,10 @@ const ChangePasswordForm = () => {
           <InputGroup.Text
             className={style.passwordEye}
             onClick={() => {
-              setShowPassword(!showPassword);
+              setShowNewPassword(!showNewPassword);
             }}
           >
-            {showPassword ? (
+            {showNewPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -2872,7 +2922,7 @@ const ChangePasswordForm = () => {
         <Form.Label className={style.formLabel}>Repetir nueva Contraseña</Form.Label>
         <InputGroup>
           <Form.Control
-            type={showPassword ? "text" : "password"}
+            type={showRepeatNewPassword ? "text" : "password"}
             className={style.formInput}
             {...register("repeatNewPassword", {
               required: {
@@ -2885,10 +2935,10 @@ const ChangePasswordForm = () => {
           <InputGroup.Text
             className={style.passwordEye}
             onClick={() => {
-              setShowPassword(!showPassword);
+              setShowRepeatNewPassword(!showRepeatNewPassword);
             }}
           >
-            {showPassword ? (
+            {showRepeatNewPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
