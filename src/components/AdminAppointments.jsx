@@ -341,7 +341,7 @@ const AdminAppointments = () => {
                             appointments.map((appointment) => {
                                 const startDate = new Date(appointment.startDate);
                                 const endDate = new Date(appointment.endDate);
-                                const doctorID = doctorList.findIndex((doctor) => doctor._id === appointment.doctor._id);
+                                const doctorID = doctorList.findIndex((doctor) => doctor._id === appointment.doctor);
                                 if (startDate.getFullYear() === selectedYear && startDate.getMonth() === selectedMonth && startDate.getDate() === selectedDate) {
                                     return (
                                         <>
