@@ -98,6 +98,12 @@
   width: 48px;
 }
 
+.contactInfoNavbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem
+}
+
 @media (max-width: 768px) {
   .Navbar {
     flex-direction: column !important;
@@ -114,6 +120,10 @@
 
   .NavLinks a {
     font-size: 18px;
+  }
+
+  .contactInfoNavbar {
+    display: none;
   }
 }
 
