@@ -65,6 +65,8 @@ const WeatherBar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [location, setLocation] = useState(null);
 
+  const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY
+
   useEffect(() => {
     setIsLoading(true);
     let latitude, longitude = null;
@@ -88,7 +90,7 @@ const WeatherBar = () => {
       if (location !== null) {
         console.log(location);
         try {
-          const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=f3ed3731dfd64e2b8d6190711242712&q=${location.latitude},${location.longitude}&aqi=no`);
+          const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${location.latitude},${location.longitude}&aqi=no`);
           setWeatherData(weather.data);
           setIsLoading(false);
         } catch (error) {
