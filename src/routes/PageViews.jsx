@@ -19,6 +19,7 @@ import ProductDescription from "../components/ProductDescription";
 import AdminPage from "../pages/AdminPage";
 import AdminUser from "../components/AdminUser";
 import ForgotPassword from "../pages/ForgotPassword";
+import OurProducts from "../components/OurProducts";
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
@@ -57,8 +58,7 @@ const AnimatedRoutes = () => {
           element={<UserProfilePage viewParam="notification" />}
         />
         <Route path="/mascotas" element={<Pets />} />
-        <Route path="/tienda/:idProducto" element={<PageWrapper><ProductDescription /></PageWrapper>} />
-        <Route path="/tienda" element={<PageWrapper><Store /></PageWrapper>} />
+        <Route path="/tienda" element={<PageWrapper><OurProducts /></PageWrapper>} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />
         <Route path="/contacto" element={<PageWrapper><ContactUsPage /></PageWrapper>} />
         <Route path="/servicios" element={<PageWrapper><ServicesPage /></PageWrapper>} />

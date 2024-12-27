@@ -149,7 +149,6 @@ const NavbarC = () => {
                 <Nav className={style.NavLinks}>
                   <Link to="/nosotros">Nosotros</Link>
                   <Link to="/servicios">Servicios</Link>
-                  <Link to="/tienda">Productos</Link>
                   <Link to="/Contacto">Contacto</Link>
                 </Nav>
               )}
@@ -186,18 +185,6 @@ const NavbarC = () => {
                     </svg>
                     <p className="m-0">Pedir Turno</p>
                   </CustomButton>
-                  <Link to="/tienda">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="#000"
-                      class="bi bi-bag"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
-                    </svg>
-                  </Link>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

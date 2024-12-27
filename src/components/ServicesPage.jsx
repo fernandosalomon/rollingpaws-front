@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import CustomButton from "./shared/CustomButton";
 import PlansBanner from "./PlansBanner";
+import OurProducts from "./OurProducts";
 
 
 const ServicesPage = () => {
@@ -212,6 +213,16 @@ const ServicesPage = () => {
           </h3>
         </div>
         <PlansBanner />
+      </Container>
+
+      <Container fluid="lg" className="mt-3">
+        <div className="mb-5">
+          <h2 className={style.pageTitle}>Nuestros productos</h2>
+          <h3 className={style.pageSubtitle}>
+            Tenemos una amplia variedad de productos para tus mascotas
+          </h3>
+        </div>
+        <OurProducts />
       </Container>
     </>
   );
