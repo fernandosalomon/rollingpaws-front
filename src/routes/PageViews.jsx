@@ -16,6 +16,8 @@ import style from "../styles/PageView.module.css";
 import AdminPage from "../pages/AdminPage";
 import AdminUser from "../components/AdminUser";
 import ForgotPassword from "../pages/ForgotPassword";
+import PrivateRoute from "../components/PrivateRoute";
+import AdminPrivateRoute from "../components/AdminPrivateRoute";
 
 
 const PageWrapper = ({ children, className }) => {
@@ -30,30 +32,30 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
 
-        <Route path="/admin/appointment" element={<AdminAppointments />} />
-        <Route path="/admin/users" element={<AdminUser />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/forgot-password/:auth" element={<ForgotPassword />} />
+        <Route path="/admin/appointment" element={<AdminPrivateRoute><AdminAppointments /></AdminPrivateRoute>} />
+        <Route path="/admin/users" element={<AdminPrivateRoute><AdminUser /></AdminPrivateRoute>} />
+        <Route path="/admin" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
         <Route
           path="/user-profile/information"
-          element={<UserProfilePage viewParam="user" />}
+          element={<PrivateRoute><UserProfilePage viewParam="user" /></PrivateRoute>}
         />
         <Route
           path="/user-profile/security"
-          element={<UserProfilePage viewParam="security" />}
+          element={<PrivateRoute><UserProfilePage viewParam="security" /></PrivateRoute>}
         />
         <Route
           path="/user-profile/pets"
-          element={<UserProfilePage viewParam="pets" />}
+          element={<PrivateRoute><UserProfilePage viewParam="pets" /></PrivateRoute>}
         />
         <Route
           path="/user-profile/appointments"
-          element={<UserProfilePage viewParam="appointments" />}
+          element={<PrivateRoute><UserProfilePage viewParam="appointments" /></PrivateRoute>}
         />
         <Route
           path="/user-profile/notifications"
-          element={<UserProfilePage viewParam="notification" />}
+          element={<PrivateRoute><UserProfilePage viewParam="notification" /></PrivateRoute>}
         />
+        <Route path="/forgot-password/:auth" element={<ForgotPassword />} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />
         <Route path="/contacto" element={<PageWrapper><ContactUsPage /></PageWrapper>} />
         <Route path="/servicios" element={<PageWrapper><ServicesPage /></PageWrapper>} />
