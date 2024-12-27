@@ -1,11 +1,38 @@
 import { useNavigate } from "react-router-dom";
 import style from "../styles/LandingPage.module.css";
 import CustomButton from "./shared/CustomButton";
+import { Modal } from "react-bootstrap";
+import { useState } from "react";
+import FormC from "./shared/FormC";
 
+const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header className="border-0">
+          <button className="btn-close" onClick={handleClose}></button>
+        </Modal.Header>
+        <Modal.Body className={style.modalBody}>
+          <FormC
+            variant="sign-in"
+            handleCloseModal={handleClose}
+          />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
 
 const LandingPage = () => {
-
+  const [showSignIn, setShowSignIn] = useState(false);
   const navigate = useNavigate()
+  const handleShowSignIn = () => setShowSignIn(true);
+  const handleCloseSignIn = () => setShowSignIn(false);
 
   return (
     <>
@@ -24,12 +51,16 @@ const LandingPage = () => {
             <CustomButton variant="callToAction" size="lg" className="w-50" onClick={() => navigate("/nosotros")}>
               Saber más
             </CustomButton>
-            <CustomButton variant="secondary" size="lg" className="w-50">
+            <CustomButton variant="secondary" size="lg" className="w-50" onClick={handleShowSignIn}>
               Iniciar Sesión
             </CustomButton>
           </div>
         </div>
       </div>
+      <SignInModal
+        show={showSignIn}
+        handleClose={handleCloseSignIn}
+      />
     </>
   );
 };
