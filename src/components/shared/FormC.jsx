@@ -2136,7 +2136,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                 {petList[petSelectWatch]?.name}
               </span>
               con el veterinario
-              <span className="fw-bold mx-1">{`${doctorList[doctorSelectWatch].name}`}</span>?
+              <span className="fw-bold mx-1">{`${doctorList[doctorSelectWatch]?.name}`}</span>?
             </p>
             <div className="d-flex gap-2 w-100 justify-content-center">
               <button
