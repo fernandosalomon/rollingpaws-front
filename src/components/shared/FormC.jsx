@@ -604,7 +604,12 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const res = await clientAxios.put(`/user/${userData._id}`, data);
+      const token = sessionStorage.getItem("token");
+      const res = await clientAxios.put(`/user/${userData._id}`, data, {
+        headers: {
+          authtoken: token,
+        },
+      });
       handleUpdateData();
       handleCloseModal();
       Swal.fire({
@@ -906,9 +911,9 @@ const UserProfileForm = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const userToken = sessionStorage.getItem("token");
       try {
         setIsLoading(true);
+        const userToken = sessionStorage.getItem("token");
         const userData = await clientAxios.get("/user/self", {
           headers: {
             authtoken: userToken,
@@ -939,8 +944,8 @@ const UserProfileForm = () => {
 
   const handleRefreshUserData = async () => {
     try {
-      const userToken = sessionStorage.getItem("token");
       setIsLoading(true);
+      const userToken = sessionStorage.getItem("token");
       const userData = await clientAxios.get("/user/self", {
         headers: {
           authtoken: userToken,
@@ -982,15 +987,21 @@ const UserProfileForm = () => {
     try {
 
       setIsUploading(true);
-      const res = await clientAxios.put(`/user/${userData._id}`, updatedData);
+      const token = sessionStorage.getItem("token");
+      const res = await clientAxios.put(`/user/${userData._id}`, updatedData, {
+        headers: {
+          authtoken: token,
+        },
+      });
 
       if (profilePic?.length) {
         const formData = new FormData()
         formData.append("profilePic", profilePic[0]);
-
+        const token = sessionStorage.getItem("token");
         const imageRes = await clientAxios.post(`/user/profile-pic/${userData._id}`, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            authtoken: token,
           }
         })
       }
@@ -1032,7 +1043,12 @@ const UserProfileForm = () => {
 
     if (confirm.isConfirmed) {
       try {
-        const result = await clientAxios.put(`/user/${userData._id}`, { profilePic: "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734977722/user-default-pic_y72gar.png" })
+        const token = sessionStorage.getItem("token");
+        const result = await clientAxios.put(`/user/${userData._id}`, { profilePic: "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734977722/user-default-pic_y72gar.png" }, {
+          headers: {
+            authtoken: token,
+          },
+        })
         Swal.fire({
           icon: "success",
           title: `Imagen de perfil eliminada`,
@@ -1380,6 +1396,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
     const token = sessionStorage.getItem("token");
 
     try {
+      const token = sessionStorage.getItem("token");
       const res = await clientAxios.post("/pet/", petData, {
         headers: {
           authtoken: token,
@@ -1389,9 +1406,11 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
       if (data.petImage[0]) {
         const formData = new FormData()
         formData.append("image", data.petImage[0]);
+        const token = sessionStorage.getItem("token");
         const imageRes = await clientAxios.post(`/pet/image/${res.data._id}`, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            authtoken: token,
           }
         })
       }
@@ -1656,9 +1675,11 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
       if (data.petImage[0]) {
         const formData = new FormData()
         formData.append("image", data.petImage[0]);
+        const token = sessionStorage.getItem("token");
         const imageRes = await clientAxios.post(`/pet/image/${petData._id}`, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            authtoken: token,
           }
         })
       }
@@ -1932,6 +1953,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       return null;
     } else {
       try {
+        const token = sessionStorage.getItem("token");
         const newAppointment = await clientAxios.post(
           "/appointments",
           newAppointmentData,
@@ -1982,7 +2004,12 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
     const getDoctorsList = async () => {
       try {
         setIsLoading(true);
-        const doctors = await clientAxios.get("/doctor/");
+        const token = sessionStorage.getItem("token");
+        const doctors = await clientAxios.get("/doctor/", {
+          headers: {
+            authtoken: token,
+          },
+        });
         setDoctorList(doctors.data)
         setIsLoading(false);
       } catch (error) {
@@ -1999,7 +2026,12 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
     const getDoctorFreeHours = async () => {
       try {
         setIsLoading(true);
-        const doctors = await clientAxios.get(`/doctor/clinic-hours/${selectedDoctor}&${new Date(selectedYear, selectedMonth, selectedDay)}`);
+        const token = sessionStorage.getItem("token");
+        const doctors = await clientAxios.get(`/doctor/clinic-hours/${selectedDoctor}&${new Date(selectedYear, selectedMonth, selectedDay)}`, {
+          headers: {
+            authtoken: token,
+          },
+        });
         setDoctorFreeHours(doctors.data)
         setIsLoading(false);
       } catch (error) {
@@ -2200,7 +2232,12 @@ const EditAppointmentForm = ({
     const getDoctorsList = async () => {
       try {
         setIsLoading(true);
-        const res = await clientAxios("/doctor/");
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios("/doctor/", {
+          headers: {
+            authtoken: token,
+          },
+        });
         setDoctorList(res.data);
         setIsLoading(false);
       } catch (error) {
@@ -2234,7 +2271,12 @@ const EditAppointmentForm = ({
     const getAvailableDoctorHours = async () => {
       try {
         setIsLoading(true);
-        const res = await clientAxios(`/doctor/clinic-hours/${doctorList[selectedDoctor]._id}&${new Date(selectedStartYear, selectedStartMonth, selectedStartDate)}`);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios(`/doctor/clinic-hours/${doctorList[selectedDoctor]._id}&${new Date(selectedStartYear, selectedStartMonth, selectedStartDate)}`, {
+          headers: {
+            authtoken: token,
+          },
+        });
         setAvailableHours(res.data);
         setIsLoading(false);
       } catch (error) {
@@ -2300,9 +2342,14 @@ const EditAppointmentForm = ({
     };
 
     try {
+      const token = sessionStorage.getItem("token");
       const updatedAppointment = await clientAxios.put(
         `/appointments/${appointmentData._id}`,
-        updatedAppointmentData,
+        updatedAppointmentData, {
+        headers: {
+          authtoken: token,
+        },
+      }
       );
       if (updatedAppointment) {
         Swal.fire({

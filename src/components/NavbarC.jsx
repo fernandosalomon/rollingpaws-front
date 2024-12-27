@@ -5,13 +5,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Modal from "react-bootstrap/Modal";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
 import Logo from "../assets/img/simple-logo-nobg.png";
 import style from "../styles/Navbar.module.css";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
   return (
@@ -59,11 +60,100 @@ const NewAppointmentModal = ({ show, handleClose }) => {
   );
 };
 
+const WeatherBar = () => {
+  const [weatherData, setWeatherData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    setIsLoading(true);
+    let latitude, longitude = null;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          latitude = position.coords.latitude;
+          longitude = position.coords.longitude;
+          setLocation({ latitude, longitude })
+        }, (error) => console.log("Ocurrio un error al obtener la posición del usuario: ", error)
+      );
+      setIsLoading(false);
+    }
+  }, [])
+
+  useEffect(() => {
+
+    const fetchWeatherApi = async () => {
+      setIsLoading(true);
+      if (location !== null) {
+        console.log(location);
+        try {
+          const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=f3ed3731dfd64e2b8d6190711242712&q=${location.latitude},${location.longitude}&aqi=no`);
+          setWeatherData(weather.data);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        console.error('Tu navegador no soporta geolocalización.');
+      }
+    }
+    fetchWeatherApi();
+  }, [location])
+
+  useEffect(() => console.log(weatherData.location), [weatherData])
+
+  return (
+    <div className={style.weatherDataContainer}>
+      <div className="d-flex align-items-center gap-3">
+        <div className="d-flex align-items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-telephone-fill" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+          </svg>
+          <p className="mb-0 fs-5">+54 381 4123456</p>
+        </div>
+        <div className="d-flex align-items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            fill="currentColor"
+            className="bi bi-whatsapp"
+            viewBox="0 0 16 16"
+          >
+            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+          </svg>
+          <p className="mb-0 fs-5">+54 381 4123456</p>
+        </div>
+        <div className="d-flex align-items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+          </svg>
+          <p className="mb-0 fs-5">Calle Falsa 123, San Miguel de Tucumán, Tucumán</p>
+        </div>
+      </div>
+      {
+        !isLoading ?
+          <div className="d-flex align-items-center gap-2">
+            <Image src={weatherData?.current?.condition?.icon} alt={weatherData?.current?.condition?.text} className={style.weatherDataIcon} />
+            <p className="mb-0 fw-semibold">{`${weatherData?.current?.temp_c}°C`}</p>
+          </div>
+          :
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+      }
+    </div>)
+
+
+}
+
 const NavbarC = () => {
   const [userRole, setUserRole] = useState("not-logged");
   const navigate = useNavigate();
   const [showSignIn, setShowSignIn] = useState(false);
   const [showNewAppointment, setShowNewAppointment] = useState(false);
+
 
   const handleCloseSession = async () => {
     const token = sessionStorage.getItem("token");
@@ -114,6 +204,7 @@ const NavbarC = () => {
 
   return (
     <>
+      <WeatherBar />
       <Navbar expand="md" className={style.Navbar}>
         <Container fluid>
           <Link to="/">

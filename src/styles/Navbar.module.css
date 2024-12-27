@@ -84,6 +84,20 @@
   margin-bottom: 0;
 }
 
+.weatherDataContainer {
+  height: 40px;
+  background-color: var(--orange-300);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.weatherDataIcon {
+  height: 48px;
+  width: 48px;
+}
+
 @media (max-width: 768px) {
   .Navbar {
     flex-direction: column !important;
