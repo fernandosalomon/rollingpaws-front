@@ -385,6 +385,12 @@
   font-size: 1.6rem;
 }
 
+.forgotPasswordLink {
+  color: var(--orange-500);
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
 .inputField:focus,
 .textArea:focus {
   border-color: var(--main-color-lighter);
@@ -396,6 +402,7 @@
 .inputField:-webkit-autofill {
   background-color: #f2f2f2;
 }
+
 
 .profileImageContainer {
   width: 200px;

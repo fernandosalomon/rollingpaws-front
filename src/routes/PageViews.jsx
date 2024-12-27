@@ -18,6 +18,7 @@ import Store from "../components/Store";
 import ProductDescription from "../components/ProductDescription";
 import AdminPage from "../pages/AdminPage";
 import AdminUser from "../components/AdminUser";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
@@ -34,6 +35,7 @@ const AnimatedRoutes = () => {
         <Route path="/admin/appointment" element={<AdminAppointments />} />
         <Route path="/admin/users" element={<AdminUser />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/forgot-password/:auth" element={<ForgotPassword />} />
         <Route
           path="/user-profile/information"
           element={<UserProfilePage viewParam="user" />}
