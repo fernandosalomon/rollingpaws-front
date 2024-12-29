@@ -207,7 +207,7 @@ const NavbarC = () => {
   return (
     <>
       <WeatherBar />
-      <Navbar expand="md" className={style.Navbar}>
+      <Navbar expand="md" className={style.Navbar} sticky="top">
         <Container fluid>
           <Link to="/">
             <Image
