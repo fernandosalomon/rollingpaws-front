@@ -125,3 +125,13 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+@media (max-width: 426px) {
+  .UserProfilePageContainer {
+    flex-direction: column;
+  }
+
+  .sideAContainer {
+    min-width: 100%;
+  }
+}

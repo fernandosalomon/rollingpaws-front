@@ -272,38 +272,6 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           Registrarse
         </CustomButton>
       </Form>
-      <div className={style.dividerBar}>
-        <div></div>
-        <p>O</p>
-      </div>
-
-      <button className={style.accessWithGoogleBtn} onClick={() => { }}>
-        <svg
-          width="30px"
-          height="30px"
-          viewBox="-3 0 262 262"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-            fill="#4285F4"
-          />
-          <path
-            d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-            fill="#34A853"
-          />
-          <path
-            d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-            fill="#FBBC05"
-          />
-          <path
-            d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-            fill="#EB4335"
-          />
-        </svg>
-        <p className="m-0">Acceder con Google</p>
-      </button>
     </>
   );
 };
@@ -471,38 +439,6 @@ const SignInForm = ({
           Iniciar Sesión
         </CustomButton>
       </Form>
-      <div className={style.dividerBar}>
-        <div></div>
-        <p>O</p>
-      </div>
-
-      <button className={style.accessWithGoogleBtn} onClick={() => { }}>
-        <svg
-          width="30px"
-          height="30px"
-          viewBox="-3 0 262 262"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-            fill="#4285F4"
-          />
-          <path
-            d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-            fill="#34A853"
-          />
-          <path
-            d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-            fill="#FBBC05"
-          />
-          <path
-            d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-            fill="#EB4335"
-          />
-        </svg>
-        <p className="m-0">Acceder con Google</p>
-      </button>
     </>
   );
 };
@@ -1079,7 +1015,7 @@ const UserProfileForm = () => {
   } else {
     return (
       <>
-        <Form className={style.formContainer} onSubmit={onSubmit}>
+        <Form className={style.form} onSubmit={onSubmit}>
 
           <div className="d-flex align-items-center gap-4">
             <div className={style.profileImageContainer}>
@@ -1471,13 +1407,13 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
         </div>
 
         <Form.Group className="mb-3 w-100" controlId="newPetName">
-          <Form.Label className={style.inputFieldLabel}>
+          <Form.Label className={style.formLabel}>
             Nombre de tu mascota
           </Form.Label>
           <Form.Control
             type="text"
             placeholder="Agrega el nombre de tu mascota"
-            className={style.inputField}
+            className={style.formInput}
             {...register("petName", {
               required: { value: true, message: "Campo requerido" },
               minLength: {
@@ -1498,10 +1434,10 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
 
         <div className="d-flex gap-2">
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Especie</h5>
+            <h5 className={style.formLabel}>Especie</h5>
             <Form.Select
               aria-label="PetSpecie"
-              className={style.inputField}
+              className={style.formInput}
               {...register("petSpecie")}
             >
               <option value="0">Perro</option>
@@ -1514,10 +1450,10 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
             </Form.Select>
           </div>
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Raza</h5>
+            <h5 className={style.formLabel}>Raza</h5>
             <Form.Control
               aria-label="petBreed"
-              className={style.inputField}
+              className={style.formInput}
               {...register("petBreed")}
             />
           </div>
@@ -1525,7 +1461,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
 
         <div className="d-flex gap-2">
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Sexo</h5>
+            <h5 className={style.formLabel}>Sexo</h5>
             <ButtonGroup
               aria-label="newPetSex"
               className={style.sexCheckButtonsContainer}
@@ -1547,10 +1483,10 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
             </ButtonGroup>
           </div>
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Tamaño</h5>
+            <h5 className={style.formLabel}>Tamaño</h5>
             <Form.Select
               aria-label="newPetSize"
-              className={style.inputField}
+              className={style.formInput}
               {...register("petSize")}
             >
               <option value="1">Muy pequeño (0 - 1 Kg)</option>
@@ -1564,10 +1500,10 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
         <div>
           <div className="d-flex gap-2">
             <div className="w-50">
-              <h5 className={style.inputFieldLabel}>Edad</h5>
+              <h5 className={style.formLabel}>Edad</h5>
               <Form.Select
                 aria-label="newPetAge"
-                className={style.inputField}
+                className={style.formInput}
                 {...register("petAge")}
               >
                 <option value="1">Cachorro (0 - 1 Año)</option>
@@ -1577,10 +1513,10 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
               </Form.Select>
             </div>
             <div className="w-50">
-              <h5 className={style.inputFieldLabel}>Salud</h5>
+              <h5 className={style.formLabel}>Salud</h5>
               <Form.Select
                 aria-label="newPetHealth"
-                className={style.inputField}
+                className={style.formInput}
                 {...register("petHealth")}
               >
                 <option value="1">Desconocido</option>
@@ -1592,12 +1528,12 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
           </div>
         </div>
         <Form.Group className="mb-3 w-100" controlId="newPetDescription">
-          <Form.Label className={style.inputFieldLabel}>Descripción</Form.Label>
+          <Form.Label className={style.formLabel}>Descripción</Form.Label>
           <Form.Control
             as="textarea"
             placeholder="Agrega una breve descripción de tu mascota"
             style={{ height: "100px" }}
-            className={style.inputField}
+            className={style.formInput}
             {...register("petDescription")}
           />
         </Form.Group>
@@ -1740,13 +1676,13 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
         </div>
 
         <Form.Group className="mb-3 w-100" controlId="newPetName">
-          <Form.Label className={style.inputFieldLabel}>
+          <Form.Label className={style.formLabel}>
             Nombre de tu mascota
           </Form.Label>
           <Form.Control
             type="text"
             placeholder="Agrega el nombre de tu mascota"
-            className={style.inputField}
+            className={style.formInput}
             {...register("petName", {
               required: { value: true, message: "Campo requerido" },
               minLength: {
@@ -1767,10 +1703,10 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
 
         <div className="d-flex gap-2">
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Especie</h5>
+            <h5 className={style.formLabel}>Especie</h5>
             <Form.Select
               aria-label="PetSpecie"
-              className={style.inputField}
+              className={style.formInput}
               {...register("petSpecie")}
             >
               <option value="0">Perro</option>
@@ -1783,10 +1719,10 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
             </Form.Select>
           </div>
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Raza</h5>
+            <h5 className={style.formLabel}>Raza</h5>
             <Form.Control
               aria-label="petBreed"
-              className={style.inputField}
+              className={style.formInput}
               {...register("petBreed")}
             />
           </div>
@@ -1794,7 +1730,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
 
         <div className="d-flex gap-2">
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Sexo</h5>
+            <h5 className={style.formLabel}>Sexo</h5>
             <ButtonGroup
               aria-label="newPetSex"
               className={style.sexCheckButtonsContainer}
@@ -1816,10 +1752,10 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
             </ButtonGroup>
           </div>
           <div className="w-50">
-            <h5 className={style.inputFieldLabel}>Tamaño</h5>
+            <h5 className={style.formLabel}>Tamaño</h5>
             <Form.Select
               aria-label="newPetSize"
-              className={style.inputField}
+              className={style.formInput}
               {...register("petSize")}
             >
               <option value="1">Muy pequeño (0 - 1 Kg)</option>
@@ -1833,10 +1769,10 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
         <div>
           <div className="d-flex gap-2">
             <div className="w-50">
-              <h5 className={style.inputFieldLabel}>Edad</h5>
+              <h5 className={style.formLabel}>Edad</h5>
               <Form.Select
                 aria-label="newPetAge"
-                className={style.inputField}
+                className={style.formInput}
                 {...register("petAge")}
               >
                 <option value="1">Cachorro (0 - 1 Año)</option>
@@ -1846,10 +1782,10 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
               </Form.Select>
             </div>
             <div className="w-50">
-              <h5 className={style.inputFieldLabel}>Salud</h5>
+              <h5 className={style.formLabel}>Salud</h5>
               <Form.Select
                 aria-label="newPetHealth"
-                className={style.inputField}
+                className={style.formInput}
                 {...register("petHealth")}
               >
                 <option value="1">Desconocido</option>
@@ -1861,12 +1797,12 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
           </div>
         </div>
         <Form.Group className="mb-3 w-100" controlId="newPetDescription">
-          <Form.Label className={style.inputFieldLabel}>Descripción</Form.Label>
+          <Form.Label className={style.formLabel}>Descripción</Form.Label>
           <Form.Control
             as="textarea"
             placeholder="Agrega una breve descripción de tu mascota"
             style={{ height: "100px" }}
-            className={style.inputField}
+            className={style.formInput}
             {...register("petDescription")}
           />
         </Form.Group>
@@ -2249,16 +2185,16 @@ const EditAppointmentForm = ({
 
 
     setSelectedStartYear(new Date(appointmentData.startDate).getUTCFullYear());
-    setSelectedStartMonth(new Date(appointmentData.startDate).getUTCMonth());
+    setSelectedStartMonth(new Date(appointmentData.startDate).getUTCMonth() + 1);
     setSelectedStartDate(new Date(appointmentData.startDate).getUTCDate());
     setSelectedStartHour(new Date(appointmentData.startDate).getUTCHours())
     setSelectedStartMinutes(new Date(appointmentData.startDate).getUTCMinutes())
 
     setSelectedEndYear(new Date(appointmentData.endDate).getUTCFullYear());
-    setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth());
+    setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth() + 1);
     setSelectedEndDate(new Date(appointmentData.endDate).getUTCDate());
     setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours())
-    setSelectedEndMinutes(new Date(appointmentData.endDate).getUTCMinutes())
+    setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
   }, [])
 
   useEffect(() => {

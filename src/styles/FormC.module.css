@@ -5,9 +5,11 @@
 .formTitle {
   font-family: var(--font-poppins);
   font-size: 2.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid #f2f2f2;
+  width: 100%;
+  text-align: center;
 }
 
 .formLabel {
@@ -31,6 +33,25 @@
 .formInput:focus {
   outline: 0;
   box-shadow: none;
+  background-color: #f2f2f2;
+}
+
+.textArea {
+  filter: drop-shadow(0 0 1px #818181);
+  background-color: #f2f2f2;
+  font-size: 1.6rem;
+}
+
+.forgotPasswordLink {
+  color: var(--orange-500);
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.textArea:focus {
+  border-color: var(--main-color-lighter);
+  box-shadow: 0 0 0 0.25rem rgba(255, 130, 37, 0.4);
+  filter: none;
   background-color: #f2f2f2;
 }
 
@@ -70,49 +91,6 @@
   margin-left: 0.2rem;
   font-weight: 700;
 }
-
-.dividerBar {
-  position: relative;
-  width: 100%;
-  height: 40px;
-}
-
-.dividerBar div {
-  border-top: 2px solid rgba(0, 0, 0, 0.2);
-  height: 20px;
-  width: 100%;
-  position: absolute;
-  top: 20px;
-  z-index: 1;
-}
-
-.dividerBar p {
-  position: absolute;
-  top: 20%;
-  left: calc(50% - 5px);
-  margin: 0;
-  z-index: 2;
-  background-color: #fff;
-  padding: 0 5px;
-}
-
-.accessWithGoogleBtn {
-  position: relative;
-  margin-top: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  padding: 0.7rem 0 !important;
-  background-color: #f2f2f2;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 7px;
-  font-size: clamp(18px, 2vw, 24px);
-  font-family: var(--font-poppins);
-}
-
-/*EDITAR USUARIO */
 
 .editUserProfileImageContainer {
   display: flex;
@@ -203,6 +181,7 @@
   margin: 0.2rem;
   background-color: transparent;
   font-family: var(--font-poppins);
+  font-size: 1.6rem;
   font-weight: 400;
   border-radius: 14px !important;
 }
@@ -227,15 +206,6 @@
   background-color: #f2f2f2;
   cursor: pointer;
 }
-
-@media (max-width: 425px) {
-  .form {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-}
-
-/* Agregar mascota */
 
 .petImageInputContainer {
   display: flex;
@@ -358,52 +328,6 @@
   color: #fc504a;
 }
 
-/* ------------------------ */
-
-.formContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-}
-
-.inputFieldLabel {
-  margin: 0 0 0.6rem 0;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.inputField {
-  height: 48px;
-  filter: drop-shadow(0 0 1px #818181);
-  background-color: #f2f2f2;
-}
-
-.textArea {
-  filter: drop-shadow(0 0 1px #818181);
-  background-color: #f2f2f2;
-  font-size: 1.6rem;
-}
-
-.forgotPasswordLink {
-  color: var(--orange-500);
-  margin-top: 1rem;
-  font-weight: 500;
-}
-
-.inputField:focus,
-.textArea:focus {
-  border-color: var(--main-color-lighter);
-  box-shadow: 0 0 0 0.25rem rgba(255, 130, 37, 0.4);
-  filter: none;
-  background-color: #f2f2f2;
-}
-
-.inputField:-webkit-autofill {
-  background-color: #f2f2f2;
-}
-
-
 .profileImageContainer {
   width: 200px;
   height: 200px;
@@ -437,13 +361,6 @@
 
 .removeImageButtonSize {
   width: 200px;
-}
-
-@media (max-width: 425px) {
-  .form {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
 }
 
 .datePickerContainer {
@@ -498,4 +415,11 @@
   max-height: 350px !important;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 425px) {
+  .form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
