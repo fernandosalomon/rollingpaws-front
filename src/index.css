@@ -46,11 +46,6 @@ body {
   font-size: 1.6rem;
 }
 
-.modal-content {
-  background-color: #fffbf5 !important;
-  min-width: 290px;
-}
-
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
   display: none;

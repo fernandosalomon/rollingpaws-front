@@ -6,6 +6,7 @@ import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
 import Swal from "sweetalert2";
 import Container from "react-bootstrap/Container";
+import CustomCalendar from "./CustomCalendar";
 
 const AdminAppointments = () => {
 
@@ -25,6 +26,14 @@ const AdminAppointments = () => {
     const headerBoxesContainerRef = useRef(null);
     const [appointments, setAppointments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [showCalendar, setShowCalendar] = useState(false);
+    const handleCloseCalendar = () => setShowCalendar(false);
+    const handleShowCalendar = () => setShowCalendar(true);
 
     const daysInWeek = [
         {
@@ -154,68 +163,73 @@ const AdminAppointments = () => {
         hours.push(`${i >= 10 ? "" : "0"}${i} ${i > 12 ? "PM" : "AM"}`);
     }
 
-    const headerCalendar = [];
-
-    for (let i = 1; i <= new Date(headerYear, headerMonth + 1, 0).getDate(); i++) {
-        headerCalendar.push(new Date(selectedYear, headerMonth, i));
-    }
-
-    useEffect(() => {
-        setIsLoading(true);
-        const headerWidth = 78 * (headerCalendar.length + 1);
-        setHeaderBoxWidth(headerWidth);
-        const viewBox = headerBoxesContainerRef.current.getBoundingClientRect().width;
-        setElementsPerPage(Math.floor(viewBox / 78));
-        setNumberOfPages(Math.ceil(headerCalendar.length / Math.floor(viewBox / 78)) - 1)
-
-        if (selectedYear === new Date().getFullYear() && selectedMonth === new Date().getMonth() && selectedDate === new Date().getDate()) {
-            const page = Math.floor(selectedDate / Math.floor(viewBox / 78));
-            setCurrentPage(page);
-        }
-
-        setIsLoading(false)
-    }, [headerYear, headerMonth, headerDate])
+    // const headerCalendar = [];
 
 
-    const handleSetDate = (year, month, date) => {
-        setSelectedYear(year);
-        setSelectedMonth(month);
-        setSelectedDate(date);
-    }
+    // for (let month = 0; month < 12; month++) {
+    //     for (let i = 1; i <= new Date(headerYear, month + 1, 0).getDate(); i++) {
+    //         headerCalendar.push(new Date(selectedYear, month, i));
+    //     }
+    // }
 
-    const handlePrev = () => {
-        if (currentPage > 0) {
-            setCurrentPage(currentPage - 1)
-        } else {
-            if (headerMonth === 0) {
-                setHeaderYear(headerYear - 1);
-                setHeaderMonth(11);
-                setHeaderDate(1);
-                setCurrentPage(numberOfPages);
-            } else {
-                setHeaderMonth(headerMonth - 1)
-                setHeaderDate(1);
-                setCurrentPage(numberOfPages);
-            }
-        }
-    }
+    // useEffect(() => { console.log(headerCalendar) }, [headerCalendar])
 
-    const handleNext = () => {
-        if (currentPage < numberOfPages) {
-            setCurrentPage(currentPage + 1)
-        } else {
-            if (headerMonth === 11) {
-                setHeaderYear(headerYear + 1);
-                setHeaderMonth(0);
-                setHeaderDate(1);
-                setCurrentPage(0)
-            } else {
-                setHeaderMonth(headerMonth + 1)
-                setHeaderDate(1);
-                setCurrentPage(0)
-            }
-        }
-    }
+    // useEffect(() => {
+    //     setIsLoading(true);
+    //     const headerWidth = 78 * (headerCalendar.length + 1);
+    //     setHeaderBoxWidth(headerWidth);
+    //     const viewBox = headerBoxesContainerRef.current.getBoundingClientRect().width;
+    //     setElementsPerPage(Math.floor(viewBox / 78));
+    //     setNumberOfPages(Math.ceil(headerCalendar.length / Math.floor(viewBox / 78)) - 1)
+
+    //     if (selectedYear === new Date().getFullYear() && selectedMonth === new Date().getMonth() && selectedDate === new Date().getDate()) {
+    //         const page = Math.floor(selectedDate / Math.floor(viewBox / 78));
+    //         setCurrentPage(page);
+    //     }
+
+    //     setIsLoading(false)
+    // }, [headerYear, headerMonth, headerDate])
+
+
+    // const handleSetDate = (year, month, date) => {
+    //     setSelectedYear(year);
+    //     setSelectedMonth(month);
+    //     setSelectedDate(date);
+    // }
+
+    // const handlePrev = () => {
+    //     if (currentPage > 0) {
+    //         setCurrentPage(currentPage - 1)
+    //     } else {
+    //         if (headerMonth === 0) {
+    //             setHeaderYear(headerYear - 1);
+    //             setHeaderMonth(11);
+    //             setHeaderDate(1);
+    //             setCurrentPage(numberOfPages);
+    //         } else {
+    //             setHeaderMonth(headerMonth - 1)
+    //             setHeaderDate(1);
+    //             setCurrentPage(numberOfPages);
+    //         }
+    //     }
+    // }
+
+    // const handleNext = () => {
+    //     if (currentPage < numberOfPages) {
+    //         setCurrentPage(currentPage + 1)
+    //     } else {
+    //         if (headerMonth === 11) {
+    //             setHeaderYear(headerYear + 1);
+    //             setHeaderMonth(0);
+    //             setHeaderDate(1);
+    //             setCurrentPage(0)
+    //         } else {
+    //             setHeaderMonth(headerMonth + 1)
+    //             setHeaderDate(1);
+    //             setCurrentPage(0)
+    //         }
+    //     }
+    // }
 
     const positionAppointment = (startTime, endTime, openingHour, doctorID) => {
         const opening = (openingHour.hour * 60 + openingHour.minutes);
@@ -308,10 +322,14 @@ const AdminAppointments = () => {
         }
     }
 
-    const [show, setShow] = useState(false);
+    const handleSetDate = (year, month, day) => {
+        setSelectedDate(day);
+        setSelectedMonth(month);
+        setSelectedYear(year);
+        handleCloseCalendar();
+    }
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
 
     if (isLoading) {
         return (<Spinner animation="border" role="status">
@@ -321,12 +339,30 @@ const AdminAppointments = () => {
         return (
             <>
                 <div className={style.container}>
-                    <h3>{`${monthInYear[headerMonth].monthName} ${headerYear}`}</h3>
                     <Container className={style.header}>
-                        <div className={style.headerDateBoxesContainer} ref={headerBoxesContainerRef}>
+                        <div className="d-flex gap-4 align-items-center">
+                            <h3>{`${selectedDate} de ${monthInYear[selectedMonth].monthName} de ${selectedYear}`}</h3>
+                            <button className={style.todayButton} onClick={() => handleSetDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())}>Hoy</button>
+                        </div>
+
+                        <CustomButton variant="transparent" onClick={handleShowCalendar} className={style.calendarButton}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" className="bi bi-calendar-event" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                            </svg>
+                        </CustomButton>
+                        <Modal show={showCalendar} onHide={handleCloseCalendar} contentClassName={style.modalContent} dialogClassName={style.modal} centered>
+                            <Modal.Body>
+                                <CustomCalendar border handleSetDate={handleSetDate} allowPreviousDates selectedDate={new Date()} />
+                            </Modal.Body>
+                        </Modal>
+
+
+
+                        {/* <div className={style.headerDateBoxesContainer} ref={headerBoxesContainerRef}>
 
                             {headerCalendar.slice(elementsPerPage * currentPage, (elementsPerPage * (currentPage + 1))).map((date) =>
-                                <div className={`${style.headerDateBox} ${selectedDate === date.getUTCDate() && selectedMonth === date.getUTCMonth() && selectedYear === date.getUTCFullYear() ? style.selected : ""}`} onClick={() => handleSetDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())}>
+                                <div className={`${style.headerDateBox} ${selectedDate === date.getDate() && selectedMonth === date.getMonth() && selectedYear === date.getFullYear() ? style.selected : ""}`} onClick={() => handleSetDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())} key={date}>
                                     <p className="mb-0">{date.getDate()}</p>
                                     <p className="mb-0">{daysInWeek[date.getDay()].dayShortName}</p>
                                 </div>
@@ -335,7 +371,7 @@ const AdminAppointments = () => {
                         </div>
 
                         <button className={`${style.controlButton} ${style.prevButton}`} onClick={handlePrev}>&lt;</button>
-                        <button className={`${style.controlButton} ${style.nextButton}`} onClick={handleNext}>&gt;</button>
+                        <button className={`${style.controlButton} ${style.nextButton}`} onClick={handleNext}>&gt;</button> */}
 
                     </Container>
                     <div className={style.body}>
