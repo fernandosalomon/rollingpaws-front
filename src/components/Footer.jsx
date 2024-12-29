@@ -29,17 +29,10 @@ const Footer = () => {
         </Col>
         <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <h3 className={`${style.text} ${style.title}`}>Enlaces Útiles</h3>
-          <Link className={style.link}>Acerca de nosotros</Link>
-          <Link className={style.link}>Servicios</Link>
-          <Link className={style.link}>Contacto</Link>
-          <Link className={style.link}>Trabaja con nosotros</Link>
-        </Col>
-        <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
-          <h3 className={`${style.text} ${style.title}`}>Servicios</h3>
-          <Link className={style.link}>Clínica</Link>
-          <Link className={style.link}>Cirugía</Link>
-          <Link className={style.link}>Peluquería</Link>
-          <Link className={style.link}>Tienda</Link>
+          <Link className={style.link} to="/nosotros">Acerca de nosotros</Link>
+          <Link className={style.link} to="/servicios">Servicios</Link>
+          <Link className={style.link} to="/contacto">Contacto</Link>
+          <Link className={style.link} to="/trabaja-con-nosotros">Trabaja con nosotros</Link>
         </Col>
         <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <div className="mb-3 d-flex flex-column align-items-center align-items-sm-start justify-content-start">
@@ -49,7 +42,7 @@ const Footer = () => {
               </svg>
               <p className="mb-0">¿Dónde estamos?</p>
             </span>
-            <p className={`${style.text} ms-2`}>Calle Falsa 123, San Miguel de Tucumán, Tucumán</p>
+            <p className={`${style.text} ms-2`}>Calle Falsa 123, <br />San Miguel de Tucumán, Tucumán</p>
           </div>
 
           <div className="mb-3 d-flex flex-column align-items-center align-items-sm-start justify-content-start">
@@ -84,7 +77,8 @@ const Footer = () => {
               <p className={`${style.text}`}>+54 381 4123456</p>
             </div>
           </div>
-
+        </Col>
+        <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <div className="mb-3 d-flex flex-column align-items-center align-items-sm-start justify-content-start">
             <span className={`${style.text} ${style.title} d-flex gap-2 align-items-center`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
