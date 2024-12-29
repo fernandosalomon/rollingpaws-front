@@ -32,9 +32,11 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
 
-        <Route path="/admin/appointment" element={<AdminPrivateRoute><AdminAppointments /></AdminPrivateRoute>} />
-        <Route path="/admin/users" element={<AdminPrivateRoute><AdminUser /></AdminPrivateRoute>} />
-        <Route path="/admin" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
+        <Route path="/admin/services" element={<AdminPrivateRoute><AdminPage page="services" /></AdminPrivateRoute>} />
+        <Route path="/admin/messages" element={<AdminPrivateRoute><AdminPage page="messages" /></AdminPrivateRoute>} />
+        <Route path="/admin/appointments" element={<AdminPrivateRoute><AdminPage page="appointments" /></AdminPrivateRoute>} />
+        <Route path="/admin/users" element={<AdminPrivateRoute><AdminPage page="users" /></AdminPrivateRoute>} />
+        <Route path="/admin" element={<AdminPrivateRoute><AdminPage page="landing" /></AdminPrivateRoute>} />
         <Route
           path="/user-profile/information"
           element={<PrivateRoute><UserProfilePage viewParam="user" /></PrivateRoute>}

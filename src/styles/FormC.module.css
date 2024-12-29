@@ -417,6 +417,21 @@
   flex-direction: column;
 }
 
+.serviceImageInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.serviceImageInput {
+  width: 110%;
+}
+
 @media (max-width: 425px) {
   .form {
     padding-left: 0.5rem;

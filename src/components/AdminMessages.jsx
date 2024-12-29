@@ -12,7 +12,12 @@ const AdminMessages = () => {
         const getMessages = async () => {
             try {
                 setIsLoading(true);
-                const res = await clientAxios.get("/messages/");
+                const token = sessionStorage.getItem("token");
+                const res = await clientAxios.get("/messages/", {
+                    headers: {
+                        authtoken: token,
+                    }
+                });
                 setMessages(res.data);
                 setIsLoading(false);
             } catch (error) {
@@ -35,7 +40,12 @@ const AdminMessages = () => {
     const handleUpdateData = async () => {
         try {
             setIsLoading(true);
-            const res = await clientAxios.get("/messages/");
+            const token = sessionStorage.getItem("token");
+            const res = await clientAxios.get("/messages/", {
+                headers: {
+                    authtoken: token,
+                }
+            });
             setMessages(res.data);
             setIsLoading(false);
         } catch (error) {

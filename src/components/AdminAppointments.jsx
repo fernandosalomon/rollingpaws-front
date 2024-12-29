@@ -128,10 +128,15 @@ const AdminAppointments = () => {
     ];
 
     useEffect(() => {
+        const token = sessionStorage.getItem("token");
         const getDoctorsList = async () => {
             try {
                 setIsLoading(true);
-                const res = await clientAxios("/doctor/");
+                const res = await clientAxios.get("/doctor/", {
+                    headers: {
+                        authtoken: token,
+                    }
+                });
                 setDoctorList(res.data);
                 setIsLoading(false);
             } catch (error) {
@@ -225,10 +230,15 @@ const AdminAppointments = () => {
     }
 
     useEffect(() => {
+        const token = sessionStorage.getItem("token");
         const getAppointments = async () => {
             try {
                 setIsLoading(true);
-                const res = await clientAxios("/appointments/");
+                const res = await clientAxios.get("/appointments/", {
+                    headers: {
+                        authtoken: token,
+                    }
+                });
                 setAppointments(res.data);
                 setIsLoading(false);
             } catch (error) {
@@ -245,7 +255,12 @@ const AdminAppointments = () => {
     const handleUpdate = async () => {
         try {
             setIsLoading(true);
-            const res = await clientAxios("/appointments/");
+            const token = sessionStorage.getItem("token");
+            const res = await clientAxios.get("/appointments/", {
+                headers: {
+                    authtoken: token,
+                }
+            });
             setAppointments(res.data);
             setIsLoading(false);
         } catch (error) {
@@ -267,7 +282,12 @@ const AdminAppointments = () => {
             });
 
             if (result.isConfirmed) {
-                const res = await clientAxios.delete(`/appointments/${appointmentID}`);
+                const token = sessionStorage.getItem("token");
+                const res = await clientAxios.delete(`/appointments/${appointmentID}`, {
+                    headers: {
+                        authtoken: token,
+                    }
+                });
                 Swal.fire({
                     icon: "success",
                     title: `La cita fue eliminada satisfactoriamente.`,

@@ -183,7 +183,7 @@ const View = ({ variant, data, handleUpdateData }) => {
     <>
       <button
         className={`${style.customTableButton} ${style.moreInfoButton}`}
-        onClick={() => { handleShow(); handleReadMessage(); }}
+        onClick={() => { handleShow(); variant === "message" && handleReadMessage(); }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -443,6 +443,29 @@ const View = ({ variant, data, handleUpdateData }) => {
               </Container>
             )
           }
+          {
+            variant === "services" && (
+              <Container>
+                <div className="w-100 d-flex justify-content-center">
+                  <div className={style.serviceImageContainer}>
+                    <Image src={data.image} alt={data.name} />
+                  </div>
+                </div>
+                <Table className={style.userCardTable}>
+                  <tbody>
+                    <tr>
+                      <td className={style.userCardLabel}>Nombre</td>
+                      <td className={style.userCardData}>{data.name}</td>
+                    </tr>
+                    <tr>
+                      <td className={style.userCardLabel}>Descripción</td>
+                      <td className={`${style.userCardData} text-wrap`}>{data.description}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Container>
+            )
+          }
         </Modal.Body>
       </Modal>
     </>
@@ -495,11 +518,14 @@ const Edit = ({ variant, data, handleUpdateData }) => {
           )}
           {
             variant === "appointments" && (
-
-
               <FormC variant="edit-appointment" data={data} handleCloseModal={handleClose}
                 handleUpdate={handleUpdateData} />
-
+            )
+          }
+          {
+            variant === "services" && (
+              <FormC variant="edit-services" data={data} handleCloseModal={handleClose}
+                handleUpdate={handleUpdateData} />
             )
           }
         </Modal.Body>
@@ -571,6 +597,8 @@ const Delete = ({ variant, data, handleUpdateData }) => {
           title: "Usuario Eliminado",
           text: "El usuario fue eliminado satisfactoriamente",
           icon: "success",
+          showConfirmButton: false,
+          timer: 2500,
         });
         handleUpdateData();
       } catch (error) {
@@ -603,6 +631,8 @@ const Delete = ({ variant, data, handleUpdateData }) => {
           title: "Turno eliminado",
           text: "La mascota fue eliminada satisfactoriamente",
           icon: "success",
+          showConfirmButton: false,
+          timer: 2500
         });
         handleUpdateData();
       } catch (error) {
@@ -635,6 +665,8 @@ const Delete = ({ variant, data, handleUpdateData }) => {
           title: "Turno cancelado",
           text: "El turno fue cancelado satisfactoriamente",
           icon: "success",
+          showConfirmButton: false,
+          timer: 2500
         });
         handleUpdateData();
       } catch (error) {
@@ -647,6 +679,41 @@ const Delete = ({ variant, data, handleUpdateData }) => {
       }
     }
   }
+
+  const handleDeleteService = async () => {
+    const result = await Swal.fire({
+      title: "¿Esta seguro que desea eliminar este servicio?",
+      text: "Este cambio no se puede revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, borrarlo",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await clientAxios.delete(`/services/${data._id}`);
+        Swal.fire({
+          title: "Servicio eliminado",
+          text: "El servicio fue eliminado satisfactoriamente",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2500
+        });
+        handleUpdateData();
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "Error",
+          text: `El servicio no se pudo eliminar. Error: ${error.response.message}`,
+          icon: "error",
+        });
+      }
+    }
+  };
+
 
   return (
     <button className={`${style.customTableButton} ${style.deleteButton}`}>
@@ -662,7 +729,8 @@ const Delete = ({ variant, data, handleUpdateData }) => {
             ? handleDeleteUser
             : variant === "pet"
               ? handleDeletePet
-              : variant === "appointments" ? handleDeleteAppointment : () => { }
+              : variant === "appointments" ? handleDeleteAppointment :
+                variant === "services" ? handleDeleteService : () => { }
         }
       >
         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -732,6 +800,26 @@ const CRUDButtonGroup = ({
         }
         {
           variant === "appointments" &&
+          <>
+            <View
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+            <Edit
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+            <Delete
+              variant={variant}
+              data={data}
+              handleUpdateData={handleUpdate}
+            />
+          </>
+        }
+        {
+          variant === "services" &&
           <>
             <View
               variant={variant}
@@ -938,6 +1026,33 @@ const TableWide = ({
 
                 </tr>
               ))
+            )
+          }
+          {
+            variant === "services" &&
+            (
+              currentElements.map((dataPoint) => (
+                <tr className={`${style.tableRow}`} key={crypto.randomUUID()}>
+                  {columns.map(
+                    (column) =>
+                      !column.hidden &&
+                      <td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                        {dataPoint[column.name]}
+                      </td>
+
+                  )}
+
+                  <td>
+                    <CRUDButtonGroup
+                      variant={variant}
+                      data={dataPoint}
+                      handleUpdate={handleUpdateData}
+                    />
+                  </td>
+
+                </tr>
+              ))
+
             )
           }
         </tbody>

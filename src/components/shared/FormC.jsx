@@ -3233,6 +3233,314 @@ const ChangePasswordWithTokenForm = ({ token }) => {
   )
 }
 
+const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) => {
+  const serviceImageRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm();
+
+  useEffect(() => {
+    setValue("serviceName", serviceData.name);
+    setValue("serviceDescription", serviceData.description)
+  }, [])
+
+  const handleClickChangeServicePic = () => {
+    const fileInput = document.getElementById("inputFileServiceImage");
+    fileInput.click();
+  }
+
+  const serviceImageWatch = watch("serviceImage");
+
+  useEffect(() => {
+    if (serviceImageRef.current !== null && serviceImageWatch?.length > 0) {
+      serviceImageRef.current.src = URL.createObjectURL(serviceImageWatch[0]);
+    }
+  }, [serviceImageWatch])
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsUploading(true);
+    if (data.serviceImage[0]) {
+      const formData = new FormData()
+      formData.append("image", data.serviceImage[0]);
+      try {
+        const res = await clientAxios.put(`/services/image/${serviceData._id}`, formData)
+      } catch (error) {
+        console.log(error)
+        Swal.fire({
+          icon: "error",
+          title: `Algo salio mal`,
+          text: `${error?.response?.data}`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+    }
+
+    try {
+      const res = await clientAxios.put(`/services/${serviceData._id}`, { name: data.serviceName, description: data.serviceDescription })
+      handleCloseModal();
+      handleUpdateData();
+      setIsUploading(false);
+      Swal.fire({
+        icon: "success",
+        title: `La información del servicio se actualizó con exito`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: `Algo salio mal`,
+        text: `${error?.response?.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+
+  })
+
+  return (
+    <Form onSubmit={onSubmit}>
+      <div className="d-flex gap-5 align-items-center">
+        <div className={style.serviceImageInputContainer}>
+          <img
+            src={serviceData.image || "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734985899/default-pet-image_abs6xm.png"}
+            alt="serviceImage"
+            className={style.serviceImageInput}
+            ref={serviceImageRef}
+          />
+        </div>
+        <div className="d-flex flex-column align-items-center justify-content-start">
+          <Form.Control
+            type="file"
+            placeholder="Imagen del servicio"
+            hidden
+            {...register("serviceImage")}
+            id="inputFileServiceImage"
+          />
+          <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleClickChangeServicePic}>
+            <span className="d-flex justify-content-center align-items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              <p className="mb-0">Subir una imagen</p>
+            </span>
+          </CustomButton>
+        </div>
+
+      </div>
+
+      <Form.Group className="mb-3 w-100" controlId="editServiceName">
+        <Form.Label className={style.formLabel}>
+          Nombre
+        </Form.Label>
+        <Form.Control
+          type="text"
+          className={style.formInput}
+          {...register("serviceName", {
+            required: { value: true, message: "Campo requerido" },
+            minLength: {
+              value: 2,
+              message: "Mínimo requerido: 2 caracteres",
+            },
+            maxLength: {
+              value: 40,
+              message: "Máximo permitido: 40 caracteres",
+            },
+            pattern: {
+              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+              message: "Formato de nombre inválido.",
+            },
+          })}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3 w-100" controlId="editServiceDescription">
+        <Form.Label className={style.formLabel}>Descripción</Form.Label>
+        <Form.Control
+          as="textarea"
+          style={{ height: "100px" }}
+          className={style.formInput}
+          {...register("serviceDescription")}
+        />
+      </Form.Group>
+
+      <div className="w-100">
+        <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>{isUploading ?
+          <div className="d-flex gap-2 justify-content-center align-items-center">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+            <p className="mb-0">Actualizando servicio</p>
+          </div>
+          : "Actualizar servicio"}</CustomButton>
+      </div>
+    </Form>
+  )
+}
+
+const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
+  const serviceImageRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
+
+  const handleClickChangeServicePic = () => {
+    const fileInput = document.getElementById("inputFileServiceImage");
+    fileInput.click();
+  }
+
+  const serviceImageWatch = watch("serviceImage");
+
+  useEffect(() => {
+    if (serviceImageRef.current !== null && serviceImageWatch?.length > 0) {
+      serviceImageRef.current.src = URL.createObjectURL(serviceImageWatch[0]);
+    }
+  }, [serviceImageWatch])
+
+  const onSubmit = handleSubmit(async (data) => {
+
+
+    try {
+      setIsUploading(true);
+      const newService = await clientAxios.post(`/services/`, { name: data.serviceName, description: data.serviceDescription })
+
+      if (data.serviceImage[0]) {
+        const formData = new FormData()
+        formData.append("image", data.serviceImage[0]);
+        try {
+          const newServiceImage = await clientAxios.put(`/services/image/${newService.data.data._id}`, formData)
+        } catch (error) {
+          console.log(error)
+          Swal.fire({
+            icon: "error",
+            title: `Algo salio mal`,
+            text: `${error?.response?.data}`,
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        }
+      }
+
+      handleCloseModal();
+      handleUpdateData();
+      setIsUploading(false);
+      Swal.fire({
+        icon: "success",
+        title: `La información del servicio se actualizó con exito`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: `Algo salio mal`,
+        text: `${error?.response?.data}`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+
+  })
+
+  return (
+    <Form onSubmit={onSubmit}>
+      <div className="d-flex gap-5 align-items-center">
+        <div className={style.serviceImageInputContainer}>
+          <img
+            src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735503761/add-image-default-icon_bqjkwv.png"
+            alt="serviceImage"
+            className={style.serviceImageInput}
+            ref={serviceImageRef}
+          />
+        </div>
+        <div className="d-flex flex-column align-items-center justify-content-start">
+          <Form.Control
+            type="file"
+            placeholder="Imagen del servicio"
+            hidden
+            {...register("serviceImage")}
+            id="inputFileServiceImage"
+          />
+          <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleClickChangeServicePic}>
+            <span className="d-flex justify-content-center align-items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              <p className="mb-0">Subir una imagen</p>
+            </span>
+          </CustomButton>
+        </div>
+
+      </div>
+
+      <Form.Group className="mb-3 w-100" controlId="editServiceName">
+        <Form.Label className={style.formLabel}>
+          Nombre
+        </Form.Label>
+        <Form.Control
+          type="text"
+          className={style.formInput}
+          placeholder="Agrega el nombre del servicio..."
+          {...register("serviceName", {
+            required: { value: true, message: "Campo requerido" },
+            minLength: {
+              value: 2,
+              message: "Mínimo requerido: 2 caracteres",
+            },
+            maxLength: {
+              value: 40,
+              message: "Máximo permitido: 40 caracteres",
+            },
+            pattern: {
+              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+              message: "Formato de nombre inválido.",
+            },
+          })}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3 w-100" controlId="editServiceDescription">
+        <Form.Label className={style.formLabel}>Descripción</Form.Label>
+        <Form.Control
+          as="textarea"
+          style={{ height: "100px" }}
+          placeholder="Agrega una breve descripción del servicio..."
+          className={style.formInput}
+          {...register("serviceDescription")}
+        />
+      </Form.Group>
+
+      <div className="w-100">
+        <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>{isUploading ?
+          <div className="d-flex gap-2">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+            <p className="mb-0">Creando servicio</p>
+          </div>
+          : "Crear servicio"}</CustomButton>
+      </div>
+    </Form>
+  )
+}
+
 const FormC = ({
   variant,
   handleCloseModal,
@@ -3318,6 +3626,16 @@ const FormC = ({
       {
         formType === "change-password-token" && (
           <ChangePasswordWithTokenForm token={data} />
+        )
+      }
+      {
+        formType === "edit-services" && (
+          <EditServiceForm serviceData={data} handleCloseModal={handleCloseModal} handleUpdateData={handleUpdate} />
+        )
+      }
+      {
+        formType === "new-service" && (
+          <NewServiceForm handleCloseModal={handleCloseModal} handleUpdateData={handleUpdate} />
         )
       }
     </>

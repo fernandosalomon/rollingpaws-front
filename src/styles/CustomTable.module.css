@@ -214,6 +214,7 @@
 
 .tableSmallContainer {
   display: none;
+  min-width: 450px;
 }
 
 .tableRowHeader {
@@ -238,6 +239,9 @@
   font-family: var(--font-poppins);
   font-weight: 300;
   padding: 1.5rem !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .customTableButton {
@@ -387,6 +391,18 @@
 
 .paginationButton>a {
   color: var(--orange-400) !important;
+}
+
+.serviceImageContainer {
+  width: 200px;
+  height: 200px;
+  border-radius: 7px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.serviceImageContainer img {
+  width: 100%;
 }
 
 @media (max-width: 786px) {

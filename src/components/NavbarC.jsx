@@ -209,7 +209,7 @@ const NavbarC = () => {
       <WeatherBar />
       <Navbar expand="md" className={style.Navbar} sticky="top">
         <Container fluid>
-          <Link to="/">
+          <Link to={userRole === "admin" ? "/admin" : "/"}>
             <Image
               src={Logo}
               alt="Rolling Paws Logo"
@@ -236,7 +236,9 @@ const NavbarC = () => {
               {userRole === "admin" ? (
                 <Nav className={style.NavLinks}>
                   <Link to="/admin/users">Usuarios</Link>
-                  <Link to="/admin/appointment">Turnos</Link>
+                  <Link to="/admin/appointments">Turnos</Link>
+                  <Link to="/admin/messages">Mensajes</Link>
+                  <Link to="/admin/services">Servicios</Link>
                 </Nav>
               ) : (
                 <Nav className={style.NavLinks}>
