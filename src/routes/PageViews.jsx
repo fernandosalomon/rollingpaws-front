@@ -18,6 +18,7 @@ import AdminUser from "../components/AdminUser";
 import ForgotPassword from "../pages/ForgotPassword";
 import PrivateRoute from "../components/PrivateRoute";
 import AdminPrivateRoute from "../components/AdminPrivateRoute";
+import DeveloperPage from "../pages/DeveloperPage";
 
 
 const PageWrapper = ({ children, className }) => {
@@ -63,6 +64,7 @@ const AnimatedRoutes = () => {
         <Route path="/servicios" element={<PageWrapper><ServicesPage /></PageWrapper>} />
         <Route path="/nosotros/veterinarios" element={<PageWrapper><DoctorsPage /></PageWrapper>} />
         <Route path="/nosotros/comentarios" element={<PageWrapper><Testimonials /></PageWrapper>} />
+        <Route path="/developer" element={<PageWrapper><DeveloperPage /></PageWrapper>} />
         <Route path="/nosotros" element={<PageWrapper><AboutUsPage /></PageWrapper>} />
         <Route path="/" element={<PageWrapper className={style.overflowHidden}><LandingPage /></PageWrapper>} />
         <Route path="*" element={<Error404 />} />

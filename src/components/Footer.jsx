@@ -30,6 +30,7 @@ const Footer = () => {
         <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <h3 className={`${style.text} ${style.title}`}>Enlaces Útiles</h3>
           <Link className={style.link} to="/nosotros">Acerca de nosotros</Link>
+          <Link className={style.link} to="/developer">Acerca del desarrollador</Link>
           <Link className={style.link} to="/servicios">Servicios</Link>
           <Link className={style.link} to="/contacto">Contacto</Link>
           <Link className={style.link} to="/trabaja-con-nosotros">Trabaja con nosotros</Link>
