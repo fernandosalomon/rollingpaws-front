@@ -63,54 +63,24 @@ const NewAppointmentModal = ({ show, handleClose }) => {
 const WeatherBar = () => {
   const [weatherData, setWeatherData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [location, setLocation] = useState(null);
 
   const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
   useEffect(() => {
-    setIsLoading(true);
-    let latitude, longitude = null;
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          latitude = position.coords.latitude;
-          longitude = position.coords.longitude;
-          setLocation({ latitude, longitude })
-        }, (error) => console.log("Ocurrio un error al obtener la posición del usuario: ", error)
-      );
-      setIsLoading(false);
-    }
-  }, [])
-
-  useEffect(() => {
 
     const fetchWeatherApi = async () => {
-      setIsLoading(true);
-      if (location !== null) {
-        console.log(location);
-        try {
-          const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${location.latitude},${location.longitude}&aqi=no`);
-          console.log(weather.data);
-          if (weather.data) {
-            setWeatherData(weather.data);
-            setIsLoading(false);
-          } else {
-            setIsLoading(true);
-            const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucuman}&aqi=no`);
-            setWeatherData(weather.data);
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.log(error)
-        }
-      } else {
-        console.error('Tu navegador no soporta geolocalización.');
-
+      try {
+        setIsLoading(true);
+        const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucuman&aqi=no`);
+        setWeatherData(weather.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error)
       }
     }
+
     fetchWeatherApi();
-  }, [location])
+  }, [])
 
   return (
     <div className={style.weatherDataContainer}>
