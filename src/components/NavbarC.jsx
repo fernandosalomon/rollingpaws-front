@@ -90,17 +90,22 @@ const WeatherBar = () => {
       if (location !== null) {
         try {
           const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${location.latitude},${location.longitude}&aqi=no`);
-          setWeatherData(weather.data);
-          setIsLoading(false);
+
+          if (weather) {
+            setWeatherData(weather.data);
+            setIsLoading(false);
+          } else {
+            setIsLoading(true);
+            const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucumán}&aqi=no`);
+            setWeatherData(weather.data);
+            setIsLoading(false);
+          }
         } catch (error) {
           console.log(error)
         }
       } else {
         console.error('Tu navegador no soporta geolocalización.');
-        setIsLoading(true);
-        const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucumán}&aqi=no`);
-        setWeatherData(weather.data);
-        setIsLoading(false);
+
       }
     }
     fetchWeatherApi();
