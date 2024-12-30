@@ -27,15 +27,15 @@ const AdminUser = () => {
     };
 
     const labels = [
-        { name: "firstName", label: "Nombre", hidden: false },
-        { name: "lastName", label: "Apellido", hidden: false },
-        { name: "email", label: "Email", hidden: false },
-        { name: "banned", label: "Estado", hidden: false },
-        { name: "phone", label: "Teléfono", hidden: true },
-        { name: "address", label: "Dirección", hidden: true },
-        { name: "city", label: "Ciudad", hidden: true },
-        { name: "province", label: "Provincia", hidden: true },
-        { name: "zipCode", label: "CP", hidden: true },
+        { name: "firstName", label: "Nombre", hidden: false, searchable: true, sortable: true },
+        { name: "lastName", label: "Apellido", hidden: false, searchable: true, sortable: true },
+        { name: "email", label: "Email", hidden: false, searchable: true, sortable: true },
+        { name: "banned", label: "Estado", hidden: false, searchable: false, sortable: true },
+        { name: "phone", label: "Teléfono", hidden: true, searchable: true, sortable: false },
+        { name: "address", label: "Dirección", hidden: true, searchable: true, sortable: false },
+        { name: "city", label: "Ciudad", hidden: true, searchable: false, sortable: false },
+        { name: "province", label: "Provincia", hidden: true, searchable: false, sortable: false },
+        { name: "zipCode", label: "CP", hidden: true, searchable: false, sortable: false },
     ];
 
     if (!isLoading) {
@@ -47,6 +47,7 @@ const AdminUser = () => {
                     isLoading={isLoading}
                     handleUpdateData={handleUpdateData}
                     variant="user"
+                    searchbar
                 />
             </Container>
         );

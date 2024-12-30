@@ -88,7 +88,6 @@ const WeatherBar = () => {
     const fetchWeatherApi = async () => {
       setIsLoading(true);
       if (location !== null) {
-        console.log(location);
         try {
           const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${location.latitude},${location.longitude}&aqi=no`);
           setWeatherData(weather.data);
@@ -102,8 +101,6 @@ const WeatherBar = () => {
     }
     fetchWeatherApi();
   }, [location])
-
-  useEffect(() => console.log(weatherData.location), [weatherData])
 
   return (
     <div className={style.weatherDataContainer}>

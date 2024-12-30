@@ -405,6 +405,10 @@
   width: 100%;
 }
 
+.sortButton {
+  cursor: pointer;
+}
+
 @media (max-width: 786px) {
   .tableWideContainer {
     display: none;

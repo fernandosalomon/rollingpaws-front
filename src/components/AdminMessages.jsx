@@ -29,12 +29,12 @@ const AdminMessages = () => {
     }, [])
 
     const labels = [
-        { name: "createdAt", label: "Fecha", hidden: false },
-        { name: "read", label: "Leido", hidden: false },
-        { name: "type", label: "Motivo", hidden: false },
-        { name: "contactName", label: "Nombre", hidden: false },
-        { name: "contactEmail", label: "Email", hidden: true },
-        { name: "contactPhone", label: "Teléfono", hidden: true },
+        { name: "createdAt", label: "Fecha", hidden: false, searchable: false, sortable: true },
+        { name: "read", label: "Leido", hidden: false, searchable: false, sortable: true },
+        { name: "type", label: "Motivo", hidden: false, searchable: false, sortable: true },
+        { name: "contactName", label: "Nombre", hidden: false, searchable: false, sortable: false },
+        { name: "contactEmail", label: "Email", hidden: true, searchable: false, sortable: false },
+        { name: "contactPhone", label: "Teléfono", hidden: true, searchable: false, sortable: false },
     ];
 
     const handleUpdateData = async () => {

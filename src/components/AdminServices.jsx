@@ -38,9 +38,9 @@ const AdminServices = () => {
     }, [])
 
     const labels = [
-        { name: "name", label: "Nombre", hidden: false },
-        { name: "description", label: "Descripción", hidden: true },
-        { name: "image", label: "Imagen", hidden: true },
+        { name: "name", label: "Nombre", hidden: false, searchable: true, sortable: true },
+        { name: "description", label: "Descripción", hidden: true, searchable: false, sortable: false },
+        { name: "image", label: "Imagen", hidden: true, searchable: false, sortable: false },
     ]
 
     const handleUpdateData = async () => {
@@ -59,14 +59,6 @@ const AdminServices = () => {
         }
     }
 
-    const handleCreateService = async () => {
-        try {
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     if (!isLoading) {
         return (
             <>
@@ -80,6 +72,7 @@ const AdminServices = () => {
                         isLoading={isLoading}
                         handleUpdateData={handleUpdateData}
                         variant="services"
+                        searchbar
                     />
                 </Container>
                 <Modal show={show} onHide={handleClose}>

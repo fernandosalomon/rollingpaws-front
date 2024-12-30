@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import style from "../../styles/CustomTable.module.css";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";
@@ -21,25 +21,67 @@ import {
 import Container from "react-bootstrap/Container";
 import { ModalHeader } from "react-bootstrap";
 
+const Sort = ({ data, handleData, sortBy }) => {
+
+  const [sortDirection, setSortDirection] = useState(false);
+
+  const newData = [...data];
+
+  if (sortDirection) {
+    newData.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) { return -1; }
+      if (a[sortBy] > b[sortBy]) { return 1; }
+      return 0;
+    })
+  } else {
+    newData.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) { return 1; }
+      if (a[sortBy] > b[sortBy]) { return -1; }
+      return 0;
+    })
+  }
+
+  const handleSortData = () => {
+    handleData(newData);
+    setSortDirection(!sortDirection);
+  }
+
+  return (
+    < div className={style.sortButton}>
+      {
+        sortDirection ?
+          < svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sort-down" viewBox="0 0 16 16" onClick={handleSortData}>
+            <path d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
+          </svg >
+          :
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-sort-up" viewBox="0 0 16 16" onClick={handleSortData}>
+            <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.5.5 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707zm3.5-9a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
+          </svg>
+      }
+    </div >
+  )
+}
+
 const SearchBar = ({ data, filterColumns, handleData, className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchColumnIndex, setSearchColumnIndex] = useState(0);
+
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value.trim().toLowerCase());
   };
 
+
   const filterData = (data) => {
-    let value = "";
 
     const result = data.filter((element) => {
-      if (typeof element[filterColumns[searchColumnIndex].name] === String) {
-        value = element[filterColumns[searchColumnIndex].name].trim().toLowerCase();
-      }
-      if (value) {
-        return value.includes(searchQuery)
-      } else {
-        return [];
+      if (typeof element[filterColumns[searchColumnIndex].name] === "string") {
+        const value = element[filterColumns[searchColumnIndex].name].trim().toLowerCase();
+        if (value) {
+          return value.includes(searchQuery)
+        } else {
+          return [];
+        }
       }
     });
 
@@ -854,34 +896,32 @@ const TableWide = ({
 }) => {
   const [tableData, setTableData] = useState([]);
   const [elementsPerPage, setElementsPerPage] = useState(5);
-
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleSetElementsPerPage = (value) => setElementsPerPage(value)
 
-  useEffect(() => setTableData(data), []);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    setTableData(data);
+  }, [])
 
   const indexOfLastElement = currentPage * elementsPerPage;
   const indexOfFirstElement = indexOfLastElement - elementsPerPage;
   const currentElements = tableData.slice(
     indexOfFirstElement,
     indexOfLastElement
-  );
+  )
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleData = (newData) => {
-    setTableData(newData);
-  };
+  const handleData = (newData) => setTableData(newData)
 
-  useEffect(() => { handleUpdateData(); }, []);
+
   return (
     <div className={className}>
       {searchbar && (
         <SearchBar
           data={data}
-          filterColumns={columns}
+          filterColumns={columns.filter((column) => column.searchable) || []}
           handleData={handleData}
         />
       )}
@@ -895,7 +935,12 @@ const TableWide = ({
                     key={column.name}
                     className={`${style.tableCell} ${style.tableCellHeader}`}
                   >
-                    {column.label}
+                    <div className="d-flex justify-content-between">
+                      <p className="mb-0 me-2">{column.label}</p>
+                      {
+                        column.sortable && <Sort data={tableData} sortBy={column.name} handleData={handleData} />
+                      }
+                    </div>
                   </th>
                 )
             )}
@@ -1071,6 +1116,7 @@ const TableWide = ({
     </div >
   );
 };
+
 
 const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
   const [hideData, setHideData] = useState(true);
