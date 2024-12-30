@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import style from "../styles/AdminAppointments.module.css";
-import { Modal, Spinner } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import clientAxios from "../helpers/clientAxios";
 import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
 import Swal from "sweetalert2";
 import Container from "react-bootstrap/Container";
 import CustomCalendar from "./CustomCalendar";
+import CustomSpinner from "./shared/CustomSpinner";
 
 const AdminAppointments = () => {
 
@@ -332,9 +333,7 @@ const AdminAppointments = () => {
 
 
     if (isLoading) {
-        return (<Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-        </Spinner>)
+        return <CustomSpinner />
     } else {
         return (
             <>

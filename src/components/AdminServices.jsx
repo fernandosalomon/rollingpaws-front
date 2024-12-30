@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import clientAxios from "../helpers/clientAxios";
 import Container from "react-bootstrap/Container"
-import Spinner from "react-bootstrap/Spinner";
 import CustomTable from "../components/shared/CustomTable";
 import CustomButton from "./shared/CustomButton";
 import { Modal, ModalHeader } from "react-bootstrap";
 import FormC from "./shared/FormC";
+import CustomSpinner from "./shared/CustomSpinner";
 
 
 
@@ -89,14 +89,7 @@ const AdminServices = () => {
         );
     } else {
         return (
-            <Container>
-                <div
-                    style={{ width: "100vw", height: "100%" }}
-                    className="d-flex justify-content-center align-items-center"
-                >
-                    <Spinner animation="border" variant="warning" />
-                </div>
-            </Container>
+            <CustomSpinner />
         );
     }
 }

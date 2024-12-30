@@ -10,7 +10,6 @@ import {
 } from "../components/shared/CustomCard";
 import style from "../styles/DoctorsPage.module.css";
 import Container from "react-bootstrap/Container";
-import CustomButton from "./shared/CustomButton";
 
 const DoctorsPage = () => {
   return (

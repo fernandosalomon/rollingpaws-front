@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container"
 import { useEffect, useState } from "react"
 import clientAxios from "../helpers/clientAxios";
 import CustomTable from "./shared/CustomTable";
-import { Spinner } from "react-bootstrap";
+import CustomSpinner from "./shared/CustomSpinner";
 
 const AdminMessages = () => {
     const [messages, setMessages] = useState([]);
@@ -54,9 +54,7 @@ const AdminMessages = () => {
     }
 
     if (isLoading) {
-        return (<Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-        </Spinner>)
+        return <CustomSpinner />
     } else {
         return (
             <Container>

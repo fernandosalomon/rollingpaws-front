@@ -1,8 +1,8 @@
 import Container from "react-bootstrap/Container"
 import { useEffect, useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
 import CustomTable from "../components/shared/CustomTable";
 import clientAxios from "../helpers/clientAxios";
+import CustomSpinner from "./shared/CustomSpinner";
 
 const AdminUser = () => {
     const [data, setData] = useState([]);
@@ -64,14 +64,7 @@ const AdminUser = () => {
         );
     } else {
         return (
-            <Container>
-                <div
-                    style={{ width: "100vw", height: "100%" }}
-                    className="d-flex justify-content-center align-items-center"
-                >
-                    <Spinner animation="border" variant="warning" />
-                </div>
-            </Container>
+            <CustomSpinner />
         );
     }
 }

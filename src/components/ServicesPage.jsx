@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import PlansBanner from "./PlansBanner";
 import OurProducts from "./OurProducts";
 import clientAxios from "../helpers/clientAxios";
-import { Spinner } from "react-bootstrap";
+import CustomSpinner from "./shared/CustomSpinner";
 
 
 const ServicesPage = () => {
@@ -48,11 +48,7 @@ const ServicesPage = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    )
+    return <CustomSpinner />
   } else {
     return (
       <>
