@@ -804,12 +804,17 @@ const CRUDButtonGroup = ({
               data={data}
               handleUpdateData={handleUpdate}
             />
-            <BanUser data={data} handleUpdateData={handleUpdate} />
-            <Delete
-              variant={variant}
-              data={data}
-              handleUpdateData={handleUpdate}
-            />
+            {
+              data.role !== "admin" &&
+              <>
+                <BanUser data={data} handleUpdateData={handleUpdate} />
+                <Delete
+                  variant={variant}
+                  data={data}
+                  handleUpdateData={handleUpdate}
+                />
+              </>
+            }
           </>
         }
         {
@@ -1155,8 +1160,21 @@ const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
                 < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
                   {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
                 </td>
-                :
-                <td className={style.tableCell}>{dataPoint[column.name]}</td>
+                : column.name === "banned" ? (
+                  dataPoint[column.name] ? (
+                    <td className={style.tableCell} key={crypto.randomUUID()}>
+                      <p className="mb-0 text-danger fw-semibold">
+                        Deshabilitado
+                      </p>
+                    </td>
+                  ) : (
+                    <td className={style.tableCell} key={crypto.randomUUID()}>
+                      <p className="mb-0 text-success fw-semibold">
+                        Habilitado
+                      </p>
+                    </td>
+                  )) :
+                  <td className={style.tableCell}>{dataPoint[column.name]}</td>
             }
           </tr>
         ))}

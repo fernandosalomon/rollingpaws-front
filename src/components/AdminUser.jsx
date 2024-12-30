@@ -1,8 +1,8 @@
 import Container from "react-bootstrap/Container"
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../helpers/fetchData";
 import Spinner from "react-bootstrap/Spinner";
 import CustomTable from "../components/shared/CustomTable";
+import clientAxios from "../helpers/clientAxios";
 
 const AdminUser = () => {
     const [data, setData] = useState([]);
@@ -11,8 +11,13 @@ const AdminUser = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             setIsLoading(true);
-            const res = await getAllUsers();
-            setData(res);
+            const token = sessionStorage.getItem("token");
+            const res = await clientAxios.get("/user", {
+                headers: {
+                    authtoken: token
+                }
+            });
+            setData(res.data);
             setIsLoading(false);
         };
 
@@ -21,8 +26,13 @@ const AdminUser = () => {
 
     const handleUpdateData = async () => {
         setIsLoading(true);
-        const res = await getAllUsers();
-        setData(res);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.get("/user", {
+            headers: {
+                authtoken: token
+            }
+        });
+        setData(res.data);
         setIsLoading(false);
     };
 
@@ -31,6 +41,7 @@ const AdminUser = () => {
         { name: "lastName", label: "Apellido", hidden: false, searchable: true, sortable: true },
         { name: "email", label: "Email", hidden: false, searchable: true, sortable: true },
         { name: "banned", label: "Estado", hidden: false, searchable: false, sortable: true },
+        { name: "role", label: "Rol", hidden: false, searchable: false, sortable: true },
         { name: "phone", label: "Teléfono", hidden: true, searchable: true, sortable: false },
         { name: "address", label: "Dirección", hidden: true, searchable: true, sortable: false },
         { name: "city", label: "Ciudad", hidden: true, searchable: false, sortable: false },
