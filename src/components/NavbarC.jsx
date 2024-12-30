@@ -88,10 +88,11 @@ const WeatherBar = () => {
     const fetchWeatherApi = async () => {
       setIsLoading(true);
       if (location !== null) {
+        console.log(location);
         try {
           const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${location.latitude},${location.longitude}&aqi=no`);
-          console.log(weather);
-          if (weather) {
+          console.log(weather.data);
+          if (weather.data) {
             setWeatherData(weather.data);
             setIsLoading(false);
           } else {
