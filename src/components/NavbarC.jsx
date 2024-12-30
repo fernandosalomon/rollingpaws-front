@@ -90,13 +90,13 @@ const WeatherBar = () => {
       if (location !== null) {
         try {
           const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${location.latitude},${location.longitude}&aqi=no`);
-
+          console.log(weather);
           if (weather) {
             setWeatherData(weather.data);
             setIsLoading(false);
           } else {
             setIsLoading(true);
-            const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucumán}&aqi=no`);
+            const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucuman}&aqi=no`);
             setWeatherData(weather.data);
             setIsLoading(false);
           }
