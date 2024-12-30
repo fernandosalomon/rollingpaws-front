@@ -97,6 +97,10 @@ const WeatherBar = () => {
         }
       } else {
         console.error('Tu navegador no soporta geolocalización.');
+        setIsLoading(true);
+        const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucumán}&aqi=no`);
+        setWeatherData(weather.data);
+        setIsLoading(false);
       }
     }
     fetchWeatherApi();
@@ -205,7 +209,7 @@ const NavbarC = () => {
     <>
       <WeatherBar />
       <Navbar expand="md" className={style.Navbar} sticky="top">
-        <Container fluid>
+        <Container fluid className="h-100">
           <Link to={userRole === "admin" ? "/admin" : "/"}>
             <Image
               src={Logo}
