@@ -560,7 +560,7 @@ const Edit = ({ variant, data, handleUpdateData }) => {
           )}
           {
             variant === "appointments" && (
-              <FormC variant="edit-appointment" data={data} handleCloseModal={handleClose}
+              <FormC variant="edit-appointment-user" data={data} handleCloseModal={handleClose}
                 handleUpdate={handleUpdateData} />
             )
           }

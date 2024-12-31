@@ -2143,6 +2143,7 @@ const EditAppointmentForm = ({
   appointmentData,
   handleCloseModal,
   handleUpdateCalendar,
+  variant,
 }) => {
 
   const [isLoading, setIsLoading] = useState(false);
@@ -2199,15 +2200,17 @@ const EditAppointmentForm = ({
     setSelectedStartHour(new Date(appointmentData.startDate).getUTCHours())
     setSelectedStartMinutes(new Date(appointmentData.startDate).getUTCMinutes())
 
-    setSelectedEndYear(new Date(appointmentData.endDate).getUTCFullYear());
-    setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth() + 1);
-    setSelectedEndDate(new Date(appointmentData.endDate).getUTCDate());
-    setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours())
-    setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
+    if (variant === "edit-appointment-admin") {
+      setSelectedEndYear(new Date(appointmentData.endDate).getUTCFullYear());
+      setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth() + 1);
+      setSelectedEndDate(new Date(appointmentData.endDate).getUTCDate());
+      setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours())
+      setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
+    }
   }, [])
 
   useEffect(() => {
-    const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor._id);
+    const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor);
     setSelectedDoctor(doctorID);
     setValue("doctor", doctorID);
   }, [doctorList])
@@ -2258,30 +2261,47 @@ const EditAppointmentForm = ({
 
   useEffect(() => {
 
-    setValue("startDate", `${selectedStartDate}/${selectedStartMonth}/${selectedStartYear}`)
-    setValue("startTime", `${selectedStartHour}:${selectedStartMinutes}`)
-    setValue("endDate", `${selectedEndDate}/${selectedEndMonth}/${selectedEndYear}`)
-    setValue("endTime", `${selectedEndHour}:${selectedEndMinutes}`)
-    setValue("observations", appointmentData.observations)
+    setValue("startDate", `${selectedStartDate}/${selectedStartMonth}/${selectedStartYear}`);
+    setValue("startTime", `${selectedStartHour}:${selectedStartMinutes}`);
+    variant === "edit-appointment-admin" && setValue("endDate", `${selectedEndDate}/${selectedEndMonth}/${selectedEndYear}`);
+    variant === "edit-appointment-admin" && setValue("endTime", `${selectedEndHour}:${selectedEndMinutes}`);
+    setValue("observations", appointmentData.observations);
 
   }, [selectedStartDate, selectedStartMonth, selectedStartYear, selectedStartHour, selectedStartMinutes, selectedEndDate, selectedEndMonth, selectedEndYear, selectedEndHour, selectedEndMinutes])
 
   const onSubmit = handleSubmit(async (data) => {
-    const updatedAppointmentData = {
-      startDate: new Date(
-        selectedStartYear,
-        selectedStartMonth,
-        selectedStartDate,
-        selectedStartHour,
-        selectedStartMinutes
-      ),
-      endDate: new Date(
+
+    const startDate = new Date(
+      selectedStartYear,
+      selectedStartMonth,
+      selectedStartDate,
+      selectedStartHour,
+      selectedStartMinutes
+    );
+
+    let endDate = null;
+
+    if (variant === "edit-appointment-admin") {
+      endDate = new Date(
         selectedEndYear,
         selectedEndMonth,
         selectedEndDate,
         selectedEndHour,
         selectedEndMinutes
-      ),
+      );
+    } else {
+      endDate = new Date(
+        selectedStartYear,
+        selectedStartMonth,
+        selectedStartDate,
+        selectedStartHour + 1,
+        selectedStartMinutes
+      );
+    }
+
+    const updatedAppointmentData = {
+      startDate: startDate,
+      endDate: endDate,
       doctor: doctorList[selectedDoctor]._id,
       observations: data.observations,
     };
@@ -2400,65 +2420,68 @@ const EditAppointmentForm = ({
           )}
         </Form.Group >
 
-        <Form.Group className="mb-3" controlId="EndDateTimeSelect" onFocus={() => { setShowEndDateTimeOptions(true); setShowStartDateTimeOptions(false) }} >
-          <Form.Label className={style.formLabel}>Fin</Form.Label>
-          <div className="d-flex gap-2">
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="EndDate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar-event" viewBox="0 0 16 16">
-                  <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
-                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                </svg>
-              </InputGroup.Text>
-              <Form.Control
-                className={style.formInput}
-                aria-label="EndDate"
-                aria-describedby="EndDate"
-                {...register("endDate")}
-              />
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="EndTime">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clock-fill" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                </svg>
-              </InputGroup.Text>
-              <Form.Control
-                className={style.formInput}
-                aria-label="EndTime"
-                aria-describedby="EndTime"
-                {...register("endTime")}
-              />
-            </InputGroup>
-          </div>
-          {showEndDateTimeOptions && (
-            <div className="mt-4 d-flex justify-content-center">
-              <CustomCalendar
-                border
-                selectedDate={
-                  new Date(selectedEndYear, selectedEndMonth, selectedEndDate)
-                }
-                handleSetDate={handleSetEndDate}
-              />
-              <div className={style.timePickerContainer}>
-                {availableHours.map((hour) => (
-                  <p
-                    className={`${style.timePickerContent} ${hour === `${selectedEndHour}:${selectedEndMinutes}`
-                      ? style.active
-                      : ""
-                      }`}
-                    key={hour}
-                    onClick={() => {
-                      handleSetEndTime(hour.split(":")[0], hour.split(":")[1]);
-                    }}
-                  >
-                    {hour}
-                  </p>
-                ))}
-              </div>
+        {
+          variant === "edit-appointment-admin" &&
+          <Form.Group className="mb-3" controlId="EndDateTimeSelect" onFocus={() => { setShowEndDateTimeOptions(true); setShowStartDateTimeOptions(false) }} >
+            <Form.Label className={style.formLabel}>Fin</Form.Label>
+            <div className="d-flex gap-2">
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="EndDate">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar-event" viewBox="0 0 16 16">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                  </svg>
+                </InputGroup.Text>
+                <Form.Control
+                  className={style.formInput}
+                  aria-label="EndDate"
+                  aria-describedby="EndDate"
+                  {...register("endDate")}
+                />
+              </InputGroup>
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="EndTime">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clock-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                  </svg>
+                </InputGroup.Text>
+                <Form.Control
+                  className={style.formInput}
+                  aria-label="EndTime"
+                  aria-describedby="EndTime"
+                  {...register("endTime")}
+                />
+              </InputGroup>
             </div>
-          )}
-        </Form.Group >
+            {showEndDateTimeOptions && (
+              <div className="mt-4 d-flex justify-content-center">
+                <CustomCalendar
+                  border
+                  selectedDate={
+                    new Date(selectedEndYear, selectedEndMonth, selectedEndDate)
+                  }
+                  handleSetDate={handleSetEndDate}
+                />
+                <div className={style.timePickerContainer}>
+                  {availableHours.map((hour) => (
+                    <p
+                      className={`${style.timePickerContent} ${hour === `${selectedEndHour}:${selectedEndMinutes}`
+                        ? style.active
+                        : ""
+                        }`}
+                      key={hour}
+                      onClick={() => {
+                        handleSetEndTime(hour.split(":")[0], hour.split(":")[1]);
+                      }}
+                    >
+                      {hour}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </Form.Group >
+        }
 
         <Form.Group className="mb-3" controlId="observations" onFocus={() => { setShowStartDateTimeOptions(false); setShowEndDateTimeOptions(false); }}>
           <Form.Label>Observaciones</Form.Label>
@@ -3612,12 +3635,13 @@ const FormC = ({
           <NewAppointmentForm handleCloseModal={handleCloseModal} />
         </>
       )}
-      {formType === "edit-appointment" && (
+      {(formType === "edit-appointment-user" || formType === "edit-appointment-admin") && (
         <>
           <EditAppointmentForm
             appointmentData={data}
             handleCloseModal={handleCloseModal}
             handleUpdateCalendar={handleUpdate}
+            variant={formType}
           />
         </>
       )}

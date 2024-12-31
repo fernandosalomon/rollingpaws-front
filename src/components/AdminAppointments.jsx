@@ -337,7 +337,7 @@ const AdminAppointments = () => {
                                                     <Modal.Title className="fs-2">Editar cita</Modal.Title>
                                                 </Modal.Header>
                                                 <Modal.Body>
-                                                    <FormC variant="edit-appointment" handleCloseModal={handleClose} handleUpdate={handleUpdate} data={appointment} />
+                                                    <FormC variant="edit-appointment-admin" handleCloseModal={handleClose} handleUpdate={handleUpdate} data={appointment} />
                                                     <div className="w-100">
                                                         <CustomButton variant="transparent" className={style.deleteButton} type="button" onClick={(e) => { e.preventDefault(); handleDeleteAppointment(appointment._id) }}>
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
