@@ -17,6 +17,7 @@ import CustomSpinner from "./CustomSpinner";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const {
     register,
@@ -26,6 +27,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
+    setIsSubmiting(true);
     const { firstName, lastName, email, password } = data;
 
     try {
@@ -39,6 +41,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
         showConfirmButton: false,
         timer: 2500,
       });
+      setIsSubmiting(false);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -47,6 +50,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
         showConfirmButton: false,
         timer: 2500,
       });
+      setIsLoading(false);
     }
   });
 
@@ -268,8 +272,15 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           )}
         </Form.Group>
 
-        <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction">
-          Registrarse
+        <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction" disabled={isSubmiting}>
+          {
+            isSubmiting ?
+              <span>
+                <CustomSpinner />
+                <p className="mb-0">Registrando</p>
+              </span>
+              : "Registrarse"
+          }
         </CustomButton>
       </Form>
     </>
@@ -283,6 +294,7 @@ const SignInForm = ({
 }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -290,6 +302,7 @@ const SignInForm = ({
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
+    setIsSubmiting(true);
     const { email, password } = data;
 
     try {
@@ -321,6 +334,7 @@ const SignInForm = ({
       } else {
         navigate("/");
       }
+      setIsSubmiting(false);
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -330,6 +344,7 @@ const SignInForm = ({
         showConfirmButton: false,
         timer: 2500,
       });
+      setIsSubmiting(false);
     }
   });
 
@@ -435,8 +450,15 @@ const SignInForm = ({
           )}
         </Form.Group>
 
-        <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction">
-          Iniciar Sesión
+        <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction" disabled={isSubmiting}>
+          {
+            isSubmiting ?
+              <span>
+                <CustomSpinner />
+                <p className="mb-0">Registrando</p>
+              </span>
+              : "Registrarse"
+          }
         </CustomButton>
       </Form>
     </>
