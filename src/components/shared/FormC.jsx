@@ -275,7 +275,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
         <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction" disabled={isSubmiting}>
           {
             isSubmiting ?
-              <span>
+              <span className="d-flex align-items-center justify-content-center gap-2">
                 <CustomSpinner className={style.buttonSpinner} />
                 <p className="mb-0">Registrando</p>
               </span>
@@ -453,11 +453,11 @@ const SignInForm = ({
         <CustomButton type="submit" className={style.formSubmitButton} variant="callToAction" disabled={isSubmiting}>
           {
             isSubmiting ?
-              <span>
+              <span className="d-flex align-items-center justify-content-center gap-2">
                 <CustomSpinner className={style.buttonSpinner} />
-                <p className="mb-0">Registrando</p>
+                <p className="mb-0">Iniciando sesión</p>
               </span>
-              : "Registrarse"
+              : "Iniciar sesión"
           }
         </CustomButton>
       </Form>

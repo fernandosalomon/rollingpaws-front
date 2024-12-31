@@ -431,8 +431,9 @@
 }
 
 .buttonSpinner {
-  height: 36px;
-  width: 36px;
+  height: 24px;
+  width: 44px;
+  margin: 0;
 }
 
 @media (max-width: 425px) {
