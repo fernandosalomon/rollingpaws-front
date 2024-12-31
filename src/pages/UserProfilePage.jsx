@@ -196,7 +196,7 @@ const UserProfilePage = ({ viewParam }) => {
                   }`}
                 onClick={() => {
                   setView("user");
-                  navigate("/perfil/information");
+                  navigate("/user-profile/informacion");
                 }}
               >
                 <svg
@@ -220,7 +220,7 @@ const UserProfilePage = ({ viewParam }) => {
                   }`}
                 onClick={() => {
                   setView("security");
-                  navigate("/perfil/security");
+                  navigate("/user-profile/seguridad");
                 }}
               >
                 <svg
@@ -243,7 +243,7 @@ const UserProfilePage = ({ viewParam }) => {
                       }`}
                     onClick={() => {
                       setView("pets");
-                      navigate("/perfil/pets");
+                      navigate("/user-profile/mascotas");
                     }}
                   >
                     <svg width="24" height="24" viewBox="0 0 419.14 403.6">
@@ -255,7 +255,7 @@ const UserProfilePage = ({ viewParam }) => {
                     }`}
                     onClick={() => {
                       setView("appointments");
-                      navigate("/perfil/appointments");
+                      navigate("/user-profile/turnos");
                     }}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-calendar-event" viewBox="0 0 16 16">
                       <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />

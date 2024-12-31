@@ -39,24 +39,20 @@ const AnimatedRoutes = () => {
         <Route path="/admin/usuarios" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
         <Route path="/admin/" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
         <Route
-          path="/perfil/information"
+          path="/user-profile/informacion"
           element={<PrivateRoute><UserProfilePage viewParam="user" /></PrivateRoute>}
         />
         <Route
-          path="/perfil/security"
+          path="/user-profile/seguridad"
           element={<PrivateRoute><UserProfilePage viewParam="security" /></PrivateRoute>}
         />
         <Route
-          path="/perfil/pets"
+          path="/user-profile/mascotas"
           element={<PrivateRoute><UserProfilePage viewParam="pets" /></PrivateRoute>}
         />
         <Route
-          path="/perfil/appointments"
+          path="/user-profile/turnos"
           element={<PrivateRoute><UserProfilePage viewParam="appointments" /></PrivateRoute>}
-        />
-        <Route
-          path="/perfil/notifications"
-          element={<PrivateRoute><UserProfilePage viewParam="notification" /></PrivateRoute>}
         />
         <Route path="/recuperar-contraseña/:auth" element={<ForgotPassword />} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />
