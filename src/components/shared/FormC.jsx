@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import clientAxios from "../../helpers/clientAxios";
 import CustomButton from "./CustomButton";
 import style from "../../styles/FormC.module.css";
+import CustomSpinner from "./CustomSpinner";
 
 const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -1008,16 +1009,14 @@ const UserProfileForm = () => {
 
   if (isLoading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <CustomSpinner />
     )
   } else {
     return (
       <>
         <Form className={style.form} onSubmit={onSubmit}>
 
-          <div className="d-flex align-items-center gap-4">
+          <div className="d-flex flex-column flex-md-row align-items-center gap-4">
             <div className={style.profileImageContainer}>
               <Image src={userData.profilePic} alt="User Profile Picture" ref={profilePicRef} />
             </div>

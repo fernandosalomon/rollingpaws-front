@@ -330,6 +330,7 @@
 
 .profileImageContainer {
   width: 200px;
+  min-width: 200px !important;
   height: 200px;
   overflow: hidden;
   display: flex;
