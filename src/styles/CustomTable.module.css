@@ -235,7 +235,18 @@
   border-bottom: 2px solid #f2f2f2;
 }
 
-.tableCell {
+.tableCellWide {
+  text-wrap: nowrap;
+  font-family: var(--font-poppins);
+  font-weight: 300;
+  padding: 1.5rem !important;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tableCellSmall {
   text-wrap: wrap;
   font-family: var(--font-poppins);
   font-weight: 300;

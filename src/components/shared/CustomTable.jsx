@@ -938,7 +938,7 @@ const TableWide = ({
                 !column.hidden && (
                   <th
                     key={column.name}
-                    className={`${style.tableCell} ${style.tableCellHeader}`}
+                    className={`${style.tableCellWide} ${style.tableCellHeader}`}
                   >
                     <div className="d-flex justify-content-between">
                       <p className="mb-0 me-2">{column.label}</p>
@@ -949,7 +949,7 @@ const TableWide = ({
                   </th>
                 )
             )}
-            <th className={`${style.tableCell} ${style.tableCellHeader}`}>
+            <th className={`${style.tableCellWide} ${style.tableCellHeader}`}>
               Acciones
             </th>
           </tr>
@@ -965,20 +965,20 @@ const TableWide = ({
                       !column.hidden &&
                       (column.name === "banned" ? (
                         dataPoint[column.name] ? (
-                          <td className={style.tableCell} key={crypto.randomUUID()}>
+                          <td className={style.tableCellWide} key={crypto.randomUUID()}>
                             <p className="mb-0 text-danger fw-semibold">
                               Deshabilitado
                             </p>
                           </td>
                         ) : (
-                          <td className={style.tableCell} key={crypto.randomUUID()}>
+                          <td className={style.tableCellWide} key={crypto.randomUUID()}>
                             <p className="mb-0 text-success fw-semibold">
                               Habilitado
                             </p>
                           </td>
                         )
                       ) : (
-                        <td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                        <td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
                           {dataPoint[column.name]}
                         </td>
                       ))
@@ -1007,13 +1007,13 @@ const TableWide = ({
                       !column.hidden &&
                       (column.name === "read" ? (
                         dataPoint[column.name] ? (
-                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()} >
+                          <td className={`${style.tableCellWide} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()} >
                             <p className="mb-0 text-success fw-semibold">
                               Leido
                             </p>
                           </td>
                         ) : (
-                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                          <td className={`${style.tableCellWide} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
                             <p className="mb-0 text-danger fw-semibold">
                               No Leido
                             </p>
@@ -1021,13 +1021,13 @@ const TableWide = ({
                         )
                       ) : column.name === "createdAt" ?
                         (
-                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                          <td className={`${style.tableCellWide} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
                             <p>{`${new Date(dataPoint[column.name]).getDate()}/${new Date(dataPoint[column.name]).getMonth()}/${new Date(dataPoint[column.name]).getFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}</p>
                           </td>
                         )
                         :
                         (
-                          <td className={`${style.tableCell} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
+                          <td className={`${style.tableCellWide} ${(variant === "messages" && !dataPoint.read) ? style.unreadMessage : ""}`} key={crypto.randomUUID()}>
                             {dataPoint[column.name]}
                           </td>
                         ))
@@ -1054,14 +1054,14 @@ const TableWide = ({
                     (column) =>
                       !column.hidden &&
                       (column.name === "pet" || column.name === "doctor" ?
-                        < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                        < td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
                           {dataPoint[column.name].name}
                         </td> :
                         column.name === "startDate" ?
-                          < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                          < td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
                             {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
                           </td> :
-                          < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                          < td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
                             {dataPoint[column.name]}
                           </td>)
                   )}
@@ -1086,7 +1086,7 @@ const TableWide = ({
                   {columns.map(
                     (column) =>
                       !column.hidden &&
-                      <td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                      <td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
                         {dataPoint[column.name]}
                       </td>
 
@@ -1151,30 +1151,30 @@ const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
             className={column.hidden && hideData ? style.hidden : ""}
             key={column.name}
           >
-            <td className={`${style.tableCell} ${style.tableCellHeader}`}>
+            <td className={`${style.tableCellSmall} ${style.tableCellHeader}`}>
               {column.label}
             </td>
             {column.name === "doctor" || column.name === "pet" ?
-              <td className={style.tableCell}>{dataPoint[column.name].name}</td> :
+              <td className={style.tableCellSmall}>{dataPoint[column.name].name}</td> :
               column.name === "startDate" ?
-                < td className={`${style.tableCell}`} key={crypto.randomUUID()}>
+                < td className={`${style.tableCellSmall}`} key={crypto.randomUUID()}>
                   {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
                 </td>
                 : column.name === "banned" ? (
                   dataPoint[column.name] ? (
-                    <td className={style.tableCell} key={crypto.randomUUID()}>
+                    <td className={style.tableCellSmall} key={crypto.randomUUID()}>
                       <p className="mb-0 text-danger fw-semibold">
                         Deshabilitado
                       </p>
                     </td>
                   ) : (
-                    <td className={style.tableCell} key={crypto.randomUUID()}>
+                    <td className={style.tableCellSmall} key={crypto.randomUUID()}>
                       <p className="mb-0 text-success fw-semibold">
                         Habilitado
                       </p>
                     </td>
                   )) :
-                  <td className={style.tableCell}>{dataPoint[column.name]}</td>
+                  <td className={style.tableCellSmall}>{dataPoint[column.name]}</td>
             }
           </tr>
         ))}
