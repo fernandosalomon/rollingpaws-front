@@ -17,6 +17,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import PrivateRoute from "../components/PrivateRoute";
 import AdminPrivateRoute from "../components/AdminPrivateRoute";
 import DeveloperPage from "../pages/DeveloperPage";
+import { setPageTitle } from "../helpers/setPageTitle";
 
 
 const PageWrapper = ({ children, className }) => {
@@ -26,6 +27,7 @@ const PageWrapper = ({ children, className }) => {
 const AnimatedRoutes = () => {
 
   const location = useLocation();
+  setPageTitle(location.pathname);
 
   return (
     <AnimatePresence mode="wait">
@@ -37,26 +39,26 @@ const AnimatedRoutes = () => {
         <Route path="/admin/usuarios" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
         <Route path="/admin/" element={<AdminPrivateRoute><AdminPage /></AdminPrivateRoute>} />
         <Route
-          path="/user-profile/information"
+          path="/perfil/information"
           element={<PrivateRoute><UserProfilePage viewParam="user" /></PrivateRoute>}
         />
         <Route
-          path="/user-profile/security"
+          path="/perfil/security"
           element={<PrivateRoute><UserProfilePage viewParam="security" /></PrivateRoute>}
         />
         <Route
-          path="/user-profile/pets"
+          path="/perfil/pets"
           element={<PrivateRoute><UserProfilePage viewParam="pets" /></PrivateRoute>}
         />
         <Route
-          path="/user-profile/appointments"
+          path="/perfil/appointments"
           element={<PrivateRoute><UserProfilePage viewParam="appointments" /></PrivateRoute>}
         />
         <Route
-          path="/user-profile/notifications"
+          path="/perfil/notifications"
           element={<PrivateRoute><UserProfilePage viewParam="notification" /></PrivateRoute>}
         />
-        <Route path="/forgot-password/:auth" element={<ForgotPassword />} />
+        <Route path="/recuperar-contraseña/:auth" element={<ForgotPassword />} />
         <Route path="/acerca-planes" element={<PageWrapper><AboutPlans /></PageWrapper>} />
         <Route path="/contacto" element={<PageWrapper><ContactUsPage /></PageWrapper>} />
         <Route path="/servicios" element={<PageWrapper><ServicesPage /></PageWrapper>} />
