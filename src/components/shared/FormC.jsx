@@ -1305,7 +1305,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
   const profilePicWatch = watch("petImage");
 
   useEffect(() => {
-    if (petImageRef.current !== null && profilePicWatch > 0) {
+    if (petImageRef.current !== null && profilePicWatch?.length > 0) {
       petImageRef.current.src = URL.createObjectURL(profilePicWatch[0]);
     }
   }, [profilePicWatch])
@@ -1370,7 +1370,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
         onSubmit={onSubmit}
         className={`${style.form} d-flex flex-column gap-2`}
       >
-        <div className="d-flex gap-5 align-items-center">
+        <div className="d-flex flex-column flex-md-row gap-4 align-items-center ">
           <div className={style.petImageInputContainer}>
             <img
               src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1734985899/default-pet-image_abs6xm.png"
@@ -1578,7 +1578,6 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
     if (petImageRef.current !== null && profilePicWatch?.length > 0) {
       petImageRef.current.src = URL.createObjectURL(profilePicWatch[0]);
     }
-    console.log(profilePicWatch)
   }, [profilePicWatch])
 
   const onSubmit = handleSubmit(async (data) => {
@@ -1637,7 +1636,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
         onSubmit={onSubmit}
         className={`${style.form} d-flex flex-column gap-2`}
       >
-        <div className="d-flex gap-5 align-items-center">
+        <div className="d-flex flex-column flex-md-row gap-4 align-items-center mb-2">
           <div className={style.petImageInputContainer}>
             <img
               src={petData.image || "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734985899/default-pet-image_abs6xm.png"}

@@ -160,11 +160,6 @@
   color: var(--black-color);
 }
 
-.petImageInput {
-  width: 150px;
-  height: 150px;
-}
-
 .sexCheckButtonsContainer {
   width: 100%;
   min-height: 50px;
@@ -213,13 +208,15 @@
   justify-content: center;
   width: 200px;
   height: 200px;
-  object-fit: cover;
+  min-width: 200px;
+  min-height: 200px;
   overflow: hidden;
   border-radius: 50%;
 }
 
 .petImageInput {
-  width: 110%;
+  width: 210px;
+  height: 210px;
 }
 
 .specieCheck {
