@@ -71,7 +71,7 @@ const WeatherBar = () => {
     const fetchWeatherApi = async () => {
       try {
         setIsLoading(true);
-        const weather = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucuman&aqi=no`);
+        const weather = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=Tucuman&aqi=no`);
         setWeatherData(weather.data);
         setIsLoading(false);
       } catch (error) {
