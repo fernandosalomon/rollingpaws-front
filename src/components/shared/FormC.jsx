@@ -276,7 +276,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           {
             isSubmiting ?
               <span className="d-flex align-items-center justify-content-center gap-2">
-                <CustomSpinner className={style.buttonSpinner} />
+                <CustomSpinner size="sm" />
                 <p className="mb-0">Registrando</p>
               </span>
               : "Registrarse"
@@ -454,7 +454,7 @@ const SignInForm = ({
           {
             isSubmiting ?
               <span className="d-flex align-items-center justify-content-center gap-2">
-                <CustomSpinner className={style.buttonSpinner} />
+                <CustomSpinner size="sm" />
                 <p className="mb-0">Iniciando sesión</p>
               </span>
               : "Iniciar sesión"

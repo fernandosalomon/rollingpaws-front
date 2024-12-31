@@ -430,12 +430,6 @@
   width: 110%;
 }
 
-.buttonSpinner {
-  height: 24px;
-  width: 44px;
-  margin: 0;
-}
-
 @media (max-width: 425px) {
   .form {
     padding-left: 0.5rem;

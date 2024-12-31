@@ -1,11 +1,11 @@
 import { Container } from "react-bootstrap"
 import style from "../../styles/CustomSpinner.module.css"
 
-const CustomSpinner = ({ className }) => {
+const CustomSpinner = ({ className, size }) => {
     return (
-        <Container className={`w-100 d-flex justify-content-center align-items-center my-4 ${className}`}>
+        <div className={`d-flex justify-content-center align-items-center my-4 ${size === "lg" ? style.spinnerBig : size === "sm" ? style.spinnerSmall : style.spinnerBig} ${className}`}>
             <div className={style.loader}></div>
-        </Container>
+        </div>
     )
 }
 
