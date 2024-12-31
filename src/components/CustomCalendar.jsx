@@ -250,7 +250,7 @@ const CustomCalendar = ({
                       day.getFullYear() === selectedYear
                       ? style.selectedDate
                       : ""
-                    } ${!allowPreviousDates && day.getDate() < today.getDate() ? style.disabledDate : ""
+                    } ${!allowPreviousDates && day < today ? style.disabledDate : ""
                     }`}
                 >
                   {day.getDate()}

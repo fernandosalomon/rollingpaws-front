@@ -8,7 +8,6 @@ import { InputGroup } from "react-bootstrap";
 import CustomCalendar from "../CustomCalendar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Spinner from 'react-bootstrap/Spinner';
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import clientAxios from "../../helpers/clientAxios";
@@ -508,9 +507,7 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
         <div className="w-100">
           <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto d-flex gap-2 justify-content-center align-items-center" disabled={isLoading}>{isLoading ?
             <>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
+              <CustomSpinner />
               <p className="mb-0">Enviando email</p>
             </> : "Enviar email"}</CustomButton>
         </div>
@@ -1283,9 +1280,7 @@ const UserProfileForm = () => {
             disabled={isUploading}
           >
             <span className="d-flex align-items-center justify-content-center">
-              {isUploading && <Spinner animation="border" role="status" className="me-2">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>}
+              {isUploading && <CustomSpinner />}
               <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
             </span>
           </CustomButton>
@@ -1542,9 +1537,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
           disabled={isUploading}
         >
           <span className="d-flex align-items-center justify-content-center">
-            {isUploading && <Spinner animation="border" role="status" className="me-2">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>}
+            {isUploading && <CustomSpinner />}
             <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
           </span>
         </CustomButton>
@@ -1811,9 +1804,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
           disabled={isUploading}
         >
           <span className="d-flex align-items-center justify-content-center">
-            {isUploading && <Spinner animation="border" role="status" className="me-2">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>}
+            {isUploading && <CustomSpinner />}
             <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
           </span>
         </CustomButton>
@@ -1991,9 +1982,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
 
   if (isLoading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <CustomSpinner />
     )
   } else {
     return (
@@ -2312,9 +2301,7 @@ const EditAppointmentForm = ({
 
   if (isLoading) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <CustomSpinner />
     )
   } else {
     return (
@@ -3375,9 +3362,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
       <div className="w-100">
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>{isUploading ?
           <div className="d-flex gap-2 justify-content-center align-items-center">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <CustomSpinner />
             <p className="mb-0">Actualizando servicio</p>
           </div>
           : "Actualizar servicio"}</CustomButton>
@@ -3529,9 +3514,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
       <div className="w-100">
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>{isUploading ?
           <div className="d-flex gap-2">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <CustomSpinner />
             <p className="mb-0">Creando servicio</p>
           </div>
           : "Crear servicio"}</CustomButton>
