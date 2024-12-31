@@ -78,8 +78,8 @@ const AdminPage = () => {
             view === 0 &&
             <Container fluid="md" className="w-100 h-100 d-flex flex-column justify-content-center align-items-center gap-3">
               <Image src={"https://res.cloudinary.com/dqpq2d0es/image/upload/v1735506506/Leonardo_Phoenix_10_A_humorous_illustration_for_a_veterinary_c_3_y5tauh.jpg"} alt="Bienvenida Administrador" width={"300px"} className={style.welcomeImage} />
-              <h2 className="fs-1">Bienvenido a la página de administrador</h2>
-              <h3 className="fs-1">RollingPaws - v1.0.0</h3>
+              <h2 className="fs-1 text-center w-100">Bienvenido a la página de administrador</h2>
+              <h3 className="fs-1 text-center w-100">RollingPaws - v1.0.0</h3>
             </Container>
           }
           {view === 1 && <AdminUser />}

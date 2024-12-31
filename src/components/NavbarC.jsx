@@ -188,8 +188,8 @@ const NavbarC = () => {
     <>
       <WeatherBar />
       <Navbar expand="md" className={style.Navbar} sticky="top" collapseOnSelect>
-        <Container fluid className="h-100">
-          <Link to={userRole === "admin" ? "/admin" : "/"}>
+        <Container fluid className="h-100 d-flex">
+          <Link to={userRole === "admin" ? "/admin" : "/"} className="order-1">
             <Image
               src={Logo}
               alt="Rolling Paws Logo"
@@ -197,10 +197,7 @@ const NavbarC = () => {
             />
           </Link>
 
-
-
-
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2 order-2 order-md-3">
             <Navbar.Toggle
               aria-controls="navbar-collapse"
               className={style.NavbarToggler}
@@ -321,7 +318,8 @@ const NavbarC = () => {
             )}
 
           </div>
-          <Navbar.Collapse id="navbar-collapse" className="mt-3 mt-md-0" ref={navbarCollapseRef}>
+
+          <Navbar.Collapse id="navbar-collapse" className="mt-3 mt-md-0 order-3 order-md-2" ref={navbarCollapseRef}>
             <div className="w-100 d-flex flex-column justify-content-center flex-md-row">
               {userRole === "admin" ? (
                 <Nav className={style.NavLinks}>

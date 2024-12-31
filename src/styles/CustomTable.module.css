@@ -214,7 +214,8 @@
 
 .tableSmallContainer {
   display: none;
-  min-width: 450px;
+  min-width: 250px;
+  max-width: 450px;
 }
 
 .tableRowHeader {
@@ -227,6 +228,7 @@
 
 .tableSmall {
   border: 2px solid #f2f2f2;
+  width: 100%;
 }
 
 .tableRow {
@@ -234,14 +236,14 @@
 }
 
 .tableCell {
-  vertical-align: middle;
-  text-wrap: nowrap;
+  text-wrap: wrap;
   font-family: var(--font-poppins);
   font-weight: 300;
   padding: 1.5rem !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  clear: both
 }
 
 .customTableButton {

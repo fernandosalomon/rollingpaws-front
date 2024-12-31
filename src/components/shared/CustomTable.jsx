@@ -1185,7 +1185,9 @@ const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
             onClick={() => setHideData(!hideData)}
             style={{ backgroundColor: "#fffbf5" }}
           >
-            Mostrar más información
+            {
+              hideData ? "Mostrar más información" : "Mostrar menos información"
+            }
           </td>
         </tr>
       </tbody>
