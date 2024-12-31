@@ -276,7 +276,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           {
             isSubmiting ?
               <span>
-                <CustomSpinner />
+                <CustomSpinner className={style.buttonSpinner} />
                 <p className="mb-0">Registrando</p>
               </span>
               : "Registrarse"
@@ -454,7 +454,7 @@ const SignInForm = ({
           {
             isSubmiting ?
               <span>
-                <CustomSpinner />
+                <CustomSpinner className={style.buttonSpinner} />
                 <p className="mb-0">Registrando</p>
               </span>
               : "Registrarse"
@@ -1882,8 +1882,8 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
         selectedYear,
         selectedMonth,
         selectedDay,
-        selectedHour + 1,
-        selectedMinute
+        selectedHour,
+        selectedMinute + 60,
       ),
       pet: petList[data.pet]._id || null,
       doctor: doctorList[data.doctor]._id,
@@ -2294,8 +2294,8 @@ const EditAppointmentForm = ({
         selectedStartYear,
         selectedStartMonth,
         selectedStartDate,
-        selectedStartHour + 1,
-        selectedStartMinutes
+        selectedStartHour,
+        selectedStartMinutes + 60,
       );
     }
 
