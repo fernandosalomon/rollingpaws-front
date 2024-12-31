@@ -8,10 +8,12 @@ import PetCard from "../components/PetCard";
 import Container from "react-bootstrap/Container";
 import CustomTable from "../components/shared/CustomTable";
 import { Spinner, Table } from "react-bootstrap";
+import CustomSpinner from "../components/shared/CustomSpinner";
 
 const MyPetsView = () => {
   const [showNewPetModal, setShowNewPetModal] = useState(false);
   const [petList, setPetList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleCloseNewPetModal = () => setShowNewPetModal(false);
@@ -21,18 +23,17 @@ const MyPetsView = () => {
     const token = sessionStorage.getItem("token");
     try {
       const getUserPets = async () => {
+        setIsLoading(true);
         const pets = await clientAxios.get("/pet/user", {
           headers: {
             authtoken: token,
           },
         });
-        return pets.data;
+        setPetList(pets.data);
+        setIsLoading(false);
       };
 
-      (async function () {
-        const userPets = await getUserPets();
-        setPetList(userPets);
-      })();
+      getUserPets();
     } catch (error) {
       console.log(error);
     }
@@ -41,64 +42,67 @@ const MyPetsView = () => {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const getUserPets = async () => {
+      setIsLoading(true);
       const pets = await clientAxios.get("/pet/user", {
         headers: {
           authtoken: token,
         },
       });
-      return pets.data;
+      setPetList(pets.data);
+      setIsLoading(false);
     };
 
-    (async function () {
-      const userPets = await getUserPets();
-      setPetList(userPets);
-    })();
+    getUserPets();
   }, []);
-  return (
-    <>
-      <div className={style.viewHeader}>
-        <h2 className={style.viewHeaderLabel}>Mis mascotas</h2>
-        <p className={style.viewSubHeaderLabel}>
-          Agrega toda a tus mascotas así puedas pedir turnos con nuestros
-          profesionales.
-        </p>
-      </div>
-      <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
-        <div className="w-100">
-          <button
-            className={`${style.addNewPetButton} d-flex gap-2 align-items-center mx-auto`}
-            onClick={handleShowNewPetModal}
-          >
-            <p className="fs-1 m-0">+</p>
-            <p className="m-0">Agregar mascota</p>
-          </button>
+  if (isLoading) {
+    <CustomSpinner />
+  } else {
+    return (
+      <>
+        <div className={style.viewHeader}>
+          <h2 className={style.viewHeaderLabel}>Mis mascotas</h2>
+          <p className={style.viewSubHeaderLabel}>
+            Agrega toda a tus mascotas así puedas pedir turnos con nuestros
+            profesionales.
+          </p>
         </div>
-        <div className={style.petCardsContainer}>
-          {petList.map((pet) => (
-            <PetCard
-              key={pet.name}
-              title={pet.name}
-              imageURL={pet.image}
-              petData={pet}
+        <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
+          <div className="w-100">
+            <button
+              className={`${style.addNewPetButton} d-flex gap-2 align-items-center mx-auto`}
+              onClick={handleShowNewPetModal}
+            >
+              <p className="fs-1 m-0">+</p>
+              <p className="m-0">Agregar mascota</p>
+            </button>
+          </div>
+          <div className={style.petCardsContainer}>
+            {petList.map((pet) => (
+              <PetCard
+                key={pet.name}
+                title={pet.name}
+                imageURL={pet.image}
+                petData={pet}
+                handleRefresh={handleRefreshPetList}
+              />
+            ))}
+          </div>
+        </div>
+        <Modal show={showNewPetModal} onHide={handleCloseNewPetModal}>
+          <Modal.Header closeButton>
+            <Modal.Title className="fs-2 ">Agregar mascota</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <FormC
+              variant="new-pet"
+              handleCloseModal={handleCloseNewPetModal}
               handleRefresh={handleRefreshPetList}
             />
-          ))}
-        </div>
-      </div>
-      <Modal show={showNewPetModal} onHide={handleCloseNewPetModal}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-2 ">Agregar mascota</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormC
-            variant="new-pet"
-            handleCloseModal={handleCloseNewPetModal}
-            handleRefresh={handleRefreshPetList}
-          />
-        </Modal.Body>
-      </Modal>
-    </>
-  );
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
 };
 
 const UserView = () => {
