@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clientAxios from "../helpers/clientAxios";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -129,6 +129,7 @@ const WeatherBar = () => {
 
 const NavbarC = () => {
   const [userRole, setUserRole] = useState("not-logged");
+  const navbarCollapseRef = useRef(null);
   const navigate = useNavigate();
   const [showSignIn, setShowSignIn] = useState(false);
   const [showNewAppointment, setShowNewAppointment] = useState(false);
@@ -181,10 +182,12 @@ const NavbarC = () => {
     handleNavbarRole();
   }, []);
 
+  const handleCloseNavbarCollapse = () => navbarCollapseRef.current.classList.remove("show");
+
   return (
     <>
       <WeatherBar />
-      <Navbar expand="md" className={style.Navbar} sticky="top">
+      <Navbar expand="md" className={style.Navbar} sticky="top" collapseOnSelect>
         <Container fluid className="h-100">
           <Link to={userRole === "admin" ? "/admin" : "/"}>
             <Image
@@ -193,35 +196,145 @@ const NavbarC = () => {
               className={style.LogoImage}
             />
           </Link>
-          <Navbar.Toggle
-            aria-controls="navbar-collapse"
-            className={style.NavbarToggler}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="36"
-              height="36"
-              fill="currentColor"
-              className="bi bi-three-dots"
-              viewBox="0 0 16 16"
+
+
+
+
+          <div className="d-flex align-items-center gap-2">
+            <Navbar.Toggle
+              aria-controls="navbar-collapse"
+              className={style.NavbarToggler}
             >
-              <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-            </svg>
-          </Navbar.Toggle>
-          <Navbar.Collapse id="navbar-collapse" className="mt-3 mt-md-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="36"
+                height="36"
+                fill="currentColor"
+                className="bi bi-three-dots"
+                viewBox="0 0 16 16"
+              >
+                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+              </svg>
+            </Navbar.Toggle>
+            {(userRole === "user") && (
+              <>
+                <Dropdown className="d-flex align-items-center">
+                  <Dropdown.Toggle
+                    id="userOptionsDropdown"
+                    className={style.userOptionsDropdownIcon}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#000"
+                      className="bi bi-person-circle"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                      <path
+                        fillRule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                      />
+                    </svg>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className={style.userOptionsDropdownMenu}>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/user-profile/information");
+                      }}
+                      className={style.userOptionsDropdownMenuItem}
+                    >
+                      Editar Perfil
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/user-profile/pets");
+                      }}
+                      className={style.userOptionsDropdownMenuItem}
+                    >
+                      Mis Mascotas
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/user-profile/appointments");
+                      }}
+                      className={style.userOptionsDropdownMenuItem}
+                    >
+                      Mis turnos
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item
+                      onClick={handleCloseSession}
+                      className={style.userOptionsDropdownMenuItem}
+                    >
+                      Cerrar Sesión
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </>
+            )}
+
+            {(userRole === "admin") && (
+              <>
+                <Dropdown className="d-flex align-items-center">
+                  <Dropdown.Toggle
+                    id="userOptionsDropdown"
+                    className={style.userOptionsDropdownIcon}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#000"
+                      className="bi bi-person-circle"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                      <path
+                        fillRule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                      />
+                    </svg>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className={style.userOptionsDropdownMenu}>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/user-profile/information");
+                      }}
+                      className={style.userOptionsDropdownMenuItem}
+                    >
+                      Editar Perfil
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item
+                      onClick={handleCloseSession}
+                      className={style.userOptionsDropdownMenuItem}
+                    >
+                      Cerrar Sesión
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </>
+            )}
+
+          </div>
+          <Navbar.Collapse id="navbar-collapse" className="mt-3 mt-md-0" ref={navbarCollapseRef}>
             <div className="w-100 d-flex flex-column justify-content-center flex-md-row">
               {userRole === "admin" ? (
                 <Nav className={style.NavLinks}>
-                  <Link to="/admin/users">Usuarios</Link>
-                  <Link to="/admin/appointments">Turnos</Link>
-                  <Link to="/admin/messages">Mensajes</Link>
-                  <Link to="/admin/services">Servicios</Link>
+                  <Link to="/admin/usuarios" onClick={handleCloseNavbarCollapse}>Usuarios</Link>
+                  <Link to="/admin/turnos" onClick={handleCloseNavbarCollapse}>Turnos</Link>
+                  <Link to="/admin/mensajes" onClick={handleCloseNavbarCollapse}>Mensajes</Link>
+                  <Link to="/admin/servicios" onClick={handleCloseNavbarCollapse}>Servicios</Link>
                 </Nav>
               ) : (
                 <Nav className={style.NavLinks}>
-                  <Link to="/nosotros">Nosotros</Link>
-                  <Link to="/servicios">Servicios</Link>
-                  <Link to="/Contacto">Contacto</Link>
+                  <Link to="/nosotros" onClick={handleCloseNavbarCollapse}>Nosotros</Link>
+                  <Link to="/servicios" onClick={handleCloseNavbarCollapse}>Servicios</Link>
+                  <Link to="/contacto" onClick={handleCloseNavbarCollapse}>Contacto</Link>
                 </Nav>
               )}
               {userRole === "not-logged" && (
@@ -259,112 +372,9 @@ const NavbarC = () => {
                   </CustomButton>
                 </div>
               )}
-
-              {(userRole === "user") && (
-                <>
-                  <Dropdown className="d-flex align-items-center">
-                    <Dropdown.Toggle
-                      id="userOptionsDropdown"
-                      className={style.userOptionsDropdownIcon}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="#000"
-                        className="bi bi-person-circle"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                        <path
-                          fillRule="evenodd"
-                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-                        />
-                      </svg>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu className={style.userOptionsDropdownMenu}>
-                      <Dropdown.Item
-                        onClick={() => {
-                          navigate("/user-profile/information");
-                        }}
-                        className={style.userOptionsDropdownMenuItem}
-                      >
-                        Editar Perfil
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => {
-                          navigate("/user-profile/pets");
-                        }}
-                        className={style.userOptionsDropdownMenuItem}
-                      >
-                        Mis Mascotas
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => {
-                          navigate("/user-profile/appointments");
-                        }}
-                        className={style.userOptionsDropdownMenuItem}
-                      >
-                        Mis turnos
-                      </Dropdown.Item>
-                      <Dropdown.Divider />
-                      <Dropdown.Item
-                        onClick={handleCloseSession}
-                        className={style.userOptionsDropdownMenuItem}
-                      >
-                        Cerrar Sesión
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </>
-              )}
-
-              {(userRole === "admin") && (
-                <>
-                  <Dropdown className="d-flex align-items-center">
-                    <Dropdown.Toggle
-                      id="userOptionsDropdown"
-                      className={style.userOptionsDropdownIcon}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="#000"
-                        className="bi bi-person-circle"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                        <path
-                          fillRule="evenodd"
-                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-                        />
-                      </svg>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu className={style.userOptionsDropdownMenu}>
-                      <Dropdown.Item
-                        onClick={() => {
-                          navigate("/user-profile/information");
-                        }}
-                        className={style.userOptionsDropdownMenuItem}
-                      >
-                        Editar Perfil
-                      </Dropdown.Item>
-                      <Dropdown.Divider />
-                      <Dropdown.Item
-                        onClick={handleCloseSession}
-                        className={style.userOptionsDropdownMenuItem}
-                      >
-                        Cerrar Sesión
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </>
-              )}
             </div>
           </Navbar.Collapse>
+
         </Container>
       </Navbar>
       <SignInModal
