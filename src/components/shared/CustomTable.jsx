@@ -258,7 +258,7 @@ const View = ({ variant, data, handleUpdateData }) => {
                 </Nav.Item>
               </Nav>
               {view === 0 && (
-                <div className="d-flex justify-content-center align-items-start mt-4">
+                <div className="d-flex flex-column flex-md-row justify-content-center align-items-center mt-4">
                   <div className="d-flex flex-column justify-content-center align-items-center">
                     <div className="d-flex justify-content-center align-items-center rouded overflow-hidden mx-3" style={{ width: "150px", height: "150px", borderRadius: "50%" }}>
                       <Image

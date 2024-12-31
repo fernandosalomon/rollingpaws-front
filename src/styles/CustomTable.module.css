@@ -432,4 +432,12 @@
     flex-direction: column;
     gap: 1.5rem;
   }
+
+  .userCardName {
+    text-align: center;
+  }
+
+  .userCardRole {
+    text-align: center;
+  }
 }
