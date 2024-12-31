@@ -4,6 +4,8 @@ RollingPaws es un sistema diseñado para gestionar la administración de pacient
 
 Este proyecto fue creado como parte del trabajo final presentado en el curso de desarrollo web fullstack de RollingCode School (https://web.rollingcodeschool.com/).
 
+Desarrollador: Fernando F. Salomón (https://github.com/fernandosalomon).
+
 ## Tabla de Contenidos
 
 1. [Características](#características)
