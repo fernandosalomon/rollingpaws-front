@@ -25,7 +25,7 @@ const DoctorsPage = () => {
         <Col md={6}>
           <CustomCard width={"100%"} variant="horizontal" className={style.doctorCard}>
             <CardImage
-              src={"src/assets/img/vets/vet1.jpg"}
+              src={"https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663372/vet1_eghhpj.jpg"}
               alt={"Dra. Jane Doe Profile Picture"}
               className={style.doctorImage}
             />
@@ -46,7 +46,7 @@ const DoctorsPage = () => {
         <Col md={6}>
           <CustomCard width={"100%"} variant="horizontal" className={style.doctorCard}>
             <CardImage
-              src={"src/assets/img/vets/vet2.jpg"}
+              src={"https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663372/vet2_q8wtpo.jpg"}
               alt={"Dr. John Doe Profile Picture"}
               className={style.doctorImage}
             />

@@ -2,7 +2,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import style from "../styles/AboutUsPage.module.css";
-import { useEffect, useState } from "react";
 import DoctorsPage from "./DoctorsPage";
 import Testimonials from "./Testimonials";
 

@@ -9,7 +9,6 @@ import { Dropdown, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
-import Logo from "../assets/img/simple-logo-nobg.png";
 import style from "../styles/Navbar.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -152,7 +151,7 @@ const NavbarC = () => {
       sessionStorage.removeItem("token");
       navigate("/");
       Swal.fire({
-        imageUrl: "/src/assets/img/dog-waving-hand.png",
+        imageUrl: "https://res.cloudinary.com/dqpq2d0es/image/upload/v1735664055/dog-waving-hand_rxda1c.png",
         imageHeight: 200,
         imageAlt: "Dog goodbye",
         title: "Hasta la próxima",
@@ -191,7 +190,7 @@ const NavbarC = () => {
         <Container fluid className="h-100 d-flex">
           <Link to={userRole === "admin" ? "/admin" : "/"} className="order-1">
             <Image
-              src={Logo}
+              src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1734960538/simple-logo-nobg_kk50aq.png"
               alt="Rolling Paws Logo"
               className={style.LogoImage}
             />

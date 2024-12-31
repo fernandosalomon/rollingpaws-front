@@ -1,8 +1,5 @@
 import Stack from 'react-bootstrap/Stack';
 import style from "../styles/PlanBanner.module.css"
-import catPuppy from "../assets/img/planes/cat-puppy.jpg"
-import dogAdult from "../assets/img/planes/dog-madurando.jpg"
-import dogOld from "../assets/img/planes/dog-adultos.jpg"
 import { useNavigate } from 'react-router-dom';
 
 const Plan = ({ title, bgImage }) => {
@@ -24,9 +21,9 @@ const Plan = ({ title, bgImage }) => {
 const PlansBanner = () => {
     return (
         <Stack gap={0} className='my-3'>
-            <div><Plan title="Primeros Pasos" bgImage={catPuppy} /></div>
-            <div><Plan title="Madurando" bgImage={dogAdult} /></div>
-            <div><Plan title="Adultos" bgImage={dogOld} /></div>
+            <div><Plan title="Primeros Pasos" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663012/cat-puppy_j2utls.jpg" /></div>
+            <div><Plan title="Madurando" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663013/dog-madurando_vowfjo.jpg" /></div>
+            <div><Plan title="Adultos" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663012/dog-adultos_g4g5rq.jpg" /></div>
         </Stack>
     )
 }

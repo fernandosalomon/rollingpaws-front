@@ -40,12 +40,12 @@ const Testimonials = () => {
                 <div
                   className={`${style.testimonialAvatar} ${style.testimonialAvatarOwner}`}
                 >
-                  <Image src="./src/assets/img/testimonials/dueño-0002.jfif" />
+                  <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663492/due%C3%B1o-0002_uqzxa5.jpg" />
                 </div>
                 <div
                   className={`${style.testimonialAvatar} ${style.testimonialAvatarPet}`}
                 >
-                  <Image src="./src/assets/img/testimonials/mascota-0002.jpeg" />
+                  <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663492/mascota-0004_n520ob.jpg" />
                 </div>
               </div>
               <div className="d-flex flex-column justify-content-center gap-2 ms-4">
@@ -67,12 +67,12 @@ const Testimonials = () => {
                 <div
                   className={`${style.testimonialAvatar} ${style.testimonialAvatarOwner}`}
                 >
-                  <Image src="./src/assets/img/testimonials/dueño-0003.png" />
+                  <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663495/due%C3%B1o-0003_yvlt6j.png" />
                 </div>
                 <div
                   className={`${style.testimonialAvatar} ${style.testimonialAvatarPet}`}
                 >
-                  <Image src="./src/assets/img/testimonials/mascota-0003.jfif" />
+                  <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663500/mascota-0003_gsarp8.jpg" />
                 </div>
               </div>
               <div className="d-flex flex-column justify-content-center gap-2 ms-4">
@@ -94,12 +94,12 @@ const Testimonials = () => {
                 <div
                   className={`${style.testimonialAvatar} ${style.testimonialAvatarOwner}`}
                 >
-                  <Image src="./src/assets/img/testimonials/dueño-0004.jfif" />
+                  <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663496/due%C3%B1o-0004_seyr0j.jpg" />
                 </div>
                 <div
                   className={`${style.testimonialAvatar} ${style.testimonialAvatarPet}`}
                 >
-                  <Image src="./src/assets/img/testimonials/mascota-0004.jfif" />
+                  <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663499/mascota-0002_o6epao.jpg" />
                 </div>
               </div>
               <div className="d-flex flex-column justify-content-center gap-2 ms-4">

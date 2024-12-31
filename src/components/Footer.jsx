@@ -6,17 +6,21 @@ import style from "../styles/Footer.module.css";
 import { Image } from "react-bootstrap";
 
 const Footer = () => {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+  }
+
   return (
     <>
       <Container className={style.brandPublicityContainer}>
         <h2 className="text-center mb-3 fs-2">Las marcas en las que confiamos</h2>
         <div className="d-flex flex-nowrap gap-2 justify-content-between align-items-center">
-          <Image src="/src/assets/img/brands/marca-1.png" width="15%" height="100%" />
-          <Image src="/src/assets/img/brands/marca-2.png" width="15%" height="100%" />
-          <Image src="/src/assets/img/brands/marca-3.png" width="15%" height="100%" />
-          <Image src="/src/assets/img/brands/marca-4.png" width="15%" height="100%" />
-          <Image src="/src/assets/img/brands/marca-5.png" width="15%" height="100%" />
-          <Image src="/src/assets/img/brands/marca-6.png" width="8%" height="100%" />
+          <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735662829/marca-1_a2m0rt.png" width="15%" height="100%" />
+          <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735662829/marca-4_fbm6li.png" width="15%" height="100%" />
+          <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735662829/marca-3_rrchfo.png" width="15%" height="100%" />
+          <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735662830/marca-2_uixic9.png" width="15%" height="100%" />
+          <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735662830/marca-5_evzwsv.png" width="15%" height="100%" />
+          <Image src="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735662832/marca-6_alpbrk.png" width="8%" height="100%" />
         </div>
       </Container>
 
@@ -29,11 +33,10 @@ const Footer = () => {
         </Col>
         <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <h3 className={`${style.text} ${style.title}`}>Enlaces Útiles</h3>
-          <Link className={style.link} to="/nosotros">Acerca de nosotros</Link>
-          <Link className={style.link} to="/developer">Acerca del desarrollador</Link>
-          <Link className={style.link} to="/servicios">Servicios</Link>
-          <Link className={style.link} to="/contacto">Contacto</Link>
-          <Link className={style.link} to="/trabaja-con-nosotros">Trabaja con nosotros</Link>
+          <Link className={style.link} to="/nosotros" onClick={handleScrollToTop}>Acerca de nosotros</Link>
+          <Link className={style.link} to="/developer" onClick={handleScrollToTop}>Acerca del desarrollador</Link>
+          <Link className={style.link} to="/servicios" onClick={handleScrollToTop}>Servicios</Link>
+          <Link className={style.link} to="/contacto" onClick={handleScrollToTop}>Contacto</Link>
         </Col>
         <Col className="d-flex flex-column align-items-center align-items-sm-start justify-content-start  pb-3" sm={3}>
           <div className="mb-3 d-flex flex-column align-items-center align-items-sm-start justify-content-start">
@@ -43,7 +46,7 @@ const Footer = () => {
               </svg>
               <p className="mb-0">¿Dónde estamos?</p>
             </span>
-            <p className={`${style.text} ms-2`}>Calle Falsa 123, <br />San Miguel de Tucumán, Tucumán</p>
+            <p className={`${style.text} ms-2 text-center text-sm-start`}>Calle Falsa 123, <br />San Miguel de Tucumán, Tucumán</p>
           </div>
 
           <div className="mb-3 d-flex flex-column align-items-center align-items-sm-start justify-content-start">
