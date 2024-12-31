@@ -271,7 +271,6 @@ const NavbarC = () => {
                 </Dropdown>
               </>
             )}
-
             {(userRole === "admin") && (
               <>
                 <Dropdown className="d-flex align-items-center">
@@ -348,7 +347,7 @@ const NavbarC = () => {
                 </CustomButton>
               )}
               {userRole === "user" && (
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex align-items-center justify-content-center gap-2">
                   <CustomButton
                     className="d-flex align-items-center ms-md-auto ms-0 mt-3"
                     onClick={handleShowNewAppointment}
