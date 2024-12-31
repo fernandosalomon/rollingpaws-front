@@ -35,9 +35,9 @@ cd rollingvet
 ```
 
 ### 3. Configuración
-1. Navegar a la carpeta `frontend`:
+1. Navegar a la carpeta `rollingpaws-front`:
     ```bash
-    cd ../frontend
+    cd ../rollingpaws-front
     ```
 2. Instalar las dependencias:
     ```bash
@@ -55,8 +55,7 @@ cd rollingvet
 ## Estructura del Proyecto
 
 ```
-rollingvet/
-├── frontend/
+rollingpaws-front/
 │   ├── src/
 │   │   ├── components/
 │   │   │   └── shared/
