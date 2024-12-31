@@ -238,7 +238,7 @@ const NavbarC = () => {
                   <Dropdown.Menu className={style.userOptionsDropdownMenu}>
                     <Dropdown.Item
                       onClick={() => {
-                        navigate("/user-profile/information");
+                        navigate("/user-profile/informacion");
                       }}
                       className={style.userOptionsDropdownMenuItem}
                     >
@@ -246,7 +246,7 @@ const NavbarC = () => {
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        navigate("/user-profile/pets");
+                        navigate("/user-profile/mascotas");
                       }}
                       className={style.userOptionsDropdownMenuItem}
                     >
@@ -254,7 +254,7 @@ const NavbarC = () => {
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        navigate("/user-profile/appointments");
+                        navigate("/user-profile/turnos");
                       }}
                       className={style.userOptionsDropdownMenuItem}
                     >
