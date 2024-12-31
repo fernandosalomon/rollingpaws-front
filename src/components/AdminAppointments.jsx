@@ -164,74 +164,6 @@ const AdminAppointments = () => {
         hours.push(`${i >= 10 ? "" : "0"}${i} ${i > 12 ? "PM" : "AM"}`);
     }
 
-    // const headerCalendar = [];
-
-
-    // for (let month = 0; month < 12; month++) {
-    //     for (let i = 1; i <= new Date(headerYear, month + 1, 0).getDate(); i++) {
-    //         headerCalendar.push(new Date(selectedYear, month, i));
-    //     }
-    // }
-
-    // useEffect(() => { console.log(headerCalendar) }, [headerCalendar])
-
-    // useEffect(() => {
-    //     setIsLoading(true);
-    //     const headerWidth = 78 * (headerCalendar.length + 1);
-    //     setHeaderBoxWidth(headerWidth);
-    //     const viewBox = headerBoxesContainerRef.current.getBoundingClientRect().width;
-    //     setElementsPerPage(Math.floor(viewBox / 78));
-    //     setNumberOfPages(Math.ceil(headerCalendar.length / Math.floor(viewBox / 78)) - 1)
-
-    //     if (selectedYear === new Date().getFullYear() && selectedMonth === new Date().getMonth() && selectedDate === new Date().getDate()) {
-    //         const page = Math.floor(selectedDate / Math.floor(viewBox / 78));
-    //         setCurrentPage(page);
-    //     }
-
-    //     setIsLoading(false)
-    // }, [headerYear, headerMonth, headerDate])
-
-
-    // const handleSetDate = (year, month, date) => {
-    //     setSelectedYear(year);
-    //     setSelectedMonth(month);
-    //     setSelectedDate(date);
-    // }
-
-    // const handlePrev = () => {
-    //     if (currentPage > 0) {
-    //         setCurrentPage(currentPage - 1)
-    //     } else {
-    //         if (headerMonth === 0) {
-    //             setHeaderYear(headerYear - 1);
-    //             setHeaderMonth(11);
-    //             setHeaderDate(1);
-    //             setCurrentPage(numberOfPages);
-    //         } else {
-    //             setHeaderMonth(headerMonth - 1)
-    //             setHeaderDate(1);
-    //             setCurrentPage(numberOfPages);
-    //         }
-    //     }
-    // }
-
-    // const handleNext = () => {
-    //     if (currentPage < numberOfPages) {
-    //         setCurrentPage(currentPage + 1)
-    //     } else {
-    //         if (headerMonth === 11) {
-    //             setHeaderYear(headerYear + 1);
-    //             setHeaderMonth(0);
-    //             setHeaderDate(1);
-    //             setCurrentPage(0)
-    //         } else {
-    //             setHeaderMonth(headerMonth + 1)
-    //             setHeaderDate(1);
-    //             setCurrentPage(0)
-    //         }
-    //     }
-    // }
-
     const positionAppointment = (startTime, endTime, openingHour, doctorID) => {
         const opening = (openingHour.hour * 60 + openingHour.minutes);
         const timeStart = (startTime.hour * 60 + startTime.minutes) - opening;
@@ -330,8 +262,6 @@ const AdminAppointments = () => {
         handleCloseCalendar();
     }
 
-
-
     if (isLoading) {
         return <CustomSpinner />
     } else {
@@ -352,25 +282,9 @@ const AdminAppointments = () => {
                         </CustomButton>
                         <Modal show={showCalendar} onHide={handleCloseCalendar} contentClassName={style.modalContent} dialogClassName={style.modal} centered>
                             <Modal.Body>
-                                <CustomCalendar border handleSetDate={handleSetDate} allowPreviousDates selectedDate={new Date()} />
+                                <CustomCalendar border handleSetDate={handleSetDate} allowPreviousDates selectedDate={new Date()} className="rounded-0" />
                             </Modal.Body>
                         </Modal>
-
-
-
-                        {/* <div className={style.headerDateBoxesContainer} ref={headerBoxesContainerRef}>
-
-                            {headerCalendar.slice(elementsPerPage * currentPage, (elementsPerPage * (currentPage + 1))).map((date) =>
-                                <div className={`${style.headerDateBox} ${selectedDate === date.getDate() && selectedMonth === date.getMonth() && selectedYear === date.getFullYear() ? style.selected : ""}`} onClick={() => handleSetDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())} key={date}>
-                                    <p className="mb-0">{date.getDate()}</p>
-                                    <p className="mb-0">{daysInWeek[date.getDay()].dayShortName}</p>
-                                </div>
-                            )}
-
-                        </div>
-
-                        <button className={`${style.controlButton} ${style.prevButton}`} onClick={handlePrev}>&lt;</button>
-                        <button className={`${style.controlButton} ${style.nextButton}`} onClick={handleNext}>&gt;</button> */}
 
                     </Container>
                     <div className={style.body}>

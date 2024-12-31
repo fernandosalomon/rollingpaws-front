@@ -6,6 +6,7 @@ const CustomCalendar = ({
   handleSetDate,
   allowPreviousDates,
   selectedDate,
+  className,
 }) => {
   const [today, setToday] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
@@ -186,7 +187,7 @@ const CustomCalendar = ({
   return (
     <div
       className={`${style.calendarContainer} ${border ? style.calendarContainerBorder : ""
-        }`}
+        } ${className}`}
     >
       <div className={style.headerWrapper}>
         <button

@@ -579,20 +579,36 @@ const Edit = ({ variant, data, handleUpdateData }) => {
 const BanUser = ({ data, handleUpdateData }) => {
   const handleBanUser = async () => {
     try {
-      const res = await clientAxios.put(`/user/ban-user/${data._id}`);
-      Swal.fire({
-        position: "top-end",
-        title: `Usuario ${data.banned ? "habilitado" : "deshabilitado"}`,
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
+      const token = sessionStorage.getItem("token");
+      const res = await clientAxios.put(`/user/ban-user/${data._id}`, {}, {
+        headers: {
+          authtoken: token,
+        }
       });
-      handleUpdateData();
+      console.log(res);
+      if (res.status === 200) {
+        Swal.fire({
+          position: "top-end",
+          title: `Usuario ${data.banned ? "habilitado" : "deshabilitado"}`,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        handleUpdateData();
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: `El usuario no se pudo deshabilitar. Error: ${res.message}`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+
     } catch (error) {
-      console.log(error);
       Swal.fire({
         title: "Error",
-        text: `El usuario no se pudo deshabilitar. Error: ${error.response.message}`,
+        text: `El usuario no se pudo deshabilitar. Error: ${error}`,
         icon: "error",
         showConfirmButton: false,
         timer: 1500,
