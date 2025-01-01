@@ -1302,7 +1302,7 @@ const UserProfileForm = () => {
             disabled={isUploading}
           >
             <span className="d-flex align-items-center justify-content-center">
-              {isUploading && <CustomSpinner />}
+              {isUploading && <CustomSpinner size="sm" />}
               <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
             </span>
           </CustomButton>
@@ -1345,8 +1345,6 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
       observations: data.petDescription,
     };
 
-    const token = sessionStorage.getItem("token");
-
     try {
       const token = sessionStorage.getItem("token");
       const res = await clientAxios.post("/pet/", petData, {
@@ -1358,8 +1356,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
       if (data.petImage[0]) {
         const formData = new FormData()
         formData.append("image", data.petImage[0]);
-        const token = sessionStorage.getItem("token");
-        const imageRes = await clientAxios.post(`/pet/image/${res.data._id}`, formData, {
+        const imageRes = await clientAxios.put(`/pet/image/${res.data._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             authtoken: token,
@@ -1559,7 +1556,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
           disabled={isUploading}
         >
           <span className="d-flex align-items-center justify-content-center">
-            {isUploading && <CustomSpinner />}
+            {isUploading && <CustomSpinner size="sm" />}
             <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
           </span>
         </CustomButton>
@@ -1616,16 +1613,18 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
       observations: data.petDescription,
     };
 
-    const token = sessionStorage.getItem("token");
-
     try {
-      const res = await clientAxios.put(`/pet/${petData._id}`, petUpdatedData);
+      const token = sessionStorage.getItem("token");
+      const res = await clientAxios.put(`/pet/${petData._id}`, petUpdatedData, {
+        headers: {
+          authtoken: token,
+        }
+      });
 
       if (data.petImage[0]) {
         const formData = new FormData()
         formData.append("image", data.petImage[0]);
-        const token = sessionStorage.getItem("token");
-        const imageRes = await clientAxios.post(`/pet/image/${petData._id}`, formData, {
+        const imageRes = await clientAxios.put(`/pet/image/${petData._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             authtoken: token,
@@ -1825,7 +1824,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
           disabled={isUploading}
         >
           <span className="d-flex align-items-center justify-content-center">
-            {isUploading && <CustomSpinner />}
+            {isUploading && <CustomSpinner size="sm" />}
             <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
           </span>
         </CustomButton>
