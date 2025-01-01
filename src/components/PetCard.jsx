@@ -26,7 +26,12 @@ const PetCard = ({ title, imageURL, petData, handleRefresh }) => {
       });
 
       if (result.isConfirmed) {
-        const res = await clientAxios.delete(`/pet/${petData._id}`);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.delete(`/pet/${petData._id}`, {
+          headers: {
+            authtoken: token,
+          }
+        });
         await handleRefresh();
         Swal.fire({
           title: `Se elimino a ${petData.name} de tu lista de mascotas`,
