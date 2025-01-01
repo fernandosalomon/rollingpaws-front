@@ -156,8 +156,6 @@ const UserAppointments = () => {
     setIsLoading(false);
   }
 
-  useEffect(() => console.log(appointments), [appointments])
-
   const labels = [
     { name: "startDate", label: "Fecha", hidden: false },
     { name: "doctor", label: "Veterinario", hidden: false },
