@@ -69,7 +69,7 @@ const ServicesPage = () => {
                   <CustomCard
                     variant={dimensions.width < 768 ? "vertical" : "horizontal"}
                     width={"100%"}
-                    height={dimensions.width < 768 ? "80vh" : "30rem"}
+                    height={dimensions.width < 768 ? "80vh" : "40rem"}
                     className={style.cardContainer}
                   >
                     <CardImage

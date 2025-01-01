@@ -28,6 +28,10 @@
     font-size: 5rem;
 }
 
+.imageContainer>img {
+    max-height: 250px;
+}
+
 .circle {
     position: absolute;
     top: 140px;
@@ -38,4 +42,45 @@
     opacity: 0.5;
     border-radius: 50%;
     z-index: -4;
+}
+
+@media (max-width: 468px) {
+    .container {
+        height: 250px;
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    .productsWrapper {
+        display: grid;
+        grid-template-columns: 300px 300px 300px;
+        grid-template-rows: 300px 300px 300px;
+        height: 900px;
+        width: 900px;
+        left: -300px;
+    }
+
+    .imageContainer {
+        position: relative;
+        height: 300px;
+        width: 300px;
+    }
+
+    .imageContainer>img {
+        position: absolute;
+        top: 20px;
+    }
+
+    .circle {
+        top: 140px;
+        left: 0px;
+        height: 300px;
+        width: 300px;
+    }
+}
+
+@media (max-width: 300px) {
+    .container {
+        margin: 0;
+    }
 }

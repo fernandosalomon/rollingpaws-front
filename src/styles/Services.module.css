@@ -48,7 +48,7 @@
 }
 
 .text {
-  font-size: 1.2rem !important;
+  font-size: 1.4rem !important;
   text-wrap: wrap;
   text-align: start !important;
 }
@@ -62,12 +62,25 @@
     font-size: 2rem;
   }
 
+  .title {
+    width: 100%;
+    text-align: center !important;
+  }
+
+  .text {
+    text-align: center !important;
+  }
+
 }
 
 @media (max-width: 450px) {
 
   .pageSubtitle {
     font-size: 1.6rem;
+  }
+
+  .text {
+    padding-right: 0;
   }
 
 }
