@@ -231,14 +231,25 @@ const CustomCalendar = ({
                 <td
                   key={dayIndex}
                   onClick={() => {
-                    handleSetDate(
-                      day.getFullYear(),
-                      day.getMonth(),
-                      day.getDate()
-                    );
-                    setSelectedDay(day.getDate());
-                    setSelectedMonth(day.getMonth());
-                    setSelectedYear(day.getFullYear());
+                    if (allowPreviousDates) {
+                      handleSetDate(
+                        day.getFullYear(),
+                        day.getMonth(),
+                        day.getDate()
+                      );
+                      setSelectedDay(day.getDate());
+                      setSelectedMonth(day.getMonth());
+                      setSelectedYear(day.getFullYear());
+                    } else if (day > today) {
+                      handleSetDate(
+                        day.getFullYear(),
+                        day.getMonth(),
+                        day.getDate()
+                      );
+                      setSelectedDay(day.getDate());
+                      setSelectedMonth(day.getMonth());
+                      setSelectedYear(day.getFullYear());
+                    }
                   }}
                   className={`${style.tableCell} ${day.getMonth() !== month ? style.fadeDayNumber : ""
                     } ${day.getDate() === new Date().getDate() &&
