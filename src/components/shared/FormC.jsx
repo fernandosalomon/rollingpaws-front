@@ -2031,6 +2031,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       try {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
+        console.log(selectedDoctor);
         const doctors = await clientAxios.get(`/doctor/clinic-hours/${selectedDoctor}&${new Date(selectedYear, selectedMonth, selectedDay)}`, {
           headers: {
             authtoken: token,
