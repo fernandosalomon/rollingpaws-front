@@ -1936,7 +1936,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       setIsLoading(true);
       const token = sessionStorage.getItem("token");
       try {
-        const petList = await clientAxios.get("/pet/", {
+        const petList = await clientAxios.get("/pet/user", {
           headers: {
             authtoken: token,
           },

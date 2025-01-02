@@ -49,7 +49,7 @@ const ServicesPage = () => {
 
   if (isLoading) {
     return (
-      < div className="h-100 w-100 d-flex justify-content-center align-items-center mb-4">
+      <div className="h-100 w-100 d-flex justify-content-center align-items-center mb-4">
         <CustomSpinner />
       </div >
     )
