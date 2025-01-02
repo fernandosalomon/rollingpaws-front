@@ -447,4 +447,8 @@
   .timePickerHeader {
     width: 100px;
   }
+
+  .datePickerContainer {
+    width: 350px;
+  }
 }
