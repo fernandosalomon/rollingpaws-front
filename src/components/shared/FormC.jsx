@@ -2416,7 +2416,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                 selectedHour &&
                 selectedMinute &&
                 selectedPet &&
-                (selectedDoctor === 0 || selectedDoctor === 1)
+                (selectedDoctor !== null && selectedDoctor !== "")
                 ? "d-block"
                 : "d-none"
             }
