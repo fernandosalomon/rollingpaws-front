@@ -90,7 +90,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de registrar al usuario. Error: ${error}`,
+        message: `Sucedio un error al tratar de registrar al usuario. ${error.name}: ${error.message}`,
       });
       setIsLoading(false);
     }
@@ -2705,6 +2705,7 @@ const EditAppointmentForm = ({
           showConfirmButton: false,
           timer: 2500,
         });
+        handleCloseModal();
         handleUpdateData();
       }
     } catch (error) {
