@@ -2272,7 +2272,6 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       try {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
-        console.log(selectedDoctor);
         const doctorID = doctorList[selectedDoctor]._id;
         const doctors = await clientAxios.get(`/doctor/clinic-hours/${doctorID}&${new Date(selectedYear, selectedMonth, selectedDay)}`, {
           headers: {
@@ -2287,7 +2286,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       }
     }
 
-    if (selectedDoctor === 0 || selectedDoctor === 1) {
+    if (selectedDoctor !== null && selectedDoctor !== "") {
       getDoctorFreeHours();
     }
   }, [selectedDoctor, selectedYear, selectedMonth, selectedDay])
@@ -2300,6 +2299,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
     setSelectedDoctor(doctorSelectWatch);
   }, [petSelectWatch, doctorSelectWatch]);
 
+  useEffect(() => { console.log(selectedDoctor); }, [selectedDoctor])
 
   if (isLoading) {
     return (
@@ -2375,7 +2375,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
           </Form.Group>
 
           <div className={`${style.datePickerContainer}`} ref={selectDateTimeBoxRef}>
-            {(selectedDoctor === 0 || selectedDoctor === 1) && selectedPet ?
+            {selectedDoctor !== null && selectedDoctor !== "" && selectedPet ?
               <>
                 <CustomCalendar
                   border
