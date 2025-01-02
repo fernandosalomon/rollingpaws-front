@@ -2210,6 +2210,7 @@ const EditAppointmentForm = ({
 
   useEffect(() => {
     const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor);
+    console.log(doctorID, appointmentData.doctor)
     setSelectedDoctor(doctorID);
     setValue("doctor", doctorID);
   }, [doctorList])
