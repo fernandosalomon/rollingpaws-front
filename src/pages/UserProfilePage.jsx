@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import CustomTable from "../components/shared/CustomTable";
 import { Spinner, Table } from "react-bootstrap";
 import CustomSpinner from "../components/shared/CustomSpinner";
+import CustomButton from "../components/shared/CustomButton";
 
 const MyPetsView = () => {
   const [showNewPetModal, setShowNewPetModal] = useState(false);
@@ -125,10 +126,35 @@ const UserView = () => {
   );
 };
 
-const UserAppointments = () => {
+const NewAppointmentModal = ({ show, handleClose }) => {
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        aria-modal="true"
+        closeAfterTransition={false}
+      >
+        <Modal.Header className={style.modalHeader}>
+          <button className="btn-close" onClick={handleClose}></button>
+        </Modal.Header>
+        <Modal.Body className={style.modalBody}>
+          <FormC variant="new-appointment" handleCloseModal={handleClose} />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
 
+const UserAppointments = () => {
+  const [showNewAppointment, setShowNewAppointment] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [appointments, setAppointments] = useState([]);
+
+  const handleShowNewAppointment = () => setShowNewAppointment(true);
+  const handleCloseNewAppointment = () => setShowNewAppointment(false);
 
   useEffect(() => {
     const getAppointments = async () => {
@@ -198,6 +224,10 @@ const UserAppointments = () => {
         <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
           <CustomTable data={appointments} columns={labels} handleUpdateData={handleUpdate} variant="appointments" />
         </div>
+        <NewAppointmentModal
+          show={showNewAppointment}
+          handleClose={handleCloseNewAppointment}
+        />
       </>
     );
   }
