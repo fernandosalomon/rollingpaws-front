@@ -545,7 +545,7 @@ const Edit = ({ variant, data, handleUpdateData }) => {
         </svg>
       </button>
       <Modal show={show} onHide={handleClose}>
-        <ModalHeader closeButton className="fs-1">Editar Turno</ModalHeader>
+        <ModalHeader closeButton className="fs-1 border-0"></ModalHeader>
         <Modal.Body>
           {variant === "user" && (
             <FormC
