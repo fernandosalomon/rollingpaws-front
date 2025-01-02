@@ -48,13 +48,14 @@ const ServicesPage = () => {
   }, []);
 
   if (isLoading) {
-    <div className="h-100 w-100 d-flex justify-content-center align-items-center">
-      <CustomSpinner />
-    </div>
+    return (
+      < div className="h-100 w-100 d-flex justify-content-center align-items-center mb-4">
+        <CustomSpinner />
+      </div >
+    )
   } else {
     return (
       <>
-
         <Container fluid="md" className={style.sliderContainer}>
           <h2 className={style.pageTitle}>Servicios</h2>
           <h3 className={style.pageSubtitle}>
