@@ -2213,7 +2213,7 @@ const EditAppointmentForm = ({
     console.log(doctorID, appointmentData.doctor)
     setSelectedDoctor(doctorID);
     setValue("doctor", doctorID);
-  }, [doctorList])
+  }, [doctorList,])
 
   useEffect(() => {
     const getAvailableDoctorHours = async () => {
