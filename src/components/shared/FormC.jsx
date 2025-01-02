@@ -953,6 +953,7 @@ const UserProfileForm = () => {
       if (profilePic?.length) {
         const formData = new FormData()
         formData.append("profilePic", profilePic[0]);
+
         const token = sessionStorage.getItem("token");
         const imageRes = await clientAxios.put(`/user/profile-pic/${userData._id}`, formData, {
           headers: {
