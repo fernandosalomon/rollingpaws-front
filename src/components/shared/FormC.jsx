@@ -3311,6 +3311,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
       try {
         const res = await clientAxios.put(`/services/image/${serviceData._id}`, formData, {
           headers: {
+            'Content-Type': 'multipart/form-data',
             authtoken: token,
           }
         })
@@ -3477,6 +3478,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
 
           const newServiceImage = await clientAxios.put(`/services/image/${newService.data.data._id}`, formData, {
             headers: {
+              'Content-Type': 'multipart/form-data',
               authtoken: token,
             }
           })
