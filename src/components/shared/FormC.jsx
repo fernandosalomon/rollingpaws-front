@@ -237,7 +237,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
                   width="24"
                   height="24"
                   fill="currentColor"
-                  class="bi bi-eye-slash"
+                  className="bi bi-eye-slash"
                   viewBox="0 0 16 16"
                 >
                   <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -250,7 +250,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
                   width="24"
                   height="24"
                   fill="currentColor"
-                  class="bi bi-eye"
+                  className="bi bi-eye"
                   viewBox="0 0 16 16"
                 >
                   <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -539,7 +539,7 @@ const SignInForm = ({
                   width="24"
                   height="24"
                   fill="currentColor"
-                  class="bi bi-eye-slash"
+                  className="bi bi-eye-slash"
                   viewBox="0 0 16 16"
                 >
                   <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -552,7 +552,7 @@ const SignInForm = ({
                   width="24"
                   height="24"
                   fill="currentColor"
-                  class="bi bi-eye"
+                  className="bi bi-eye"
                   viewBox="0 0 16 16"
                 >
                   <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -3102,7 +3102,7 @@ const ChangePasswordForm = () => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye-slash"
+                className="bi bi-eye-slash"
                 viewBox="0 0 16 16"
               >
                 <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -3115,7 +3115,7 @@ const ChangePasswordForm = () => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye"
+                className="bi bi-eye"
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -3167,7 +3167,7 @@ const ChangePasswordForm = () => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye-slash"
+                className="bi bi-eye-slash"
                 viewBox="0 0 16 16"
               >
                 <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -3180,7 +3180,7 @@ const ChangePasswordForm = () => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye"
+                className="bi bi-eye"
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -3223,7 +3223,7 @@ const ChangePasswordForm = () => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye-slash"
+                className="bi bi-eye-slash"
                 viewBox="0 0 16 16"
               >
                 <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -3236,7 +3236,7 @@ const ChangePasswordForm = () => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye"
+                className="bi bi-eye"
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -3359,7 +3359,7 @@ const ChangePasswordWithTokenForm = ({ token }) => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye-slash"
+                className="bi bi-eye-slash"
                 viewBox="0 0 16 16"
               >
                 <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -3372,7 +3372,7 @@ const ChangePasswordWithTokenForm = ({ token }) => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye"
+                className="bi bi-eye"
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
@@ -3415,7 +3415,7 @@ const ChangePasswordWithTokenForm = ({ token }) => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye-slash"
+                className="bi bi-eye-slash"
                 viewBox="0 0 16 16"
               >
                 <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
@@ -3428,7 +3428,7 @@ const ChangePasswordWithTokenForm = ({ token }) => {
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-eye"
+                className="bi bi-eye"
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
