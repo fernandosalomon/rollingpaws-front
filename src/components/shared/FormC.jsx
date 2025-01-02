@@ -2534,16 +2534,14 @@ const EditAppointmentForm = ({
       setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours())
       setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
     }
-  }, [])
 
-  useEffect(() => {
     const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor._id);
     if (doctorID === -1) {
       console.error("El ID del veterinario no corresponde con uno de los veterinarios registrados")
     }
     setSelectedDoctor(doctorID);
     setValue("doctor", doctorID);
-  }, [doctorList,])
+  }, [])
 
   useEffect(() => {
     const getAvailableDoctorHours = async () => {
