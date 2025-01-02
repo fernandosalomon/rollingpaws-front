@@ -89,7 +89,9 @@ const AdminServices = () => {
         );
     } else {
         return (
-            <CustomSpinner />
+            <div className="h-100 w-100 d-flex justify-content-center align-items-center mb-4">
+                <CustomSpinner />
+            </div >
         );
     }
 }
