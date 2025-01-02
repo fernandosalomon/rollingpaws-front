@@ -2471,7 +2471,8 @@ const EditAppointmentForm = ({
   handleUpdateCalendar,
   variant,
 }) => {
-
+  const LOCAL_TO_UNIVERSAL_TIME = 180;
+  const UNIVERSAL_TO_LOCAL_TIME = -180;
   const [isLoading, setIsLoading] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [showStartDateTimeOptions, setShowStartDateTimeOptions] = useState(false)
@@ -2522,16 +2523,16 @@ const EditAppointmentForm = ({
 
 
     setSelectedStartYear(new Date(appointmentData.startDate).getUTCFullYear());
-    setSelectedStartMonth(new Date(appointmentData.startDate).getUTCMonth() + 1);
+    setSelectedStartMonth(new Date(appointmentData.startDate).getUTCMonth());
     setSelectedStartDate(new Date(appointmentData.startDate).getUTCDate());
-    setSelectedStartHour(new Date(appointmentData.startDate).getUTCHours())
+    setSelectedStartHour(new Date(appointmentData.startDate).getUTCHours() + (UNIVERSAL_TO_LOCAL_TIME / 60))
     setSelectedStartMinutes(new Date(appointmentData.startDate).getUTCMinutes())
 
     if (variant === "edit-appointment-admin") {
       setSelectedEndYear(new Date(appointmentData.endDate).getUTCFullYear());
-      setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth() + 1);
+      setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth());
       setSelectedEndDate(new Date(appointmentData.endDate).getUTCDate());
-      setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours())
+      setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours() + (UNIVERSAL_TO_LOCAL_TIME / 60))
       setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
     }
   }, [])
@@ -2573,6 +2574,9 @@ const EditAppointmentForm = ({
     setSelectedStartYear(year);
     setSelectedStartMonth(month);
     setSelectedStartDate(date);
+    setSelectedEndYear(year);
+    setSelectedEndMonth(month);
+    setSelectedEndDate(date);
   }
 
   const handleSetEndDate = (year, month, date) => {
@@ -2584,6 +2588,8 @@ const EditAppointmentForm = ({
   const handleSetStartTime = (hour, minutes) => {
     setSelectedStartHour(hour);
     setSelectedStartMinutes(minutes);
+    setSelectedEndHour(Number(hour) + 1);
+    setSelectedEndMinutes(minutes);
   }
 
   const handleSetEndTime = (hour, minutes) => {
@@ -2593,9 +2599,9 @@ const EditAppointmentForm = ({
 
   useEffect(() => {
 
-    setValue("startDate", `${selectedStartDate}/${selectedStartMonth}/${selectedStartYear}`);
+    setValue("startDate", `${selectedStartDate}/${selectedStartMonth + 1}/${selectedStartYear}`);
     setValue("startTime", `${selectedStartHour}:${selectedStartMinutes}`);
-    variant === "edit-appointment-admin" && setValue("endDate", `${selectedEndDate}/${selectedEndMonth}/${selectedEndYear}`);
+    variant === "edit-appointment-admin" && setValue("endDate", `${selectedEndDate}/${selectedEndMonth + 1}/${selectedEndYear}`);
     variant === "edit-appointment-admin" && setValue("endTime", `${selectedEndHour}:${selectedEndMinutes}`);
     setValue("observations", appointmentData.observations);
 
@@ -2608,7 +2614,7 @@ const EditAppointmentForm = ({
       selectedStartMonth,
       selectedStartDate,
       selectedStartHour,
-      selectedStartMinutes
+      Number(selectedStartMinutes),
     );
 
     let endDate = null;
@@ -2619,7 +2625,7 @@ const EditAppointmentForm = ({
         selectedEndMonth,
         selectedEndDate,
         selectedEndHour,
-        selectedEndMinutes
+        Number(selectedEndMinutes),
       );
     } else {
       endDate = new Date(
@@ -2766,7 +2772,12 @@ const EditAppointmentForm = ({
                   className={style.formInput}
                   aria-label="EndDate"
                   aria-describedby="EndDate"
-                  {...register("endDate")}
+                  {...register("endDate", {
+                    validate: (value) =>
+                      (Number(value.split("/")[0]) <= Number(selectedEndDate) &&
+                        Number(value.split("/")[1] - 1) <= Number(selectedEndMonth) &&
+                        Number(value.split("/")[2]) <= Number(selectedEndYear)) || "La fecha de finalización no puede ser menor que la fecha de inicio"
+                  })}
                 />
               </InputGroup>
               <InputGroup className="mb-3">
@@ -2779,10 +2790,25 @@ const EditAppointmentForm = ({
                   className={style.formInput}
                   aria-label="EndTime"
                   aria-describedby="EndTime"
-                  {...register("endTime")}
+                  {...register("endTime", {
+                    validate: (value) => (!errors.endDate && Number(value.split(":")[0]) > Number(selectedStartHour) && Number(value.split(":")[1]) > Number(selectedStartMinutes)) || "La hora de finalización no puede ser menor a la de inicio"
+                  })}
                 />
               </InputGroup>
+
             </div>
+            {errors.endDate && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.endDate.message}
+              </span>
+            )}
+            {errors.endTime && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.endTime.message}
+              </span>
+            )}
             {showEndDateTimeOptions && (
               <div className="mt-4 d-flex justify-content-center">
                 <CustomCalendar
@@ -2810,7 +2836,9 @@ const EditAppointmentForm = ({
                 </div>
               </div>
             )}
+
           </Form.Group >
+
         }
 
         <Form.Group className="mb-3" controlId="observations" onFocus={() => { setShowStartDateTimeOptions(false); setShowEndDateTimeOptions(false); }}>

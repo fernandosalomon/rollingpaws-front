@@ -164,6 +164,8 @@ const AdminAppointments = () => {
         hours.push(`${i >= 10 ? "" : "0"}${i} ${i > 12 ? "PM" : "AM"}`);
     }
 
+    const UNIVERSAL_TO_LOCAL_TIME = -180;
+
     const positionAppointment = (startTime, endTime, openingHour, doctorID) => {
         const opening = (openingHour.hour * 60 + openingHour.minutes);
         const timeStart = (startTime.hour * 60 + startTime.minutes) - opening;
