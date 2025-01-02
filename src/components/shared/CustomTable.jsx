@@ -206,6 +206,7 @@ const View = ({ variant, data, handleUpdateData }) => {
   const handleClose = () => {
     setShow(false);
     setView(0);
+    variant === "messages" && handleUpdateData();
   };
   const handleShow = () => setShow(true);
 
@@ -230,7 +231,7 @@ const View = ({ variant, data, handleUpdateData }) => {
     <>
       <button
         className={`${style.customTableButton} ${style.moreInfoButton}`}
-        onClick={() => { handleShow(); variant === "message" && handleReadMessage(); }}
+        onClick={() => { handleShow(); variant === "messages" && handleReadMessage(); }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

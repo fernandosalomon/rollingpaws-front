@@ -3398,6 +3398,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
 
   return (
     <Form onSubmit={onSubmit}>
+      <h2 className={style.formTitle}>Editar Servicio</h2>
       <div className="d-flex gap-5 align-items-center">
         <div className={style.serviceImageInputContainer}>
           <img
