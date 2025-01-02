@@ -2679,7 +2679,7 @@ const EditAppointmentForm = ({
             <option value="" defaultValue="" disabled hidden>Seleccione al veterinario...</option>
             {
               doctorList.map((doctor, index) =>
-                <option value={index} onClick={() => setSelectedDoctor(index)}>{`${doctor.name}`}</option>
+                <option value={index} onClick={() => setSelectedDoctor(index)} key={index}>{`${doctor.name}`}</option>
               )
             }
           </Form.Select>
