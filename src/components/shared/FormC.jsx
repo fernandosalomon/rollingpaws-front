@@ -2535,7 +2535,7 @@ const EditAppointmentForm = ({
       setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
     }
 
-    const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor._id);
+    const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor);
     if (doctorID === -1) {
       console.error("El ID del veterinario no corresponde con uno de los veterinarios registrados")
     }
