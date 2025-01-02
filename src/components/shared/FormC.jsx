@@ -547,6 +547,7 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
     formState: { errors },
     setValue,
     setError,
+    watch,
   } = useForm();
 
   const handleClickChangePetPic = () => {
