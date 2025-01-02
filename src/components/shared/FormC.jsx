@@ -2210,7 +2210,9 @@ const EditAppointmentForm = ({
 
   useEffect(() => {
     const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor._id);
-    console.log(doctorID, appointmentData.doctor)
+    if (doctorID === -1) {
+      console.error("El ID del veterinario no corresponde con uno de los veterinarios registrados")
+    }
     setSelectedDoctor(doctorID);
     setValue("doctor", doctorID);
   }, [doctorList,])
