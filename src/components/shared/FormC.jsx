@@ -1028,7 +1028,9 @@ const UserProfileForm = () => {
 
   if (isLoading) {
     return (
-      <CustomSpinner />
+      <div className="h-100 w-100 d-flex justify-content-center align-items-center">
+        <CustomSpinner />
+      </div>
     )
   } else {
     return (
@@ -2002,7 +2004,9 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
 
   if (isLoading) {
     return (
-      <CustomSpinner />
+      <div className="h-100 w-100 d-flex justify-content-center align-items-center">
+        <CustomSpinner />
+      </div>
     )
   } else {
     return (
@@ -2344,7 +2348,9 @@ const EditAppointmentForm = ({
 
   if (isLoading) {
     return (
-      <CustomSpinner />
+      <div className="h-100 w-100 d-flex justify-content-center align-items-center">
+        <CustomSpinner />
+      </div>
     )
   } else {
     return (
@@ -3408,7 +3414,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
       <div className="w-100">
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>{isUploading ?
           <div className="d-flex gap-2 justify-content-center align-items-center">
-            <CustomSpinner />
+            <CustomSpinner size="sm" />
             <p className="mb-0">Actualizando servicio</p>
           </div>
           : "Actualizar servicio"}</CustomButton>
@@ -3560,7 +3566,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
       <div className="w-100">
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>{isUploading ?
           <div className="d-flex gap-2">
-            <CustomSpinner />
+            <CustomSpinner size="sm" />
             <p className="mb-0">Creando servicio</p>
           </div>
           : "Crear servicio"}</CustomButton>
