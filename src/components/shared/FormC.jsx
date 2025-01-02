@@ -3304,11 +3304,16 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
 
   const onSubmit = handleSubmit(async (data) => {
     setIsUploading(true);
+    const token = sessionStorage.getItem("token");
     if (data.serviceImage[0]) {
       const formData = new FormData()
       formData.append("image", data.serviceImage[0]);
       try {
-        const res = await clientAxios.put(`/services/image/${serviceData._id}`, formData)
+        const res = await clientAxios.put(`/services/image/${serviceData._id}`, formData, {
+          headers: {
+            authtoken: token,
+          }
+        })
       } catch (error) {
         console.log(error)
         Swal.fire({
@@ -3322,7 +3327,11 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
     }
 
     try {
-      const res = await clientAxios.put(`/services/${serviceData._id}`, { name: data.serviceName, description: data.serviceDescription })
+      const res = await clientAxios.put(`/services/${serviceData._id}`, { name: data.serviceName, description: data.serviceDescription }, {
+        headers: {
+          authtoken: token,
+        }
+      });
       handleCloseModal();
       handleUpdateData();
       setIsUploading(false);
@@ -3454,13 +3463,23 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
 
     try {
       setIsUploading(true);
-      const newService = await clientAxios.post(`/services/`, { name: data.serviceName, description: data.serviceDescription })
+      const token = sessionStorage.getItem("token");
+      const newService = await clientAxios.post(`/services/`, { name: data.serviceName, description: data.serviceDescription }, {
+        headers: {
+          authtoken: token,
+        }
+      })
 
       if (data.serviceImage[0]) {
         const formData = new FormData()
         formData.append("image", data.serviceImage[0]);
         try {
-          const newServiceImage = await clientAxios.put(`/services/image/${newService.data.data._id}`, formData)
+
+          const newServiceImage = await clientAxios.put(`/services/image/${newService.data.data._id}`, formData, {
+            headers: {
+              authtoken: token,
+            }
+          })
         } catch (error) {
           console.log(error)
           Swal.fire({
