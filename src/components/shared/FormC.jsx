@@ -2539,7 +2539,12 @@ const EditAppointmentForm = ({
 
   useEffect(() => {
     if (doctorList && doctorList.length > 0) {
-      const doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor);
+      let doctorID = null;
+      if (variant === "edit-appointment-admin") {
+        doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor);
+      } else {
+        doctorID = doctorList.findIndex((doctor) => doctor._id === appointmentData.doctor._id);
+      }
       if (doctorID === -1) {
         console.error("El ID del veterinario no corresponde con uno de los veterinarios registrados")
       }
@@ -2568,7 +2573,7 @@ const EditAppointmentForm = ({
     if (selectedDoctor !== undefined && selectedDoctor !== null && selectedDoctor !== -1) {
       getAvailableDoctorHours();
     }
-  }, [selectedDoctor])
+  }, [selectedDoctor, selectedStartYear, selectedStartMonth, selectedStartDate, selectedEndYear, selectedEndMonth, selectedEndDate])
 
   const handleSetStartDate = (year, month, date) => {
     setSelectedStartYear(year);
