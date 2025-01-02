@@ -768,7 +768,7 @@ const Delete = ({ variant, data, handleUpdateData }) => {
     if (result.isConfirmed) {
       try {
         const token = sessionStorage.getItem("token");
-        const res = await clientAxios.delete(`/services/${data._id}`{
+        const res = await clientAxios.delete(`/services/${data._id}`, {
           headers: {
             authtoken: token,
           }
