@@ -2361,7 +2361,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                 },
                 pattern: {
                   value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
-                  message: "El mensaje contiene caracteres no válidos.",
+                  message: "El texto contiene caracteres no válidos.",
                 }
               })}
               className={style.textArea}
