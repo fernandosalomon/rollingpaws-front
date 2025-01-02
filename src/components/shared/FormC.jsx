@@ -954,7 +954,7 @@ const UserProfileForm = () => {
         const formData = new FormData()
         formData.append("profilePic", profilePic[0]);
         const token = sessionStorage.getItem("token");
-        const imageRes = await clientAxios.post(`/user/profile-pic/${userData._id}`, formData, {
+        const imageRes = await clientAxios.put(`/user/profile-pic/${userData._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             authtoken: token,
