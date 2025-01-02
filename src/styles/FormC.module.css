@@ -435,6 +435,28 @@
   width: 110%;
 }
 
+.deleteButton {
+  width: 100%;
+  border: 2px solid #DC3545;
+  color: #DC3545;
+  font-weight: 500;
+  margin: 16px auto;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.deleteButton:hover {
+  background-color: #DC3545;
+  color: #FFF;
+}
+
+.deleteButton:active {
+  filter: drop-shadow(0 0 4px #9c9c9c);
+}
+
 @media (max-width: 425px) {
   .form {
     padding-left: 0.5rem;

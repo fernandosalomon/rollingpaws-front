@@ -4,29 +4,19 @@ import { Modal } from "react-bootstrap";
 import clientAxios from "../helpers/clientAxios";
 import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
-import Swal from "sweetalert2";
 import Container from "react-bootstrap/Container";
 import CustomCalendar from "./CustomCalendar";
 import CustomSpinner from "./shared/CustomSpinner";
 
 const AdminAppointments = () => {
 
-    const [headerYear, setHeaderYear] = useState(new Date().getFullYear());
-    const [headerMonth, setHeaderMonth] = useState(new Date().getUTCMonth());
-    const [headerDate, setHeaderDate] = useState(new Date().getUTCDate());
-
     const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getUTCMonth());
     const [selectedDate, setSelectedDate] = useState(new Date().getUTCDate());
     const [doctorList, setDoctorList] = useState([]);
-    const [headerBoxWidth, setHeaderBoxWidth] = useState(0);
-
-    const [elementsPerPage, setElementsPerPage] = useState(0);
-    const [numberOfPages, setNumberOfPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
-    const headerBoxesContainerRef = useRef(null);
     const [appointments, setAppointments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [modalData, setModalData] = useState([]);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -164,8 +154,6 @@ const AdminAppointments = () => {
         hours.push(`${i >= 10 ? "" : "0"}${i} ${i > 12 ? "PM" : "AM"}`);
     }
 
-    const UNIVERSAL_TO_LOCAL_TIME = -180;
-
     const positionAppointment = (startTime, endTime, openingHour, doctorID) => {
         const opening = (openingHour.hour * 60 + openingHour.minutes);
         const timeStart = (startTime.hour * 60 + startTime.minutes) - opening;
@@ -214,46 +202,6 @@ const AdminAppointments = () => {
             setIsLoading(false);
         } catch (error) {
             console.log(error)
-        }
-    }
-
-    const handleDeleteAppointment = async (appointmentID) => {
-        try {
-            const result = await Swal.fire({
-                title: "¿Estas seguro que quieres borrar esta cita?",
-                text: "Estos cambios no se pueden revertir",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, Borrar",
-                cancelButtonText: "No",
-            });
-
-            if (result.isConfirmed) {
-                const token = sessionStorage.getItem("token");
-                const res = await clientAxios.delete(`/appointments/${appointmentID}`, {
-                    headers: {
-                        authtoken: token,
-                    }
-                });
-                Swal.fire({
-                    icon: "success",
-                    title: `La cita fue eliminada satisfactoriamente.`,
-                    showConfirmButton: false,
-                    timer: 2500,
-                });
-                handleUpdate();
-            }
-        } catch (error) {
-            console.log(error);
-            Swal.fire({
-                icon: "error",
-                title: `Hubo un error al tratar de eliminar la cita.`,
-                text: `${error.data.message}`,
-                showConfirmButton: false,
-                timer: 2500,
-            });
         }
     }
 
@@ -320,7 +268,7 @@ const AdminAppointments = () => {
                                 if (startDate.getFullYear() === selectedYear && startDate.getMonth() === selectedMonth && startDate.getDate() === selectedDate) {
                                     return (
                                         <>
-                                            <div className={style.appointmentBox} style={positionAppointment({ hour: startDate.getHours(), minutes: startDate.getMinutes() }, { hour: endDate.getHours(), minutes: endDate.getMinutes() }, { hour: 8, minutes: 0 }, doctorID)} onClick={handleShow}>
+                                            <div className={style.appointmentBox} style={positionAppointment({ hour: startDate.getHours(), minutes: startDate.getMinutes() }, { hour: endDate.getHours(), minutes: endDate.getMinutes() }, { hour: 8, minutes: 0 }, doctorID)} onClick={() => { setModalData(appointment); handleShow() }}>
                                                 <p><p className={style.appointmentBoxPacient}>
                                                     {appointment.pet.name}
                                                 </p>
@@ -338,19 +286,12 @@ const AdminAppointments = () => {
                                                             : ""
                                                         }${new Date(appointment.endDate).getMinutes()}`}</p></p>
                                             </div>
-                                            < Modal show={show} onHide={handleClose} >
+                                            < Modal show={show} onHide={handleClose} modalData={modalData}>
                                                 <Modal.Header closeButton>
                                                     <Modal.Title className="fs-2">Editar cita</Modal.Title>
                                                 </Modal.Header>
                                                 <Modal.Body>
-                                                    <FormC variant="edit-appointment-admin" handleCloseModal={handleClose} handleUpdate={handleUpdate} data={appointment} />
-                                                    <div className="w-100">
-                                                        <CustomButton variant="transparent" className={style.deleteButton} type="button" onClick={(e) => { e.preventDefault(); handleDeleteAppointment(appointment._id) }}>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
-                                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                                                            </svg>
-                                                            <p className="mb-0">Eliminar Cita</p></CustomButton>
-                                                    </div>
+                                                    <FormC variant="edit-appointment-admin" handleCloseModal={handleClose} handleUpdate={handleUpdate} data={modalData} />
                                                 </Modal.Body>
                                             </Modal >
                                         </>

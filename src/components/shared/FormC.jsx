@@ -2469,9 +2469,9 @@ const EditAppointmentForm = ({
   appointmentData,
   handleCloseModal,
   handleUpdateCalendar,
+  handleUpdateData,
   variant,
 }) => {
-  const LOCAL_TO_UNIVERSAL_TIME = 180;
   const UNIVERSAL_TO_LOCAL_TIME = -180;
   const [isLoading, setIsLoading] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
@@ -2679,6 +2679,42 @@ const EditAppointmentForm = ({
 
   })
 
+  const handleDeleteAppointment = async (appointmentID) => {
+    try {
+      const result = await Swal.fire({
+        title: "¿Estas seguro que quieres borrar esta cita?",
+        text: "Estos cambios no se pueden revertir",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Borrar",
+        cancelButtonText: "No",
+      });
+
+      if (result.isConfirmed) {
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.delete(`/appointments/${appointmentID}`, {
+          headers: {
+            authtoken: token,
+          }
+        });
+        Swal.fire({
+          icon: "success",
+          title: `La cita fue eliminada satisfactoriamente.`,
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        handleUpdateData();
+      }
+    } catch (error) {
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de editar los datos de la mascota. ${error.name}: ${error.message}`,
+      });
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="h-100 w-100 d-flex justify-content-center align-items-center">
@@ -2869,6 +2905,11 @@ const EditAppointmentForm = ({
 
         <div className="w-100 mx-auto">
           <CustomButton variant="callToAction" size="lg" className="w-100 mx-auto" type="submit">Guardar datos</CustomButton>
+          <CustomButton variant="transparent" className={style.deleteButton} type="button" onClick={() => handleDeleteAppointment(appointmentData._id)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+            </svg>
+            <p className="mb-0">Eliminar Cita</p></CustomButton>
         </div>
         {errors.root && (
           <span className={style.errorMessage}>{errors.root.message}</span>
@@ -4320,6 +4361,7 @@ const FormC = ({
             appointmentData={data}
             handleCloseModal={handleCloseModal}
             handleUpdateCalendar={handleUpdate}
+            handleUpdateData={handleUpdate}
             variant={formType}
           />
         </>
