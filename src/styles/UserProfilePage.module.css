@@ -146,7 +146,7 @@
   }
 
   .optionListItem {
-    text-align: center;
+    justify-content: center;
   }
 
   .optionListHeader {
