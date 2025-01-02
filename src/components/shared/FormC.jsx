@@ -19,12 +19,57 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmiting, setIsSubmiting] = useState(false);
 
+  const [showPasswordRequireBox, setShowPasswordRequireBox] = useState(false);
+  const [isPasswordLength, setIsPasswordLength] = useState(false);
+  const [hasPasswordUpper, setHasPasswordUpper] = useState(false);
+  const [hasPasswordLower, setHasPasswordLower] = useState(false);
+  const [hasPasswordNumber, setHasPasswordNumber] = useState(false);
+  const [hasPasswordSpecialChar, setHasPasswordSpecialChar] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
   } = useForm();
+
+  const passwordWatch = watch("password");
+
+  useEffect(() => {
+    if (passwordWatch !== undefined) {
+      if (passwordWatch.length >= 8) {
+        setIsPasswordLength(true);
+      } else {
+        setIsPasswordLength(false)
+      }
+
+      if (/^(?=.*[A-ZÑÁÉÍÓÚÜ]).*$/.test(passwordWatch)) {
+        setHasPasswordUpper(true);
+      } else {
+        setHasPasswordUpper(false)
+      }
+
+      if (/^(?=.*[a-zñáéíóúü]).*$/.test(passwordWatch)) {
+        setHasPasswordLower(true);
+      } else {
+        setHasPasswordLower(false)
+      }
+
+      if (/^(?=.*\d).*$/.test(passwordWatch)) {
+        setHasPasswordNumber(true);
+      } else {
+        setHasPasswordNumber(false)
+      }
+
+      if (/^(?=.*[@$!%*?&]).*$/.test(passwordWatch)) {
+        setHasPasswordSpecialChar(true);
+      } else {
+        setHasPasswordSpecialChar(false)
+      }
+    }
+
+  }, [passwordWatch])
 
   const onSubmit = handleSubmit(async (data) => {
     setIsSubmiting(true);
@@ -43,12 +88,8 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
       });
       setIsSubmiting(false);
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      setError("root", {
+        message: `Sucedio un error al tratar de editar al usuario. Error: ${error}`,
       });
       setIsLoading(false);
     }
@@ -160,7 +201,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           )}
         </Form.Group>
 
-        <Form.Group className="mb-3 d-grid" controlId="SignUpPassword">
+        <Form.Group className="mb-3 d-grid" controlId="SignUpPassword" onFocus={() => setShowPasswordRequireBox(true)} onBlur={() => setShowPasswordRequireBox(false)}>
           <Form.Label className={style.formLabel}>Contraseña</Form.Label>
           <InputGroup>
             <Form.Control
@@ -226,6 +267,81 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
           )}
         </Form.Group>
 
+        <div className={showPasswordRequireBox ? "d-block" : "d-none"}>
+          <ul className="list-unstyled">
+            <li>{isPasswordLength ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos 8 caracteres</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos 8 caracteres</p>
+              </span>
+            }</li>
+            <li>{hasPasswordUpper ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al una mayuscula</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al una mayuscula</p>
+              </span>
+            }</li>
+            <li>{hasPasswordLower ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos una minuscula</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos una minuscula</p>
+              </span>
+            }</li>
+            <li>{hasPasswordNumber ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos un número</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos un número</p>
+              </span>
+            }</li>
+            <li>{hasPasswordSpecialChar ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos un caracter especial (@$!%*?&)</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos un caracter especial (@$!%*?&)</p>
+              </span>
+            }</li>
+          </ul>
+        </div>
+
         <Form.Group className="mb-3 d-grid" controlId="SignUpRepeatPassword">
           <Form.Label className={style.formLabel}>
             Repetir Contraseña
@@ -236,6 +352,10 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
             placeholder="Confirma tu contraseña"
             className={style.formInput}
             {...register("repeatPassword", {
+              required: {
+                value: true,
+                message: "Campo requerido",
+              },
               validate: (value) =>
                 watch("password") === value ||
                 "Las contraseñas deben coincidir",
@@ -282,6 +402,10 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
               : "Registrarse"
           }
         </CustomButton>
+
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
       </Form>
     </>
   );
@@ -299,6 +423,7 @@ const SignInForm = ({
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -337,12 +462,8 @@ const SignInForm = ({
       setIsSubmiting(false);
     } catch (error) {
       console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `Codigo ${error?.response?.status}: ${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      setError("root", {
+        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.message}`,
       });
       setIsSubmiting(false);
     }
@@ -460,6 +581,9 @@ const SignInForm = ({
               : "Iniciar sesión"
           }
         </CustomButton>
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
       </Form>
     </>
   );
