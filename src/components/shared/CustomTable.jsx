@@ -650,7 +650,12 @@ const Delete = ({ variant, data, handleUpdateData }) => {
 
     if (result.isConfirmed) {
       try {
-        const res = await clientAxios.delete(`/user/${data._id}`);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.delete(`/user/${data._id}`, {
+          headers: {
+            authtoken: token,
+          }
+        });
         Swal.fire({
           title: "Usuario Eliminado",
           text: "El usuario fue eliminado satisfactoriamente",
@@ -684,7 +689,12 @@ const Delete = ({ variant, data, handleUpdateData }) => {
 
     if (result.isConfirmed) {
       try {
-        const res = await clientAxios.delete(`/pet/${data._id}`);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.delete(`/pet/${data._id}`, {
+          headers: {
+            authtoken: token,
+          }
+        });
         Swal.fire({
           title: "Turno eliminado",
           text: "La mascota fue eliminada satisfactoriamente",
@@ -718,7 +728,12 @@ const Delete = ({ variant, data, handleUpdateData }) => {
 
     if (result.isConfirmed) {
       try {
-        const res = await clientAxios.delete(`/appointments/${data._id}`);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.delete(`/appointments/${data._id}`, {
+          headers: {
+            authtoken: token,
+          }
+        });
         Swal.fire({
           title: "Turno cancelado",
           text: "El turno fue cancelado satisfactoriamente",
@@ -752,7 +767,12 @@ const Delete = ({ variant, data, handleUpdateData }) => {
 
     if (result.isConfirmed) {
       try {
-        const res = await clientAxios.delete(`/services/${data._id}`);
+        const token = sessionStorage.getItem("token");
+        const res = await clientAxios.delete(`/services/${data._id}`{
+          headers: {
+            authtoken: token,
+          }
+        });
         Swal.fire({
           title: "Servicio eliminado",
           text: "El servicio fue eliminado satisfactoriamente",
