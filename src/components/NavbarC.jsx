@@ -297,7 +297,7 @@ const NavbarC = () => {
                   <Dropdown.Menu className={style.userOptionsDropdownMenu}>
                     <Dropdown.Item
                       onClick={() => {
-                        navigate("/user-profile/information");
+                        navigate("/user-profile/informacion");
                       }}
                       className={style.userOptionsDropdownMenuItem}
                     >

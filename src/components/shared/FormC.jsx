@@ -3502,8 +3502,6 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
   }, [serviceImageWatch])
 
   const onSubmit = handleSubmit(async (data) => {
-
-
     try {
       setIsUploading(true);
       const token = sessionStorage.getItem("token");
