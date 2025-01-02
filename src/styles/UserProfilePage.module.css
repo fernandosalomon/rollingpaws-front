@@ -144,4 +144,12 @@
   .sideAContainer {
     min-width: 100%;
   }
+
+  .optionListItem {
+    text-align: center;
+  }
+
+  .optionListHeader {
+    text-align: center;
+  }
 }
