@@ -572,6 +572,11 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
     setValue("city", userData.city);
     setValue("province", userData.province);
     setValue("zipCode", userData.zipCode);
+    if (userData.role === "user") {
+      setValue("role", "user");
+    } else if (userData.role === "admin") {
+      setValue("role", "admin");
+    }
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -639,15 +644,24 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
             />
           </div>
 
-          <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleChangeUserImage}>
-            <span className="d-flex justify-content-center align-items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
-                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
-              </svg>
-              <p className="mb-0">Subir una imagen</p>
-            </span>
-          </CustomButton>
+          <div>
+            <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleChangeUserImage}>
+              <span className="d-flex justify-content-center align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                  <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+                </svg>
+                <p className="mb-0">Subir una imagen</p>
+              </span>
+            </CustomButton>
+            {
+              sessionStorage.getItem("role") === "admin" &&
+              <Form.Select aria-label="User Role Select" {...register("role")} className={`${style.formInput} ms-2`}>
+                <option value="user">Usuario</option>
+                <option value="admin">Admin</option>
+              </Form.Select>
+            }
+          </div>
 
 
         </div>
