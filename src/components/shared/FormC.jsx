@@ -550,7 +550,7 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
     watch,
   } = useForm();
 
-  const handleClickChangePetPic = () => {
+  const handleChangeUserImage = () => {
     const fileInput = document.getElementById("inputFileUserImage");
     fileInput.click();
   }
@@ -575,6 +575,7 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
+    setIsUploading(true);
     try {
       const token = sessionStorage.getItem("token");
       const res = await clientAxios.put(`/user/${userData._id}`, data, {
@@ -583,9 +584,11 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
         },
       });
 
+
+
       if (data.userImage[0]) {
         const formData = new FormData()
-        formData.append("image", data.userImage[0]);
+        formData.append("profilePic", data.userImage[0]);
         const imageRes = await clientAxios.put(`/user/profile-pic/${userData._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -603,10 +606,12 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
         showConfirmButton: false,
         timer: 1500,
       });
+      setIsUploading(false);
     } catch (error) {
       setError("root", {
         message: `Sucedio un error al tratar de editar al usuario. Error: ${error}`,
       });
+      setIsUploading(false);
     }
   });
 
@@ -615,13 +620,15 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
       <Form onSubmit={onSubmit} className={style.form}>
         <h2 className={style.formTitle}>Editar Usuario</h2>
 
-        <div className={style.editUserProfileImageContainer}>
-          <img
-            src={userData.profilePic || "https://openclipart.org/download/247324/abstract-user-flat-1.svg"}
-            alt="User Profile Picture"
-            className={style.editUserProfileImage}
-            ref={userImageRef}
-          />
+        <div className="d-flex flex-column flex-md-row align-items-center gap-2">
+          <div className={style.editUserProfileImageContainer}>
+            <img
+              src={userData.profilePic || "https://res.cloudinary.com/dqpq2d0es/image/upload/v1734977722/user-default-pic_y72gar.png"}
+              alt="User Profile Picture"
+              className={style.editUserProfileImage}
+              ref={userImageRef}
+            />
+          </div>
           <div className="d-flex flex-column align-items-center justify-content-start">
             <Form.Control
               type="file"
@@ -630,24 +637,27 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
               {...register("userImage")}
               id="inputFileUserImage"
             />
-            <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleClickChangePetPic}>
-              <span className="d-flex justify-content-center align-items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
-                  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-                  <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
-                </svg>
-                <p className="mb-0">Subir una imagen</p>
-              </span>
-            </CustomButton>
           </div>
+
+          <CustomButton variant="transparent" className={style.changeImageButton} size="lg" onClick={handleChangeUserImage}>
+            <span className="d-flex justify-content-center align-items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-card-image" viewBox="0 0 16 16">
+                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              <p className="mb-0">Subir una imagen</p>
+            </span>
+          </CustomButton>
+
+
         </div>
 
         <div className="d-flex flex-column flex-md-row gap-2">
           <Form.Group className="mb-3 d-grid" controlId="userFirstName">
-            <Form.Label className={style.formLabelEditUser}>Nombre</Form.Label>
+            <Form.Label className={style.formLabel}>Nombre</Form.Label>
             <Form.Control
               type="text"
-              className={style.formInputEditUser}
+              className={style.formInput}
               {...register("firstName", {
                 required: { value: true, message: "Campo requerido" },
                 minLength: {
@@ -672,12 +682,12 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
             )}
           </Form.Group>
           <Form.Group className="mb-3 d-grid" controlId="userLastName">
-            <Form.Label className={style.formLabelEditUser}>
+            <Form.Label className={style.formLabel}>
               Apellido
             </Form.Label>
             <Form.Control
               type="text"
-              className={style.formInputEditUser}
+              className={style.formInput}
               {...register("lastName", {
                 required: { value: true, message: "Campo requerido" },
                 minLength: {
@@ -704,12 +714,12 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
         </div>
 
         <Form.Group className="mb-3 d-grid" controlId="userEmail">
-          <Form.Label className={style.formLabelEditUser}>
+          <Form.Label className={style.formLabel}>
             Correo Electrónico
           </Form.Label>
           <Form.Control
             type="text"
-            className={style.formInputEditUser}
+            className={style.formInput}
             {...register("email", {
               required: {
                 value: true,
@@ -730,10 +740,10 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
         </Form.Group>
 
         <Form.Group className="mb-3 d-grid" controlId="userPhone">
-          <Form.Label className={style.formLabelEditUser}>Teléfono</Form.Label>
+          <Form.Label className={style.formLabel}>Teléfono</Form.Label>
           <Form.Control
             type="text"
-            className={style.formInputEditUser}
+            className={style.formInput}
             {...register("phone", {
               pattern: {
                 value:
@@ -753,10 +763,10 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
         <Row>
           <Col sm={12} md={6}>
             <Form.Group className="mb-3 d-grid" controlId="userAddress">
-              <Form.Label className={style.formLabelEditUser}>Dirección</Form.Label>
+              <Form.Label className={style.formLabel}>Dirección</Form.Label>
               <Form.Control
                 type="text"
-                className={style.formInputEditUser}
+                className={style.formInput}
                 {...register("address", {
                   pattern: {
                     value: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s']+$/,
@@ -775,10 +785,10 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
 
           <Col sm={12} md={6}>
             <Form.Group className="mb-3 d-grid" controlId="userCity">
-              <Form.Label className={style.formLabelEditUser}>Ciudad</Form.Label>
+              <Form.Label className={style.formLabel}>Ciudad</Form.Label>
               <Form.Control
                 type="text"
-                className={style.formInputEditUser}
+                className={style.formInput}
                 {...register("city", {
                   minLength: {
                     value: 2,
@@ -808,10 +818,10 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
         <Row>
           <Col sm={12} md={6}>
             <Form.Group className="mb-3 d-grid" controlId="userProvince">
-              <Form.Label className={style.formLabelEditUser}>Provincia</Form.Label>
+              <Form.Label className={style.formLabel}>Provincia</Form.Label>
               <Form.Control
                 type="text"
-                className={style.formInputEditUser}
+                className={style.formInput}
                 {...register("province", {
                   minLength: {
                     value: 2,
@@ -837,12 +847,12 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
           </Col>
           <Col sm={12} md={6}>
             <Form.Group className="mb-3 d-grid" controlId="userZipCode">
-              <Form.Label className={style.formLabelEditUser}>
+              <Form.Label className={style.formLabel}>
                 Código Postal
               </Form.Label>
               <Form.Control
                 type="text"
-                className={style.formInputEditUser}
+                className={style.formInput}
                 {...register("zipCode", {
                   minLength: {
                     value: 4,
@@ -869,11 +879,12 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
           </Col>
         </Row>
 
-        <div className={style.editUserFormButtonContainer}>
+        <div className="w-100 my-2">
           <CustomButton
             variant="callToAction"
             type="submit"
             disabled={isUploading}
+            className="w-100 mx-auto"
           >
             <span className="d-flex align-items-center justify-content-center">
               {isUploading && <CustomSpinner size="sm" />}

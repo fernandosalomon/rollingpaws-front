@@ -94,12 +94,18 @@
 
 .editUserProfileImageContainer {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
   margin-bottom: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .editUserProfileImage {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
 }
 
 .editUserProfileImageButtons {
@@ -208,15 +214,11 @@
   justify-content: center;
   width: 200px;
   height: 200px;
-  min-width: 200px;
-  min-height: 200px;
   overflow: hidden;
-  border-radius: 50%;
 }
 
 .petImageInput {
-  width: 210px;
-  height: 210px;
+  width: 100%;
 }
 
 .specieCheck {
@@ -323,6 +325,8 @@
 .removeImageButton {
   border: 3px solid #d67b78;
   color: #fc504a;
+  border-radius: 7px;
+  width: 200px;
 }
 
 .profileImageContainer {
