@@ -198,6 +198,10 @@ const UserAppointments = () => {
   } else {
     return (
       <>
+
+        <div className={style.viewHeader}>
+          <h2 className={style.viewHeaderLabel}>Mis Turnos</h2>
+        </div>
         <div className="d-flex align-items-center justify-content-center w-100">
           <CustomButton
             className="d-flex align-items-center ms-md-auto ms-0 mt-3"
@@ -217,9 +221,6 @@ const UserAppointments = () => {
             </svg>
             <p className="m-0">Pedir Turno</p>
           </CustomButton>
-        </div>
-        <div className={style.viewHeader}>
-          <h2 className={style.viewHeaderLabel}>Mis Turnos</h2>
         </div>
         <div className={`${style.viewBody} ms-2 me-0 me-md-5 `}>
           <CustomTable data={appointments} columns={labels} handleUpdateData={handleUpdate} variant="appointments" />

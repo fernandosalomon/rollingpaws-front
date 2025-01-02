@@ -126,6 +126,16 @@
   justify-content: center;
 }
 
+.modalHeader {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.modalBody {
+  padding: 0;
+  margin: 0 1.5rem 1rem 1.5rem;
+}
+
 @media (max-width: 426px) {
   .UserProfilePageContainer {
     flex-direction: column;
