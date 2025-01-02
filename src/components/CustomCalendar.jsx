@@ -197,7 +197,7 @@ const CustomCalendar = ({
             prevMonth();
           }}
         >
-          &#11164;
+          &lt;
         </button>
         <h4
           className={style.header}
@@ -209,7 +209,7 @@ const CustomCalendar = ({
             nextMonth();
           }}
         >
-          &#11166;
+          &gt;
         </button>
       </div>
 
