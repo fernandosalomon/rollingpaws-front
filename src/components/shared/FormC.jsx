@@ -88,8 +88,9 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
       });
       setIsSubmiting(false);
     } catch (error) {
+      console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar al usuario. Error: ${error}`,
+        message: `Sucedio un error al tratar de registrar al usuario. Error: ${error}`,
       });
       setIsLoading(false);
     }
@@ -595,6 +596,7 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
 
@@ -612,12 +614,9 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
         timer: 2500,
       });
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.message}`,
       });
     }
   })
@@ -640,7 +639,11 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
               required: {
                 value: true,
                 message: "Campo requerido",
-              }
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+                message: "Formato de email inválido.",
+              },
             })}
           />
           {errors.email && (
@@ -657,6 +660,9 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
               <p className="mb-0">Enviando email</p>
             </> : "Enviar email"}</CustomButton>
         </div>
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
       </Form>
     </>
   )
@@ -1153,14 +1159,11 @@ const UserProfileForm = () => {
         timer: 2500,
       });
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: `Hubo un error al tratar de actualizar los datos. Error: ${error}`,
-        showConfirmButton: false,
-        timer: 2500,
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de editar los datos del usuario. Error: ${error}`,
       });
-      setIsUploading(false);
+      setIsLoading(false);
     }
   });
 
@@ -1195,12 +1198,10 @@ const UserProfileForm = () => {
         handleRefreshUserData();
       } catch (error) {
         console.log(error)
-        Swal.fire({
-          icon: "error",
-          title: `Hubo un error al tratar de eliminar la imagen de perfil. Error: ${error}`,
-          showConfirmButton: false,
-          timer: 2500,
+        setError("root", {
+          message: `Sucedio un error al tratar de eliminar la imagen del usuario. Error: ${error}`,
         });
+        setIsLoading(false);
       }
     }
   }
@@ -1488,6 +1489,9 @@ const UserProfileForm = () => {
               <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
             </span>
           </CustomButton>
+          {errors.root && (
+            <span className={style.errorMessage}>{errors.root.message}</span>
+          )}
         </Form>
       </>
     );
@@ -1499,7 +1503,13 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
   const [isUploading, setIsUploading] = useState(false);
   const petImageRef = useRef(null)
 
-  const { register, handleSubmit, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setError,
+  } = useForm();
 
   const handleClickChangePetPic = () => {
     const fileInput = document.getElementById("inputFilePetImage");
@@ -1561,7 +1571,10 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
         title: "Mascota creada con exito",
       });
     } catch (error) {
-      console.log(error);
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de registrar la nueva mascota. Error: ${error}`,
+      });
     }
   });
 
@@ -1625,6 +1638,12 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
               },
             })}
           />
+          {errors.petName && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.petName.message}
+            </span>
+          )}
         </Form.Group>
 
         <div className="d-flex gap-2">
@@ -1649,8 +1668,28 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
             <Form.Control
               aria-label="petBreed"
               className={style.formInput}
-              {...register("petBreed")}
+              {...register("petBreed", {
+                required: { value: true, message: "Campo requerido" },
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de raza inválido.",
+                },
+              })}
             />
+            {errors.petBreed && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.petBreed.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -1729,8 +1768,28 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
             placeholder="Agrega una breve descripción de tu mascota"
             style={{ height: "100px" }}
             className={style.formInput}
-            {...register("petDescription")}
+            {...register("petDescription", {
+              required: {
+                value: true,
+                message: "Campo obligatorio."
+              },
+              min: 1,
+              max: {
+                value: 200,
+                message: "El mensaje no puede contener más de 200 caracteres."
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+                message: "El mensaje contiene caracteres no válidos.",
+              }
+            })}
           />
+          {errors.petDescription && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.petDescription.message}
+            </span>
+          )}
         </Form.Group>
         <CustomButton
           variant="callToAction"
@@ -1742,7 +1801,9 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
             <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
           </span>
         </CustomButton>
-
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
       </Form>
     </>
   );
@@ -1753,7 +1814,14 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
   const [isUploading, setIsUploading] = useState(false);
   const petImageRef = useRef(null)
 
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    setError,
+  } = useForm();
 
   useEffect(() => {
     if (petData) {
@@ -1829,7 +1897,11 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
         title: "Mascota modificada con exito",
       });
     } catch (error) {
-      console.log(error);
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de editar los datos de la mascota. Error: ${error}`,
+      });
+      setIsUploading(false);
     }
   });
 
@@ -1893,6 +1965,12 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
               },
             })}
           />
+          {errors.petName && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.petName.message}
+            </span>
+          )}
         </Form.Group>
 
         <div className="d-flex gap-2">
@@ -1917,8 +1995,28 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
             <Form.Control
               aria-label="petBreed"
               className={style.formInput}
-              {...register("petBreed")}
+              {...register("petBreed", {
+                required: { value: true, message: "Campo requerido" },
+                minLength: {
+                  value: 2,
+                  message: "Mínimo requerido: 2 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Máximo permitido: 40 caracteres",
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ][a-zA-ZáéíóúÁÉÍÓÚñÑ' ]*$/,
+                  message: "Formato de raza inválido.",
+                },
+              })}
             />
+            {errors.petBreed && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.petBreed.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -1997,8 +2095,28 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
             placeholder="Agrega una breve descripción de tu mascota"
             style={{ height: "100px" }}
             className={style.formInput}
-            {...register("petDescription")}
+            {...register("petDescription", {
+              required: {
+                value: true,
+                message: "Campo obligatorio."
+              },
+              min: 1,
+              max: {
+                value: 200,
+                message: "El mensaje no puede contener más de 200 caracteres."
+              },
+              pattern: {
+                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+                message: "El mensaje contiene caracteres no válidos.",
+              }
+            })}
           />
+          {errors.petDescription && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.petDescription.message}
+            </span>
+          )}
         </Form.Group>
         <CustomButton
           variant="callToAction"
@@ -2010,7 +2128,9 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
             <p className="mb-0">{isUploading ? "Guardando cambios" : "Guardar cambios"}</p>
           </span>
         </CustomButton>
-
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
       </Form>
     </>
   );
@@ -2036,6 +2156,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
   } = useForm();
 
   const handleSetDate = (year, month, date) => {
@@ -2099,13 +2220,9 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
           handleCloseModal();
         }
       } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: "error",
-          title: "Tu cita no se pudo reservar",
-          text: `Error: ${error.response.data}`,
-          showConfirmButton: false,
-          timer: 2500,
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de crear el turno. Error: ${error}`,
         });
       }
     }
@@ -2155,6 +2272,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       try {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
+        console.log(selectedDoctor);
         const doctorID = doctorList[selectedDoctor]._id;
         const doctors = await clientAxios.get(`/doctor/clinic-hours/${doctorID}&${new Date(selectedYear, selectedMonth, selectedDay)}`, {
           headers: {
@@ -2169,7 +2287,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       }
     }
 
-    if (selectedDoctor) {
+    if (selectedDoctor === 0 || selectedDoctor === 1) {
       getDoctorFreeHours();
     }
   }, [selectedDoctor, selectedYear, selectedMonth, selectedDay])
@@ -2205,7 +2323,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             >
               <option value="" defaultValue="" disabled hidden>Seleccione su mascota...</option>
               {petList.map((pet, index) => (
-                <option value={index}>{pet.name}</option>
+                <option value={index} key={index}>{pet.name}</option>
               ))}
             </Form.Select>
           </Form.Group>
@@ -2220,7 +2338,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             >
               <option value="" defaultValue="" disabled hidden>Seleccione al veterinario...</option>
               {doctorList.map((doctor, index) => (
-                <option value={index} onClick={() => setSelectedDoctor(doctor._id)}>{doctor.name}</option>
+                <option value={index} onClick={() => setSelectedDoctor(index)} key={index}>{doctor.name}</option>
               ))}
             </Form.Select>
           </Form.Group>
@@ -2231,13 +2349,33 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             <Form.Control
               as="textarea"
               rows={3}
-              {...register("observations")}
+              {...register("observations", {
+                required: {
+                  value: true,
+                  message: "Campo obligatorio."
+                },
+                min: 1,
+                max: {
+                  value: 200,
+                  message: "El mensaje no puede contener más de 200 caracteres."
+                },
+                pattern: {
+                  value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+                  message: "El mensaje contiene caracteres no válidos.",
+                }
+              })}
               className={style.textArea}
             />
+            {errors.observations && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.observations.message}
+              </span>
+            )}
           </Form.Group>
 
           <div className={`${style.datePickerContainer}`} ref={selectDateTimeBoxRef}>
-            {selectedDoctor && selectedPet &&
+            {(selectedDoctor === 0 || selectedDoctor === 1) && selectedPet ?
               <>
                 <CustomCalendar
                   border
@@ -2264,7 +2402,8 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                     ))}
                   </div>
                 </div>
-              </>
+              </> :
+              ""
             }
 
           </div>
@@ -2277,7 +2416,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
                 selectedHour &&
                 selectedMinute &&
                 selectedPet &&
-                selectedDoctor
+                (selectedDoctor === 0 || selectedDoctor === 1)
                 ? "d-block"
                 : "d-none"
             }
@@ -2317,6 +2456,9 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
               </button>
             </div>
           </div>
+          {errors.root && (
+            <span className={style.errorMessage}>{errors.root.message}</span>
+          )}
         </Form>
       </>
     );
@@ -2356,6 +2498,7 @@ const EditAppointmentForm = ({
     handleSubmit,
     setValue,
     formState: { errors },
+    setError,
   } = useForm();
 
   useEffect(() => {
@@ -2515,13 +2658,9 @@ const EditAppointmentForm = ({
         handleUpdateCalendar();
       }
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "La cita no pudo ser modificada",
-        text: `Error: ${error.response.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de editar los datos de la mascota. Error: ${error}`,
       });
     }
 
@@ -2674,12 +2813,31 @@ const EditAppointmentForm = ({
 
         <Form.Group className="mb-3" controlId="observations" onFocus={() => { setShowStartDateTimeOptions(false); setShowEndDateTimeOptions(false); }}>
           <Form.Label>Observaciones</Form.Label>
-          <Form.Control as="textarea" rows={3} className={style.textArea} {...register("observations")} />
+          <Form.Control as="textarea" rows={3} className={style.textArea} {...register("observations", {
+            min: 1,
+            max: {
+              value: 200,
+              message: "El mensaje no puede contener más de 200 caracteres."
+            },
+            pattern: {
+              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+              message: "El mensaje contiene caracteres no válidos.",
+            }
+          })} />
+          {errors.observations && (
+            <span className={style.errorMessage}>
+              <i className="bi bi-exclamation-circle-fill me-1"></i>
+              {errors.observations.message}
+            </span>
+          )}
         </Form.Group>
 
         <div className="w-100 mx-auto">
           <CustomButton variant="callToAction" size="lg" className="w-100 mx-auto" type="submit">Guardar datos</CustomButton>
         </div>
+        {errors.root && (
+          <span className={style.errorMessage}>{errors.root.message}</span>
+        )}
       </Form >
     )
   }
@@ -2692,6 +2850,7 @@ const ContactUsForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -2718,12 +2877,8 @@ const ContactUsForm = () => {
 
     } catch (error) {
       console.log(error)
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `Codigo ${error?.response?.status}: ${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      setError("root", {
+        message: `Sucedio un error al tratar de enviar el mensaje. Error: ${error}`,
       });
     }
   })
@@ -2828,6 +2983,9 @@ const ContactUsForm = () => {
           <CustomButton variant="callToAction" className="w-100 mt-5" type="submit">Enviar mensaje</CustomButton>
         </Col>
       </Row>
+      {errors.root && (
+        <span className={style.errorMessage}>{errors.root.message}</span>
+      )}
     </Form>
   );
 }
@@ -2838,6 +2996,7 @@ const PlansInformationForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -2871,12 +3030,8 @@ const PlansInformationForm = () => {
 
     } catch (error) {
       console.log(error)
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `Codigo ${error?.response?.status}: ${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      setError("root", {
+        message: `Sucedio un error al tratar de enviar el mensaje. Error: ${error}`,
       });
     }
   })
@@ -3002,12 +3157,21 @@ const PlansInformationForm = () => {
                 }
               })}
             />
+            {errors.contactMessage && (
+              <span className={style.errorMessage}>
+                <i className="bi bi-exclamation-circle-fill me-1"></i>
+                {errors.contactMessage.message}
+              </span>
+            )}
           </Form.Group>
         </Col>
         <Col xs={12}>
           <CustomButton variant="callToAction" className="w-100 mx-auto mt-5" type="submit">Enviar mensaje</CustomButton>
         </Col>
       </Row>
+      {errors.root && (
+        <span className={style.errorMessage}>{errors.root.message}</span>
+      )}
     </Form>
   );
 }
@@ -3017,13 +3181,58 @@ const ChangePasswordForm = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRepeatNewPassword, setShowRepeatNewPassword] = useState(false);
 
+  const [showPasswordRequireBox, setShowPasswordRequireBox] = useState(false);
+  const [isPasswordLength, setIsPasswordLength] = useState(false);
+  const [hasPasswordUpper, setHasPasswordUpper] = useState(false);
+  const [hasPasswordLower, setHasPasswordLower] = useState(false);
+  const [hasPasswordNumber, setHasPasswordNumber] = useState(false);
+  const [hasPasswordSpecialChar, setHasPasswordSpecialChar] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    watch,
+    setError,
   } = useForm();
+
+  const passwordWatch = watch("newPassword");
+
+  useEffect(() => {
+    if (passwordWatch !== undefined) {
+      if (passwordWatch.length >= 8) {
+        setIsPasswordLength(true);
+      } else {
+        setIsPasswordLength(false)
+      }
+
+      if (/^(?=.*[A-ZÑÁÉÍÓÚÜ]).*$/.test(passwordWatch)) {
+        setHasPasswordUpper(true);
+      } else {
+        setHasPasswordUpper(false)
+      }
+
+      if (/^(?=.*[a-zñáéíóúü]).*$/.test(passwordWatch)) {
+        setHasPasswordLower(true);
+      } else {
+        setHasPasswordLower(false)
+      }
+
+      if (/^(?=.*\d).*$/.test(passwordWatch)) {
+        setHasPasswordNumber(true);
+      } else {
+        setHasPasswordNumber(false)
+      }
+
+      if (/^(?=.*[@$!%*?&]).*$/.test(passwordWatch)) {
+        setHasPasswordSpecialChar(true);
+      } else {
+        setHasPasswordSpecialChar(false)
+      }
+    }
+
+  }, [passwordWatch])
 
   const onSubmit = handleSubmit(async (data) => {
     if (data.newPassword === data.repeatNewPassword) {
@@ -3053,13 +3262,9 @@ const ChangePasswordForm = () => {
         }
       }
       catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: "error",
-          title: `Algo salio mal`,
-          text: `${error?.response?.data}`,
-          showConfirmButton: false,
-          timer: 2500,
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de cambiar la contraseña. Error: ${error}`,
         });
       }
     } else {
@@ -3132,7 +3337,7 @@ const ChangePasswordForm = () => {
         )}
       </Form.Group>
 
-      <Form.Group className="mb-3 d-grid" controlId="newPassword">
+      <Form.Group className="mb-3 d-grid" controlId="newPassword" onFocus={() => setShowPasswordRequireBox(true)} onBlur={() => setShowPasswordRequireBox(false)}>
         <Form.Label className={style.formLabel}>Nueva Contraseña</Form.Label>
         <InputGroup>
           <Form.Control
@@ -3189,12 +3394,82 @@ const ChangePasswordForm = () => {
             )}
           </InputGroup.Text>
         </InputGroup>
-        {errors.newPassword && (
-          <span className={style.errorMessage}>
-            <i className="bi bi-exclamation-circle-fill me-1"></i>
-            {errors.newPassword.message}
-          </span>
-        )}
+
+        <div className={showPasswordRequireBox ? "d-block" : "d-none"}>
+          <ul className="list-unstyled">
+            <li>{isPasswordLength ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos 8 caracteres</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos 8 caracteres</p>
+              </span>
+            }</li>
+            <li>{hasPasswordUpper ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al una mayuscula</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al una mayuscula</p>
+              </span>
+            }</li>
+            <li>{hasPasswordLower ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos una minuscula</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos una minuscula</p>
+              </span>
+            }</li>
+            <li>{hasPasswordNumber ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos un número</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos un número</p>
+              </span>
+            }</li>
+            <li>{hasPasswordSpecialChar ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos un caracter especial (@$!%*?&)</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos un caracter especial (@$!%*?&)</p>
+              </span>
+            }</li>
+          </ul>
+        </div>
+
       </Form.Group>
 
       <Form.Group className="mb-3 d-grid" controlId="repeatNewPassword">
@@ -3256,6 +3531,9 @@ const ChangePasswordForm = () => {
       <div className="w-100">
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto">Cambiar contraseña</CustomButton>
       </div>
+      {errors.root && (
+        <span className={style.errorMessage}>{errors.root.message}</span>
+      )}
     </Form>
   )
 }
@@ -3265,12 +3543,59 @@ const ChangePasswordWithTokenForm = ({ token }) => {
   const [showRepeatNewPassword, setShowRepeatNewPassword] = useState(false);
   const navigate = useNavigate();
 
+  const [showPasswordRequireBox, setShowPasswordRequireBox] = useState(false);
+  const [isPasswordLength, setIsPasswordLength] = useState(false);
+  const [hasPasswordUpper, setHasPasswordUpper] = useState(false);
+  const [hasPasswordLower, setHasPasswordLower] = useState(false);
+  const [hasPasswordNumber, setHasPasswordNumber] = useState(false);
+  const [hasPasswordSpecialChar, setHasPasswordSpecialChar] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    watch,
+    setError,
   } = useForm();
+
+  const passwordWatch = watch("newPassword");
+
+  useEffect(() => {
+    if (passwordWatch !== undefined) {
+      if (passwordWatch.length >= 8) {
+        setIsPasswordLength(true);
+      } else {
+        setIsPasswordLength(false)
+      }
+
+      if (/^(?=.*[A-ZÑÁÉÍÓÚÜ]).*$/.test(passwordWatch)) {
+        setHasPasswordUpper(true);
+      } else {
+        setHasPasswordUpper(false)
+      }
+
+      if (/^(?=.*[a-zñáéíóúü]).*$/.test(passwordWatch)) {
+        setHasPasswordLower(true);
+      } else {
+        setHasPasswordLower(false)
+      }
+
+      if (/^(?=.*\d).*$/.test(passwordWatch)) {
+        setHasPasswordNumber(true);
+      } else {
+        setHasPasswordNumber(false)
+      }
+
+      if (/^(?=.*[@$!%*?&]).*$/.test(passwordWatch)) {
+        setHasPasswordSpecialChar(true);
+      } else {
+        setHasPasswordSpecialChar(false)
+      }
+    }
+
+  }, [passwordWatch])
+
 
   const onSubmit = handleSubmit(async (data) => {
     if (data.newPassword === data.repeatNewPassword) {
@@ -3300,13 +3625,9 @@ const ChangePasswordWithTokenForm = ({ token }) => {
         }
       }
       catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: "error",
-          title: `Algo salio mal`,
-          text: `${error?.response?.data}`,
-          showConfirmButton: false,
-          timer: 2500,
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de cambiar la contraseña. Error: ${error}`,
         });
       }
     } else {
@@ -3324,7 +3645,7 @@ const ChangePasswordWithTokenForm = ({ token }) => {
   return (
     <Form onSubmit={onSubmit}>
 
-      <Form.Group className="mb-3 d-grid" controlId="newPassword">
+      <Form.Group className="mb-3 d-grid" controlId="newPassword" onFocus={() => setShowPasswordRequireBox(true)} onBlur={() => setShowPasswordRequireBox(false)}>
         <Form.Label className={style.formLabel}>Nueva Contraseña</Form.Label>
         <InputGroup>
           <Form.Control
@@ -3381,6 +3702,82 @@ const ChangePasswordWithTokenForm = ({ token }) => {
             )}
           </InputGroup.Text>
         </InputGroup>
+
+        <div className={showPasswordRequireBox ? "d-block" : "d-none"}>
+          <ul className="list-unstyled">
+            <li>{isPasswordLength ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos 8 caracteres</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos 8 caracteres</p>
+              </span>
+            }</li>
+            <li>{hasPasswordUpper ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al una mayuscula</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al una mayuscula</p>
+              </span>
+            }</li>
+            <li>{hasPasswordLower ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos una minuscula</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos una minuscula</p>
+              </span>
+            }</li>
+            <li>{hasPasswordNumber ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos un número</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos un número</p>
+              </span>
+            }</li>
+            <li>{hasPasswordSpecialChar ?
+              <span className="text-success d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                <p className="mb-0">Al menos un caracter especial (@$!%*?&)</p>
+              </span> :
+              <span className="text-danger d-flex gap-2 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                </svg>
+                <p className="mb-0">Al menos un caracter especial (@$!%*?&)</p>
+              </span>
+            }</li>
+          </ul>
+        </div>
+
         {errors.newPassword && (
           <span className={style.errorMessage}>
             <i className="bi bi-exclamation-circle-fill me-1"></i>
@@ -3448,6 +3845,10 @@ const ChangePasswordWithTokenForm = ({ token }) => {
       <div className="w-100">
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto">Cambiar contraseña</CustomButton>
       </div>
+
+      {errors.root && (
+        <span className={style.errorMessage}>{errors.root.message}</span>
+      )}
     </Form>
   )
 }
@@ -3462,6 +3863,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
     formState: { errors },
     setValue,
     watch,
+    setError,
   } = useForm();
 
   useEffect(() => {
@@ -3497,13 +3899,10 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
         })
       } catch (error) {
         console.log(error)
-        Swal.fire({
-          icon: "error",
-          title: `Algo salio mal`,
-          text: `${error?.response?.data}`,
-          showConfirmButton: false,
-          timer: 2500,
+        setError("root", {
+          message: `Sucedio un error al tratar de editar la imagen del servicio. Error: ${error}`,
         });
+        setIsUploading(false);
       }
     }
 
@@ -3523,14 +3922,11 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
         timer: 2500,
       });
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de editar el servicio. Error: ${error}`,
       });
+      setIsUploading(false);
     }
 
   })
@@ -3599,8 +3995,28 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
           as="textarea"
           style={{ height: "100px" }}
           className={style.formInput}
-          {...register("serviceDescription")}
+          {...register("serviceDescription", {
+            required: {
+              value: true,
+              message: "Campo obligatorio."
+            },
+            min: 1,
+            max: {
+              value: 200,
+              message: "El mensaje no puede contener más de 200 caracteres."
+            },
+            pattern: {
+              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+              message: "El mensaje contiene caracteres no válidos.",
+            }
+          })}
         />
+        {errors.serviceDescription && (
+          <span className={style.errorMessage}>
+            <i className="bi bi-exclamation-circle-fill me-1"></i>
+            {errors.serviceDescription.message}
+          </span>
+        )}
       </Form.Group>
 
       <div className="w-100">
@@ -3611,6 +4027,10 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
           </div>
           : "Actualizar servicio"}</CustomButton>
       </div>
+
+      {errors.root && (
+        <span className={style.errorMessage}>{errors.root.message}</span>
+      )}
     </Form>
   )
 }
@@ -3624,6 +4044,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
   } = useForm();
 
 
@@ -3663,13 +4084,10 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
           })
         } catch (error) {
           console.log(error)
-          Swal.fire({
-            icon: "error",
-            title: `Algo salio mal`,
-            text: `${error?.response?.data}`,
-            showConfirmButton: false,
-            timer: 2500,
+          setError("root", {
+            message: `Sucedio un error al tratar de subir la imagen del servicio. Error: ${error}`,
           });
+          setIsUploading(false);
         }
       }
 
@@ -3683,14 +4101,11 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
         timer: 2500,
       });
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: `Algo salio mal`,
-        text: `${error?.response?.data}`,
-        showConfirmButton: false,
-        timer: 2500,
+      console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de crear el nuevo servicio. Error: ${error}`,
       });
+      setIsUploading(false);
     }
 
   })
@@ -3760,8 +4175,28 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
           style={{ height: "100px" }}
           placeholder="Agrega una breve descripción del servicio..."
           className={style.formInput}
-          {...register("serviceDescription")}
+          {...register("serviceDescription", {
+            required: {
+              value: true,
+              message: "Campo obligatorio."
+            },
+            min: 1,
+            max: {
+              value: 200,
+              message: "El mensaje no puede contener más de 200 caracteres."
+            },
+            pattern: {
+              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'0-9\s/$\-_.,()]+$/,
+              message: "El mensaje contiene caracteres no válidos.",
+            }
+          })}
         />
+        {errors.serviceDescription && (
+          <span className={style.errorMessage}>
+            <i className="bi bi-exclamation-circle-fill me-1"></i>
+            {errors.serviceDescription.message}
+          </span>
+        )}
       </Form.Group>
 
       <div className="w-100">
