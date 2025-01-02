@@ -212,7 +212,12 @@ const View = ({ variant, data, handleUpdateData }) => {
   const handleReadMessage = () => {
     const readMessage = async () => {
       try {
-        const res = clientAxios.put(`/messages/${data._id}`);
+        const token = sessionStorage.getItem("token");
+        const res = clientAxios.put(`/messages/${data._id}`, {}, {
+          headers: {
+            authtoken: token,
+          }
+        });
       } catch (error) {
         console.log(error)
       }
