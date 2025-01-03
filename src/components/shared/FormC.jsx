@@ -92,7 +92,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
       setError("root", {
         message: `Sucedio un error al tratar de registrar al usuario. ${error.name}: ${error.message}`,
       });
-      setIsLoading(false);
+      setIsSubmiting(false);
     }
   });
 
@@ -618,6 +618,7 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
       setError("root", {
         message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.message}`,
       });
+      setIsLoading(false);
     }
   })
 
@@ -1063,7 +1064,11 @@ const UserProfileForm = () => {
         setUserData(userData.data);
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de recuperar la información del usuario. ${error.name}: ${error.message}`,
+        });
+        setIsLoading(false);
       }
     };
 
@@ -1096,6 +1101,10 @@ const UserProfileForm = () => {
       setIsLoading(false);
     } catch (error) {
       console.log(error)
+      setError("root", {
+        message: `Sucedio un error al tratar de recuperar la información del usuario. ${error.name}: ${error.message}`,
+      });
+      setIsLoading(false);
     }
   }
 
@@ -1163,7 +1172,7 @@ const UserProfileForm = () => {
       setError("root", {
         message: `Sucedio un error al tratar de editar los datos del usuario. Error: ${error}`,
       });
-      setIsLoading(false);
+      setIsUploading(false);
     }
   });
 
@@ -1201,7 +1210,6 @@ const UserProfileForm = () => {
         setError("root", {
           message: `Sucedio un error al tratar de eliminar la imagen del usuario. Error: ${error}`,
         });
-        setIsLoading(false);
       }
     }
   }
@@ -2241,7 +2249,10 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
         setPetList(petList.data)
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de recuperar los datos de las mascotas. ${error.name}: ${error.message}`,
+        });
         setIsLoading(false);
       }
     };
@@ -2258,7 +2269,10 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
         setDoctorList(doctors.data)
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de recuperar los datos de los veterinarios. ${error.name}: ${error.message}`,
+        });
         setIsLoading(false);
       }
     };
@@ -2281,7 +2295,10 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
         setDoctorFreeHours(doctors.data)
         setIsLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.name}: ${error.message}`,
+        });
         setIsLoading(false);
       }
     }
@@ -2516,6 +2533,10 @@ const EditAppointmentForm = ({
         setIsLoading(false);
       } catch (error) {
         console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de recuperar la información de los veterinarios. ${error.name}: ${error.message}`,
+        });
+        setIsLoading(false);
       }
     }
 
@@ -2567,6 +2588,10 @@ const EditAppointmentForm = ({
         setIsLoading(false);
       } catch (error) {
         console.log(error)
+        setError("root", {
+          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.name}: ${error.message}`,
+        });
+        setIsLoading(false);
       }
     }
 
