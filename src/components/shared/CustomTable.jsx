@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import style from "../../styles/CustomTable.module.css";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
 import Modal from "react-bootstrap/Modal";
 import Nav from "react-bootstrap/Nav";

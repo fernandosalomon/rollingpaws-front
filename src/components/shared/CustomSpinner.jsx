@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap"
 import style from "../../styles/CustomSpinner.module.css"
 
 const CustomSpinner = ({ className, size }) => {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../styles/AdminAppointments.module.css";
 import { Modal } from "react-bootstrap";
 import clientAxios from "../helpers/clientAxios";

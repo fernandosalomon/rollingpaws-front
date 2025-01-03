@@ -1,28 +1,9 @@
 import { Accordion } from "react-bootstrap";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import style from "../styles/AboutPlans.module.css"
-import { useForm } from "react-hook-form";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row"
-import Col from "react-bootstrap/Col"
-import CustomButton from "./shared/CustomButton";
 import FormC from "./shared/FormC";
 
 const AboutPlans = () => {
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm({});
-
-    const onSubmit = (e) => {
-        console.log(e)
-    }
-
-
     return (
         <>
             <Container fluid className="py-3">
