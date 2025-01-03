@@ -93,7 +93,3 @@ rollingpaws-front/
 
 Este proyecto está licenciado bajo la Licencia MIT.
 
----
-
-¿Te gustaría agregar más detalles o modificar alguna sección?
-
