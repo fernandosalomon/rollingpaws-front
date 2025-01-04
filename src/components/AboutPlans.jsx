@@ -2,8 +2,14 @@ import { Accordion } from "react-bootstrap";
 import style from "../styles/AboutPlans.module.css"
 import Container from "react-bootstrap/Container";
 import FormC from "./shared/FormC";
+import { useEffect } from "react";
 
 const AboutPlans = () => {
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [])
+
     return (
         <>
             <Container fluid className="py-3">

@@ -90,7 +90,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de registrar al usuario. ${error.name}: ${error.message}`,
+        message: `Sucedio un error al tratar de registrar al usuario. ${error.name}: ${error.response.data}`,
       });
       setIsSubmiting(false);
     }
@@ -464,7 +464,7 @@ const SignInForm = ({
     } catch (error) {
       console.log(error);
       setError("root", {
-        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.message}`,
+        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.response.data}`,
       });
       setIsSubmiting(false);
     }
