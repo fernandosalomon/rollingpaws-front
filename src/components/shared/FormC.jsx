@@ -3288,6 +3288,7 @@ const ChangePasswordForm = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showRepeatNewPassword, setShowRepeatNewPassword] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const [showPasswordRequireBox, setShowPasswordRequireBox] = useState(false);
   const [isPasswordLength, setIsPasswordLength] = useState(false);
@@ -3343,6 +3344,7 @@ const ChangePasswordForm = () => {
   }, [passwordWatch])
 
   const onSubmit = handleSubmit(async (data) => {
+    setIsUploading(true);
     if (data.newPassword === data.repeatNewPassword) {
       try {
         const token = sessionStorage.getItem("token");
@@ -3359,29 +3361,26 @@ const ChangePasswordForm = () => {
             showConfirmButton: false,
             timer: 2500,
           });
+          setIsUploading(false);
         } else {
-          Swal.fire({
-            icon: "error",
-            title: `Acceso denegado`,
-            text: `Token de acceso no autorizado`,
-            showConfirmButton: false,
-            timer: 2500,
+          setError("root", {
+            message: `Error: Token de acceso no autorizado.`,
           });
+          setIsUploading(false);
         }
       }
       catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de cambiar la contraseña. Error: ${error}`,
+          message: `Sucedio un error al tratar de cambiar la contraseña. ${error.response.data}`,
         });
+        setIsUploading(false);
       }
     } else {
-      Swal.fire({
-        icon: "error",
-        title: `Las contraseñas no coinciden`,
-        showConfirmButton: false,
-        timer: 2500,
+      setError("root", {
+        message: `Las contraseñas no coinciden.`,
       });
+      setIsUploading(false);
     }
 
 
@@ -3637,7 +3636,16 @@ const ChangePasswordForm = () => {
       </Form.Group>
 
       <div className="w-100">
-        <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto">Cambiar contraseña</CustomButton>
+        <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>
+          {
+            isUploading ?
+              <>
+                <CustomSpinner size="sm" />
+                <p className="mb-0 ms-2">Cambiando contraseña</p>
+              </> :
+              "Cambiar contraseña"
+          }
+        </CustomButton>
       </div>
       {errors.root && (
         <span className={style.errorMessage}>{errors.root.message}</span>
