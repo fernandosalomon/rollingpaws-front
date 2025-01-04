@@ -2149,7 +2149,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
   );
 };
 
-const NewAppointmentForm = ({ handleCloseModal }) => {
+const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
   const [selectedDay, setSelectedDay] = useState(new Date().getDate());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
@@ -2230,6 +2230,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
             showConfirmButton: false,
             timer: 1000,
           });
+          handleUpdate();
           handleCloseModal();
         }
       } catch (error) {
@@ -4384,7 +4385,7 @@ const FormC = ({
       )}
       {formType === "new-appointment" && (
         <>
-          <NewAppointmentForm handleCloseModal={handleCloseModal} />
+          <NewAppointmentForm handleCloseModal={handleCloseModal} handleUpdate={handleUpdate} />
         </>
       )}
       {(formType === "edit-appointment-user" || formType === "edit-appointment-admin") && (

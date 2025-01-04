@@ -126,7 +126,7 @@ const UserView = () => {
   );
 };
 
-const NewAppointmentModal = ({ show, handleClose }) => {
+const NewAppointmentModal = ({ show, handleClose, handleUpdateData }) => {
   return (
     <>
       <Modal
@@ -141,7 +141,7 @@ const NewAppointmentModal = ({ show, handleClose }) => {
           <button className="btn-close" onClick={handleClose}></button>
         </Modal.Header>
         <Modal.Body className={style.modalBody}>
-          <FormC variant="new-appointment" handleCloseModal={handleClose} />
+          <FormC variant="new-appointment" handleCloseModal={handleClose} handleUpdate={handleUpdateData} />
         </Modal.Body>
       </Modal>
     </>
@@ -228,6 +228,7 @@ const UserAppointments = () => {
         <NewAppointmentModal
           show={showNewAppointment}
           handleClose={handleCloseNewAppointment}
+          handleUpdateData={handleUpdate}
         />
       </>
     );
