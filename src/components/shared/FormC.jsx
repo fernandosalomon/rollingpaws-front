@@ -15,7 +15,7 @@ import CustomButton from "./CustomButton";
 import style from "../../styles/FormC.module.css";
 import CustomSpinner from "./CustomSpinner";
 
-const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
+const SignUpForm = ({ handleChangeForm, handleCloseModal, handleNavbarRole }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmiting, setIsSubmiting] = useState(false);
 
@@ -78,10 +78,11 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
     try {
       const res = await clientAxios.post("/user/register", data);
 
-      handleCloseModal();
-
       sessionStorage.setItem("role", res.data.role);
       sessionStorage.setItem("token", res.data.token);
+
+      handleCloseModal();
+      handleNavbarRole();
 
       Swal.fire({
         icon: "success",
@@ -4337,6 +4338,7 @@ const FormC = ({
         <SignUpForm
           handleChangeForm={handleChangeForm}
           handleCloseModal={handleCloseModal}
+          handleNavbarRole={handleNavbarRole}
         />
       )}
       {formType === "sign-in" && (
