@@ -3639,7 +3639,7 @@ const ChangePasswordForm = () => {
         <CustomButton variant="callToAction" type="submit" className="w-100 mx-auto" disabled={isUploading}>
           {
             isUploading ?
-              <div className="d-flex align-items-center gap-2">
+              <div className="d-flex align-items-center gap-2 w-100 justify-content-center">
                 <CustomSpinner size="sm" />
                 <p className="mb-0">Cambiando contraseña</p>
               </div> :
