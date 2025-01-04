@@ -79,10 +79,14 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal }) => {
       const res = await clientAxios.post("/user/register", data);
 
       handleCloseModal();
+
+      sessionStorage.setItem("role", res.data.role);
+      sessionStorage.setItem("token", res.data.token);
+
       Swal.fire({
         icon: "success",
         title: `Felicidades, te has registrado con exito`,
-        text: "En breve te enviaremos un mail con más información.",
+        text: "En breve te enviaremos un mail de bienvenida.",
         showConfirmButton: false,
         timer: 2500,
       });
@@ -464,7 +468,7 @@ const SignInForm = ({
     } catch (error) {
       console.log(error);
       setError("root", {
-        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.response.data}`,
+        message: `Sucedio un error al tratar de iniciar sesión. ${error.response.data}`,
       });
       setIsSubmiting(false);
     }
