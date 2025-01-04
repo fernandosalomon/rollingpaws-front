@@ -2302,7 +2302,7 @@ const NewAppointmentForm = ({ handleCloseModal }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.response.data}`,
         });
         setIsLoading(false);
       }
