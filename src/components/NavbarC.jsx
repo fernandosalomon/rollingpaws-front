@@ -367,6 +367,7 @@ const NavbarC = ({ userRole, handleChangeRole }) => {
       <NewAppointmentModal
         show={showNewAppointment}
         handleClose={handleCloseNewAppointment}
+        handleUpdate={() => { }}
       />
     </>
   );
