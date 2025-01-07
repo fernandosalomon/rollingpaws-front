@@ -1,7 +1,7 @@
 .landingWrapper {
   position: relative;
   margin-top: -10px;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 150px);
   width: 100vw;
   background-image: url("https://res.cloudinary.com/dqpq2d0es/image/upload/v1735664056/Landing-bg_n4vaq5.jpg");
   background-repeat: no-repeat;
