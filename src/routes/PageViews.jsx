@@ -18,13 +18,14 @@ import PrivateRoute from "../components/PrivateRoute";
 import AdminPrivateRoute from "../components/AdminPrivateRoute";
 import DeveloperPage from "../pages/DeveloperPage";
 import { setPageTitle } from "../helpers/setPageTitle";
+import { useEffect, useState } from "react";
 
 
 const PageWrapper = ({ children, className }) => {
   return <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className={`${style.pageWrapper} ${className}`}>{children}</motion.div>
 }
 
-const AnimatedRoutes = () => {
+const AnimatedRoutes = ({ userRole, handleChangeRole }) => {
 
   const location = useLocation();
   setPageTitle(location.pathname);
@@ -62,7 +63,7 @@ const AnimatedRoutes = () => {
         <Route path="/nosotros/comentarios" element={<PageWrapper><Testimonials /></PageWrapper>} />
         <Route path="/developer" element={<PageWrapper><DeveloperPage /></PageWrapper>} />
         <Route path="/nosotros" element={<PageWrapper><AboutUsPage /></PageWrapper>} />
-        <Route path="/" element={<PageWrapper className={style.overflowHidden}><LandingPage /></PageWrapper>} />
+        <Route path="/" element={<PageWrapper className={style.overflowHidden}><LandingPage userRole={userRole} handleChangeRole={handleChangeRole} /></PageWrapper>} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </AnimatePresence>
@@ -74,11 +75,22 @@ const AnimatedRoutes = () => {
 const PageViews = () => {
 
   const location = useLocation();
+  const [role, setRole] = useState("not-logged");
+
+  const handleChangeRole = (role) => {
+    setRole(role);
+    if (role === "not-logged") {
+      sessionStorage.removeItem("role");
+      sessionStorage.removeItem("token");
+    }
+  }
+
+  useEffect(() => console.log(role), [role])
 
   return (
     <>
-      <NavbarC />
-      <AnimatedRoutes />
+      <NavbarC userRole={role} handleChangeRole={handleChangeRole} />
+      <AnimatedRoutes userRole={role} handleChangeRole={handleChangeRole} />
       {location.pathname !== "/" && <Footer />}
     </>
   );

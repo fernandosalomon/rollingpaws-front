@@ -15,7 +15,7 @@ import CustomButton from "./CustomButton";
 import style from "../../styles/FormC.module.css";
 import CustomSpinner from "./CustomSpinner";
 
-const SignUpForm = ({ handleChangeForm, handleCloseModal, handleNavbarRole }) => {
+const SignUpForm = ({ handleChangeForm, handleCloseModal, handleChangeRole }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmiting, setIsSubmiting] = useState(false);
 
@@ -82,7 +82,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal, handleNavbarRole }) =>
       sessionStorage.setItem("token", res.data.token);
 
       handleCloseModal();
-      handleNavbarRole();
+      handleChangeRole(res.data.token);
 
       Swal.fire({
         icon: "success",
@@ -420,7 +420,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal, handleNavbarRole }) =>
 const SignInForm = ({
   handleChangeForm,
   handleCloseModal,
-  handleNavbarRole,
+  handleChangeRole,
 }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -458,7 +458,7 @@ const SignInForm = ({
       });
 
       handleCloseModal();
-      handleNavbarRole();
+      handleChangeRole(res.data.role);
 
       if (res.data.role === "admin") {
         navigate("/admin");
@@ -4330,7 +4330,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
 const FormC = ({
   variant,
   handleCloseModal,
-  handleNavbarRole,
+  handleChangeRole,
   data,
   handleRefresh,
   handleUpdate,
@@ -4347,14 +4347,14 @@ const FormC = ({
         <SignUpForm
           handleChangeForm={handleChangeForm}
           handleCloseModal={handleCloseModal}
-          handleNavbarRole={handleNavbarRole}
+          handleChangeRole={handleChangeRole}
         />
       )}
       {formType === "sign-in" && (
         <SignInForm
           handleChangeForm={handleChangeForm}
           handleCloseModal={handleCloseModal}
-          handleNavbarRole={handleNavbarRole}
+          handleChangeRole={handleChangeRole}
         />
       )}
       {

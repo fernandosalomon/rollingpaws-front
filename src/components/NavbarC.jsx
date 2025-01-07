@@ -13,7 +13,7 @@ import style from "../styles/Navbar.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
+const SignInModal = ({ show, handleClose, handleChangeRole }) => {
   return (
     <>
       <Modal
@@ -29,7 +29,7 @@ const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
           <FormC
             variant="sign-in"
             handleCloseModal={handleClose}
-            handleNavbarRole={handleNavbarRole}
+            handleChangeRole={handleChangeRole}
           />
         </Modal.Body>
       </Modal>
@@ -126,8 +126,7 @@ const WeatherBar = () => {
 
 }
 
-const NavbarC = () => {
-  const [userRole, setUserRole] = useState("not-logged");
+const NavbarC = ({ userRole, handleChangeRole }) => {
   const navbarCollapseRef = useRef(null);
   const navigate = useNavigate();
   const [showSignIn, setShowSignIn] = useState(false);
@@ -146,9 +145,7 @@ const NavbarC = () => {
           },
         }
       );
-      setUserRole("not-logged");
-      sessionStorage.removeItem("role");
-      sessionStorage.removeItem("token");
+      handleChangeRole("not-logged");
       navigate("/");
       Swal.fire({
         imageUrl: "https://res.cloudinary.com/dqpq2d0es/image/upload/v1735664055/dog-waving-hand_rxda1c.png",
@@ -167,19 +164,8 @@ const NavbarC = () => {
   const handleShowSignIn = () => setShowSignIn(true);
   const handleCloseSignIn = () => setShowSignIn(false);
 
-  const handleNavbarRole = () => {
-    const userRoleSS = sessionStorage.getItem("role");
-    if (userRoleSS) {
-      setUserRole(userRoleSS);
-    }
-  };
-
   const handleShowNewAppointment = () => setShowNewAppointment(true);
   const handleCloseNewAppointment = () => setShowNewAppointment(false);
-
-  useEffect(() => {
-    handleNavbarRole();
-  }, []);
 
   const handleCloseNavbarCollapse = () => navbarCollapseRef.current.classList.remove("show");
 
@@ -376,7 +362,7 @@ const NavbarC = () => {
       <SignInModal
         show={showSignIn}
         handleClose={handleCloseSignIn}
-        handleNavbarRole={handleNavbarRole}
+        handleChangeRole={handleChangeRole}
       />
       <NewAppointmentModal
         show={showNewAppointment}

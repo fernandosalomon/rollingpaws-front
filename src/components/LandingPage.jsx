@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import { useState } from "react";
 import FormC from "./shared/FormC";
 
-const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
+const SignInModal = ({ show, handleClose, handleChangeRole }) => {
   return (
     <>
       <Modal
@@ -21,6 +21,7 @@ const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
           <FormC
             variant="sign-in"
             handleCloseModal={handleClose}
+            handleChangeRole={handleChangeRole}
           />
         </Modal.Body>
       </Modal>
@@ -28,7 +29,7 @@ const SignInModal = ({ show, handleClose, handleNavbarRole }) => {
   );
 };
 
-const LandingPage = () => {
+const LandingPage = ({ userRole, handleChangeRole }) => {
   const [showSignIn, setShowSignIn] = useState(false);
   const navigate = useNavigate()
   const handleShowSignIn = () => setShowSignIn(true);
@@ -51,15 +52,19 @@ const LandingPage = () => {
             <CustomButton variant="callToAction" size="lg" className="w-50" onClick={() => navigate("/nosotros")}>
               Saber más
             </CustomButton>
-            <CustomButton variant="secondary" size="lg" className="w-50" onClick={handleShowSignIn}>
-              Iniciar Sesión
-            </CustomButton>
+            {
+              userRole === "not-logged" &&
+              <CustomButton variant="secondary" size="lg" className="w-50" onClick={handleShowSignIn}>
+                Iniciar Sesión
+              </CustomButton>
+            }
           </div>
         </div>
       </div>
       <SignInModal
         show={showSignIn}
         handleClose={handleCloseSignIn}
+        handleChangeRole={handleChangeRole}
       />
     </>
   );
