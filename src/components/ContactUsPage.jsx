@@ -10,7 +10,7 @@ const ContactUsPage = () => {
       <div className={style.pageWrapper}>
         <h2 className={style.pageHeader}>Contáctanos</h2>
         <Container fluid="lg">
-          <Row>
+          <Row className="gy-5">
             <Col md={8} className={style.columnContainer}>
               <Container className={style.formContainer}>
                 <FormC variant="contact-us" />
@@ -24,7 +24,10 @@ const ContactUsPage = () => {
                 </p>
                 <p className={style.asideText}>Calle Falsa 123</p>
                 <p className={style.asideText}>
-                  San Miguel de Tucumán, Tucumán, Ar
+                  San Miguel de Tucumán
+                </p>
+                <p className={style.asideText}>
+                  Tucumán, Argentina
                 </p>
               </div>
               <div className={style.asideTextContainer}>
