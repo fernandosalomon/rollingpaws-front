@@ -1,6 +1,7 @@
 .Navbar {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
   margin-bottom: 10px;
   padding: 10px 20px !important;
@@ -8,7 +9,6 @@
   filter: drop-shadow(#00000052 0 4px 4px);
   min-width: 200px;
   z-index: 1001;
-  height: 110px;
   min-height: 110px;
 }
 
