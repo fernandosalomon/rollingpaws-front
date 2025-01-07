@@ -52,7 +52,7 @@ const NewAppointmentModal = ({ show, handleClose }) => {
           <button className="btn-close" onClick={handleClose}></button>
         </Modal.Header>
         <Modal.Body className={style.modalBody}>
-          <FormC variant="new-appointment" handleCloseModal={handleClose} />
+          <FormC variant="new-appointment" handleCloseModal={handleClose} handleUpdate={() => { }} />
         </Modal.Body>
       </Modal>
     </>
@@ -367,7 +367,6 @@ const NavbarC = ({ userRole, handleChangeRole }) => {
       <NewAppointmentModal
         show={showNewAppointment}
         handleClose={handleCloseNewAppointment}
-        handleUpdate={() => { }}
       />
     </>
   );
