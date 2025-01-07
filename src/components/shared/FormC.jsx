@@ -2303,13 +2303,13 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.response.data}`,
+          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
     }
 
-    if (selectedDoctor !== null && selectedDoctor !== "") {
+    if (selectedDoctor !== null && selectedDoctor !== "" && selectedDoctor !== undefined && selectedYear !== null && selectedMonth !== null && selectedDay !== null) {
       getDoctorFreeHours();
     }
   }, [selectedDoctor, selectedYear, selectedMonth, selectedDay])
@@ -2321,8 +2321,6 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
     setSelectedPet(petSelectWatch);
     setSelectedDoctor(doctorSelectWatch);
   }, [petSelectWatch, doctorSelectWatch]);
-
-  useEffect(() => { console.log(selectedDoctor); }, [selectedDoctor])
 
   if (isLoading) {
     return (
