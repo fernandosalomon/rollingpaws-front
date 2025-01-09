@@ -1135,7 +1135,7 @@ const UserProfileForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([key, value]) => value !== undefined && value !== "")
+      Object.entries(data).filter(([key, value]) => value !== undefined)
     );
 
     const { profilePic, ...updatedData } = { ...filteredData };
