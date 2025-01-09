@@ -84,7 +84,7 @@ const PageViews = () => {
       sessionStorage.removeItem("token");
     }
   }
-  
+
   return (
     <>
       <NavbarC userRole={role} handleChangeRole={handleChangeRole} />

@@ -82,7 +82,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal, handleChangeRole }) =>
       sessionStorage.setItem("token", res.data.token);
 
       handleCloseModal();
-      handleChangeRole(res.data.token);
+      handleChangeRole("user");
 
       Swal.fire({
         icon: "success",
@@ -2324,6 +2324,11 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
     setSelectedPet(petSelectWatch);
     setSelectedDoctor(doctorSelectWatch);
   }, [petSelectWatch, doctorSelectWatch]);
+
+  useEffect(() => {
+    setSelectedHour(null);
+    setSelectedMinute(null);
+  }, [selectedDay, selectedMonth, selectedYear])
 
   if (isLoading) {
     return (
