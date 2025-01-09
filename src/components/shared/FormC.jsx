@@ -469,7 +469,7 @@ const SignInForm = ({
     } catch (error) {
       console.log(error);
       setError("root", {
-        message: `Sucedio un error al tratar de iniciar sesión. ${error.response.data}`,
+        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.message}`,
       });
       setIsSubmiting(false);
     }
@@ -2185,11 +2185,20 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    const startDate = new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${Number(selectedDay) < 10 ? "0" : ""}${Number(selectedDay)}T00:00:00+00:00`);
+
+    const startTime = `${Number(selectedHour) < 10 ? "0" : ""}${Number(selectedHour)}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`;
+
+    const endDate = new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${Number(selectedDay) < 10 ? "0" : ""}${Number(selectedDay)}T00:00:00+00:00`);
+
+    const endTime = `${Number(selectedMinute) === 30 ? `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour) + 1}:00` : `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour) + 1}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`
+      }`;
+
     const newAppointmentData = {
-      startDate: new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00+00:00`),
-      startTime: `${Number(selectedHour) < 10 ? "0" : ""}${Number(selectedHour)}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`,
-      endDate: new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00+00:00`),
-      endTime: `${(Number(selectedHour) + 1) < 10 ? "0" : ""}${Number(selectedHour) + 1}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`,
+      startDate: startDate,
+      startTime: startTime,
+      endDate: endDate,
+      endTime: endTime,
       pet: petList[data.pet]._id || null,
       doctor: doctorList[data.doctor]._id,
       observations: data.observations,
@@ -2226,7 +2235,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de crear el turno. Error: ${error}`,
+          message: `Sucedio un error al tratar de crear el turno. Error: ${error.name}: ${error.message}`,
         });
       }
     }
@@ -2483,8 +2492,8 @@ const EditAppointmentForm = ({
   handleUpdateData,
   variant,
 }) => {
-  const UNIVERSAL_TO_LOCAL_TIME = -180;
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [showStartDateTimeOptions, setShowStartDateTimeOptions] = useState(false)
   const [showEndDateTimeOptions, setShowEndDateTimeOptions] = useState(false)
@@ -2492,14 +2501,12 @@ const EditAppointmentForm = ({
   const [selectedStartYear, setSelectedStartYear] = useState(null);
   const [selectedStartMonth, setSelectedStartMonth] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null);
-  const [selectedStartHour, setSelectedStartHour] = useState(null);
-  const [selectedStartMinutes, setSelectedStartMinutes] = useState(null);
+  const [selectedStartTime, setSelectedStartTime] = useState(null);
 
   const [selectedEndYear, setSelectedEndYear] = useState(null);
   const [selectedEndMonth, setSelectedEndMonth] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [selectedEndHour, setSelectedEndHour] = useState(null);
-  const [selectedEndMinutes, setSelectedEndMinutes] = useState(null);
+  const [selectedEndTime, setSelectedEndTime] = useState(null);
 
   const [selectedDoctor, setSelectedDoctor] = useState(null)
 
@@ -2540,15 +2547,13 @@ const EditAppointmentForm = ({
     setSelectedStartYear(new Date(appointmentData.startDate).getUTCFullYear());
     setSelectedStartMonth(new Date(appointmentData.startDate).getUTCMonth());
     setSelectedStartDate(new Date(appointmentData.startDate).getUTCDate());
-    setSelectedStartHour(new Date(appointmentData.startDate).getUTCHours() + (UNIVERSAL_TO_LOCAL_TIME / 60))
-    setSelectedStartMinutes(new Date(appointmentData.startDate).getUTCMinutes())
+    setSelectedStartTime(appointmentData.startTime)
 
     if (variant === "edit-appointment-admin") {
       setSelectedEndYear(new Date(appointmentData.endDate).getUTCFullYear());
       setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth());
       setSelectedEndDate(new Date(appointmentData.endDate).getUTCDate());
-      setSelectedEndHour(new Date(appointmentData.endDate).getUTCHours() + (UNIVERSAL_TO_LOCAL_TIME / 60))
-      setSelectedEndMinutes(`${new Date(appointmentData.endDate).getUTCMinutes() < 10 ? "0" : ""}${new Date(appointmentData.endDate).getUTCMinutes()}`)
+      setSelectedEndTime(appointmentData.endTime)
     }
   }, [])
 
@@ -2573,7 +2578,7 @@ const EditAppointmentForm = ({
       try {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
-        const res = await clientAxios(`/doctor/clinic-hours/${doctorList[selectedDoctor]._id}&${selectedDay}&${selectedMonth}&${selectedYear}`, {
+        const res = await clientAxios(`/doctor/clinic-hours/${doctorList[selectedDoctor]._id}&${selectedStartDate}&${Number(selectedStartMonth) + 1}&${selectedStartYear}`, {
           headers: {
             authtoken: token,
           },
@@ -2609,61 +2614,59 @@ const EditAppointmentForm = ({
     setSelectedEndDate(date);
   }
 
-  const handleSetStartTime = (hour, minutes) => {
-    setSelectedStartHour(hour);
-    setSelectedStartMinutes(minutes);
-    setSelectedEndHour(Number(hour) + 1);
-    setSelectedEndMinutes(minutes);
+  const handleSetStartTime = (startTime) => {
+    setSelectedStartTime(startTime);
+
+    const endTime = Number(startTime.split(":")[1]) === 30 ? `${Number(startTime.split(":")[0]) + 1 < 10 ? "0" : ""}${Number(startTime.split(":")[0]) + 1}:00` : `${Number(startTime.split(":")[0]) + 1 < 10 ? "0" : ""}${Number(startTime.split(":")[0]) + 1}:${Number(startTime.split(":")[1]) < 10 ? "0" : ""}${Number(startTime.split(":")[1])}`
+
+    setSelectedEndTime(endTime);
   }
 
-  const handleSetEndTime = (hour, minutes) => {
-    setSelectedEndHour(hour);
-    setSelectedEndMinutes(minutes);
+  const handleSetEndTime = (endTime) => {
+
+    if (Number(startTime.split(":")[0]) > Number(endTime.split(":")[0])) {
+      setError("startTime", "La hora de inicio no puede ser posterior a la de finalización");
+    } else if (Number(startTime.split(":")[0]) === Number(endTime.split(":")[0])) {
+      if (Number(startTime.split(":")[1]) > Number(endTime.split(":")[1])) {
+        setError("startTime", "La hora de inicio no puede ser posterior a la de finalización");
+      }
+    } else {
+      setSelectedEndTime(endTime);
+    }
   }
 
   useEffect(() => {
 
     setValue("startDate", `${selectedStartDate}/${selectedStartMonth + 1}/${selectedStartYear}`);
-    setValue("startTime", `${selectedStartHour}:${selectedStartMinutes}`);
+    setValue("startTime", selectedStartTime);
     variant === "edit-appointment-admin" && setValue("endDate", `${selectedEndDate}/${selectedEndMonth + 1}/${selectedEndYear}`);
-    variant === "edit-appointment-admin" && setValue("endTime", `${selectedEndHour}:${selectedEndMinutes}`);
+    variant === "edit-appointment-admin" && setValue("endTime", selectedEndTime);
     setValue("observations", appointmentData.observations);
 
-  }, [selectedStartDate, selectedStartMonth, selectedStartYear, selectedStartHour, selectedStartMinutes, selectedEndDate, selectedEndMonth, selectedEndYear, selectedEndHour, selectedEndMinutes])
+  }, [selectedStartDate, selectedStartMonth, selectedStartYear, selectedStartTime, selectedEndDate, selectedEndMonth, selectedEndYear, selectedEndTime])
 
   const onSubmit = handleSubmit(async (data) => {
+    setIsUploading(true);
 
-    const startDate = new Date(
-      selectedStartYear,
-      selectedStartMonth,
-      selectedStartDate,
-      selectedStartHour,
-      Number(selectedStartMinutes),
-    );
+    const startDate = new Date(`${selectedStartYear}-${Number(selectedStartMonth) + 1 < 10 ? "0" : ""}${Number(selectedStartMonth) + 1}-${Number(selectedStartDate) < 10 ? "0" : ""}${Number(selectedStartDate)}T00:00:00+00:00`);
+
+    const startTime = selectedStartTime;
 
     let endDate = null;
 
     if (variant === "edit-appointment-admin") {
-      endDate = new Date(
-        selectedEndYear,
-        selectedEndMonth,
-        selectedEndDate,
-        selectedEndHour,
-        Number(selectedEndMinutes),
-      );
+      endDate = new Date(`${selectedEndYear}-${Number(selectedEndMonth) + 1 < 10 ? "0" : ""}${Number(selectedEndMonth) + 1}-${Number(selectedEndDate) < 10 ? "0" : ""}${Number(selectedEndDate)}T00:00:00+00:00`);
     } else {
-      endDate = new Date(
-        selectedStartYear,
-        selectedStartMonth,
-        selectedStartDate,
-        selectedStartHour,
-        selectedStartMinutes + 60,
-      );
+      endDate = new Date(`${selectedStartYear}-${Number(selectedStartMonth) + 1 < 10 ? "0" : ""}${Number(selectedStartMonth) + 1}-${Number(selectedStartDate) < 10 ? "0" : ""}${Number(selectedStartDate)}T00:00:00+00:00`);
     }
+
+    const endTime = selectedEndTime;
 
     const updatedAppointmentData = {
       startDate: startDate,
+      startTime: startTime,
       endDate: endDate,
+      endTime: endTime,
       doctor: doctorList[selectedDoctor]._id,
       observations: data.observations,
     };
@@ -2689,11 +2692,13 @@ const EditAppointmentForm = ({
         handleCloseModal();
         handleUpdateCalendar();
       }
+      setIsUploading(false);
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar los datos de la mascota. Error: ${error}`,
+        message: `Sucedio un error al tratar de editar los datos de la mascota. Error: ${error.name}: ${error.message}`,
       });
+      setIsUploading(false);
     }
 
   })
@@ -2800,13 +2805,13 @@ const EditAppointmentForm = ({
               <div className={style.timePickerContainer}>
                 {availableHours.map((hour) => (
                   <p
-                    className={`${style.timePickerContent} ${hour === `${selectedStartHour}:${selectedStartMinutes}`
+                    className={`${style.timePickerContent} ${hour === selectedStartTime}
                       ? style.active
                       : ""
                       }`}
                     key={hour}
                     onClick={() => {
-                      handleSetStartTime(hour.split(":")[0], hour.split(":")[1]);
+                      handleSetStartTime(hour);
                     }}
                   >
                     {hour}
@@ -2851,9 +2856,7 @@ const EditAppointmentForm = ({
                   className={style.formInput}
                   aria-label="EndTime"
                   aria-describedby="EndTime"
-                  {...register("endTime", {
-                    validate: (value) => (!errors.endDate && Number(value.split(":")[0]) > Number(selectedStartHour) && Number(value.split(":")[1]) > Number(selectedStartMinutes)) || "La hora de finalización no puede ser menor a la de inicio"
-                  })}
+                  {...register("endTime")}
                 />
               </InputGroup>
 
@@ -2881,18 +2884,49 @@ const EditAppointmentForm = ({
                 />
                 <div className={style.timePickerContainer}>
                   {availableHours.map((hour) => (
-                    <p
-                      className={`${style.timePickerContent} ${hour === `${selectedEndHour}:${selectedEndMinutes}`
-                        ? style.active
-                        : ""
-                        }`}
-                      key={hour}
-                      onClick={() => {
-                        handleSetEndTime(hour.split(":")[0], hour.split(":")[1]);
-                      }}
-                    >
-                      {hour}
-                    </p>
+                    (selectedStartDate === selectedEndDate && selectedStartMonth === selectedEndMonth && selectedStartYear === selectedEndYear) ?
+                      Number(hour.split(":")[0]) === Number(selectedStartTime.split(":")[0]) ?
+                        Number(hour.split(":")[1]) > Number(selectedStartTime.split(":")[1]) ?
+                          <p
+                            className={`${style.timePickerContent} ${hour === selectedEndTime
+                              ? style.active
+                              : ""
+                              }`}
+                            key={hour}
+                            onClick={() => {
+                              handleSetEndTime(hour);
+                            }}
+                          >
+                            {hour}
+                          </p>
+                          : ""
+                        : Number(hour.split(":")[0]) > Number(selectedStartTime.split(":")[0]) ?
+                          <p
+                            className={`${style.timePickerContent} ${hour === selectedEndTime
+                              ? style.active
+                              : ""
+                              }`}
+                            key={hour}
+                            onClick={() => {
+                              handleSetEndTime(hour);
+                            }}
+                          >
+                            {hour}
+                          </p>
+                          : ""
+                      :
+                      <p
+                        className={`${style.timePickerContent} ${hour === selectedEndTime
+                          ? style.active
+                          : ""
+                          }`}
+                        key={hour}
+                        onClick={() => {
+                          handleSetEndTime(hour);
+                        }}
+                      >
+                        {hour}
+                      </p>
                   ))}
                 </div>
               </div>
@@ -2924,7 +2958,17 @@ const EditAppointmentForm = ({
         </Form.Group>
 
         <div className="w-100 mx-auto">
-          <CustomButton variant="callToAction" size="lg" className="w-100 mx-auto" type="submit">Guardar datos</CustomButton>
+          <CustomButton variant="callToAction" size="lg" className="w-100 mx-auto" type="submit" disabled={isUploading}>
+            {
+              isUploading ?
+                <div className="d-flex justify-content-center align-items-center gap-2">
+                  <CustomSpinner size="sm" />
+                  <p className="mb-0">Actualizando turno...</p>
+                </div>
+                :
+                "Actualizar turno"
+            }
+          </CustomButton>
           <CustomButton variant="transparent" className={style.deleteButton} type="button" onClick={() => handleDeleteAppointment(appointmentData._id)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
               <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />

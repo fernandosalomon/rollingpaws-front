@@ -470,7 +470,7 @@ const View = ({ variant, data, handleUpdateData }) => {
                     <tr>
                       <td className={style.userCardLabel}>Fecha</td>
                       <td className={style.userCardData}>
-                        <p className="mb-0">{`${new Date(data.startDate).getUTCDate()} / ${new Date(data.startDate).getUTCMonth() + 1}/${new Date(data.startDate).getUTCFullYear()} ${new Date(data.startDate).getHours()}:${new Date(data.startDate).getMinutes()}`}</p>
+                        <p className="mb-0">{`${Number(new Date(data.startDate).getUTCDate()) < 10 ? "0" : ""}${Number(new Date(data.startDate).getUTCDate())}/${Number(new Date(data.startDate).getUTCMonth()) + 1 < 10 ? "0" : ""}${Number(new Date(data.startDate).getUTCMonth()) + 1}/${new Date(data.startDate).getUTCFullYear()} ${data.startTime}`}</p>
                       </td>
                     </tr>
                     <tr>
@@ -1101,7 +1101,7 @@ const TableWide = ({
                         </td> :
                         column.name === "startDate" ?
                           < td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
-                            {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
+                            {`${Number(new Date(dataPoint[column.name]).getUTCDate()) < 10 ? "0" : ""}${Number(new Date(dataPoint[column.name]).getUTCDate())}/${Number(new Date(dataPoint[column.name]).getUTCMonth()) + 1 ? "0" : ""}${Number(new Date(dataPoint[column.name]).getUTCMonth()) + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${dataPoint.startTime}`}
                           </td> :
                           < td className={`${style.tableCellWide}`} key={crypto.randomUUID()}>
                             {dataPoint[column.name]}
@@ -1200,7 +1200,7 @@ const TableSmallElement = ({ dataPoint, columns, variant, handleUpdate }) => {
               <td className={style.tableCellSmall}>{dataPoint[column.name].name}</td> :
               column.name === "startDate" ?
                 < td className={`${style.tableCellSmall}`} key={crypto.randomUUID()}>
-                  {`${new Date(dataPoint[column.name]).getUTCDate()} / ${new Date(dataPoint[column.name]).getUTCMonth() + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${new Date(dataPoint[column.name]).getHours()}:${new Date(dataPoint[column.name]).getMinutes()}`}
+                  {`${Number(new Date(dataPoint[column.name]).getUTCDate()) < 10 ? "0" : ""}${Number(new Date(dataPoint[column.name]).getUTCDate())}/${Number(new Date(dataPoint[column.name]).getUTCMonth()) + 1 ? "0" : ""}${Number(new Date(dataPoint[column.name]).getUTCMonth()) + 1}/${new Date(dataPoint[column.name]).getUTCFullYear()} ${dataPoint.startTime}`}
                 </td>
                 : column.name === "banned" ? (
                   dataPoint[column.name] ? (

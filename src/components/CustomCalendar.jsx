@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import style from "../styles/CustomCalendar.module.css";
 
 const CustomCalendar = ({
@@ -8,7 +8,7 @@ const CustomCalendar = ({
   selectedDate,
   className,
 }) => {
-  const [today, setToday] = useState(new Date());
+  const [today, setToday] = useState(new Date(`${new Date().getUTCFullYear()}-${Number(new Date().getUTCMonth()) + 1 < 10 ? "0" : ""}${Number(new Date().getUTCMonth()) + 1}-${Number(new Date().getUTCDate()) < 10 ? "0" : ""}${Number(new Date().getUTCDate())}T00:00:00+00:00`));
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const [selectedDay, setSelectedDay] = useState(new Date().getDate());
@@ -182,12 +182,14 @@ const CustomCalendar = ({
     setYear(selectedDate.getFullYear());
   }, [selectedDate]);
 
+  useEffect(() => { console.log(today), [] })
+
 
 
   return (
     <div
       className={`${style.calendarContainer} ${border ? style.calendarContainerBorder : ""
-        } ${className}`}
+        } ${className} `}
     >
       <div className={style.headerWrapper}>
         <button
@@ -201,7 +203,7 @@ const CustomCalendar = ({
         </button>
         <h4
           className={style.header}
-        >{`${monthInYear[month].monthName} ${year}`}</h4>
+        >{`${monthInYear[month].monthName} ${year} `}</h4>
         <button
           className={style.buttonHeader}
           onClick={(e) => {
@@ -262,7 +264,7 @@ const CustomCalendar = ({
                       ? style.selectedDate
                       : ""
                     } ${!allowPreviousDates && day < today ? style.disabledDate : ""
-                    }`}
+                    } `}
                 >
                   {day.getDate()}
                 </td>
