@@ -13,6 +13,8 @@
 
 .planTitle {
     font-size: 3.6rem;
+    font-weight: 700;
+    color: #000;
 }
 
 .planButton {
@@ -35,4 +37,24 @@
 
 .planButton:hover>.buttonContent {
     display: block;
+}
+
+@media (max-width: 640px) {
+    .planTitle {
+        font-size: 2.4rem;
+    }
+
+    .buttonContent {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .planTitle {
+        font-size: 1.8rem;
+    }
+
+    .buttonContent {
+        font-size: 1.4rem;
+    }
 }

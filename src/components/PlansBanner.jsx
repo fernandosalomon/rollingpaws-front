@@ -21,9 +21,9 @@ const Plan = ({ title, bgImage }) => {
 const PlansBanner = () => {
     return (
         <Stack gap={0} className='my-3'>
-            <div><Plan title="Primeros Pasos" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663012/cat-puppy_j2utls.jpg" /></div>
-            <div><Plan title="Madurando" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663013/dog-madurando_vowfjo.jpg" /></div>
-            <div><Plan title="Adultos" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/v1735663012/dog-adultos_g4g5rq.jpg" /></div>
+            <div><Plan title="Primeros Pasos" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/o_60/v1735663012/cat-puppy_j2utls.jpg" /></div>
+            <div><Plan title="Madurando" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/o_60/v1735663013/dog-madurando_vowfjo.jpg" /></div>
+            <div><Plan title="Adultos" bgImage="https://res.cloudinary.com/dqpq2d0es/image/upload/o_60/v1735663012/dog-adultos_g4g5rq.jpg" /></div>
         </Stack>
     )
 }
