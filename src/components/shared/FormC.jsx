@@ -2463,11 +2463,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
               <span className="fw-bold mx-1">{`${doctorList[doctorSelectWatch]?.name}`}</span>?
             </p>
             <div className="d-flex gap-2 w-100 justify-content-center">
-              <button
-                className={`${style.formButton} ${style.saveButton}`}
-                type="submit"
-                disabled={isUploading}
-              >
+              <CustomButton variant="callToAction" size="lg" className="w-100 mx-auto" type="submit" disabled={isUploading}>
                 {
                   isUploading ?
                     <div className="d-flex justify-content-center align-items-center gap-2">
@@ -2477,7 +2473,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
                     :
                     "Confirmar"
                 }
-              </button>
+              </CustomButton>
               <button
                 className={`${style.formButton} ${style.cancelButton}`}
                 onClick={(e) => {
