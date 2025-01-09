@@ -2185,21 +2185,12 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(`${selectedYear}-${Number(selectedMonth) < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00Z`);
     const newAppointmentData = {
-      startDate: new Date(
-        selectedYear,
-        selectedMonth,
-        selectedDay,
-        selectedHour,
-        selectedMinute
-      ),
-      endDate: new Date(
-        selectedYear,
-        selectedMonth,
-        selectedDay,
-        selectedHour,
-        selectedMinute + 60,
-      ),
+      startDate: new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00+00:00`),
+      startTime: `${Number(selectedHour) < 10 ? "0" : ""}${Number(selectedHour)}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`,
+      endDate: new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00+00:00`),
+      endTime: `${(Number(selectedHour) + 1) < 10 ? "0" : ""}${Number(selectedHour) + 1}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`,
       pet: petList[data.pet]._id || null,
       doctor: doctorList[data.doctor]._id,
       observations: data.observations,
@@ -2293,7 +2284,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
         const doctorID = doctorList[selectedDoctor]._id;
-        const doctors = await clientAxios.get(`/doctor/clinic-hours/${doctorID}&${new Date(selectedYear, selectedMonth, selectedDay)}`, {
+        const doctors = await clientAxios.get(`/doctor/clinic-hours/${doctorID}&${selectedDay}&${selectedMonth + 1}&${selectedYear}`, {
           headers: {
             authtoken: token,
           },
@@ -2583,7 +2574,7 @@ const EditAppointmentForm = ({
       try {
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
-        const res = await clientAxios(`/doctor/clinic-hours/${doctorList[selectedDoctor]._id}&${new Date(selectedStartYear, selectedStartMonth, selectedStartDate)}`, {
+        const res = await clientAxios(`/doctor/clinic-hours/${doctorList[selectedDoctor]._id}&${selectedDay}&${selectedMonth}&${selectedYear}`, {
           headers: {
             authtoken: token,
           },
