@@ -2185,7 +2185,6 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(`${selectedYear}-${Number(selectedMonth) < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00Z`);
     const newAppointmentData = {
       startDate: new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${selectedDay}T00:00:00+00:00`),
       startTime: `${Number(selectedHour) < 10 ? "0" : ""}${Number(selectedHour)}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`,
