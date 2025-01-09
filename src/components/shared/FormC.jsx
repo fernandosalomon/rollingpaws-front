@@ -2161,6 +2161,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
   const [doctorList, setDoctorList] = useState([]);
   const [doctorFreeHours, setDoctorFreeHours] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const selectDateTimeBoxRef = useRef(null);
   const confirmAppointmentRef = useRef(null);
 
@@ -2214,6 +2215,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       return null;
     } else {
       try {
+        setIsUploading(true);
         const token = sessionStorage.getItem("token");
         const newAppointment = await clientAxios.post(
           "/appointments",
@@ -2231,21 +2233,23 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
           });
           handleUpdate();
           handleCloseModal();
+          setIsUploading(false);
         }
       } catch (error) {
         console.log(error)
         setError("root", {
           message: `Sucedio un error al tratar de crear el turno. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
+        setIsUploading(false);
       }
     }
   });
 
   useEffect(() => {
     const getPetList = async () => {
-      setIsLoading(true);
       const token = sessionStorage.getItem("token");
       try {
+        setIsLoading(true);
         const petList = await clientAxios.get("/pet/user", {
           headers: {
             authtoken: token,
@@ -2462,8 +2466,17 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
               <button
                 className={`${style.formButton} ${style.saveButton}`}
                 type="submit"
+                disabled={isUploading}
               >
-                Confirmar
+                {
+                  isUploading ?
+                    <div className="d-flex justify-content-center align-items-center gap-2">
+                      <CustomSpinner size="sm" />
+                      <p className="mb-0">Guardando turno...</p>
+                    </div>
+                    :
+                    "Confirmar"
+                }
               </button>
               <button
                 className={`${style.formButton} ${style.cancelButton}`}
