@@ -1090,6 +1090,7 @@ const UserProfileForm = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
     watch,
   } = useForm();
 
