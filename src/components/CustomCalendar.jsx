@@ -1,4 +1,4 @@
-import { useDebugValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../styles/CustomCalendar.module.css";
 
 const CustomCalendar = ({
@@ -7,6 +7,7 @@ const CustomCalendar = ({
   allowPreviousDates,
   selectedDate,
   className,
+  onHoverPointer,
 }) => {
   const [today, setToday] = useState(new Date(`${new Date().getUTCFullYear()}-${Number(new Date().getUTCMonth()) + 1 < 10 ? "0" : ""}${Number(new Date().getUTCMonth()) + 1}-${Number(new Date().getUTCDate()) < 10 ? "0" : ""}${Number(new Date().getUTCDate())}T00:00:00+00:00`));
   const [year, setYear] = useState(new Date().getFullYear());
@@ -215,7 +216,7 @@ const CustomCalendar = ({
         <thead className={style.calendarTableHeader}>
           <tr>
             {daysInWeek.map((day) => (
-              <th key={day.dayNumber} className={style.tableCell}>
+              <th key={day.dayNumber} className={style.tableCell} style={onHoverPointer ? { cursor: pointer } : {}}>
                 {day.dayShortName}
               </th>
             ))}
@@ -261,6 +262,7 @@ const CustomCalendar = ({
                       : ""
                     } ${!allowPreviousDates && day < today ? style.disabledDate : ""
                     } `}
+                  style={onHoverPointer ? { cursor: pointer } : {}}
                 >
                   {day.getDate()}
                 </td>

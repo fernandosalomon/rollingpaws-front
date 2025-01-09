@@ -236,7 +236,7 @@ const AdminAppointments = () => {
                         </CustomButton>
                         <Modal show={showCalendar} onHide={handleCloseCalendar} contentClassName={style.modalContent} dialogClassName={style.modal} centered>
                             <Modal.Body>
-                                <CustomCalendar border handleSetDate={handleSetDate} allowPreviousDates selectedDate={new Date()} className="rounded-0" />
+                                <CustomCalendar border handleSetDate={handleSetDate} allowPreviousDates selectedDate={new Date()} className="rounded-0" onHoverPointer={true} />
                             </Modal.Body>
                         </Modal>
 

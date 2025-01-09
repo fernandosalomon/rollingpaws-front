@@ -2406,6 +2406,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
                   handleSetDate={handleSetDate}
                   allowPreviousDates={false}
                   selectedDate={new Date(selectedYear, selectedMonth, selectedDay)}
+                  onHoverPointer={true}
                 />
                 <div className={style.dateTimeSelectorContainer}>
                   <h4 className={style.timePickerHeader}>Horarios</h4>
@@ -2787,6 +2788,7 @@ const EditAppointmentForm = ({
                   new Date(selectedStartYear, selectedStartMonth, selectedStartDate)
                 }
                 handleSetDate={handleSetStartDate}
+                onHoverPointer={true}
               />
               <div className={style.timePickerContainer}>
                 {availableHours.map((hour) => (
@@ -2857,6 +2859,7 @@ const EditAppointmentForm = ({
                   selectedDate={
                     new Date(selectedStartYear, selectedStartMonth, selectedStartDate)
                   }
+                  onHoverPointer={false}
                 />
                 <div className={style.timePickerContainer}>
                   {availableHours.map((hour) => (

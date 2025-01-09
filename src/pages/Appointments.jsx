@@ -161,15 +161,13 @@ const Appointments = () => {
       const startHour = startDate.getUTCHours();
       const startMinutes = startDate.getMinutes();
       return {
-        top: `${
-          64 + (startHour - openingHour) * 128 + startMinutes * (128 / 60)
-        }px`,
+        top: `${64 + (startHour - openingHour) * 128 + startMinutes * (128 / 60)
+          }px`,
         left: `${100 + dayIndex * 150}px`,
-        height: `${
-          ((endDate.getUTCHours() - startHour) * 60 +
+        height: `${((endDate.getUTCHours() - startHour) * 60 +
             +(endDate.getMinutes() - startMinutes)) *
           (128 / 60)
-        }px`,
+          }px`,
       };
     }
   };
@@ -289,13 +287,13 @@ const Appointments = () => {
               handleSetDate={handleSetDate}
               selectedDate={selectedDate}
               allowPreviousDates={true}
+              onHoverPointer={true}
             />
           </div>
           <div className={style.sideB} ref={containerRef}>
             <div className={style.sideBHeader}>
-              <h4 className="mb-0">{`${
-                monthInYear[selectedDate.getMonth()].monthName
-              } ${selectedDate.getFullYear()}`}</h4>
+              <h4 className="mb-0">{`${monthInYear[selectedDate.getMonth()].monthName
+                } ${selectedDate.getFullYear()}`}</h4>
               <button
                 className={`${style.button} ${style.todayButton}`}
                 onClick={(e) => {
@@ -332,9 +330,8 @@ const Appointments = () => {
                   <tr>
                     <th className={style.hourCell}></th>
                     {week.map((weekDay) => (
-                      <th key={crypto.randomUUID()}>{`${
-                        dayDictionary[weekDay.getDay()]
-                      } ${weekDay.getDate()}`}</th>
+                      <th key={crypto.randomUUID()}>{`${dayDictionary[weekDay.getDay()]
+                        } ${weekDay.getDate()}`}</th>
                     ))}
                   </tr>
                 </thead>
@@ -351,7 +348,7 @@ const Appointments = () => {
               </table>
               {appointments.map((appointment) =>
                 new Date(appointment.startDate) >= week[0] &&
-                new Date(appointment.startDate) <= week[week.length - 1] ? (
+                  new Date(appointment.startDate) <= week[week.length - 1] ? (
                   <div key={crypto.randomUUID()}>
                     <div
                       style={positionAppointment(
@@ -379,19 +376,17 @@ const Appointments = () => {
                         </p>
                         <p className={style.appointmentBoxTime}>{`${new Date(
                           appointment.startDate
-                        ).getUTCHours()}:${
-                          new Date(appointment.startDate).getMinutes() < 10
+                        ).getUTCHours()}:${new Date(appointment.startDate).getMinutes() < 10
                             ? "0"
                             : ""
-                        }${new Date(
-                          appointment.startDate
-                        ).getMinutes()} - ${new Date(
-                          appointment.endDate
-                        ).getUTCHours()}:${
-                          new Date(appointment.endDate).getMinutes() < 10
+                          }${new Date(
+                            appointment.startDate
+                          ).getMinutes()} - ${new Date(
+                            appointment.endDate
+                          ).getUTCHours()}:${new Date(appointment.endDate).getMinutes() < 10
                             ? "0"
                             : ""
-                        }${new Date(appointment.endDate).getMinutes()}`}</p>
+                          }${new Date(appointment.endDate).getMinutes()}`}</p>
                       </div>
                     </div>
                     {showToast && (
@@ -466,34 +461,31 @@ const Appointments = () => {
                                     <td>
                                       {`${new Date(
                                         toastData.startDate
-                                      ).getDate()}/${
-                                        new Date(
+                                      ).getDate()}/${new Date(
+                                        toastData.startDate
+                                      ).getMonth() + 1
+                                        }/${new Date(
                                           toastData.startDate
-                                        ).getMonth() + 1
-                                      }/${new Date(
-                                        toastData.startDate
-                                      ).getFullYear()} 
+                                        ).getFullYear()} 
                                       ${new Date(
-                                        toastData.startDate
-                                      ).getUTCHours()}:${
-                                        new Date(
+                                          toastData.startDate
+                                        ).getUTCHours()}:${new Date(
                                           toastData.startDate
                                         ).getMinutes() < 10
                                           ? "0"
                                           : ""
-                                      }${new Date(
-                                        toastData.startDate
-                                      ).getMinutes()} - ${new Date(
-                                        toastData.endDate
-                                      ).getUTCHours()}:${
-                                        new Date(
+                                        }${new Date(
+                                          toastData.startDate
+                                        ).getMinutes()} - ${new Date(
+                                          toastData.endDate
+                                        ).getUTCHours()}:${new Date(
                                           toastData.endDate
                                         ).getMinutes() < 10
                                           ? "0"
                                           : ""
-                                      }${new Date(
-                                        toastData.endDate
-                                      ).getMinutes()} hs.`}
+                                        }${new Date(
+                                          toastData.endDate
+                                        ).getMinutes()} hs.`}
                                     </td>
                                   </tr>
 
