@@ -1769,7 +1769,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
                 <option value="1">Desconocido</option>
                 <option value="2">Mala</option>
                 <option value="3">Buena</option>
-                <option value="4">Exelente</option>
+                <option value="4">Excelente</option>
               </Form.Select>
             </div>
           </div>
@@ -2096,7 +2096,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
                 <option value="1">Desconocido</option>
                 <option value="2">Mala</option>
                 <option value="3">Buena</option>
-                <option value="4">Exelente</option>
+                <option value="4">Excelente</option>
               </Form.Select>
             </div>
           </div>
