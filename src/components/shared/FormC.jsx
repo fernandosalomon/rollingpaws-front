@@ -2190,15 +2190,12 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
 
     const startTime = `${Number(selectedHour) < 10 ? "0" : ""}${Number(selectedHour)}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`;
 
-    const endDate = new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${Number(selectedDay) < 10 ? "0" : ""}${Number(selectedDay)}T00:00:00+00:00`);
-
     const endTime = `${Number(selectedMinute) === 30 ? `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour) + 1}:00` : `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour)}:30`
       }`;
 
     const newAppointmentData = {
       startDate: startDate,
       startTime: startTime,
-      endDate: endDate,
       endTime: endTime,
       pet: petList[data.pet]._id || null,
       doctor: doctorList[data.doctor]._id,
@@ -2513,9 +2510,6 @@ const EditAppointmentForm = ({
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedStartTime, setSelectedStartTime] = useState(null);
 
-  const [selectedEndYear, setSelectedEndYear] = useState(null);
-  const [selectedEndMonth, setSelectedEndMonth] = useState(null);
-  const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [selectedEndTime, setSelectedEndTime] = useState(null);
 
   const [selectedDoctor, setSelectedDoctor] = useState(null)
@@ -2560,9 +2554,6 @@ const EditAppointmentForm = ({
     setSelectedStartTime(appointmentData.startTime)
 
     if (variant === "edit-appointment-admin") {
-      setSelectedEndYear(new Date(appointmentData.endDate).getUTCFullYear());
-      setSelectedEndMonth(new Date(appointmentData.endDate).getUTCMonth());
-      setSelectedEndDate(new Date(appointmentData.endDate).getUTCDate());
       setSelectedEndTime(appointmentData.endTime)
     }
   }, [])
@@ -2607,21 +2598,12 @@ const EditAppointmentForm = ({
     if (selectedDoctor !== undefined && selectedDoctor !== null && selectedDoctor !== -1) {
       getAvailableDoctorHours();
     }
-  }, [selectedDoctor, selectedStartYear, selectedStartMonth, selectedStartDate, selectedEndYear, selectedEndMonth, selectedEndDate])
+  }, [selectedDoctor, selectedStartYear, selectedStartMonth, selectedStartDate])
 
   const handleSetStartDate = (year, month, date) => {
     setSelectedStartYear(year);
     setSelectedStartMonth(month);
     setSelectedStartDate(date);
-    setSelectedEndYear(year);
-    setSelectedEndMonth(month);
-    setSelectedEndDate(date);
-  }
-
-  const handleSetEndDate = (year, month, date) => {
-    setSelectedEndYear(year);
-    setSelectedEndMonth(month);
-    setSelectedEndDate(date);
   }
 
   const handleSetStartTime = (startTime) => {
@@ -2649,11 +2631,11 @@ const EditAppointmentForm = ({
 
     setValue("startDate", `${selectedStartDate}/${selectedStartMonth + 1}/${selectedStartYear}`);
     setValue("startTime", selectedStartTime);
-    variant === "edit-appointment-admin" && setValue("endDate", `${selectedEndDate}/${selectedEndMonth + 1}/${selectedEndYear}`);
+    variant === "edit-appointment-admin" && setValue("endDate", `${selectedStartDate}/${selectedStartMonth + 1}/${selectedStartYear}`);
     variant === "edit-appointment-admin" && setValue("endTime", selectedEndTime);
     setValue("observations", appointmentData.observations);
 
-  }, [selectedStartDate, selectedStartMonth, selectedStartYear, selectedStartTime, selectedEndDate, selectedEndMonth, selectedEndYear, selectedEndTime])
+  }, [selectedStartDate, selectedStartMonth, selectedStartYear, selectedStartTime, selectedEndTime])
 
   const onSubmit = handleSubmit(async (data) => {
     setIsUploading(true);
@@ -2662,20 +2644,11 @@ const EditAppointmentForm = ({
 
     const startTime = selectedStartTime;
 
-    let endDate = null;
-
-    if (variant === "edit-appointment-admin") {
-      endDate = new Date(`${selectedEndYear}-${Number(selectedEndMonth) + 1 < 10 ? "0" : ""}${Number(selectedEndMonth) + 1}-${Number(selectedEndDate) < 10 ? "0" : ""}${Number(selectedEndDate)}T00:00:00+00:00`);
-    } else {
-      endDate = new Date(`${selectedStartYear}-${Number(selectedStartMonth) + 1 < 10 ? "0" : ""}${Number(selectedStartMonth) + 1}-${Number(selectedStartDate) < 10 ? "0" : ""}${Number(selectedStartDate)}T00:00:00+00:00`);
-    }
-
     const endTime = selectedEndTime;
 
     const updatedAppointmentData = {
       startDate: startDate,
       startTime: startTime,
-      endDate: endDate,
       endTime: endTime,
       doctor: doctorList[selectedDoctor]._id,
       observations: data.observations,
@@ -2849,12 +2822,8 @@ const EditAppointmentForm = ({
                   className={style.formInput}
                   aria-label="EndDate"
                   aria-describedby="EndDate"
-                  {...register("endDate", {
-                    validate: (value) =>
-                      (Number(value.split("/")[0]) <= Number(selectedEndDate) &&
-                        Number(value.split("/")[1] - 1) <= Number(selectedEndMonth) &&
-                        Number(value.split("/")[2]) <= Number(selectedEndYear)) || "La fecha de finalización no puede ser menor que la fecha de inicio"
-                  })}
+                  {...register("endDate")}
+                  readOnly
                 />
               </InputGroup>
               <InputGroup className="mb-3">
@@ -2872,12 +2841,6 @@ const EditAppointmentForm = ({
               </InputGroup>
 
             </div>
-            {errors.endDate && (
-              <span className={style.errorMessage}>
-                <i className="bi bi-exclamation-circle-fill me-1"></i>
-                {errors.endDate.message}
-              </span>
-            )}
             {errors.endTime && (
               <span className={style.errorMessage}>
                 <i className="bi bi-exclamation-circle-fill me-1"></i>
@@ -2889,55 +2852,40 @@ const EditAppointmentForm = ({
                 <CustomCalendar
                   border
                   selectedDate={
-                    new Date(selectedEndYear, selectedEndMonth, selectedEndDate)
+                    new Date(selectedStartYear, selectedStartMonth, selectedStartDate)
                   }
-                  handleSetDate={handleSetEndDate}
                 />
                 <div className={style.timePickerContainer}>
                   {availableHours.map((hour) => (
-                    (selectedStartDate === selectedEndDate && selectedStartMonth === selectedEndMonth && selectedStartYear === selectedEndYear) ?
-                      Number(hour.split(":")[0]) === Number(selectedStartTime.split(":")[0]) ?
-                        Number(hour.split(":")[1]) > Number(selectedStartTime.split(":")[1]) ?
-                          <p
-                            className={`${style.timePickerContent} ${hour === selectedEndTime
-                              ? style.active
-                              : ""
-                              }`}
-                            key={hour}
-                            onClick={() => {
-                              handleSetEndTime(hour);
-                            }}
-                          >
-                            {hour}
-                          </p>
-                          : ""
-                        : Number(hour.split(":")[0]) > Number(selectedStartTime.split(":")[0]) ?
-                          <p
-                            className={`${style.timePickerContent} ${hour === selectedEndTime
-                              ? style.active
-                              : ""
-                              }`}
-                            key={hour}
-                            onClick={() => {
-                              handleSetEndTime(hour);
-                            }}
-                          >
-                            {hour}
-                          </p>
-                          : ""
-                      :
-                      <p
-                        className={`${style.timePickerContent} ${hour === selectedEndTime
-                          ? style.active
-                          : ""
-                          }`}
-                        key={hour}
-                        onClick={() => {
-                          handleSetEndTime(hour);
-                        }}
-                      >
-                        {hour}
-                      </p>
+                    Number(hour.split(":")[0]) === Number(selectedStartTime.split(":")[0]) ?
+                      Number(hour.split(":")[1]) > Number(selectedStartTime.split(":")[1]) ?
+                        <p
+                          className={`${style.timePickerContent} ${hour === selectedEndTime
+                            ? style.active
+                            : ""
+                            }`}
+                          key={hour}
+                          onClick={() => {
+                            handleSetEndTime(hour);
+                          }}
+                        >
+                          {hour}
+                        </p>
+                        : ""
+                      : Number(hour.split(":")[0]) > Number(selectedStartTime.split(":")[0]) ?
+                        <p
+                          className={`${style.timePickerContent} ${hour === selectedEndTime
+                            ? style.active
+                            : ""
+                            }`}
+                          key={hour}
+                          onClick={() => {
+                            handleSetEndTime(hour);
+                          }}
+                        >
+                          {hour}
+                        </p>
+                        : ""
                   ))}
                 </div>
               </div>
