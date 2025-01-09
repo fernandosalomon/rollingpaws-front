@@ -2192,7 +2192,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
 
     const endDate = new Date(`${selectedYear}-${Number(selectedMonth) + 1 < 10 ? "0" : ""}${Number(selectedMonth) + 1}-${Number(selectedDay) < 10 ? "0" : ""}${Number(selectedDay)}T00:00:00+00:00`);
 
-    const endTime = `${Number(selectedMinute) === 30 ? `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour) + 1}:00` : `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour) + 1}:${Number(selectedMinute) < 10 ? "0" : ""}${Number(selectedMinute)}`
+    const endTime = `${Number(selectedMinute) === 30 ? `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour) + 1}:00` : `${Number(selectedHour) + 1 < 10 ? "0" : ""}${Number(selectedHour)}:30`
       }`;
 
     const newAppointmentData = {
@@ -2468,7 +2468,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
                   isUploading ?
                     <div className="d-flex justify-content-center align-items-center gap-2">
                       <CustomSpinner size="sm" />
-                      <p className="mb-0">Guardando turno...</p>
+                      <p className="mb-0 text-nowrap">Guardando turno...</p>
                     </div>
                     :
                     "Confirmar"
