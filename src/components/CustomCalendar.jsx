@@ -182,10 +182,6 @@ const CustomCalendar = ({
     setYear(selectedDate.getFullYear());
   }, [selectedDate]);
 
-  useEffect(() => { console.log(today), [] })
-
-
-
   return (
     <div
       className={`${style.calendarContainer} ${border ? style.calendarContainerBorder : ""

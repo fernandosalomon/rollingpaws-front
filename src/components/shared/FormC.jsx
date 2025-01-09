@@ -2627,17 +2627,17 @@ const EditAppointmentForm = ({
   const handleSetStartTime = (startTime) => {
     setSelectedStartTime(startTime);
 
-    const endTime = Number(startTime.split(":")[1]) === 30 ? `${Number(startTime.split(":")[0]) + 1 < 10 ? "0" : ""}${Number(startTime.split(":")[0]) + 1}:00` : `${Number(startTime.split(":")[0]) + 1 < 10 ? "0" : ""}${Number(startTime.split(":")[0]) + 1}:${Number(startTime.split(":")[1]) < 10 ? "0" : ""}${Number(startTime.split(":")[1])}`
+    const endTime = Number(startTime.split(":")[1]) === 30 ? `${Number(startTime.split(":")[0]) + 1 < 10 ? "0" : ""}${Number(startTime.split(":")[0]) + 1}:00` : `${Number(startTime.split(":")[0]) < 10 ? "0" : ""}${Number(startTime.split(":")[0])}:30`
 
     setSelectedEndTime(endTime);
   }
 
   const handleSetEndTime = (endTime) => {
 
-    if (Number(startTime.split(":")[0]) > Number(endTime.split(":")[0])) {
+    if (Number(selectedStartTime.split(":")[0]) > Number(endTime.split(":")[0])) {
       setError("startTime", "La hora de inicio no puede ser posterior a la de finalización");
-    } else if (Number(startTime.split(":")[0]) === Number(endTime.split(":")[0])) {
-      if (Number(startTime.split(":")[1]) > Number(endTime.split(":")[1])) {
+    } else if (Number(selectedStartTime.split(":")[0]) === Number(endTime.split(":")[0])) {
+      if (Number(selectedStartTime.split(":")[1]) > Number(endTime.split(":")[1])) {
         setError("startTime", "La hora de inicio no puede ser posterior a la de finalización");
       }
     } else {
@@ -2815,7 +2815,7 @@ const EditAppointmentForm = ({
               <div className={style.timePickerContainer}>
                 {availableHours.map((hour) => (
                   <p
-                    className={`${style.timePickerContent} ${hour === selectedStartTime}
+                    className={`${style.timePickerContent} ${hour === selectedStartTime
                       ? style.active
                       : ""
                       }`}
@@ -2826,7 +2826,8 @@ const EditAppointmentForm = ({
                   >
                     {hour}
                   </p>
-                ))}
+                )
+                )}
               </div>
             </div>
           )}
@@ -2985,9 +2986,11 @@ const EditAppointmentForm = ({
             </svg>
             <p className="mb-0">Eliminar Cita</p></CustomButton>
         </div>
-        {errors.root && (
-          <span className={style.errorMessage}>{errors.root.message}</span>
-        )}
+        {
+          errors.root && (
+            <span className={style.errorMessage}>{errors.root.message}</span>
+          )
+        }
       </Form >
     )
   }
