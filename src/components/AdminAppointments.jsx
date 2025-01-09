@@ -285,7 +285,7 @@ const AdminAppointments = () => {
                                                 </div>
                                                 < Modal show={show} onHide={handleClose} modalData={modalData}>
                                                     <Modal.Header closeButton>
-                                                        <Modal.Title className="fs-2">Editar cita</Modal.Title>
+                                                        <Modal.Title className="fs-2">Editar turno</Modal.Title>
                                                     </Modal.Header>
                                                     <Modal.Body>
                                                         {

@@ -206,7 +206,7 @@ const Appointments = () => {
   const handleDeleteAppointment = async (appointmentID) => {
     try {
       const result = await Swal.fire({
-        title: "¿Estas seguro que quieres borrar esta cita?",
+        title: "¿Estas seguro que quieres borrar este turno?",
         text: "Estos cambios no se pueden revertir",
         icon: "warning",
         showCancelButton: true,
@@ -220,7 +220,7 @@ const Appointments = () => {
         const res = await clientAxios.delete(`/appointments/${appointmentID}`);
         Swal.fire({
           icon: "success",
-          title: `La cita fue eliminada satisfactoriamente.`,
+          title: `El turno fue eliminado satisfactoriamente.`,
           showConfirmButton: false,
           timer: 2500,
         });
@@ -231,7 +231,7 @@ const Appointments = () => {
       console.log(error);
       Swal.fire({
         icon: "error",
-        title: `Hubo un error al tratar de eliminar la cita.`,
+        title: `Hubo un error al tratar de eliminar el turno.`,
         text: `${error.data.message}`,
         showConfirmButton: false,
         timer: 2500,
@@ -406,7 +406,7 @@ const Appointments = () => {
                       >
                         <Toast onClose={handleCloseToast}>
                           <Toast.Header className="align-items-center">
-                            <strong className="me-auto">Cita Programada</strong>
+                            <strong className="me-auto">Turno Agendado</strong>
                             {toastType === "view" && (
                               <button
                                 className={style.button}
