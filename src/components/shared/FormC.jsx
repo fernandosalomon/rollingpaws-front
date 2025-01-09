@@ -2963,6 +2963,7 @@ const ContactUsForm = () => {
     handleSubmit,
     formState: { errors },
     setError,
+    reset,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -2986,6 +2987,8 @@ const ContactUsForm = () => {
           timer: 2500,
         });
       }
+
+      reset();
 
     } catch (error) {
       console.log(error)
