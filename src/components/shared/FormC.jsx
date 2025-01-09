@@ -3113,6 +3113,7 @@ const PlansInformationForm = () => {
     handleSubmit,
     formState: { errors },
     setError,
+    reset,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -3134,6 +3135,7 @@ const PlansInformationForm = () => {
           showConfirmButton: false,
           timer: 2500,
         });
+        reset();
       } else {
         Swal.fire({
           icon: "error",
@@ -3312,6 +3314,7 @@ const ChangePasswordForm = () => {
     getValues,
     watch,
     setError,
+    reset,
   } = useForm();
 
   const passwordWatch = watch("newPassword");
@@ -3370,6 +3373,7 @@ const ChangePasswordForm = () => {
             timer: 2500,
           });
           setIsUploading(false);
+          reset();
         } else {
           setError("root", {
             message: `Error: Token de acceso no autorizado.`,
