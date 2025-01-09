@@ -216,7 +216,7 @@ const CustomCalendar = ({
         <thead className={style.calendarTableHeader}>
           <tr>
             {daysInWeek.map((day) => (
-              <th key={day.dayNumber} className={style.tableCell} style={onHoverPointer ? { cursor: pointer } : {}}>
+              <th key={day.dayNumber} className={style.tableCell} style={onHoverPointer ? { cursor: "pointer" } : {}}>
                 {day.dayShortName}
               </th>
             ))}
@@ -262,7 +262,7 @@ const CustomCalendar = ({
                       : ""
                     } ${!allowPreviousDates && day < today ? style.disabledDate : ""
                     } `}
-                  style={onHoverPointer ? { cursor: pointer } : {}}
+                  style={onHoverPointer ? { cursor: "pointer" } : {}}
                 >
                   {day.getDate()}
                 </td>
