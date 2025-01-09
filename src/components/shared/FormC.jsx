@@ -2244,6 +2244,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
 
   useEffect(() => {
     const getPetList = async () => {
+      setError("root", "");
       const token = sessionStorage.getItem("token");
       try {
         setIsLoading(true);
@@ -2265,6 +2266,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
 
     const getDoctorsList = async () => {
       try {
+        setError("root", "");
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
         const doctors = await clientAxios.get("/doctor/", {
@@ -2290,6 +2292,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
   useEffect(() => {
     const getDoctorFreeHours = async () => {
       try {
+        setError("root", "");
         setIsLoading(true);
         const token = sessionStorage.getItem("token");
         const doctorID = doctorList[selectedDoctor]._id;
