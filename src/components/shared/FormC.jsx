@@ -95,7 +95,7 @@ const SignUpForm = ({ handleChangeForm, handleCloseModal, handleChangeRole }) =>
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de registrar al usuario. ${error.name}: ${error.response.data}`,
+        message: `Sucedio un error al tratar de registrar al usuario. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsSubmiting(false);
     }
@@ -621,7 +621,7 @@ const ForgotPasswordForm = ({ handleCloseModal }) => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de iniciar sesión. ${error.name}: ${error.message}`,
+        message: `Sucedio un error al enviar el formulario de cambio de contraseña. ${error.name}: ${error.message}`,
       });
       setIsLoading(false);
     }
@@ -750,7 +750,7 @@ const EditUserForm = ({ handleCloseModal, userData, handleUpdateData }) => {
       setIsUploading(false);
     } catch (error) {
       setError("root", {
-        message: `Sucedio un error al tratar de editar al usuario. Error: ${error}`,
+        message: `Sucedio un error al tratar de editar al usuario. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsUploading(false);
     }
@@ -1071,7 +1071,7 @@ const UserProfileForm = () => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar la información del usuario. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar la información del usuario. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
@@ -1107,7 +1107,7 @@ const UserProfileForm = () => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de recuperar la información del usuario. ${error.name}: ${error.message}`,
+        message: `Sucedio un error al tratar de recuperar la información del usuario. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsLoading(false);
     }
@@ -1175,7 +1175,7 @@ const UserProfileForm = () => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar los datos del usuario. Error: ${error}`,
+        message: `Sucedio un error al tratar de editar los datos del usuario. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsUploading(false);
     }
@@ -1213,7 +1213,7 @@ const UserProfileForm = () => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de eliminar la imagen del usuario. Error: ${error}`,
+          message: `Sucedio un error al tratar de eliminar la imagen del usuario. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
       }
     }
@@ -1586,7 +1586,7 @@ const NewPetForm = ({ handleCloseModal, handleRefresh }) => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de registrar la nueva mascota. Error: ${error}`,
+        message: `Sucedio un error al tratar de registrar la nueva mascota. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
     }
   });
@@ -1912,7 +1912,7 @@ const EditPetForm = ({ handleCloseModal, petData, handleRefresh }) => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar los datos de la mascota. Error: ${error}`,
+        message: `Sucedio un error al tratar de editar los datos de la mascota. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsUploading(false);
     }
@@ -2235,7 +2235,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de crear el turno. Error: ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de crear el turno. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
       }
     }
@@ -2256,7 +2256,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar los datos de las mascotas. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar los datos de las mascotas. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
@@ -2276,7 +2276,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar los datos de los veterinarios. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar los datos de los veterinarios. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
@@ -2302,7 +2302,7 @@ const NewAppointmentForm = ({ handleCloseModal, handleUpdate }) => {
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
@@ -2535,7 +2535,7 @@ const EditAppointmentForm = ({
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar la información de los veterinarios. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar la información de los veterinarios. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
@@ -2588,7 +2588,7 @@ const EditAppointmentForm = ({
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error.name}: ${error.message}`,
+          message: `Sucedio un error al tratar de recuperar las horas disponibles del veterinario. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsLoading(false);
       }
@@ -2696,7 +2696,7 @@ const EditAppointmentForm = ({
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar los datos de la mascota. Error: ${error.name}: ${error.message}`,
+        message: `Sucedio un error al tratar de editar los datos de la mascota. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsUploading(false);
     }
@@ -2735,7 +2735,7 @@ const EditAppointmentForm = ({
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar los datos de la mascota. ${error.name}: ${error.message}`,
+        message: `Sucedio un error al tratar de editar los datos de la mascota. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
     }
   }
@@ -3018,7 +3018,7 @@ const ContactUsForm = () => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de enviar el mensaje. Error: ${error}`,
+        message: `Sucedio un error al tratar de enviar el mensaje. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
     }
   })
@@ -3171,7 +3171,7 @@ const PlansInformationForm = () => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de enviar el mensaje. Error: ${error}`,
+        message: `Sucedio un error al tratar de enviar el mensaje. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
     }
   })
@@ -3404,7 +3404,7 @@ const ChangePasswordForm = () => {
       catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de cambiar la contraseña. ${error.response.data}`,
+          message: `Sucedio un error al tratar de cambiar la contraseña. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsUploading(false);
       }
@@ -3775,7 +3775,7 @@ const ChangePasswordWithTokenForm = ({ token }) => {
       catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de cambiar la contraseña. Error: ${error}`,
+          message: `Sucedio un error al tratar de cambiar la contraseña. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
       }
     } else {
@@ -4048,7 +4048,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
       } catch (error) {
         console.log(error)
         setError("root", {
-          message: `Sucedio un error al tratar de editar la imagen del servicio. Error: ${error}`,
+          message: `Sucedio un error al tratar de editar la imagen del servicio. ${error?.response?.data}. ${error.name}: ${error.message}`,
         });
         setIsUploading(false);
       }
@@ -4072,7 +4072,7 @@ const EditServiceForm = ({ serviceData, handleCloseModal, handleUpdateData }) =>
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de editar el servicio. Error: ${error}`,
+        message: `Sucedio un error al tratar de editar el servicio. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsUploading(false);
     }
@@ -4233,7 +4233,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
         } catch (error) {
           console.log(error)
           setError("root", {
-            message: `Sucedio un error al tratar de subir la imagen del servicio. Error: ${error}`,
+            message: `Sucedio un error al tratar de subir la imagen del servicio. ${error?.response?.data}. ${error.name}: ${error.message}`,
           });
           setIsUploading(false);
         }
@@ -4251,7 +4251,7 @@ const NewServiceForm = ({ handleCloseModal, handleUpdateData }) => {
     } catch (error) {
       console.log(error)
       setError("root", {
-        message: `Sucedio un error al tratar de crear el nuevo servicio. Error: ${error}`,
+        message: `Sucedio un error al tratar de crear el nuevo servicio. ${error?.response?.data}. ${error.name}: ${error.message}`,
       });
       setIsUploading(false);
     }
